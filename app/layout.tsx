@@ -40,12 +40,12 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-          <div className='relative flex flex-col h-screen dark:bg-gray-900'>
-            <aside className='fixed top-09 w-64 h-screen bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700'>
+          <div className='relative flex flex-col h-screen bg-gray-100 dark:bg-gray-950'>
+            <aside className='fixed top-09 w-64 h-screen bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-900 dark:border-gray-700'>
               <SideNav />
             </aside>
             <div className='px-3 ml-64'>
-              <main className='container mx-auto max-w-7xl pt-16 px-6 flex-grow bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700'>
+              <main className='container mx-auto max-w-7xl pt-16 px-6 flex-grow bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-900 dark:border-gray-700'>
                 {children}
               </main>
             </div>

@@ -1,52 +1,20 @@
-import { Link, Snippet, button as buttonStyles, Code } from '@nextui-org/react';
-import { siteConfig } from '@/config/site';
-import { title, subtitle } from '@/components/primitives';
-import { GithubIcon } from '@/components/icons';
+import {
+  Image,
+  Card,
+  CardHeader,
+  Button,
+  CardBody,
+  CardFooter,
+} from '@nextui-org/react';
+import { characters } from '@/config/framedata/framedata';
+import { CharacterCard } from './characters/character-card';
 
 export default function Home() {
   return (
-    <>
-      <div className='inline-block max-w-lg text-center justify-center'>
-        <h1 className={title()}>Make&nbsp;</h1>
-        <h1 className={title({ color: 'violet' })}>beautiful&nbsp;</h1>
-        <br />
-        <h1 className={title()}>
-          websites regardless of your design experience.
-        </h1>
-        <h2 className={subtitle({ class: 'mt-4' })}>
-          Beautiful, fast and modern React UI library.
-        </h2>
-      </div>
-
-      <div className='flex gap-3'>
-        <Link
-          isExternal
-          href={siteConfig.links.docs}
-          className={buttonStyles({
-            color: 'primary',
-            radius: 'full',
-            variant: 'shadow',
-          })}
-        >
-          Documentation
-        </Link>
-        <Link
-          isExternal
-          className={buttonStyles({ variant: 'bordered', radius: 'full' })}
-          href={siteConfig.links.github}
-        >
-          <GithubIcon size={20} />
-          GitHub
-        </Link>
-      </div>
-
-      <div className='mt-8'>
-        <Snippet hideSymbol hideCopyButton variant='flat'>
-          <span>
-            Get started by editing <Code color='primary'>app/page.tsx</Code>
-          </span>
-        </Snippet>
-      </div>
-    </>
+    <div className='p-2 grid grid-cols-4 gap-4'>
+      {characters.map((character) => (
+        <CharacterCard key={character.normalizedName} character={character} />
+      ))}
+    </div>
   );
 }

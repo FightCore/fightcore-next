@@ -60,10 +60,9 @@ export const siteConfig = {
     },
   ],
   links: {
-    github: 'https://github.com/nextui-org/nextui',
-    twitter: 'https://twitter.com/getnextui',
-    docs: 'https://nextui.org',
-    discord: 'https://discord.gg/9b6yyZKmH4',
+    github: 'https://github.com/fightcore',
+    twitter: 'https://twitter.com/fightcoregg',
+    discord: 'https://discord.fightcore.gg/',
     sponsor: 'https://patreon.com/jrgarciadev',
   },
 };

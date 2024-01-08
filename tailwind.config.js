@@ -21,8 +21,10 @@ module.exports = {
           },
         },
         dark: {
+          // Not using FightCore colors for dark right now due to contrast issue.
           colors: {
-            primary: '#96153a',
+            primary: '#ef4444',
+            background: '#030712',
           },
         },
       },
