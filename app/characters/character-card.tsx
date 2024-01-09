@@ -15,7 +15,12 @@ import {
   TableBody,
 } from '@nextui-org/react';
 
-export const CharacterCard = ({ character }) => {
+interface CharacterCardInput {
+  character: any;
+}
+
+export const CharacterCard = (input: CharacterCardInput) => {
+  const character = input.character;
   const classNames = React.useMemo(
     () => ({
       wrapper: ['dark:bg-gray-800', 'border-0', 'shadow-none', 'p-0'],
