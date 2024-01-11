@@ -11,20 +11,22 @@ export const SideNav = () => {
   return (
     <div className='h-full flex flex-col p-2'>
       <div className='flex-1'>
-        <div className='w-100 align-content-center flex p-3'>
+        <Link href={'/'} className='w-100 align-content-center flex p-3'>
           <Logo className='flex-1' height={50} width={100} />
-        </div>
+        </Link>
         <div className='p-2 grid grid-cols-4 gap-2'>
           {characters.map((character) => (
             <div key={character.normalizedName}>
               <Tooltip content={character.name} delay={1000}>
-                <Image
-                  className='grow'
-                  alt={character.name}
-                  width={40}
-                  src={'/newicons/' + character.name + '.webp'}
-                  loading={'lazy'}
-                />
+                <Link href={'/characters/' + character.normalizedName}>
+                  <Image
+                    className='grow'
+                    alt={character.name}
+                    width={40}
+                    src={'/newicons/' + character.name + '.webp'}
+                    loading={'lazy'}
+                  />
+                </Link>
               </Tooltip>
             </div>
           ))}
