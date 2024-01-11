@@ -39,9 +39,9 @@ export const CharacterCard = (input: CharacterCardInput) => {
           <Image
             width={40}
             alt={character.normalizedName}
-            src={
-              'https://i.fightcore.gg/melee/stocks/' + character.name + '.png'
-            }
+            src={'/newicons/' + character.name + '.webp'}
+            loading={'eager'}
+            fetchPriority={'high'}
           />
           <div className='flex flex-col gap-1 items-start justify-center'>
             <h4 className='text-medium font-semibold leading-none text-default-600'>

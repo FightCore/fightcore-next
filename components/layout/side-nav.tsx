@@ -22,11 +22,8 @@ export const SideNav = () => {
                   className='grow'
                   alt={character.name}
                   width={40}
-                  src={
-                    'https://i.fightcore.gg/melee/stocks/' +
-                    character.name +
-                    '.png'
-                  }
+                  src={'/newicons/' + character.name + '.webp'}
+                  loading={'lazy'}
                 />
               </Tooltip>
             </div>
