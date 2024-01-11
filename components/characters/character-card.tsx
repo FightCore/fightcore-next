@@ -13,6 +13,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Link,
 } from '@nextui-org/react';
 
 interface CharacterCardInput {
@@ -107,7 +108,13 @@ export const CharacterCard = (input: CharacterCardInput) => {
         </Table>
       </CardBody>
       <CardFooter className='gap-3'>
-        <Button className='w-full dark:hover:bg-red-600'>View</Button>
+        <Button
+          href={'/characters/' + character.normalizedName}
+          as={Link}
+          className='w-full dark:hover:bg-red-600'
+        >
+          View
+        </Button>
       </CardFooter>
     </Card>
   );

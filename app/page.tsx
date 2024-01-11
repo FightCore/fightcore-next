@@ -7,7 +7,7 @@ import {
   CardFooter,
 } from '@nextui-org/react';
 import { characters } from '@/config/framedata/framedata';
-import { CharacterCard } from './characters/character-card';
+import { CharacterCard } from '@/components/characters/character-card';
 
 export default function Home() {
   return (
