@@ -23,6 +23,7 @@ export const SideNav = () => {
                     className='grow'
                     alt={character.name}
                     width={40}
+                    height={40}
                     src={'/newicons/' + character.name + '.webp'}
                     loading={'lazy'}
                   />
