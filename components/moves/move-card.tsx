@@ -5,9 +5,8 @@ import {
   CardFooter,
   CardHeader,
   Link,
-  Image,
 } from '@nextui-org/react';
-
+import Image from 'next/image';
 interface MoveCardParams {
   move: any;
   characterName: string;
@@ -30,7 +29,11 @@ export const MoveCard = (params: MoveCardParams) => {
         </div>
       </CardHeader>
       <CardBody className='px-3 py-0 text-small text-default-400'>
-        <Image
+        <video
+          muted
+          playsInline
+          autoPlay
+          loop
           width={500}
           height={300}
           src={
@@ -38,11 +41,9 @@ export const MoveCard = (params: MoveCardParams) => {
             params.characterName +
             '/' +
             params.move.normalizedName +
-            '.gif'
+            '.webm'
           }
-          loading={params.lazy ? 'lazy' : 'eager'}
-          alt={params.move.name}
-        ></Image>
+        />
         {/* <Table
         classNames={classNames}
         key={character.normalizedName}
