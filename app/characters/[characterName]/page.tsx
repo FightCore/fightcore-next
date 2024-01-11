@@ -23,9 +23,13 @@ export default async function Character({
     <>
       <h1>{character.name}</h1>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-        {character.moves.map((move: any) => (
+        {character.moves.map((move: any, index: number) => (
           <div key={move.normalizedName}>
-            <MoveCard characterName={character.normalizedName} move={move} />
+            <MoveCard
+              characterName={character.normalizedName}
+              move={move}
+              lazy={index > 5}
+            />
           </div>
         ))}
       </div>

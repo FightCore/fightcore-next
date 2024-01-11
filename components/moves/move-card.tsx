@@ -11,6 +11,7 @@ import {
 interface MoveCardParams {
   move: any;
   characterName: string;
+  lazy: boolean;
 }
 
 export const MoveCard = (params: MoveCardParams) => {
@@ -39,6 +40,7 @@ export const MoveCard = (params: MoveCardParams) => {
             params.move.normalizedName +
             '.gif'
           }
+          loading={params.lazy ? 'lazy' : 'eager'}
           alt={params.move.name}
         ></Image>
         {/* <Table
