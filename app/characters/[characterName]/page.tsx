@@ -14,7 +14,8 @@ export default async function Character({
   params: { characterName: string };
 }) {
   const file = await fs.readFile(
-    process.cwd() + `/config/framedata/${params.characterName}.json`,
+    process.cwd() +
+      `/config/framedata/${params.characterName.replace('%26', '&')}.json`,
     'utf8'
   );
   const character = JSON.parse(file);

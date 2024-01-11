@@ -5,7 +5,11 @@ export async function generateStaticParams() {
   const result = [];
   for (const character of characters) {
     const file = await fs.readFile(
-      process.cwd() + `/config/framedata/${character.normalizedName}.json`,
+      process.cwd() +
+        `/config/framedata/${character.normalizedName.replace(
+          '%26',
+          '&'
+        )}.json`,
       'utf8'
     );
     const data = JSON.parse(file);
@@ -28,7 +32,8 @@ export default async function Move({
   params: { characterName: string; moveName: string };
 }) {
   const file = await fs.readFile(
-    process.cwd() + `/config/framedata/${params.characterName}.json`,
+    process.cwd() +
+      `/config/framedata/${params.characterName.replace('%26', '&')}.json`,
     'utf8'
   );
   const character = JSON.parse(file);
