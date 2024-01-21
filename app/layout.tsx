@@ -50,7 +50,7 @@ export default function RootLayout({
               <SideNav />
             </aside>
             <div className='px-3 md:mt-0 md:ml-64 z-0'>
-              <main className='container mx-auto max-w-7xl pt-16 px-6 flex-grow bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-900 dark:border-gray-700'>
+              <main className='container mx-auto max-w-7xl pt-16 md:pt-0 px-6 flex-grow bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-900 dark:border-gray-700'>
                 {children}
               </main>
             </div>
