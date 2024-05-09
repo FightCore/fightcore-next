@@ -1,22 +1,22 @@
+import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 
 // Import form system rather than react as a temp fix
 // https://github.com/nextui-org/nextui/issues/2930
 // TODO update on new release
 import { NextUIProvider } from '@nextui-org/system';
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { fontSans, fontMono } from '@/config/fonts';
 import { useRouter } from 'next/router';
-import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   return (
     <NextUIProvider navigate={router.push}>
-      <ThemeProvider>
+      <NextThemesProvider>
         <Component {...pageProps} />
-      </ThemeProvider>
+      </NextThemesProvider>
     </NextUIProvider>
   );
 }
