@@ -1,4 +1,3 @@
-'use client';
 import { Divider, Image, Link, Tooltip } from '@nextui-org/react';
 import { Logo } from '../icons';
 import { characters } from '@/config/framedata/framedata';
@@ -8,7 +7,6 @@ import { SearchBar } from './search-bar';
 import { FaCircleUser, FaRectangleList, FaTrophy } from 'react-icons/fa6';
 
 export const SideNav = () => {
-  'use client';
   return (
     <div className='h-full flex flex-col p-2'>
       <div className='flex-1'>

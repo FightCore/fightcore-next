@@ -82,7 +82,7 @@ export default function CharacterPage({
     );
   }
   return (
-    <DefaultLayout>
+    <>
       <Head>
         {data.character?.moves.slice(5).map((move: Move) => (
           <link
@@ -124,6 +124,6 @@ export default function CharacterPage({
           </div>
         </div>
       ))}
-    </DefaultLayout>
+    </>
   );
 }

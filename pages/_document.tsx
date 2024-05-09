@@ -1,3 +1,4 @@
+import DefaultLayout from '@/layout/default';
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
@@ -6,6 +7,7 @@ export default function Document() {
       <Head />
       <body className='min-h-screen bg-background font-sans antialiased'>
         <Main />
+
         <NextScript />
       </body>
     </Html>
