@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 // https://github.com/nextui-org/nextui/issues/2930
 // TODO update on new release
 import { NextUIProvider } from '@nextui-org/system';
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { ThemeProvider } from 'next-themes';
 import { fontSans, fontMono } from '@/config/fonts';
 import { useRouter } from 'next/router';
 import '@/styles/globals.css';
@@ -14,7 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <NextUIProvider navigate={router.push}>
-      <Component {...pageProps} />
+      <ThemeProvider>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </NextUIProvider>
   );
 }
