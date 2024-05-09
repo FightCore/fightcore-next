@@ -14,9 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <NextUIProvider navigate={router.push}>
-      <NextThemesProvider>
-        <Component {...pageProps} />
-      </NextThemesProvider>
+      <Component {...pageProps} />
     </NextUIProvider>
   );
 }
