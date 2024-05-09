@@ -12,7 +12,7 @@ export function generateStaticParams() {
   });
 }
 
-export default async function CharacterPage({
+export default async function Character({
   params,
 }: {
   params: { characterName: string };

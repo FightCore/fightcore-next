@@ -1,7 +1,9 @@
+'use client';
 import { characters } from '@/config/framedata/framedata';
 import { CharacterCard } from '@/components/characters/character-card';
 
 export default function Home() {
+  'use client';
   return (
     <div className='p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
       {characters.map((character) => (
