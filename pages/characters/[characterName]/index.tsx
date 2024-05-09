@@ -25,7 +25,7 @@ export const getStaticProps = (async (context) => {
   console.log(context);
   const fileName =
     process.cwd() +
-    `\\config\\framedata\\${(context?.params?.characterName as string).replace(
+    `/config/framedata/${(context?.params?.characterName as string).replace(
       '%26',
       '&'
     )}.json`;
