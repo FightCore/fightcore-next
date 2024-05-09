@@ -2,7 +2,7 @@ import '@/styles/globals.css';
 import { Metadata } from 'next';
 import { siteConfig } from '@/config/site';
 import { fontSans } from '@/config/fonts';
-import { Providers } from '../pages/providers';
+import { Providers } from '../app/providers';
 import { NavBar } from '@/components/layout/nav-bar';
 import { Link } from '@nextui-org/react';
 import clsx from 'clsx';
