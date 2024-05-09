@@ -37,6 +37,7 @@ export const getStaticProps = (async (context) => {
         character,
       },
     },
+    revalidate: false,
   };
 }) satisfies GetStaticProps<{
   data: CharacterPage;
