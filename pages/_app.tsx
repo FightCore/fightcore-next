@@ -9,7 +9,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { fontSans, fontMono } from '@/config/fonts';
 import { useRouter } from 'next/router';
 import { StrictMode } from 'react';
-import DefaultLayout from './layout/default';
+import DefaultLayout from '../layouts/default';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

@@ -1,6 +1,6 @@
 'use client';
-import { NavBar } from '@/pages/layout/nav-bar';
-import { SideNav } from '@/pages/layout/side-nav';
+import { NavBar } from '@/layouts/nav-bar';
+import { SideNav } from '@/layouts/side-nav';
 
 export const metadata = {
   title: 'Characters',

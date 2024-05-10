@@ -1,5 +1,5 @@
 import { Divider, Image, Link, Tooltip } from '@nextui-org/react';
-import { Logo } from '../../components/icons';
+import { Logo } from '../components/icons';
 import { characters } from '@/config/framedata/framedata';
 import React from 'react';
 import { Socials } from './socials';
