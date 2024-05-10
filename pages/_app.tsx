@@ -8,19 +8,22 @@ import { NextUIProvider } from '@nextui-org/system';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { fontSans, fontMono } from '@/config/fonts';
 import { useRouter } from 'next/router';
-import DefaultLayout from '@/layout/default';
+import { StrictMode } from 'react';
+import DefaultLayout from './layout/default';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   return (
-    <NextUIProvider navigate={router.push}>
-      <NextThemesProvider>
-        <DefaultLayout>
-          <Component {...pageProps} />
-        </DefaultLayout>
-      </NextThemesProvider>
-    </NextUIProvider>
+    <StrictMode>
+      <NextUIProvider navigate={router.push}>
+        <NextThemesProvider>
+          <DefaultLayout>
+            <Component {...pageProps} />
+          </DefaultLayout>
+        </NextThemesProvider>
+      </NextUIProvider>
+    </StrictMode>
   );
 }
 

@@ -1,12 +1,12 @@
 import { Divider, Image, Link, Tooltip } from '@nextui-org/react';
-import { Logo } from '../icons';
+import { Logo } from '../../components/icons';
 import { characters } from '@/config/framedata/framedata';
 import React from 'react';
 import { Socials } from './socials';
 import { SearchBar } from './search-bar';
 import { FaCircleUser, FaRectangleList, FaTrophy } from 'react-icons/fa6';
 
-export const SideNav = () => {
+export function SideNav() {
   return (
     <div className='h-full flex flex-col p-2'>
       <div className='flex-1'>
@@ -76,4 +76,4 @@ export const SideNav = () => {
       <Socials className='shrink' />
     </div>
   );
-};
+}

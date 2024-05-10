@@ -1,4 +1,4 @@
-import { Logo } from '../icons';
+import { Logo } from '../../components/icons';
 import {
   Navbar,
   NavbarBrand,

@@ -1,7 +1,7 @@
 import { GithubIcon, DiscordIcon } from '@/components/icons';
 import { siteConfig } from '@/config/site';
 import { Link } from '@nextui-org/react';
-import { ThemeSwitch } from '../theme-switch';
+import { ThemeSwitch } from '../../components/theme-switch';
 import { FaDiscord, FaGithub } from 'react-icons/fa6';
 export const Socials = ({ ...params }) => {
   return (

@@ -4,9 +4,7 @@ import { Character } from '@/models/character';
 import { Move } from '@/models/move';
 import { MoveType } from '@/models/move-type';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import Head from 'next/head';
 import { promises as fs } from 'fs';
-import DefaultLayout from '@/layout/default';
 
 export type CharacterPage = {
   character: Character | null;
@@ -84,22 +82,6 @@ export default function CharacterPage({
   }
   return (
     <>
-      <Head>
-        {data.character?.moves.slice(5).map((move: Move) => (
-          <link
-            key={move.normalizedName}
-            rel='preload'
-            as='image'
-            href={
-              'https://i.fightcore.gg/melee/moves/' +
-              data.character?.name +
-              '/' +
-              move.normalizedName +
-              '.webm'
-            }
-          />
-        ))}
-      </Head>
       <div className='h-16 w-full bg-red-700 rounded-b-md border-b border-l border-r border-gray-700 flex justify-center items-center mb-2'>
         <p className='text-4xl font-extrabold text-center'>
           {data.character.name}

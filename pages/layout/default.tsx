@@ -1,23 +1,9 @@
-import { NavBar } from '@/components/layout/nav-bar';
-import { SideNav } from '@/components/layout/side-nav';
-import { siteConfig } from '@/config/site';
-import { Metadata } from 'next';
+'use client';
+import { NavBar } from '@/pages/layout/nav-bar';
+import { SideNav } from '@/pages/layout/side-nav';
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
-  },
+export const metadata = {
+  title: 'Characters',
 };
 
 export default function DefaultLayout({
@@ -36,9 +22,9 @@ export default function DefaultLayout({
         <SideNav />
       </aside>
       <div className='px-3 md:mt-0 md:ml-64 z-0'>
-        <div className='container mx-auto max-w-7xl pt-16 md:pt-0 px-6 flex-grow bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-900 dark:border-gray-700'>
+        <main className='container mx-auto max-w-7xl pt-16 md:pt-0 px-6 flex-grow bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-900 dark:border-gray-700'>
           {children}
-        </div>
+        </main>
       </div>
       <footer className='w-full flex items-center justify-center py-3'></footer>
     </div>
