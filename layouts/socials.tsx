@@ -1,7 +1,8 @@
 import { GithubIcon, DiscordIcon } from '@/components/icons';
 import { siteConfig } from '@/config/site';
 import { Link } from '@nextui-org/react';
-import { ThemeSwitch } from '../theme-switch';
+import { ThemeSwitch } from '../components/theme-switch';
+import { FaDiscord, FaGithub } from 'react-icons/fa6';
 export const Socials = ({ ...params }) => {
   return (
     <div className={params.className}>
@@ -12,7 +13,7 @@ export const Socials = ({ ...params }) => {
           href={siteConfig.links.discord}
           aria-label='Discord'
         >
-          <DiscordIcon className='text-default-500' />
+          <FaDiscord className='text-default-500' />
         </Link>
         <Link
           className='justify-center'
@@ -20,7 +21,7 @@ export const Socials = ({ ...params }) => {
           href={siteConfig.links.github}
           aria-label='Github'
         >
-          <GithubIcon className='text-default-500' />
+          <FaGithub className='text-default-500' />
         </Link>
         <ThemeSwitch className='w-full min-w-full justify-center' />
       </div>

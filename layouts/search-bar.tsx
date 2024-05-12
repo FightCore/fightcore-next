@@ -1,5 +1,5 @@
 import { Input, Kbd } from '@nextui-org/react';
-import { SearchIcon } from '../icons';
+import { SearchIcon } from '../components/icons';
 
 export const SearchBar = ({ ...props }) => {
   return (

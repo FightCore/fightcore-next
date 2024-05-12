@@ -1,5 +1,4 @@
-'use client';
-import { Logo } from '../icons';
+import { Logo } from '../components/icons';
 import {
   Navbar,
   NavbarBrand,
@@ -14,7 +13,6 @@ import {
 import React from 'react';
 
 export const NavBar = () => {
-  'use client';
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const menuItems = [
     'Profile',

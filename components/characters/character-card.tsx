@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import {
   Image,
@@ -42,7 +41,6 @@ export const CharacterCard = (input: CharacterCardInput) => {
             alt={character.normalizedName}
             src={'/newicons/' + character.name + '.webp'}
             loading={'eager'}
-            fetchPriority={'high'}
           />
           <div className='flex flex-col gap-1 items-start justify-center'>
             <h4 className='text-medium font-semibold leading-none text-default-600'>
@@ -88,19 +86,19 @@ export const CharacterCard = (input: CharacterCardInput) => {
                 {character.characterStatistics.waveDashLengthRank}
               </TableCell>
             </TableRow>
-            <TableRow key={'5' + character.normalizedName}>
+            <TableRow key={'6' + character.normalizedName}>
               <TableCell>Initial Dash</TableCell>
               <TableCell>{character.characterStatistics.initialDash}</TableCell>
             </TableRow>
-            <TableRow key={'5' + character.normalizedName}>
+            <TableRow key={'7' + character.normalizedName}>
               <TableCell>Dash frames</TableCell>
               <TableCell>{character.characterStatistics.dashFrames}</TableCell>
             </TableRow>
-            <TableRow key={'5' + character.normalizedName}>
+            <TableRow key={'8' + character.normalizedName}>
               <TableCell>Jump Squat</TableCell>
               <TableCell>{character.characterStatistics.jumpSquat}</TableCell>
             </TableRow>
-            <TableRow key={'5' + character.normalizedName}>
+            <TableRow key={'9' + character.normalizedName}>
               <TableCell>Can wall jump</TableCell>
               <TableCell>{character.characterStatistics.canWallJump}</TableCell>
             </TableRow>
@@ -109,7 +107,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
       </CardBody>
       <CardFooter className='gap-3'>
         <Button
-          href={'/characters/' + character.normalizedName}
+          href={'/characters/' + encodeURIComponent(character.normalizedName)}
           as={Link}
           className='w-full dark:hover:bg-red-600'
         >

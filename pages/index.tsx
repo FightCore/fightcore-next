@@ -1,11 +1,3 @@
-import {
-  Image,
-  Card,
-  CardHeader,
-  Button,
-  CardBody,
-  CardFooter,
-} from '@nextui-org/react';
 import { characters } from '@/config/framedata/framedata';
 import { CharacterCard } from '@/components/characters/character-card';
 
