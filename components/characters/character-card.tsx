@@ -107,7 +107,6 @@ export const CharacterCard = (input: CharacterCardInput) => {
       </CardBody>
       <CardFooter className='gap-3'>
         <Button
-          showAnchorIcon
           href={'/characters/' + encodeURIComponent(character.normalizedName)}
           as={Link}
           className='w-full dark:hover:bg-red-600'

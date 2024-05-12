@@ -20,7 +20,6 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = (async (context) => {
-  console.log(context);
   const fileName =
     process.cwd() +
     `/config/framedata/${(context?.params?.characterName as string).replace(

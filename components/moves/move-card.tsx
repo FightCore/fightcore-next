@@ -39,9 +39,6 @@ export const MoveCard = (params: MoveCardParams) => {
     []
   );
   const stats: [string, keyof Move][] = [
-    // ['Start', 'start'],
-    // ['End', 'end'],
-    // ['Total frames', 'totalFrames'],
     ['Auto cancel before', 'autoCancelBefore'],
     ['Auto cancel after', 'autoCancelAfter'],
     ['IASA', 'iasa'],

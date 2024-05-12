@@ -1,3 +1,4 @@
+'use client';
 import { Divider, Image, Link, Tooltip } from '@nextui-org/react';
 import { Logo } from '../components/icons';
 import { characters } from '@/config/framedata/framedata';
@@ -29,7 +30,6 @@ export function SideNav() {
                     width={40}
                     height={40}
                     src={'/newicons/' + character.name + '.webp'}
-                    loading={'lazy'}
                   />
                 </Link>
               </Tooltip>
