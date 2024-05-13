@@ -3,9 +3,7 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
   Link,
-  Button,
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
@@ -26,6 +24,18 @@ export const NavBar = () => {
     'Help & Feedback',
     'Log Out',
   ];
+
+  function SetColor(index: number) {
+    if (index == 2) {
+      return 'primary';
+    }
+
+    if (index === menuItems.length - 1) {
+      return 'danger';
+    }
+
+    return 'foreground';
+  }
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
@@ -39,18 +49,7 @@ export const NavBar = () => {
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2
-                  ? 'primary'
-                  : index === menuItems.length - 1
-                  ? 'danger'
-                  : 'foreground'
-              }
-              className='w-full'
-              href='#'
-              size='lg'
-            >
+            <Link color={SetColor(index)} className='w-full' href='#' size='lg'>
               {item}
             </Link>
           </NavbarMenuItem>
