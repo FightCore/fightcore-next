@@ -1,3 +1,5 @@
+import { Character } from '@/models/character';
+
 export const rawCharacters = [
   {
     $type:
@@ -384,19 +386,13 @@ export const rawCharacters = [
     fightCoreId: 236,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 13,
       discord: 'https://discord.com/invite/0w4Z5Y1vxgiJt6sd',
       meleeFrameData: 'http://meleeframedata.com/dr._mario',
       ssbWiki: 'https://www.ssbwiki.com/Dr._Mario_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 39,
       weight: 100,
       gravity: 1.7,
@@ -416,19 +412,13 @@ export const rawCharacters = [
     fightCoreId: 215,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 14,
       discord: 'https://discord.com/invite/0xLggx3U7EICyMm5',
       meleeFrameData: 'http://meleeframedata.com/luigi',
       ssbWiki: 'https://www.ssbwiki.com/Luigi_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 40,
       weight: 100,
       gravity: 1.6,
@@ -448,19 +438,13 @@ export const rawCharacters = [
     fightCoreId: 213,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 15,
       discord: 'https://discord.com/invite/0vWHh31xabrT8h7H',
       meleeFrameData: 'http://meleeframedata.com/yoshi',
       ssbWiki: 'https://www.ssbwiki.com/Yoshi_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 41,
       weight: 108,
       gravity: 1.93,
@@ -480,19 +464,13 @@ export const rawCharacters = [
     fightCoreId: 211,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 16,
       discord: 'https://discord.com/invite/0uiUkioTeExTGw9f',
       meleeFrameData: 'http://meleeframedata.com/ice_climbers',
       ssbWiki: 'https://www.ssbwiki.com/Ice_Climbers_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 42,
       weight: 88,
       gravity: 1.6,
@@ -512,19 +490,13 @@ export const rawCharacters = [
     fightCoreId: 209,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 17,
       discord: 'https://discord.com/invite/011MkPNW8vetImT1W',
       meleeFrameData: 'http://meleeframedata.com/pikachu',
       ssbWiki: 'https://www.ssbwiki.com/Pikachu_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 43,
       weight: 80,
       gravity: 1.9,
@@ -544,19 +516,13 @@ export const rawCharacters = [
     fightCoreId: 237,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 18,
       discord: 'https://discord.com/invite/aKkhbcr',
       meleeFrameData: 'http://meleeframedata.com/peach',
       ssbWiki: 'https://www.ssbwiki.com/Peach_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 44,
       weight: 90,
       gravity: 1.5,
@@ -576,19 +542,13 @@ export const rawCharacters = [
     fightCoreId: 240,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 19,
       discord: 'https://discord.com/invite/tkwQs8v',
       meleeFrameData: 'http://meleeframedata.com/samus',
       ssbWiki: 'https://www.ssbwiki.com/Sheik_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 45,
       weight: 90,
       gravity: 2.13,
@@ -608,19 +568,13 @@ export const rawCharacters = [
     fightCoreId: 260,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 20,
       discord: 'https://discord.com/invite/M3nS3kR',
       meleeFrameData: 'http://meleeframedata.com/samus',
       ssbWiki: 'https://www.ssbwiki.com/Samus_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 46,
       weight: 110,
       gravity: 1.4,
@@ -640,19 +594,13 @@ export const rawCharacters = [
     fightCoreId: 212,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 21,
       discord: 'https://discord.com/invite/0x4uq2ABzu6gnICT',
       meleeFrameData: 'http://meleeframedata.com/jigglypuff',
       ssbWiki: 'https://www.ssbwiki.com/Jigglypuff_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 47,
       weight: 60,
       gravity: 1.3,
@@ -672,19 +620,13 @@ export const rawCharacters = [
     fightCoreId: 214,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 22,
       discord: 'https://discord.com/invite/01352PHCHms6PyCv9',
       meleeFrameData: 'http://meleeframedata.com/marth',
       ssbWiki: 'https://www.ssbwiki.com/Marth_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 48,
       weight: 87,
       gravity: 2.2,
@@ -704,19 +646,13 @@ export const rawCharacters = [
     fightCoreId: 222,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 23,
       discord: 'https://discord.com/invite/9rp6qNR',
       meleeFrameData: 'http://meleeframedata.com/fox',
       ssbWiki: 'https://www.ssbwiki.com/Fox_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 49,
       weight: 75,
       gravity: 2.8,
@@ -736,19 +672,13 @@ export const rawCharacters = [
     fightCoreId: 224,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 24,
       discord: 'https://discord.com/invite/HUxvTdy',
       meleeFrameData: 'http://meleeframedata.com/falco',
       ssbWiki: 'https://www.ssbwiki.com/Falco_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 50,
       weight: 80,
       gravity: 3.1,
@@ -768,19 +698,13 @@ export const rawCharacters = [
     fightCoreId: 218,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 25,
       discord: 'https://discord.com/invite/0uRZflcDyAOMeAPK',
       meleeFrameData: 'http://meleeframedata.com/young_link',
       ssbWiki: 'https://www.ssbwiki.com/Young_Link_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 51,
       weight: 85,
       gravity: 2.13,
@@ -800,19 +724,13 @@ export const rawCharacters = [
     fightCoreId: 220,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 26,
       discord: 'https://discord.com/invite/0cfhZQyx53mAuwty',
       meleeFrameData: 'http://meleeframedata.com/zelda',
       ssbWiki: 'https://www.ssbwiki.com/Zelda_(SSBM)',
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 52,
       weight: 90,
       gravity: 1.4,
@@ -832,19 +750,13 @@ export const rawCharacters = [
     fightCoreId: 239,
   },
   {
-    $type:
-      'FightCore.Api.DataTransferObjects.Exports.Characters.BasicExportCharacter, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
     characterInfo: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterMiscInfo, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 27,
       discord: 'https://discord.gg/VT3H5PN',
       meleeFrameData: null,
       ssbWiki: null,
     },
     characterStatistics: {
-      $type:
-        'FightCore.Api.DataTransferObjects.Abstract.BaseCharacterStatistics, FightCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
       id: 53,
       weight: 0,
       gravity: 0.0,
@@ -865,6 +777,9 @@ export const rawCharacters = [
   },
 ];
 
-export const characters = rawCharacters.sort((characterOne, characterTwo) =>
-  characterOne.name > characterTwo.name ? 1 : -1
-);
+const sortFunction = (
+  characterOne: { name: string },
+  characterTwo: { name: string }
+) => (characterOne.name > characterTwo.name ? 1 : -1);
+
+export const characters = rawCharacters.sort(sortFunction);

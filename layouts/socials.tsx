@@ -1,4 +1,3 @@
-import { GithubIcon, DiscordIcon } from '@/components/icons';
 import { siteConfig } from '@/config/site';
 import { Link } from '@nextui-org/react';
 import { ThemeSwitch } from '../components/theme-switch';

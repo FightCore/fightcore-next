@@ -1,7 +1,7 @@
 import { Move } from '@/models/move';
 import { Button } from '@nextui-org/react';
 import { SuperGif } from '@wizpanda/super-gif';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 interface MoveGifParams {
   move: Move;
@@ -23,7 +23,7 @@ export const MoveGif = (params: MoveGifParams) => {
     }
   };
   const pause = () => {
-    if (gifPlayer && gifPlayer.isPlaying()) {
+    if (gifPlayer?.isPlaying()) {
       gifPlayer.pause();
     }
   };
@@ -59,7 +59,7 @@ export const MoveGif = (params: MoveGifParams) => {
           'https://i.fightcore.gg/melee/moves/' +
           params.characterName +
           '/' +
-          params.move!.normalizedName +
+          params.move.normalizedName +
           '.gif'
         }
         onLoad={initializeGifPlayer}
