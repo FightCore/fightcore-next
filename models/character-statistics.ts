@@ -4,6 +4,9 @@ export interface CharacterStatistics {
   gravity: number;
   walkSpeed: number;
   runSpeed: number;
+  initialDash: number;
+  dashFrames: number;
+  waveDashLength: number;
   waveDashLengthRank: number;
   plaIntangibilityFrames: number;
   jumpSquat: number;
