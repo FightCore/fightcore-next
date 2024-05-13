@@ -48,7 +48,7 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps = (async (context) => {
+export const getStaticProps = async (context: any) => {
   const fileName =
     process.cwd() +
     `/config/framedata/${(context?.params?.characterName as string).replace(
@@ -79,9 +79,7 @@ export const getStaticProps = (async (context) => {
     },
     revalidate: false,
   };
-}) satisfies GetStaticProps<{
-  data: MovePage;
-}>;
+};
 
 export default function MoveIndexPage({
   data,
