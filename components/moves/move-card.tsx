@@ -32,9 +32,7 @@ export const MoveCard = (params: MoveCardParams) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const classNames = React.useMemo(
     () => ({
-      wrapper: ['dark:bg-gray-800', 'border-0', 'shadow-none', 'p-0'],
-      th: ['bg-transparent', 'text-default-500', 'border-b', 'border-divider'],
-      td: ['text-default-600', 'py-1'],
+      td: ['text-default-600'],
     }),
     []
   );
@@ -92,6 +90,8 @@ export const MoveCard = (params: MoveCardParams) => {
             </div>
           </div>
           <Table
+            hideHeader
+            removeWrapper
             classNames={classNames}
             key={params.move.normalizedName}
             aria-label='Example static collection table'

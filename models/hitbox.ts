@@ -1,4 +1,5 @@
 export interface Hitbox {
+  id: number;
   name: string;
   damage: number;
   angle: number;
