@@ -6,7 +6,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableColumnProps,
 } from '@nextui-org/react';
 import React, { ReactElement } from 'react';
 
@@ -23,17 +22,6 @@ function MobileHitboxRow(
   // NextJs/React can't handle having a static element and some dynamic elements together
   // Because of this, we have to create an array with the static value and then push the other elements.
   // This is the best way I've found to do this, this is only a typing issue as the code compiles fine.
-  //
-  // All I want is to do this
-  //   <TableRow key={key}>
-  //     <TableCell key={key}>{title}</TableCell>
-  //     {hitboxes.map((hitbox) => (
-  //       <TableCell key={key + hitbox.id}>{hitbox[accessor]}</TableCell>
-  //     ))}
-  //   </TableRow>
-  // But noooooo because types or something
-  // I really don't understand why this can't work, in Angular it just does.
-  // Jesus christ why is this framework so loved.
 
   const cells = [<TableCell key={key}>{title}</TableCell>];
   cells.push(
@@ -44,7 +32,7 @@ function MobileHitboxRow(
   return <TableRow key={key}>{cells}</TableRow>;
 }
 
-function MobileHitboxHeader(hitboxes: Hitbox[]) {
+function MobileHitboxHeader(hitboxes: Readonly<Hitbox[]>) {
   const cells = [<TableColumn key='name-key'>Name</TableColumn>];
   cells.push(
     ...hitboxes.map((hitbox) => (
@@ -54,7 +42,7 @@ function MobileHitboxHeader(hitboxes: Hitbox[]) {
   return <TableHeader>{cells}</TableHeader>;
 }
 
-export default function HitboxTable(params: HitboxTableParams) {
+export default function HitboxTable(params: Readonly<HitboxTableParams>) {
   const classNames = React.useMemo(
     () => ({
       wrapper: ['dark:bg-gray-800', 'shadow-none'],

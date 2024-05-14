@@ -1,16 +1,10 @@
 import { characters } from '@/config/framedata/framedata';
 import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 import { promises as fs } from 'fs';
 import { MoveGif } from '@/components/moves/move-gif';
 import {
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Table,
   BreadcrumbItem,
   Breadcrumbs,
 } from '@nextui-org/react';
@@ -90,15 +84,7 @@ export const getStaticProps = async (context: any) => {
 
 export default function MoveIndexPage({
   data,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
-  const classNames = React.useMemo(
-    () => ({
-      wrapper: ['dark:bg-gray-800', 'shadow-none'],
-      th: ['bg-transparent'],
-      //td: ['text-default-600', 'py-1'],
-    }),
-    []
-  );
+}: Readonly<InferGetStaticPropsType<typeof getStaticProps>>) {
   return (
     <>
       <div className='h-16 w-full bg-red-700 rounded-b-md border-b border-l border-r border-gray-700 flex justify-center items-center mb-2'>

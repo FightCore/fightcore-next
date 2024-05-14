@@ -7,19 +7,17 @@ import {
   TableRow,
   TableCell,
 } from '@nextui-org/react';
-import { data } from 'autoprefixer';
 import React from 'react';
 
 export interface MoveTableParams {
   move: Move;
 }
 
-export default function MoveAttributeTable(params: MoveTableParams) {
+export default function MoveAttributeTable(params: Readonly<MoveTableParams>) {
   const classNames = React.useMemo(
     () => ({
       wrapper: ['dark:bg-gray-800', 'shadow-none'],
       th: ['bg-transparent'],
-      //td: ['text-default-600', 'py-1'],
     }),
     []
   );
