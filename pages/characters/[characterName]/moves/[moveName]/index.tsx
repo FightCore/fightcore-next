@@ -1,5 +1,5 @@
 import { characters } from '@/config/framedata/framedata';
-import { Character } from '@/models/character';
+import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { promises as fs } from 'fs';
@@ -11,11 +11,15 @@ import {
   TableRow,
   TableCell,
   Table,
+  BreadcrumbItem,
+  Breadcrumbs,
 } from '@nextui-org/react';
 import React from 'react';
+import MoveAttributeTable from '@/components/moves/move-attribute-table';
+import HitboxTable from '@/components/moves/hitbox-table';
 
 export type MovePage = {
-  character: Character;
+  character: CharacterBase;
   Move: Move;
 };
 
@@ -57,8 +61,11 @@ export const getStaticProps = async (context: any) => {
     )}.json`;
   const file = await fs.readFile(fileName, 'utf8');
   const character = JSON.parse(file) as Character;
+  const basisCharacter = characters.find(
+    (baseCharacter) => baseCharacter.normalizedName === character.normalizedName
+  );
 
-  if (!character) {
+  if (!character || !basisCharacter) {
     return { notFound: true };
   }
 
@@ -73,7 +80,7 @@ export const getStaticProps = async (context: any) => {
   return {
     props: {
       data: {
-        character,
+        character: basisCharacter,
         move,
       },
     },
@@ -99,69 +106,52 @@ export default function MoveIndexPage({
           {data.move.name} - {data.character.name}
         </p>
       </div>
-      <MoveGif move={data.move} characterName={data.character.normalizedName} />
-      <div className='my-3'>
-        <Table classNames={classNames}>
-          <TableHeader>
-            <TableColumn key='start'>Start</TableColumn>
-            <TableColumn key='end'>End</TableColumn>
-            <TableColumn key='total'>Total Frames</TableColumn>
-            <TableColumn key='iasa'>IASA</TableColumn>
-            <TableColumn key='lcancellandlag'>Land Lag</TableColumn>
-            <TableColumn key='lcancellandlag'>L-Canceled Land Lag</TableColumn>
-            <TableColumn key='landingFallSpecialLag'>
-              Landing Fall Special Lag
-            </TableColumn>
-            <TableColumn key='autocancelbefore'>Auto Cancel Before</TableColumn>
-            <TableColumn key='autocancelafter'>Auto Cancel After</TableColumn>
-          </TableHeader>
-          <TableBody>
-            <TableRow key={data.move.id}>
-              <TableCell>{data.move.start}</TableCell>
-              <TableCell>{data.move.end}</TableCell>
-              <TableCell>{data.move.totalFrames}</TableCell>
-              <TableCell>{data.move.iasa}</TableCell>
-              <TableCell>{data.move.landLag}</TableCell>
-              <TableCell>{data.move.lCanceledLandLang}</TableCell>
-              <TableCell>{data.move.landingFallSpecialLag}</TableCell>
-              <TableCell>{data.move.autoCancelBefore}</TableCell>
-              <TableCell>{data.move.autoCancelAfter}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+      <div>
+        <Breadcrumbs>
+          <BreadcrumbItem>Home</BreadcrumbItem>
+          <BreadcrumbItem>{data.character.name}</BreadcrumbItem>
+          <BreadcrumbItem>{data.move.name}</BreadcrumbItem>
+        </Breadcrumbs>
+      </div>
+      <div className='w-full md:flex'>
+        <div className='w-full md:w-1/2 border border-red-600 border-dashed p-2'>
+          <MoveGif
+            move={data.move}
+            characterName={data.character.normalizedName}
+          />
+        </div>
+        <div className='w-full md:w-1/2 p-2'>
+          <div className='grid grid-cols-1 gap-2 mt-2'>
+            <div className='bg-gray-100 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+              <h2 className='text-xl font-semibold'>Start</h2>
+              <p>{data.move.start}</p>
+            </div>
+            <div className='bg-gray-200 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+              <h2 className='text-xl font-semibold'>End</h2>
+              <p>{data.move.end}</p>
+            </div>
+            <div className='bg-gray-300 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+              <h2 className='text-xl font-semibold'>Total</h2>
+              <p>{data.move.totalFrames} frames</p>
+            </div>
+            <div className='bg-gray-300 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+              <h2 className='text-xl font-semibold'>IASA</h2>
+              <p>{data.move.iasa ? data.move.iasa : '-'}</p>
+            </div>
+            <div className='bg-gray-300 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+              <h2 className='text-xl font-semibold'>Notes</h2>
+              <p>{data.move.notes ? data.move.notes : '-'}</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className='my-3'>
-        <Table classNames={classNames}>
-          <TableHeader>
-            <TableColumn key='name'>Name</TableColumn>
-            <TableColumn key='Damage'>Damage</TableColumn>
-            <TableColumn key='Angle'>Angle</TableColumn>
-            <TableColumn key='Knockback Growth'>Knockback Growth</TableColumn>
-            <TableColumn key='BaseKnockback'>Base Knockback</TableColumn>
-            <TableColumn key='SetKnockback'>Set Knockback</TableColumn>
-            <TableColumn key='Effect'>Effect</TableColumn>
-            <TableColumn key='Hitlag Attacker'>HitLag Attacker</TableColumn>
-            <TableColumn key='Hitlag Defender'>Hitlag Defender</TableColumn>
-            <TableColumn key='Shieldstun'>Shieldstun</TableColumn>
-          </TableHeader>
-          <TableBody>
-            {data.move.hitboxes.map((hitbox) => (
-              <TableRow key={hitbox.id}>
-                <TableCell>{hitbox.name}</TableCell>
-                <TableCell>{hitbox.damage}</TableCell>
-                <TableCell>{hitbox.angle}</TableCell>
-                <TableCell>{hitbox.knockbackGrowth}</TableCell>
-                <TableCell>{hitbox.baseKnockback}</TableCell>
-                <TableCell>{hitbox.setKnockback}</TableCell>
-                <TableCell>{hitbox.effect}</TableCell>
-                <TableCell>{hitbox.hitlagAttacker}</TableCell>
-                <TableCell>{hitbox.hitlagDefender}</TableCell>
-                <TableCell>{hitbox.shieldstun}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <MoveAttributeTable move={data.move} />
+      </div>
+
+      <div className='my-3'>
+        <HitboxTable hitboxes={data.move.hitboxes} />
       </div>
     </>
   );
