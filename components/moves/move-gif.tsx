@@ -1,7 +1,7 @@
 import { Move } from '@/models/move';
 import { Button } from '@nextui-org/react';
 import { SuperGif } from '@wizpanda/super-gif';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 interface MoveGifParams {
   move: Move;
@@ -11,9 +11,16 @@ interface MoveGifParams {
 export const MoveGif = (params: MoveGifParams) => {
   const imageRef = useRef<HTMLImageElement>(null);
   const [gifPlayer, setGifPlayer] = useState<SuperGif>();
+  const initialized = useRef(false);
 
-  const initializeGifPlayer = () => {
+  const initializeGifPlayer = useCallback(() => {
     console.log('Initializing player');
+    if (initialized.current) {
+      console.log('Gif player already created, returning.');
+      return;
+    }
+
+    initialized.current = true;
     if (imageRef) {
       console.log(imageRef.current);
       const superGif = new SuperGif(imageRef.current!, {});
@@ -24,7 +31,14 @@ export const MoveGif = (params: MoveGifParams) => {
       return;
     }
     console.log('Missed player hit');
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!initialized.current && imageRef.current?.complete && !gifPlayer) {
+      initializeGifPlayer();
+    }
+  }, []);
+
   const pause = () => {
     if (gifPlayer?.isPlaying()) {
       gifPlayer.pause();
