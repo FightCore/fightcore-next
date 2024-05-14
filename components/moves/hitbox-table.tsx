@@ -47,7 +47,6 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
     () => ({
       wrapper: ['dark:bg-gray-800', 'shadow-none'],
       th: ['bg-transparent'],
-      //td: ['text-default-600', 'py-1'],
     }),
     []
   );
