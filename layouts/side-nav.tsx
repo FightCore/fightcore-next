@@ -18,12 +18,7 @@ export function SideNav() {
           {characters.map((character) => (
             <div key={character.normalizedName}>
               <Tooltip content={character.name} delay={1000}>
-                <Link
-                  href={
-                    '/characters/' +
-                    encodeURIComponent(character.normalizedName)
-                  }
-                >
+                <Link href={'/characters/' + character.normalizedName}>
                   <Image
                     className='grow'
                     alt={character.name}

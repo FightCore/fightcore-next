@@ -28,6 +28,27 @@ interface MoveCardParams {
   lazy: boolean;
 }
 
+function GetMoveWebm(params: MoveCardParams) {
+  const beta = true;
+  if (beta) {
+    return (
+      'https://i.fightcore.gg/beta/' +
+      params.characterName +
+      '/' +
+      params.move.normalizedName +
+      '.webm'
+    );
+  } else {
+    return (
+      'https://i.fightcore.gg/melee/moves/' +
+      params.characterName +
+      '/' +
+      params.move.normalizedName +
+      '.webm'
+    );
+  }
+}
+
 export const MoveCard = (params: MoveCardParams) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const classNames = React.useMemo(
@@ -66,13 +87,7 @@ export const MoveCard = (params: MoveCardParams) => {
             loop
             width={600}
             height={400}
-            src={
-              'https://i.fightcore.gg/melee/moves/' +
-              params.characterName +
-              '/' +
-              params.move.normalizedName +
-              '.webm'
-            }
+            src={GetMoveWebm(params)}
           />
 
           <div className='grid grid-cols-3 gap-2 mt-2'>
