@@ -130,10 +130,11 @@ export default function MoveIndexPage({
       </div>
 
       <div className='my-3'>
+        <h2 className='text-xl font-bold'>Attributes</h2>
         <MoveAttributeTable move={data.move} />
       </div>
-
       <div className='my-3'>
+        <h2 className='text-xl font-bold'>Hitboxes</h2>
         <HitboxTable hitboxes={data.move.hitboxes} />
       </div>
     </>

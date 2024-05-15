@@ -3,6 +3,7 @@ import {
   Accordion,
   AccordionItem,
   Button,
+  Chip,
   Image,
   image,
 } from '@nextui-org/react';
@@ -141,51 +142,95 @@ export const MoveGif = (params: MoveGifParams) => {
         <AccordionItem
           startContent={<FaCircleQuestion />}
           key='1'
-          aria-label='Accordion 1'
+          aria-label='Hitbox legend'
           title='Hitbox Legend'
-          subtitle='Open this to learn more about what the colors mean'
+          subtitle='Open this to learn more about what the hitbox colors mean'
         >
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
             <div>
               <h2 className='text-xl'>Hitbox IDs</h2>
-              <p>
-                <span className='text-red-500'>Red</span>: id0
-              </p>
-              <p>
-                <span className='text-green-500'>Green</span>: id1
-              </p>
-              <p>
-                <span className='text-blue-300'>Light Blue</span>: id2
-              </p>
-              <p>
-                <span className='text-purple-500'>Purple</span>: id3
-              </p>
+              <div className='grid grid-cols-1 mt-2'>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-red-500', base: 'w-full' }}
+                >
+                  id0
+                </Chip>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-green-500', base: 'w-full' }}
+                >
+                  id1
+                </Chip>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-blue-300', base: 'w-full' }}
+                >
+                  id2
+                </Chip>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-purple-500', base: 'w-full' }}
+                >
+                  id3
+                </Chip>
+              </div>
             </div>
             <div>
               <h2 className='text-xl'>Bone colors</h2>
-              <p>
-                <span className='text-yellow-500'>Yellow</span>: Normal
-              </p>
-              <p>
-                <span className='text-yellow-700'>Pale Yellow</span>:
-                Ungrabbable
-              </p>
-              <p>
-                <span className='text-blue-700'>Dark Blue</span>: Intangible
-              </p>
-              <p>
-                <span className='text-green-500'>Green</span>: Invincible
-              </p>
+              <div className='grid grid-cols-1 mt-2'>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-yellow-500', base: 'w-full' }}
+                >
+                  Normal
+                </Chip>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-yellow-600', base: 'w-full' }}
+                >
+                  Ungrabbable
+                </Chip>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-blue-700', base: 'w-full' }}
+                >
+                  Intangible
+                </Chip>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-green-500', base: 'w-full' }}
+                >
+                  Invincible
+                </Chip>
+              </div>
             </div>
             <div>
               <h2 className='text-xl'>Character colors</h2>
-              <p>
-                <span className='text-orange-500'>Orange</span>: Auto cancel
-                frame
-              </p>
-              <p>
-                <span className='text-pink-500'>Pink</span>: IASA
-              </p>
+              <div className='grid grid-cols-1 mt-2'>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-orange-500', base: 'w-full' }}
+                >
+                  Auto cancel frame
+                </Chip>
+                <Chip
+                  variant='dot'
+                  radius='sm'
+                  classNames={{ dot: 'bg-pink-500', base: 'w-full' }}
+                >
+                  IASA
+                </Chip>
+              </div>
             </div>
           </div>
         </AccordionItem>

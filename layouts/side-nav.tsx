@@ -9,7 +9,7 @@ import { FaCircleUser, FaRectangleList, FaTrophy } from 'react-icons/fa6';
 
 export function SideNav() {
   return (
-    <div className='h-full flex flex-col p-2'>
+    <div className='h-full flex flex-col p-2 overflow-y-scroll'>
       <div className='flex-1'>
         <Link href='/' className='w-100 align-content-center flex p-3'>
           <Logo className='flex-1' height={50} width={100} />
@@ -37,7 +37,7 @@ export function SideNav() {
           <li>
             <Link
               color='foreground'
-              href='#'
+              href='/'
               className='flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group'
             >
               <FaCircleUser />
@@ -48,6 +48,7 @@ export function SideNav() {
             <Link
               color='foreground'
               href='#'
+              isDisabled={true}
               className='flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group'
             >
               <FaRectangleList />
@@ -58,6 +59,7 @@ export function SideNav() {
             <Link
               color='foreground'
               href='#'
+              isDisabled={true}
               className='flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group'
             >
               <FaTrophy />
