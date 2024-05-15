@@ -5,7 +5,6 @@ import {
   Button,
   Chip,
   Image,
-  image,
 } from '@nextui-org/react';
 import { SuperGif } from '@wizpanda/super-gif';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
