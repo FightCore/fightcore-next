@@ -82,7 +82,7 @@ export default function CharacterPage({
   }
   return (
     <>
-      <div className='h-16 w-full bg-red-700 rounded-b-md border-b border-l border-r border-gray-700 flex justify-center items-center mb-2'>
+      <div className='h-16 w-full bg-red-400 dark:bg-red-700 rounded-b-md border-b border-l border-r border-gray-700 flex justify-center items-center mb-2'>
         <p className='text-4xl font-extrabold text-center'>
           {data.character.name}
         </p>
@@ -95,7 +95,7 @@ export default function CharacterPage({
       </Breadcrumbs>
       {moveTypes.map((moveType) => (
         <div key={moveType.type}>
-          <div className='h-16 w-full bg-gray-800 rounded border border-gray-800 flex justify-center items-center my-4'>
+          <div className='h-16 w-full bg-gray-200 dark:bg-gray-800 rounded border  border-gray-300 dark:border-gray-800 flex justify-center items-center my-4'>
             <p className='text-2xl font-bold text-center'>{moveType.name}</p>
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>

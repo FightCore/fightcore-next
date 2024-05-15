@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <StrictMode>
       <NextUIProvider navigate={router.push}>
-        <NextThemesProvider>
+        <NextThemesProvider attribute='class' defaultTheme='dark'>
           <DefaultLayout>
             <Component {...pageProps} />
           </DefaultLayout>

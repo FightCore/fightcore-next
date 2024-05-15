@@ -84,7 +84,7 @@ export default function MoveIndexPage({
 }: Readonly<InferGetStaticPropsType<typeof getStaticProps>>) {
   return (
     <>
-      <div className='h-16 w-full bg-red-700 rounded-b-md border-b border-l border-r border-gray-700 flex justify-center items-center mb-2'>
+      <div className='h-16 w-full bg-red-400 dark:bg-red-700 rounded-b-md border-b border-l border-r border-gray-700 flex justify-center items-center mb-2'>
         <p className='text-4xl font-extrabold text-center'>
           {data.move.name} - {data.character.name}
         </p>
@@ -107,23 +107,23 @@ export default function MoveIndexPage({
         </div>
         <div className='w-full md:w-1/2 p-2'>
           <div className='grid grid-cols-1 gap-2 mt-2'>
-            <div className='bg-gray-100 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+            <div className='bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center'>
               <h2 className='text-xl font-semibold'>Start</h2>
               <p>{data.move.start}</p>
             </div>
-            <div className='bg-gray-200 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+            <div className='bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center'>
               <h2 className='text-xl font-semibold'>End</h2>
               <p>{data.move.end}</p>
             </div>
-            <div className='bg-gray-300 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+            <div className='bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center'>
               <h2 className='text-xl font-semibold'>Total</h2>
               <p>{data.move.totalFrames} frames</p>
             </div>
-            <div className='bg-gray-300 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+            <div className='bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center'>
               <h2 className='text-xl font-semibold'>IASA</h2>
               <p>{data.move.iasa ? data.move.iasa : '-'}</p>
             </div>
-            <div className='bg-gray-300 dark:bg-red-700 dark:text-white rounded-lg p-2 text-center'>
+            <div className='bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center'>
               <h2 className='text-xl font-semibold'>Notes</h2>
               <p>{data.move.notes ? data.move.notes : '-'}</p>
             </div>
