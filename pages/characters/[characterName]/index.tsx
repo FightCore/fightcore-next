@@ -5,6 +5,7 @@ import { Move } from '@/models/move';
 import { MoveType } from '@/models/move-type';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { promises as fs } from 'fs';
+import { Breadcrumbs, BreadcrumbItem } from '@nextui-org/react';
 
 export type CharacterPage = {
   character: Character | null;
@@ -86,6 +87,12 @@ export default function CharacterPage({
           {data.character.name}
         </p>
       </div>
+      <Breadcrumbs>
+        <BreadcrumbItem href='/'>Home</BreadcrumbItem>
+        <BreadcrumbItem href={'/characters/' + data.character.normalizedName}>
+          {data.character.name}
+        </BreadcrumbItem>
+      </Breadcrumbs>
       {moveTypes.map((moveType) => (
         <div key={moveType.type}>
           <div className='h-16 w-full bg-gray-800 rounded border border-gray-800 flex justify-center items-center my-4'>

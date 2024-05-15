@@ -91,8 +91,10 @@ export default function MoveIndexPage({
       </div>
       <div>
         <Breadcrumbs>
-          <BreadcrumbItem>Home</BreadcrumbItem>
-          <BreadcrumbItem>{data.character.name}</BreadcrumbItem>
+          <BreadcrumbItem href='/'>Home</BreadcrumbItem>
+          <BreadcrumbItem href={'/characters/' + data.character.normalizedName}>
+            {data.character.name}
+          </BreadcrumbItem>
           <BreadcrumbItem>{data.move.name}</BreadcrumbItem>
         </Breadcrumbs>
       </div>
