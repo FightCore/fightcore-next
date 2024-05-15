@@ -4,10 +4,7 @@ import { Move } from '@/models/move';
 import { InferGetStaticPropsType } from 'next';
 import { promises as fs } from 'fs';
 import { MoveGif } from '@/components/moves/move-gif';
-import {
-  BreadcrumbItem,
-  Breadcrumbs,
-} from '@nextui-org/react';
+import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react';
 import React from 'react';
 import MoveAttributeTable from '@/components/moves/move-attribute-table';
 import HitboxTable from '@/components/moves/hitbox-table';
@@ -100,7 +97,7 @@ export default function MoveIndexPage({
         </Breadcrumbs>
       </div>
       <div className='w-full md:flex'>
-        <div className='w-full md:w-1/2 border border-red-600 border-dashed p-2'>
+        <div className='w-full md:w-1/2 p-2'>
           <MoveGif
             move={data.move}
             characterName={data.character.normalizedName}
@@ -133,10 +130,11 @@ export default function MoveIndexPage({
       </div>
 
       <div className='my-3'>
+        <h2 className='text-xl font-bold'>Attributes</h2>
         <MoveAttributeTable move={data.move} />
       </div>
-
       <div className='my-3'>
+        <h2 className='text-xl font-bold'>Hitboxes</h2>
         <HitboxTable hitboxes={data.move.hitboxes} />
       </div>
     </>
