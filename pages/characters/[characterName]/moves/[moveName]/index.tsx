@@ -4,10 +4,20 @@ import { Move } from '@/models/move';
 import { InferGetStaticPropsType } from 'next';
 import { promises as fs } from 'fs';
 import { MoveGif } from '@/components/moves/move-gif';
-import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react';
+import {
+  BreadcrumbItem,
+  Breadcrumbs,
+  Card,
+  CardBody,
+  CardHeader,
+  Image,
+  Tab,
+  Tabs,
+} from '@nextui-org/react';
 import React from 'react';
 import MoveAttributeTable from '@/components/moves/move-attribute-table';
 import HitboxTable from '@/components/moves/hitbox-table';
+import { CrouchCancelTable } from '@/components/moves/crouch-cancel-table';
 
 export type MovePage = {
   character: CharacterBase;
@@ -138,6 +148,15 @@ export default function MoveIndexPage({
       <div className='my-3'>
         <h2 className='text-xl font-bold'>Hitboxes</h2>
         <HitboxTable hitboxes={data.move.hitboxes} />
+      </div>
+      <div>
+        <h2 className='text-xl font-bold'>Crouch Cancel Percentages</h2>
+        <p className='mb-2'>
+          The following percentages indicate when ASDI Down and Crouch Cancel
+          are broken for this move. This is dependant which hitbox you are hit
+          with.
+        </p>
+        <CrouchCancelTable hitboxes={data.move.hitboxes} />
       </div>
     </>
   );
