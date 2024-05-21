@@ -110,10 +110,14 @@ export default function MoveIndexPage({
       </div>
       <div className='w-full md:flex'>
         <div className='w-full md:w-1/2 p-2'>
-          <MoveGif
-            move={data.move}
-            characterName={data.character.normalizedName}
-          />
+          {data.move.gifUrl ? (
+            <MoveGif
+              move={data.move}
+              characterName={data.character.normalizedName}
+            />
+          ) : (
+            <em>No GIF available</em>
+          )}
         </div>
         <div className='w-full md:w-1/2 p-2'>
           <div className='grid grid-cols-1 gap-2 mt-2'>

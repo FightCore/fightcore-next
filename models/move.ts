@@ -21,4 +21,5 @@ export interface Move {
   character?: Character;
   characterId?: number;
   landingFallSpecialLag?: number;
+  gifUrl: string;
 }

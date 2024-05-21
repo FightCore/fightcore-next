@@ -29,24 +29,7 @@ interface MoveCardParams {
 }
 
 function GetMoveWebm(params: MoveCardParams) {
-  const beta = true;
-  if (beta) {
-    return (
-      'https://i.fightcore.gg/beta/' +
-      params.characterName +
-      '/' +
-      params.move.normalizedName +
-      '.webm'
-    );
-  } else {
-    return (
-      'https://i.fightcore.gg/melee/moves/' +
-      params.characterName +
-      '/' +
-      params.move.normalizedName +
-      '.webm'
-    );
-  }
+  return params.move.gifUrl.replaceAll('.gif', '.webm');
 }
 
 export const MoveCard = (params: MoveCardParams) => {
@@ -79,16 +62,20 @@ export const MoveCard = (params: MoveCardParams) => {
           </div>
         </CardHeader>
         <CardBody className='px-3 py-0 text-small text-default-400'>
-          <video
-            onClick={onOpen}
-            muted
-            playsInline
-            autoPlay
-            loop
-            width={600}
-            height={400}
-            src={GetMoveWebm(params)}
-          />
+          {params.move.gifUrl ? (
+            <video
+              onClick={onOpen}
+              muted
+              playsInline
+              autoPlay
+              loop
+              width={600}
+              height={400}
+              src={GetMoveWebm(params)}
+            />
+          ) : (
+            <em>There is no GIF available</em>
+          )}
 
           <div className='grid grid-cols-3 gap-2 mt-2'>
             <div className='bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center'>
