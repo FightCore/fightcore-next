@@ -1,20 +1,8 @@
-import { Move } from '@/models/move';
-import {
-  Accordion,
-  AccordionItem,
-  Button,
-  Chip,
-  Image,
-} from '@nextui-org/react';
-import { SuperGif } from '@wizpanda/super-gif';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  FaCircleLeft,
-  FaCirclePause,
-  FaCirclePlay,
-  FaCircleQuestion,
-  FaCircleRight,
-} from 'react-icons/fa6';
+import { Move } from "@/models/move";
+import { Accordion, AccordionItem, Button, Chip, Image } from "@nextui-org/react";
+import { SuperGif } from "@wizpanda/super-gif";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FaCircleLeft, FaCirclePause, FaCirclePlay, FaCircleQuestion, FaCircleRight } from "react-icons/fa6";
 
 interface MoveGifParams {
   move: Move;
@@ -24,21 +12,9 @@ interface MoveGifParams {
 function getGif(params: MoveGifParams) {
   const beta = true;
   if (beta) {
-    return (
-      'https://i.fightcore.gg/beta/' +
-      params.characterName +
-      '/' +
-      params.move.normalizedName +
-      '.gif'
-    );
+    return "https://i.fightcore.gg/beta/" + params.characterName + "/" + params.move.normalizedName + ".gif";
   } else {
-    return (
-      'https://i.fightcore.gg/melee/moves/' +
-      params.characterName +
-      '/' +
-      params.move.normalizedName +
-      '.gif'
-    );
+    return "https://i.fightcore.gg/melee/moves/" + params.characterName + "/" + params.move.normalizedName + ".gif";
   }
 }
 
@@ -60,7 +36,7 @@ export const MoveGif = (params: MoveGifParams) => {
       console.log(imageRef.current);
       const superGif = new SuperGif(imageRef.current!, {});
       superGif.load(() => {
-        console.log('Initialized');
+        console.log("Initialized");
       });
       setGifPlayer(superGif);
     }
@@ -108,125 +84,86 @@ export const MoveGif = (params: MoveGifParams) => {
 
   return (
     <>
-      <div className='gif-wrapper'>
+      <div className="gif-wrapper">
         <Image
           ref={imageRef}
           src={getGif(params)}
           onLoad={initializeGifPlayer}
+          alt={params.move.name + " - " + params.move.character?.name}
         />
       </div>
 
-      <div className='grid grid-cols-2 gap-2'>
+      <div className="grid grid-cols-2 gap-2">
         {running ? (
-          <Button onClick={pause} startContent={<FaCirclePause />}>
+          <Button onClick={pause} aria-label="Pause gif" startContent={<FaCirclePause />}>
             Pause
           </Button>
         ) : (
-          <Button onClick={play} startContent={<FaCirclePlay />}>
+          <Button onClick={play} aria-label="Play gif" startContent={<FaCirclePlay />}>
             Play
           </Button>
         )}
-        <Button disableAnimation disableRipple>
+        <Button disableAnimation aria-label="Frame counter" disableRipple>
           Frame: {frameCounter}
         </Button>
 
-        <Button onClick={previousFrame} startContent={<FaCircleLeft />}>
+        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<FaCircleLeft />}>
           Previous Frame
         </Button>
-        <Button onClick={nextFrame} startContent={<FaCircleRight />}>
+        <Button onClick={nextFrame} aria-label="Next frame" startContent={<FaCircleRight />}>
           Next Frame
         </Button>
       </div>
       <Accordion>
         <AccordionItem
           startContent={<FaCircleQuestion />}
-          key='1'
-          aria-label='Hitbox legend'
-          title='Hitbox Legend'
-          subtitle='Open this to learn more about what the hitbox colors mean'
+          key="1"
+          aria-label="Hitbox legend"
+          title="Hitbox Legend"
+          subtitle="Open this to learn more about what the hitbox colors mean"
         >
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             <div>
-              <h2 className='text-xl'>Hitbox IDs</h2>
-              <div className='grid grid-cols-1 mt-2'>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-red-500', base: 'w-full' }}
-                >
+              <h2 className="text-xl">Hitbox IDs</h2>
+              <div className="grid grid-cols-1 mt-2">
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-red-500", base: "w-full" }}>
                   id0
                 </Chip>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-green-500', base: 'w-full' }}
-                >
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-green-500", base: "w-full" }}>
                   id1
                 </Chip>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-blue-300', base: 'w-full' }}
-                >
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-blue-300", base: "w-full" }}>
                   id2
                 </Chip>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-purple-500', base: 'w-full' }}
-                >
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-purple-500", base: "w-full" }}>
                   id3
                 </Chip>
               </div>
             </div>
             <div>
-              <h2 className='text-xl'>Bone colors</h2>
-              <div className='grid grid-cols-1 mt-2'>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-yellow-500', base: 'w-full' }}
-                >
+              <h2 className="text-xl">Bone colors</h2>
+              <div className="grid grid-cols-1 mt-2">
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-yellow-500", base: "w-full" }}>
                   Normal
                 </Chip>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-yellow-600', base: 'w-full' }}
-                >
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-yellow-600", base: "w-full" }}>
                   Ungrabbable
                 </Chip>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-blue-700', base: 'w-full' }}
-                >
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-blue-700", base: "w-full" }}>
                   Intangible
                 </Chip>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-green-500', base: 'w-full' }}
-                >
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-green-500", base: "w-full" }}>
                   Invincible
                 </Chip>
               </div>
             </div>
             <div>
-              <h2 className='text-xl'>Character colors</h2>
-              <div className='grid grid-cols-1 mt-2'>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-orange-500', base: 'w-full' }}
-                >
+              <h2 className="text-xl">Character colors</h2>
+              <div className="grid grid-cols-1 mt-2">
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-orange-500", base: "w-full" }}>
                   Auto cancel frame
                 </Chip>
-                <Chip
-                  variant='dot'
-                  radius='sm'
-                  classNames={{ dot: 'bg-pink-500', base: 'w-full' }}
-                >
+                <Chip variant="dot" radius="sm" classNames={{ dot: "bg-pink-500", base: "w-full" }}>
                   IASA
                 </Chip>
               </div>

@@ -1,10 +1,9 @@
 'use client';
+import { siteConfig } from '@/config/site';
 import { NavBar } from '@/layouts/nav-bar';
 import { SideNav } from '@/layouts/side-nav';
-
-export const metadata = {
-  title: 'Characters',
-};
+import { Metadata } from 'next';
+import { Head } from './head';
 
 export default function DefaultLayout({
   children,
@@ -15,6 +14,7 @@ export default function DefaultLayout({
     <div className='relative flex flex-col h-screen bg-gray-100 dark:bg-gray-950'>
       {/* The NavBar that can only be seen on smaller displays*/}
       <div className='block md:hidden fixed h-16 w-full z-50 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700'>
+        <Head />
         <NavBar />
       </div>
       {/* The SideNav that only can be seen on bigger displays  */}

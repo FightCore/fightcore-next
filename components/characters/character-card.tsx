@@ -107,7 +107,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
       </CardBody>
       <CardFooter className='gap-3'>
         <Button
-          href={'/characters/' + character.normalizedName}
+          href={'/characters/' + character.fightCoreId + "/" + character.normalizedName}
           as={Link}
           className='w-full dark:hover:bg-red-600'
         >
