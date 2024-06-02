@@ -6,6 +6,7 @@ import { MoveType } from "@/models/move-type";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { promises as fs } from "fs";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
+import { characterRoute } from "@/utilities/routes";
 
 export type CharacterPage = {
   character: Character | null;
@@ -20,10 +21,16 @@ export async function getStaticPaths() {
   };
 }
 
-// TODO: Rewrite to use ID
 export const getStaticProps = (async (context) => {
-  const fileName =
-    process.cwd() + `/config/framedata/${(context?.params?.characterName as string).replace("%26", "&")}.json`;
+  const characterBase = characters.find(
+    (baseCharacter) => baseCharacter.fightCoreId.toString() === context?.params?.characterId
+  );
+
+  if (!characterBase) {
+    return { notFound: true };
+  }
+
+  const fileName = process.cwd() + `/config/framedata/${characterBase.normalizedName.replace("%26", "&")}.json`;
   const file = await fs.readFile(fileName, "utf8");
   const character = JSON.parse(file) as Character;
   return {
@@ -85,7 +92,7 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
       </div>
       <Breadcrumbs>
         <BreadcrumbItem href="/">Home</BreadcrumbItem>
-        <BreadcrumbItem href={"/characters/" + data.character.normalizedName}>{data.character.name}</BreadcrumbItem>
+        <BreadcrumbItem href={characterRoute(data.character)}>{data.character.name}</BreadcrumbItem>
       </Breadcrumbs>
       {moveTypes.map((moveType) => (
         <div key={moveType.type}>

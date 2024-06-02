@@ -22,7 +22,7 @@ export const MoveGif = (params: MoveGifParams) => {
   const imageRef = useRef<HTMLImageElement>(null);
   const [gifPlayer, setGifPlayer] = useState<SuperGif>();
   const initialized = useRef(false);
-  const [frameCounter, setFrameCounter] = useState(0);
+  const [frameCounter, setFrameCounter] = useState(1);
   const [running, setRunning] = useState(true);
 
   const initializeGifPlayer = useCallback(() => {
@@ -43,7 +43,7 @@ export const MoveGif = (params: MoveGifParams) => {
   }, []);
 
   setInterval(() => {
-    setFrameCounter(gifPlayer?.getCurrentFrame() ?? 0);
+    setFrameCounter((gifPlayer?.getCurrentFrame() ?? 0) + 1);
   }, 100);
 
   useEffect(() => {

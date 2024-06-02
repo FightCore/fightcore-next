@@ -6,6 +6,7 @@ import React from "react";
 import { Socials } from "./socials";
 import { SearchBar } from "./search-bar";
 import { FaCalculator, FaCircleUser, FaRectangleList, FaRobot } from "react-icons/fa6";
+import { characterRoute } from "@/utilities/routes";
 
 export function SideNav() {
   return (
@@ -21,7 +22,7 @@ export function SideNav() {
           {characters.map((character) => (
             <div key={character.normalizedName}>
               <Tooltip content={character.name} delay={1000}>
-                <Link href={"/characters/" + character.normalizedName}>
+                <Link href={characterRoute(character)}>
                   <Image
                     className="grow"
                     alt={character.name}
@@ -85,6 +86,9 @@ export function SideNav() {
       <div className="grow"></div>
       <SearchBar className="mb-2" />
       <Socials className="shrink" />
+      <div className="w-full text-center">
+        <Link href="/patchnotes">Version 0.2</Link>
+      </div>
     </div>
   );
 }

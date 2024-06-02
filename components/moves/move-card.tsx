@@ -22,6 +22,7 @@ import {
 import React from "react";
 import { MoveGif } from "./move-gif";
 import { Character } from "@/models/character";
+import { moveRoute } from "@/utilities/routes";
 
 interface MoveCardParams {
   move: Move;
@@ -114,20 +115,7 @@ export const MoveCard = (params: MoveCardParams) => {
           </Table>
         </CardBody>
         <CardFooter className="gap-3">
-          <Button
-            href={
-              "/characters/" +
-              params.character.fightCoreId +
-              "/" +
-              params.character.normalizedName +
-              "/moves/" +
-              params.move.id +
-              "/" +
-              params.move.normalizedName
-            }
-            as={Link}
-            className="w-full dark:hover:bg-red-600"
-          >
+          <Button href={moveRoute(params.character, params.move)} as={Link} className="w-full dark:hover:bg-red-600">
             View
           </Button>
         </CardFooter>

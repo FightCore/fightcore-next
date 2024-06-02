@@ -11,6 +11,9 @@ import HitboxTable from "@/components/moves/hitbox-table";
 import { CrouchCancelTable } from "@/components/moves/crouch-cancel-table";
 import Head from "next/head";
 import { MoveHead } from "@/components/moves/move-head";
+import { characterRoute } from "@/utilities/routes";
+import { CrouchCancelSection } from "@/components/moves/crouch-cancel-section";
+import { HitboxSection } from "@/components/moves/hitbox-section";
 
 export type MovePage = {
   character: CharacterBase;
@@ -53,17 +56,23 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async (context: any) => {
-  const fileName =
-    process.cwd() + `/config/framedata/${(context?.params?.characterName as string).replace("%26", "&")}.json`;
-  const file = await fs.readFile(fileName, "utf8");
-  const character = JSON.parse(file) as Character;
-  const basisCharacter = characters.find((baseCharacter) => baseCharacter.normalizedName === character.normalizedName);
+  const characterBase = characters.find(
+    (baseCharacter) => baseCharacter.fightCoreId.toString() === context?.params?.characterId
+  );
 
-  if (!character || !basisCharacter) {
+  if (!characterBase) {
     return { notFound: true };
   }
 
-  const move = character.moves.find((move) => move.normalizedName === context?.params?.moveName);
+  const fileName = process.cwd() + `/config/framedata/${characterBase.normalizedName.replace("%26", "&")}.json`;
+  const file = await fs.readFile(fileName, "utf8");
+  const character = JSON.parse(file) as Character;
+
+  if (!character || !characterBase) {
+    return { notFound: true };
+  }
+
+  const move = character.moves.find((move) => move.id.toString() === context?.params?.moveId);
 
   if (!move) {
     return { notFound: true };
@@ -72,7 +81,7 @@ export const getStaticProps = async (context: any) => {
   return {
     props: {
       data: {
-        character: basisCharacter,
+        character: characterBase,
         move,
       },
     },
@@ -95,7 +104,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
       <div>
         <Breadcrumbs>
           <BreadcrumbItem href="/">Home</BreadcrumbItem>
-          <BreadcrumbItem href={"/characters/" + data.character.normalizedName}>{data.character.name}</BreadcrumbItem>
+          <BreadcrumbItem href={characterRoute(data.character)}>{data.character.name}</BreadcrumbItem>
           <BreadcrumbItem>{data.move.name}</BreadcrumbItem>
         </Breadcrumbs>
       </div>
@@ -138,17 +147,9 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         <MoveAttributeTable move={data.move} />
       </div>
       <div className="my-3">
-        <h2 className="text-xl font-bold">Hitboxes</h2>
-        <HitboxTable hitboxes={data.move.hitboxes} />
+        {data.move.hitboxes?.length > 0 ? <HitboxSection hitboxes={data.move.hitboxes} /> : <></>}
       </div>
-      <div>
-        <h2 className="text-xl font-bold">Crouch Cancel Percentages</h2>
-        <p className="mb-2">
-          The following percentages indicate when ASDI Down and Crouch Cancel are broken for this move. This is
-          dependant which hitbox you are hit with.
-        </p>
-        <CrouchCancelTable hitboxes={data.move.hitboxes} />
-      </div>
+      <div>{data.move.hitboxes?.length > 0 ? <CrouchCancelSection hitboxes={data.move.hitboxes} /> : <></>}</div>
     </>
   );
 }

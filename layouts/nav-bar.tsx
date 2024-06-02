@@ -13,6 +13,7 @@ import {
   Divider,
 } from "@nextui-org/react";
 import React from "react";
+import { characterRoute } from "@/utilities/routes";
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -50,7 +51,7 @@ export const NavBar = () => {
           {characters.map((character) => (
             <div key={character.normalizedName}>
               <Tooltip content={character.name} delay={1000}>
-                <Link href={"/characters/" + character.normalizedName}>
+                <Link href={characterRoute(character)}>
                   <Image
                     className="grow"
                     alt={character.name}
