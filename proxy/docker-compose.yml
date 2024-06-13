@@ -1,0 +1,42 @@
+services:
+  nginx:
+    image: nginx:1.27
+    container_name: fc_proxy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+      - type: bind
+        source: ./certs/bundle.crt
+        target: /etc/nginx/ssl/server.crt
+        read_only: true
+      - type: bind
+        source: ./certs/privkey.key
+        target: /etc/nginx/ssl/server.key
+        read_only: true
+      - type: bind
+        source: ./logs
+        target: /var/log/nginx
+    networks:
+      - webnet
+    restart: unless-stopped
+
+  fightcore_frontend:
+    image: fightcore/frontend:beta
+    container_name: fc_web_beta
+    ports:
+      - '5001:80'
+    networks:
+      - webnet
+    restart: unless-stopped
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+networks:
+  webnet:
