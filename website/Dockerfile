@@ -1,6 +1,12 @@
 # Stage 1: Build the Next.js application
 FROM node:18 AS builder
 
+ARG IS_BETA
+ARG DO_TRACKING
+
+ENV DO_TRACKING=$DO_TRACKING
+ENV IS_BETA=$IS_BETA
+
 # Set working directory
 WORKDIR /app
 

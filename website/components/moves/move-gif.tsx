@@ -80,6 +80,8 @@ export const MoveGif = (params: MoveGifParams) => {
     <>
       <div className="gif-wrapper">
         <Image
+          height={400}
+          width={500}
           ref={imageRef}
           src={params.move.gifUrl}
           onLoad={initializeGifPlayer}

@@ -7,15 +7,19 @@ import { Image } from "@nextui-org/image";
 import { Tooltip } from "@nextui-org/tooltip";
 import React from "react";
 import { characterRoute } from "@/utilities/routes";
+import { Socials } from "./socials";
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar className="bg-red-400 dark:bg-background" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
         <NavbarBrand>
-          <Logo height={50} width={200} />
+          <Link href="/">
+            <Logo height={50} width={200} />
+          </Link>
+          {process.env.IS_BETA ? <p>Beta</p> : <></>}
         </NavbarBrand>
       </NavbarContent>
       <NavbarMenu>
@@ -46,6 +50,7 @@ export const NavBar = () => {
               <Tooltip content={character.name} delay={1000}>
                 <Link href={characterRoute(character)}>
                   <Image
+                    loading="lazy"
                     className="grow"
                     alt={character.name}
                     width={40}
@@ -56,6 +61,11 @@ export const NavBar = () => {
               </Tooltip>
             </div>
           ))}
+        </div>
+        <div className="grow"></div>
+        <Socials className="shrink" />
+        <div className="w-full text-center">
+          <Link href="/patchnotes">Version 0.4</Link>
         </div>
       </NavbarMenu>
     </Navbar>

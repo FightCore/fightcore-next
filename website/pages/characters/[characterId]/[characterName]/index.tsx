@@ -87,8 +87,8 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
     <>
       <CharacterHead character={data.character} />
       <div
-        className="h-16 w-full bg-red-400 dark:bg-red-700 rounded-b-md border-b border-l border-r
-            border-gray-700 flex justify-center items-center mb-2"
+        className="min-h-16 w-full bg-red-400 dark:bg-red-700 rounded-b-md border-b border-l border-r
+            border-gray-700 flex justify-center items-center mb-2 p-1"
       >
         <p className="text-4xl font-extrabold text-center">{data.character.name}</p>
       </div>

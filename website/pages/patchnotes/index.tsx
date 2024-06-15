@@ -3,6 +3,20 @@ import NextHead from "next/head";
 
 const patchNotes = [
   {
+    version: 0.6,
+    changes: [
+      "Added the social bar, patch notes and light theme to mobile",
+      "Made some mobile only light mode changes",
+      "Fixed an issue where the move/character name would leave its intended box on mobile",
+      "Setup caching policies and other major server side performance improvements",
+      "Used dynamic imports for larger libraries to lower bundle size",
+      "Changed from the nextui react package to individual components to improve bundle size",
+      "Added an option to locally block Umami",
+      "Added a beta indicator to the navbar and sidenav",
+      "Made the logo in the navbar clickable on mobile",
+    ],
+  },
+  {
     version: 0.5,
     changes: [
       "Changed SEO info to be better",

@@ -19,6 +19,7 @@ export function SideNav() {
           <Link href="/" className="w-100 align-content-center flex">
             <Logo className="flex-1" height={50} width={100} />
           </Link>
+          {process.env.IS_BETA ? <p>Beta</p> : <></>}
         </div>
 
         <div className="p-2 grid grid-cols-4 gap-2">
@@ -90,7 +91,7 @@ export function SideNav() {
       <SearchBar className="mb-2" />
       <Socials className="shrink" />
       <div className="w-full text-center">
-        <Link href="/patchnotes">Version 0.4</Link>
+        <Link href="/patchnotes">Version 0.6</Link>
       </div>
     </div>
   );
