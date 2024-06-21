@@ -20,7 +20,7 @@ export const Head = () => {
       {process.env.DO_TRACKING ? (
         <Script
           defer
-          src="https://cloud.umami.is/script.js"
+          src="https://fightcore.gg/script.js"
           data-website-id="aa894a1c-5553-438e-986e-bd9bf0e67afd"
         ></Script>
       ) : (
