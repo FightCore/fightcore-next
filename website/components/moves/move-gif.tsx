@@ -18,6 +18,30 @@ export const MoveGif = (params: MoveGifParams) => {
   const [frameCounter, setFrameCounter] = useState(1);
   const [running, setRunning] = useState(true);
 
+  const escFunction = useCallback((event: KeyboardEvent) => {
+    if (event.key === " ") {
+      if (gifPlayer.isPlaying()) {
+        pause();
+      } else {
+        play();
+      }
+    }
+    if (event.key === "ArrowRight") {
+      nextFrame();
+    }
+    if (event.key === "ArrowLeft") {
+      previousFrame();
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction]);
+
   const initializeGifPlayer = useCallback(async () => {
     if (initialized.current) {
       return;
@@ -72,7 +96,12 @@ export const MoveGif = (params: MoveGifParams) => {
       if (gifPlayer.isPlaying()) {
         gifPlayer.pause();
       }
-      gifPlayer.stepFrame(-1);
+
+      if (gifPlayer.getCurrentFrame() === 0) {
+        gifPlayer.moveTo(gifPlayer.getLength() - 1);
+      } else {
+        gifPlayer.stepFrame(-1);
+      }
     }
   };
 
