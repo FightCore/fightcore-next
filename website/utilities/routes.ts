@@ -4,11 +4,11 @@ import { Move } from "@/models/move";
 export function characterRoute(character: CharacterBase): string {
   return `/characters/${character.fightCoreId}/${encodeURIComponent(
     character.normalizedName
-  )}`;
+  )}/`;
 }
 
 export function moveRoute(character: CharacterBase, move: Move): string {
   return `/characters/${character.fightCoreId}/${encodeURIComponent(
     character.normalizedName
-  )}/moves/${move.id}/${move.normalizedName}`;
+  )}/moves/${move.id}/${move.normalizedName}/`;
 }

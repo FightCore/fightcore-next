@@ -8,16 +8,21 @@ import { promises as fs } from "fs";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/breadcrumbs";
 import { characterRoute } from "@/utilities/routes";
 import { CharacterHead } from "@/components/characters/character-head";
+import slugify from "slugify";
 
 export type CharacterPage = {
   character: Character | null;
 };
 
 export async function getStaticPaths() {
+  const normalizedPaths = characters.map((character) => {
+    return { params: { characterName: character.normalizedName, characterId: character.fightCoreId.toString() } };
+  });
+  const nonNormalizedPaths = characters.map((character) => {
+    return { params: { characterName: slugify(character.name), characterId: character.fightCoreId.toString() } };
+  });
   return {
-    paths: characters.map((character) => {
-      return { params: { characterName: character.normalizedName, characterId: character.fightCoreId.toString() } };
-    }),
+    paths: [...normalizedPaths, ...nonNormalizedPaths],
     fallback: false,
   };
 }

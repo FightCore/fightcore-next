@@ -80,11 +80,11 @@ export default function MoveAttributeTable(params: Readonly<MoveTableParams>) {
               <TableCell>{params.move.landingFallSpecialLag}</TableCell>
             </TableRow>
             <TableRow key="autocancelbefore">
-              <TableCell>Auto cancel before</TableCell>
+              <TableCell>Auto Cancel Before</TableCell>
               <TableCell>{params.move.autoCancelBefore}</TableCell>
             </TableRow>
             <TableRow key="autocancelafter">
-              <TableCell>Auto cancel after</TableCell>
+              <TableCell>Auto Cancel After</TableCell>
               <TableCell>{params.move.autoCancelAfter}</TableCell>
             </TableRow>
           </TableBody>

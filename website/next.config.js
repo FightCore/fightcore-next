@@ -14,15 +14,6 @@ const nextConfig = {
     DO_TRACKING: process.env.DO_TRACKING,
   },
   productionBrowserSourceMaps: true,
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      // Optimize the client-side bundles
-      config.optimization.splitChunks = {
-        chunks: "all",
-      };
-    }
-    return config;
-  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig);

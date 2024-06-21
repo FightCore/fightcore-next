@@ -13,6 +13,7 @@ import { CrouchCancelSection } from "@/components/moves/crouch-cancel-section";
 import { HitboxSection } from "@/components/moves/hitbox-section";
 import SourceSection from "@/components/moves/source-section";
 import { InterpolatedMoveWarning } from "@/components/moves/interpolated-move-warning";
+import slugify from "slugify";
 
 export type MovePage = {
   character: CharacterBase;
@@ -32,8 +33,10 @@ export async function getStaticPaths() {
       const enrichedCharacter = await getCharacter(character.normalizedName);
       return enrichedCharacter.moves.map((move) => ({
         characterId: character.fightCoreId.toString(),
-        characterName: character.normalizedName,
-        moveName: move.normalizedName,
+        normalizedCharacterName: character.normalizedName,
+        characterName: character.name,
+        normalizedMoveName: move.normalizedName,
+        moveName: move.name,
         moveId: move.id.toString(),
       }));
     })
@@ -41,15 +44,35 @@ export async function getStaticPaths() {
 
   const flattenedMoves = moves.flat();
 
+  const normalizedPaths = flattenedMoves.map((move) => ({
+    params: {
+      characterName: move.normalizedCharacterName,
+      characterId: move.characterId,
+      moveName: move.normalizedMoveName,
+      moveId: move.moveId,
+    },
+  }));
+
+  const nonNormalizedPaths = flattenedMoves.map((move) => ({
+    params: {
+      characterName: move.characterName,
+      characterId: move.characterId,
+      moveName: slugify(move.moveName),
+      moveId: move.moveId,
+    },
+  }));
+
+  const mixedNormalizedPaths = flattenedMoves.map((move) => ({
+    params: {
+      characterName: slugify(move.normalizedCharacterName),
+      characterId: move.characterId,
+      moveName: slugify(move.moveName),
+      moveId: move.moveId,
+    },
+  }));
+
   return {
-    paths: flattenedMoves.map((move) => ({
-      params: {
-        characterName: move.characterName,
-        characterId: move.characterId,
-        moveName: move.moveName,
-        moveId: move.moveId,
-      },
-    })),
+    paths: [...normalizedPaths, ...nonNormalizedPaths, ...mixedNormalizedPaths],
     fallback: false,
   };
 }

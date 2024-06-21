@@ -16,18 +16,15 @@ function GenerateCard(knockbackTarget: number, title: string, hitbox: Hitbox) {
         <CardBody>
           <div className="grid md:grid-cols-5 grid-cols-3">
             {characters.map((character) => {
+              const percentage =
+                ((100 + character.characterStatistics.weight) / 14) *
+                  (((100 / hitbox.knockbackGrowth) * (knockbackTarget - hitbox.baseKnockback) - 18) /
+                    (hitbox.damage + 2)) -
+                hitbox.damage;
               return (
                 <div key={character.fightCoreId}>
                   <Image alt={character.name} width={40} height={40} src={"/newicons/" + character.name + ".webp"} />
-                  <span className="d-inline">
-                    {(
-                      ((100 + character.characterStatistics.weight) / 14) *
-                        (((100 / hitbox.knockbackGrowth) * (knockbackTarget - hitbox.baseKnockback) - 18) /
-                          (hitbox.damage + 2)) -
-                      hitbox.damage
-                    ).toFixed(2)}{" "}
-                    %
-                  </span>
+                  <span className="d-inline">{percentage <= 0 ? "Impossible" : percentage.toFixed(2)} %</span>
                 </div>
               );
             })}

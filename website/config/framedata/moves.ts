@@ -1012,7 +1012,7 @@ export const moves: ExportedMove[] = [
     notes:
       "charge time between 11-211 frames, hit frames 5-10 from release of charge",
     characterId: 223,
-    gifUrl: "https://i.fightcore.gg/melee/moves/roy/neutralb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/roy/neutralb.gif",
     isInterpolated: false,
     id: 944,
   },
@@ -1362,7 +1362,7 @@ export const moves: ExportedMove[] = [
     type: 4,
     notes: "Window for the next move: 18-37",
     characterId: 223,
-    gifUrl: "https://i.fightcore.gg/melee/moves/roy/sideb3up.gif",
+    gifUrl: "https://i.fightcore.gg/beta/roy/sideb3up.gif",
     isInterpolated: false,
     id: 1974,
   },
@@ -1722,7 +1722,7 @@ export const moves: ExportedMove[] = [
     notes:
       "data refers to lunge. charging takes anywhere between 14-161 frames. 34 frames of endlag on hit. damage increases based on charge and travel distance",
     characterId: 221,
-    gifUrl: "https://i.fightcore.gg/melee/moves/pichu/sideb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/pichu/sideb.gif",
     isInterpolated: false,
     id: 773,
   },
@@ -2087,6 +2087,7 @@ export const moves: ExportedMove[] = [
     notes:
       "data refers to lunge. charging takes anywhere between 14-161 frames. 34 frames of endlag on hit. damage increases based on charge and travel distance",
     characterId: 221,
+    gifUrl: "https://i.fightcore.gg/beta/pichu/asideb.gif",
     isInterpolated: true,
     id: 2001,
   },
@@ -2228,7 +2229,7 @@ export const moves: ExportedMove[] = [
     notes:
       "frame data refers to maxmimum time thunder can be active. 54 frames endlag once thunder is gone if it didnt hit ness. if it did, ness hitbox active frames 1-36, 70 total frames, strong hit active frames 1-12. ",
     characterId: 243,
-    gifUrl: "https://i.fightcore.gg/melee/moves/ness/upb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/ness/upb.gif",
     isInterpolated: false,
     id: 719,
   },
@@ -2244,7 +2245,7 @@ export const moves: ExportedMove[] = [
     notes:
       "minimum total is 109 frames, maximum is 217. damage increases based on charge time",
     characterId: 243,
-    gifUrl: "https://i.fightcore.gg/melee/moves/ness/neutralb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/ness/neutralb.gif",
     isInterpolated: false,
     id: 720,
   },
@@ -3655,7 +3656,7 @@ export const moves: ExportedMove[] = [
     type: 4,
     notes: "Shadow Ball lasts 69 frames. fully charged takes 100 frames",
     characterId: 217,
-    gifUrl: "https://i.fightcore.gg/melee/moves/mewtwo/neutralb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/mewtwo/neutralb.gif",
     isInterpolated: false,
     id: 1250,
   },
@@ -4331,7 +4332,7 @@ export const moves: ExportedMove[] = [
     notes:
       "total time for full charge+release = 84 frames. 24 frames of endlag upon release. damage increases the longer the charge (will do 1% if very close upon release)",
     characterId: 238,
-    gifUrl: "https://i.fightcore.gg/melee/moves/link/neutralb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/link/neutralb.gif",
     isInterpolated: false,
     id: 1269,
   },
@@ -6148,6 +6149,7 @@ export const moves: ExportedMove[] = [
     notes:
       "can be stone anywhere from 17 to 150 frames. gretting out of stone has 31 frames of lag.",
     characterId: 210,
+    gifUrl: "https://i.fightcore.gg/beta/kirby/downb.gif",
     isInterpolated: false,
     id: 1192,
   },
@@ -7334,7 +7336,7 @@ export const moves: ExportedMove[] = [
     notes:
       "weak hit frame 18, 10 frames shield stun\r\nIntangible frames 17-18, only on fully charged punch",
     characterId: 242,
-    gifUrl: "https://i.fightcore.gg/melee/moves/donkeykong/neutralb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/donkeykong/neutralb.gif",
     isInterpolated: false,
     id: 1309,
   },
@@ -7667,6 +7669,7 @@ export const moves: ExportedMove[] = [
     notes:
       "for aerial and ground, frame data is dependent on charge stored. listed is the amounts for a full charge",
     characterId: 242,
+    gifUrl: "https://i.fightcore.gg/beta/donkeykong/aneutralb.gif",
     isInterpolated: false,
     id: 1545,
   },
@@ -9530,7 +9533,7 @@ export const moves: ExportedMove[] = [
     notes:
       "additional 41 frames of lag upon landing. misfire is the strong hitbox, regular hitbox does between 5%-26%, depending on charge ",
     characterId: 213,
-    gifUrl: "https://i.fightcore.gg/melee/moves/luigi/sideb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/luigi/sideb.gif",
     isInterpolated: false,
     id: 813,
   },
@@ -11261,6 +11264,7 @@ export const moves: ExportedMove[] = [
     notes:
       "hitboxes appear every 5 frames, last 11 frames total (do 1% in the last couple frames). 9 hits total",
     characterId: 209,
+    gifUrl: "https://i.fightcore.gg/beta/iceclimbers/adownb.gif",
     isInterpolated: true,
     id: 2020,
   },
@@ -11291,7 +11295,7 @@ export const moves: ExportedMove[] = [
     notes:
       "data refers to lunge. charge time can be between 14-90 frames. damage increases based on charge time",
     characterId: 237,
-    gifUrl: "https://i.fightcore.gg/melee/moves/pikachu/sideb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/pikachu/sideb.gif",
     isInterpolated: false,
     id: 754,
   },
@@ -11918,6 +11922,7 @@ export const moves: ExportedMove[] = [
     notes:
       "data refers to lunge. charge time can be between 14-90 frames. damage increases based on charge time",
     characterId: 237,
+    gifUrl: "https://i.fightcore.gg/beta/pikachu/asideb.gif",
     isInterpolated: true,
     id: 1998,
   },
@@ -12011,7 +12016,7 @@ export const moves: ExportedMove[] = [
     notes:
       "frame data refers to peach rising, 11 hits total (no info on %s). can fast fall as soon as frame 56",
     characterId: 240,
-    gifUrl: "https://i.fightcore.gg/melee/moves/peach/upb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/peach/upb.gif",
     isInterpolated: false,
     id: 708,
   },
@@ -12138,7 +12143,7 @@ export const moves: ExportedMove[] = [
     end: 18,
     type: 2,
     characterId: 240,
-    gifUrl: "https://i.fightcore.gg/melee/moves/peach/fsmash.gif",
+    gifUrl: "https://i.fightcore.gg/beta/peach/fsmash.gif",
     isInterpolated: false,
     id: 737,
   },
@@ -13454,7 +13459,7 @@ export const moves: ExportedMove[] = [
     notes:
       "starts charging frame 14. can charge for 140 frames max. 8 frames of lag after stop charging. 2 frame startup if shot while chraging, 15 if a held charge. shot lasts 69 frames ",
     characterId: 212,
-    gifUrl: "https://i.fightcore.gg/melee/moves/samus/neutralb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/samus/neutralb.gif",
     isInterpolated: false,
     id: 1015,
   },
@@ -14965,7 +14970,7 @@ export const moves: ExportedMove[] = [
     notes:
       "minimum charge time 11 frames, maximum 121. hitbox active frames 5-10 after releasing charge",
     characterId: 222,
-    gifUrl: "https://i.fightcore.gg/melee/moves/marth/neutralb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/marth/neutralb.gif",
     isInterpolated: false,
     id: 862,
   },
@@ -16756,7 +16761,7 @@ export const moves: ExportedMove[] = [
     notes:
       "arrow lasts 30 frames minimum (if it doesnrt hit ground), 13 rames startup and 25 frames endlag upon release",
     characterId: 220,
-    gifUrl: "https://i.fightcore.gg/melee/moves/younglink/neutralb.gif",
+    gifUrl: "https://i.fightcore.gg/beta/younglink/neutralb.gif",
     isInterpolated: false,
     id: 1076,
   },

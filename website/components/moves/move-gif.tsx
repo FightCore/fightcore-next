@@ -157,7 +157,7 @@ export const MoveGif = (params: MoveGifParams) => {
               <h2 className="text-xl">Character colors</h2>
               <div className="grid grid-cols-1 mt-2">
                 <Chip variant="dot" radius="sm" classNames={{ dot: "bg-orange-500", base: "w-full" }}>
-                  Auto cancel frame
+                  Auto Cancel Frame
                 </Chip>
                 <Chip variant="dot" radius="sm" classNames={{ dot: "bg-pink-500", base: "w-full" }}>
                   IASA

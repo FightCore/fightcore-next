@@ -28,12 +28,12 @@ export const MoveCard = (params: MoveCardParams) => {
     []
   );
   const stats: [string, keyof Move][] = [
-    ["Auto cancel before", "autoCancelBefore"],
-    ["Auto cancel after", "autoCancelAfter"],
+    ["Auto Cancel Before", "autoCancelBefore"],
+    ["Auto Cancel After", "autoCancelAfter"],
     ["IASA", "iasa"],
     ["L-Canceled Land Lag", "lCanceledLandLag"],
     ["Land Lag", "landLag"],
-    ["Landing fall special lag", "landingFallSpecialLag"],
+    ["Landing Fall Special Lag", "landingFallSpecialLag"],
     ["Notes", "notes"],
   ];
   return (

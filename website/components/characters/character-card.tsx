@@ -59,7 +59,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
               <TableCell>{character.characterStatistics.runSpeed}</TableCell>
             </TableRow>
             <TableRow key={"5" + character.normalizedName}>
-              <TableCell>Wave Dash Lenght Rank</TableCell>
+              <TableCell>Wave Dash Length Rank</TableCell>
               <TableCell>{character.characterStatistics.waveDashLengthRank}</TableCell>
             </TableRow>
             <TableRow key={"6" + character.normalizedName}>
@@ -75,7 +75,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
               <TableCell>{character.characterStatistics.jumpSquat}</TableCell>
             </TableRow>
             <TableRow key={"9" + character.normalizedName}>
-              <TableCell>Can wall jump</TableCell>
+              <TableCell>Can Wall Jump</TableCell>
               <TableCell>{character.characterStatistics.canWallJump ? "True" : "False"}</TableCell>
             </TableRow>
           </TableBody>
