@@ -12,7 +12,7 @@ import {
 import { CharacterBase } from "@/models/character";
 import { Radio, RadioGroup } from "@nextui-org/radio";
 import React, { useEffect } from "react";
-import { LOCALSTORAGE_PREFERED_CC_SORT } from "@/keys/local-storage-keys";
+import { LOCAL_STORAGE_PREFERRED_CC_SORT } from "@/keys/local-storage-keys";
 
 export interface CrouchCancelTableParams {
   hitboxes: Hitbox[];
@@ -32,7 +32,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
 
   const setSelection = (value: string) => {
     setSelected(value as CrouchCancelSort);
-    localStorage.setItem(LOCALSTORAGE_PREFERED_CC_SORT, value);
+    localStorage.setItem(LOCAL_STORAGE_PREFERRED_CC_SORT, value);
   };
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
       const sort =
-        (localStorage.getItem(LOCALSTORAGE_PREFERED_CC_SORT) as CrouchCancelSort) ?? CrouchCancelSort.ALPHABETICAL;
+        (localStorage.getItem(LOCAL_STORAGE_PREFERRED_CC_SORT) as CrouchCancelSort) ?? CrouchCancelSort.ALPHABETICAL;
       setSelected(sort);
     }
   }, [selected]);

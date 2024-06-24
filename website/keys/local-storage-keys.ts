@@ -1,1 +1,1 @@
-export const LOCALSTORAGE_PREFERED_CC_SORT = "crouchcancel_sort";
+export const LOCAL_STORAGE_PREFERRED_CC_SORT = "crouchcancel_sort";
