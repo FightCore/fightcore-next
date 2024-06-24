@@ -1,3 +1,4 @@
+"use client";
 import { Hitbox } from "@/models/hitbox";
 import { characters } from "@/config/framedata/framedata";
 import { Tabs, Tab } from "@nextui-org/tabs";
@@ -11,6 +12,7 @@ import {
 import { CharacterBase } from "@/models/character";
 import { Radio, RadioGroup } from "@nextui-org/radio";
 import React, { useEffect } from "react";
+import { LOCALSTORAGE_PREFERED_CC_SORT } from "@/keys/local-storage-keys";
 
 export interface CrouchCancelTableParams {
   hitboxes: Hitbox[];
@@ -30,6 +32,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
 
   const setSelection = (value: string) => {
     setSelected(value as CrouchCancelSort);
+    localStorage.setItem(LOCALSTORAGE_PREFERED_CC_SORT, value);
   };
 
   useEffect(() => {
@@ -37,6 +40,14 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
       .filter((character) => character.characterStatistics.weight > 0)
       .sort((a, b) => sortCharacters(a, b, selected));
     setSortedCharacters(localCharacters);
+  }, [selected]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const sort =
+        (localStorage.getItem(LOCALSTORAGE_PREFERED_CC_SORT) as CrouchCancelSort) ?? CrouchCancelSort.ALPHABETICAL;
+      setSelected(sort);
+    }
   }, [selected]);
 
   return (

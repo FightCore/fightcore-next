@@ -12,6 +12,8 @@ const patchNotes = [
       "Marked negative percentages for CC/ASDI as impossible (thank you Troy Spencer @_CrushPoint_)",
       "Made it possible to go from the first frame to the last frame by pressing previous frame in the GIF player (thank you noon @noonvania)",
       "Changed the CC/ASDI values to show as impossible at upwards angles (thank you Skullbro @skullbro200)",
+      "Added an option to sort the CC/ASDI table (thank you to vlerk @vlerkssbm)",
+      "The sort option for the CC/ASDI table is now saved when you leave the page",
     ],
   },
   {
