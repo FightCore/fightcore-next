@@ -1,7 +1,19 @@
+/* eslint-disable max-len */
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import NextHead from "next/head";
 
 const patchNotes = [
+  {
+    version: 0.7,
+    changes: [
+      "Fixed the spelling of Length in Wave Dash Length Rank (thank you Troy Spencer @_CrushPoint_)",
+      "Fixed a spelling mistake in Bowser's Fire Breath (thank you Troy Spencer @_CrushPoint_)",
+      "Fixed some capitalization inconsistencies in tables (thank you Troy Spencer @_CrushPoint_)",
+      "Marked negative percentages for CC/ASDI as impossible (thank you Troy Spencer @_CrushPoint_)",
+      "Made it possible to go from the first frame to the last frame by pressing previous frame in the GIF player (thank you noon @noonvania)",
+      "Changed the CC/ASDI values to show as impossible at upwards angles (thank you Skullbro @skullbro200)",
+    ],
+  },
   {
     version: 0.6,
     changes: [

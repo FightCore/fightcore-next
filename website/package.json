@@ -27,6 +27,7 @@
     "@nextui-org/link": "^2.0.31",
     "@nextui-org/modal": "^2.0.35",
     "@nextui-org/navbar": "^2.0.32",
+    "@nextui-org/radio": "^2.1.2",
     "@nextui-org/switch": "^2.0.30",
     "@nextui-org/system": "^2.2.1",
     "@nextui-org/table": "^2.0.35",

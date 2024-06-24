@@ -91,7 +91,7 @@ export function SideNav() {
       <SearchBar className="mb-2" />
       <Socials className="shrink" />
       <div className="w-full text-center">
-        <Link href="/patchnotes">Version 0.6</Link>
+        <Link href="/patchnotes">Version 0.7</Link>
       </div>
     </div>
   );

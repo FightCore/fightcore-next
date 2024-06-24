@@ -17,13 +17,13 @@ const nextConfig = {
   },
   productionBrowserSourceMaps: true,
 
-  // /** @type {(config: import('webpack').Configuration, context: import('next/dist/server/config-shared').WebpackConfigContext) => import('webpack').Configuration} */
-  // webpack: (config, { isServer }) => {
-  //   if (!isServer) {
-  //     config.plugins.push(new CompressionPlugin());
-  //   }
-  //   return config;
-  // },
+  /** @type {(config: import('webpack').Configuration, context: import('next/dist/server/config-shared').WebpackConfigContext) => import('webpack').Configuration} */
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.plugins.push(new CompressionPlugin());
+    }
+    return config;
+  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
