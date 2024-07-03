@@ -31,5 +31,5 @@ export function calculateCrouchCancelPercentage(
     return percentage.toFixed(2) + "%";
   }
 
-  return "Impossible";
+  return "0%";
 }

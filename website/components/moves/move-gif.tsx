@@ -5,6 +5,7 @@ import { Image } from "@nextui-org/image";
 import { Chip } from "@nextui-org/chip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaCircleLeft, FaCirclePause, FaCirclePlay, FaCircleQuestion, FaCircleRight } from "react-icons/fa6";
+import { Kbd } from "@nextui-org/kbd";
 
 interface MoveGifParams {
   move: Move;
@@ -18,21 +19,25 @@ export const MoveGif = (params: MoveGifParams) => {
   const [frameCounter, setFrameCounter] = useState(1);
   const [running, setRunning] = useState(true);
 
-  const escFunction = useCallback((event: KeyboardEvent) => {
-    if (event.key === " ") {
-      if (gifPlayer.isPlaying()) {
-        pause();
-      } else {
-        play();
+  const escFunction = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === " ") {
+        if (gifPlayer.isPlaying()) {
+          pause();
+        } else {
+          play();
+        }
+        event.preventDefault();
       }
-    }
-    if (event.key === "ArrowRight") {
-      nextFrame();
-    }
-    if (event.key === "ArrowLeft") {
-      previousFrame();
-    }
-  }, []);
+      if (event.key === "ArrowRight") {
+        nextFrame();
+      }
+      if (event.key === "ArrowLeft") {
+        previousFrame();
+      }
+    },
+    [gifPlayer]
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
@@ -120,11 +125,11 @@ export const MoveGif = (params: MoveGifParams) => {
 
       <div className="grid grid-cols-2 gap-2">
         {running ? (
-          <Button onClick={pause} aria-label="Pause gif" startContent={<FaCirclePause />}>
+          <Button onClick={pause} aria-label="Pause gif" startContent={<Kbd keys={["space"]} />}>
             Pause
           </Button>
         ) : (
-          <Button onClick={play} aria-label="Play gif" startContent={<FaCirclePlay />}>
+          <Button onClick={play} aria-label="Play gif" startContent={<Kbd keys={["space"]} />}>
             Play
           </Button>
         )}
@@ -132,10 +137,10 @@ export const MoveGif = (params: MoveGifParams) => {
           Frame: {frameCounter}
         </Button>
 
-        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<FaCircleLeft />}>
+        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={["left"]} />}>
           Previous Frame
         </Button>
-        <Button onClick={nextFrame} aria-label="Next frame" startContent={<FaCircleRight />}>
+        <Button onClick={nextFrame} aria-label="Next frame" startContent={<Kbd keys={["right"]} />}>
           Next Frame
         </Button>
       </div>

@@ -1,4 +1,3 @@
-"use client";
 import { Hitbox } from "@/models/hitbox";
 import { characters } from "@/config/framedata/framedata";
 import { Tabs, Tab } from "@nextui-org/tabs";

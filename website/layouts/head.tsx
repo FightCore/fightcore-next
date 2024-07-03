@@ -18,11 +18,7 @@ export const Head = () => {
         <link href="/favicon.ico" rel="icon" />
       </NextHead>
       {process.env.DO_TRACKING ? (
-        <Script
-          defer
-          src="https://fightcore.gg/script.js"
-          data-website-id="aa894a1c-5553-438e-986e-bd9bf0e67afd"
-        ></Script>
+        <Script defer src="/script.js" data-website-id="aa894a1c-5553-438e-986e-bd9bf0e67afd"></Script>
       ) : (
         <NextHead>
           <meta name="debug:tracking" content="no-tracking" />

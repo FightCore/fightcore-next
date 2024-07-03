@@ -13,7 +13,7 @@ export function CrouchCancelSection(params: Readonly<CrouchCancelSectionParams>)
         The following percentages indicate when ASDI Down and Crouch Cancel are broken for this move. This is dependant
         which hitbox you are hit with.
       </p>
-      <CrouchCancelTable hitboxes={params.hitboxes} sort={1} />
+      <CrouchCancelTable hitboxes={params.hitboxes} />
     </div>
   );
 }

@@ -14,6 +14,10 @@ const patchNotes = [
       "Changed the CC/ASDI values to show as impossible at upwards angles (thank you Skullbro @skullbro200)",
       "Added an option to sort the CC/ASDI table (thank you to vlerk @vlerkssbm)",
       "The sort option for the CC/ASDI table is now saved when you leave the page",
+      "Added the option to navigate between frames with the arrow keys and space in the gif (thank you to vlerk @vlerkssbm)",
+      "Fixed an issue where https://drive.fightcore.gg would not redirect to the drive",
+      "Fixed an issue where Donkey Kong Down Tilt was the Jab 2 animation",
+      "Changed the build process to use gzip, hopefully increasing performance a small bit",
     ],
   },
   {
