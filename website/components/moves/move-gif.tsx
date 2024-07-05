@@ -199,6 +199,14 @@ export const MoveGif = (params: MoveGifParams) => {
               </div>
             </div>
           </div>
+          <div className="mt-1">
+            <div className="text-xl text-bold">Missing hitbox ids</div>
+            <div>
+              Sometimes it can appear that the move has multiple coloured hitboxes but is missing them in the table. The
+              code for the colouring and the data itself missmatch sometimes. When this is the case,{" "}
+              <strong>all hitboxes can be considered to have that data.</strong>
+            </div>
+          </div>
         </AccordionItem>
       </Accordion>
     </>

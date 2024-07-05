@@ -1,4 +1,5 @@
 import { Hitbox } from "@/models/hitbox";
+import { Chip } from "@nextui-org/chip";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/table";
 import React, { ReactElement } from "react";
 
@@ -21,6 +22,20 @@ function MobileHitboxHeader(hitboxes: Readonly<Hitbox[]>) {
   const cells = [<TableColumn key="name-key">Name</TableColumn>];
   cells.push(...hitboxes.map((hitbox) => <TableColumn key={"id" + hitbox.id}>{hitbox.name}</TableColumn>));
   return <TableHeader>{cells}</TableHeader>;
+}
+
+function getColorForHitbox(hitbox: Hitbox): string | null {
+  if (hitbox.name.includes("id0")) {
+    return "bg-red-500";
+  } else if (hitbox.name.includes("id1")) {
+    return "bg-greem-500";
+  } else if (hitbox.name.includes("id2")) {
+    return "bg-blue-300";
+  } else if (hitbox.name.includes("id3")) {
+    return "bg-purple-500";
+  }
+
+  return null;
 }
 
 export default function HitboxTable(params: Readonly<HitboxTableParams>) {
@@ -48,20 +63,26 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
             <TableColumn key="Shieldstun">Shieldstun</TableColumn>
           </TableHeader>
           <TableBody>
-            {params.hitboxes.map((hitbox) => (
-              <TableRow key={hitbox.id}>
-                <TableCell>{hitbox.name}</TableCell>
-                <TableCell>{hitbox.damage}</TableCell>
-                <TableCell>{hitbox.angle}</TableCell>
-                <TableCell>{hitbox.knockbackGrowth}</TableCell>
-                <TableCell>{hitbox.baseKnockback}</TableCell>
-                <TableCell>{hitbox.setKnockback}</TableCell>
-                <TableCell>{hitbox.effect}</TableCell>
-                <TableCell>{hitbox.hitlagAttacker}</TableCell>
-                <TableCell>{hitbox.hitlagDefender}</TableCell>
-                <TableCell>{hitbox.shieldstun}</TableCell>
-              </TableRow>
-            ))}
+            {params.hitboxes.map((hitbox) => {
+              const hitboxColor = getColorForHitbox(hitbox);
+              return (
+                <TableRow key={hitbox.id}>
+                  <TableCell>
+                    {hitboxColor ? <div className={"w-3 h-3 " + hitboxColor + " rounded-full "}></div> : <></>}
+                    {hitbox.name}
+                  </TableCell>
+                  <TableCell>{hitbox.damage}</TableCell>
+                  <TableCell>{hitbox.angle}</TableCell>
+                  <TableCell>{hitbox.knockbackGrowth}</TableCell>
+                  <TableCell>{hitbox.baseKnockback}</TableCell>
+                  <TableCell>{hitbox.setKnockback}</TableCell>
+                  <TableCell>{hitbox.effect}</TableCell>
+                  <TableCell>{hitbox.hitlagAttacker}</TableCell>
+                  <TableCell>{hitbox.hitlagDefender}</TableCell>
+                  <TableCell>{hitbox.shieldstun}</TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

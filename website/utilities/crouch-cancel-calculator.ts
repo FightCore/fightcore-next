@@ -18,7 +18,8 @@ export function getCrouchCancelImpossibleReason(hitbox: Hitbox): string {
 export function calculateCrouchCancelPercentage(
   hitbox: Hitbox,
   target: CharacterBase,
-  knockbackTarget: number
+  knockbackTarget: number,
+  floor: boolean
 ): string {
   if (hitbox.setKnockback) {
     return setKnockbackCalculation(hitbox, target, knockbackTarget);
@@ -32,6 +33,10 @@ export function calculateCrouchCancelPercentage(
         (hitbox.damage + 2)) -
     hitbox.damage;
   if (percentage > 0) {
+    if (floor) {
+      return Math.floor(percentage) + "%";
+    }
+
     return percentage.toFixed(2) + "%";
   }
 
