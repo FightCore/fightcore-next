@@ -8,7 +8,7 @@ import { characters } from "@/config/framedata/framedata";
 import React from "react";
 import { Socials } from "./socials";
 import { SearchBar } from "./search-bar";
-import { FaCalculator, FaCircleUser, FaRectangleList, FaRobot } from "react-icons/fa6";
+import { FaAward, FaCalculator, FaCircleUser, FaGoogleDrive, FaRectangleList, FaRobot } from "react-icons/fa6";
 import { characterRoute } from "@/utilities/routes";
 
 export function SideNav() {
@@ -83,6 +83,27 @@ export function SideNav() {
             >
               <FaRobot />
               <span className="ms-3">Discord Bot</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              color="foreground"
+              href="https://drive.fightcore.gg"
+              isExternal
+              className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            >
+              <FaGoogleDrive />
+              <span className="ms-3">Drive</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              color="foreground"
+              href="/credits"
+              className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            >
+              <FaAward />
+              <span className="ms-3">Credits & Sources</span>
             </Link>
           </li>
         </ul>
