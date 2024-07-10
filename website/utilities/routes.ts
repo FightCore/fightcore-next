@@ -12,3 +12,9 @@ export function moveRoute(character: CharacterBase, move: Move): string {
     character.normalizedName
   )}/moves/${move.id}/${move.normalizedName}/`;
 }
+
+export function crouchCancelCharacterRoute(character: CharacterBase): string {
+  return `/crouch-cancel-calculator/${
+    character.fightCoreId
+  }/${encodeURIComponent(character.normalizedName)}/`;
+}

@@ -8,15 +8,13 @@ import { NextUIProvider } from "@nextui-org/system";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <StrictMode>
-      <NextUIProvider>
-        <NextThemesProvider attribute="class" defaultTheme="dark">
-          <DefaultLayout>
-            <Component {...pageProps} />
-          </DefaultLayout>
-        </NextThemesProvider>
-      </NextUIProvider>
-    </StrictMode>
+    <NextUIProvider>
+      <NextThemesProvider attribute="class" defaultTheme="dark">
+        <DefaultLayout>
+          <Component {...pageProps} />
+        </DefaultLayout>
+      </NextThemesProvider>
+    </NextUIProvider>
   );
 }
 
