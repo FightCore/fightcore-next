@@ -55,18 +55,7 @@ export function SideNav() {
           <li>
             <Link
               color="foreground"
-              href="/moves"
-              className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FaRectangleList />
-              <span className="ms-3">Moves</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              color="foreground"
-              href="#"
-              isDisabled={true}
+              href="/crouch-cancel-calculator"
               className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <FaCalculator />

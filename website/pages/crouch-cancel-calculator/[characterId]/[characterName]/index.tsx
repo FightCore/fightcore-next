@@ -3,14 +3,18 @@ import { Character, CharacterBase } from "@/models/character";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import slugify from "slugify";
 import { promises as fs } from "fs";
-import { Select, SelectSection, SelectItem } from "@nextui-org/select";
-import { Key, useMemo, useState } from "react";
-import { calculateCrouchCancelPercentage } from "@/utilities/crouch-cancel-calculator";
-import { characterRoute, crouchCancelCharacterRoute } from "@/utilities/routes";
+import { Select, SelectItem } from "@nextui-org/select";
+import { Key, useEffect, useState } from "react";
+import { crouchCancelCharacterRoute } from "@/utilities/routes";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Link } from "@nextui-org/link";
 import { Image } from "@nextui-org/image";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { CrouchCancelMoveList } from "@/components/moves/crouch-cancel/crouch-cancel-move-list";
+import { RadioGroup, Radio } from "@nextui-org/radio";
+import { Checkbox } from "@nextui-org/checkbox";
+import { LOCAL_STORAGE_PREFERRED_CC_FLOOR } from "@/keys/local-storage-keys";
+import { Knockback } from "@/types/knockback";
+import CrouchCancelCharacterSwitches from "@/components/moves/crouch-cancel/crouch-cancel-character-switcher";
 
 export type CrouchCancelCharacterPage = {
   character: Character | null;
@@ -55,17 +59,40 @@ export const getStaticProps = (async (context) => {
 
 export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [target, setTarget] = useState<CharacterBase | null>(null);
+  const [mode, setMode] = useState<Knockback>(120);
 
   function setSelectedValue(keys: Set<Key> | "all") {
     if (keys == "all") {
       throw new Error("Invalid all case");
     }
-
-    console.log(keys);
     const value = keys.values().next();
     const character = characters.find((character) => character.fightCoreId === Number(value.value));
     setTarget(character!);
   }
+
+  const [floorPercentages, setFloorPercentages] = useState(true);
+  const setFlooringChange = (value: boolean) => {
+    setFloorPercentages(value);
+    localStorage.setItem(LOCAL_STORAGE_PREFERRED_CC_FLOOR, String(value));
+  };
+
+  const setModeChange = (value: string) => {
+    const valueAsNumber = parseInt(value) as Knockback;
+    setMode(valueAsNumber);
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const flooredText = localStorage.getItem(LOCAL_STORAGE_PREFERRED_CC_FLOOR);
+      // If the flooring value wasn't set before, use true to prevent confusion.
+      if (flooredText === null) {
+        setFlooringChange(true);
+      }
+
+      const floor = !!flooredText;
+      setFloorPercentages(floor);
+    }
+  }, [setFloorPercentages]);
 
   return (
     <>
@@ -75,58 +102,70 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
       >
         <p className="text-2xl font-bold text-center">{data.character.name} Crouch Cancel Calculator</p>
       </div>
-      <div className="grid grid-cols-10">
-        {characters.map((character) => (
-          <div key={character.normalizedName}>
-            <Tooltip content={character.name} delay={1000}>
-              <Link href={crouchCancelCharacterRoute(character)}>
-                <Image
-                  className="grow"
-                  alt={character.name}
-                  width={40}
-                  height={40}
-                  src={"/newicons/" + character.name + ".webp"}
-                />
-              </Link>
-            </Tooltip>
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div>
+          <h2 className="text-xl font-bold mb-2">Select your character</h2>
+          <div className="grid grid-cols-10">
+            <CrouchCancelCharacterSwitches />
           </div>
-        ))}
+        </div>
+
+        <div>
+          <h2 className="text-xl font-bold mb-2">Options</h2>
+          <Select
+            items={characters}
+            label="Target"
+            placeholder="Select the target that should crouch cancel the move"
+            className="w-full"
+            classNames={{
+              trigger: "dark:bg-gray-800",
+              listboxWrapper: "dark:bg-gray-900",
+            }}
+            onSelectionChange={setSelectedValue}
+          >
+            {(character) => (
+              <SelectItem
+                className="dark:bg-gray-800"
+                startContent={
+                  <Image alt={character.name} width={20} height={20} src={"/newicons/" + character.name + ".webp"} />
+                }
+                key={character.fightCoreId}
+              >
+                {character.name}
+              </SelectItem>
+            )}
+          </Select>
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <RadioGroup
+              value={mode.toString()}
+              onValueChange={setModeChange}
+              label="Select calculator mode"
+              orientation="horizontal"
+            >
+              <Radio value="120">Crouch Cancel</Radio>
+              <Radio value="80">ASDI Down</Radio>
+            </RadioGroup>
+            <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
+              <div className="text-medium font-bold">Floor percentages</div>
+              <div className="text-small">
+                Melee uses floored percentages for its calculations, un-floored percentages can be viewed but should not
+                be used.
+              </div>
+            </Checkbox>
+          </div>
+        </div>
       </div>
 
-      <Select
-        items={characters}
-        label="Target"
-        placeholder="Select the target that should crouch cancel the move"
-        className="max-w-xs"
-        onSelectionChange={setSelectedValue}
-      >
-        {(character) => <SelectItem key={character.fightCoreId}>{character.name}</SelectItem>}
-      </Select>
-      <div className="grid grid-cols-4 gap-2">
-        {target ? (
-          <>
-            {data.character.moves.map((move) => {
-              if (!move.hitboxes || move.hitboxes.length === 0) return <></>;
-              return (
-                <div key={move.id}>
-                  <Card className="max-w-[340px] dark:bg-gray-800">
-                    <CardHeader className="text-lg text-bold">{move.name}</CardHeader>
-                    <CardBody>
-                      {move.hitboxes?.map((hitbox) => (
-                        <div key={hitbox.id}>
-                          <strong>{hitbox.name}</strong> {calculateCrouchCancelPercentage(hitbox, target!, 120, true)}
-                        </div>
-                      ))}
-                    </CardBody>
-                  </Card>
-                </div>
-              );
-            })}
-          </>
-        ) : (
-          <></>
-        )}
-      </div>
+      {target ? (
+        CrouchCancelMoveList({
+          target: target,
+          character: data.character,
+          floorPercentage: floorPercentages,
+          knockbackTarget: mode,
+        })
+      ) : (
+        <></>
+      )}
     </>
   );
 }
