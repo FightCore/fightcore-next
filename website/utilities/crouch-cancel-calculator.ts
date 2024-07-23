@@ -1,5 +1,22 @@
-import { Character, CharacterBase } from "@/models/character";
+import { CharacterBase } from "@/models/character";
 import { Hitbox } from "@/models/hitbox";
+import { Move } from "@/models/move";
+import { MoveType } from "@/models/move-type";
+
+export function canBeCrouchCanceled(move: Move): boolean {
+  const allowedTypes = [
+    MoveType.air,
+    MoveType.grounded,
+    MoveType.special,
+    MoveType.tilt,
+    MoveType.unknown,
+  ];
+  return (
+    allowedTypes.includes(move.type) &&
+    !!move.hitboxes &&
+    move.hitboxes.length > 0
+  );
+}
 
 export function isCrouchCancelPossible(hitbox: Hitbox): boolean {
   if ((hitbox.angle > 179 && hitbox.angle != 361) || hitbox.angle === 0) {

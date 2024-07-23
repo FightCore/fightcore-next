@@ -15,6 +15,7 @@ import { Checkbox } from "@nextui-org/checkbox";
 import { LOCAL_STORAGE_PREFERRED_CC_FLOOR } from "@/keys/local-storage-keys";
 import { Knockback } from "@/types/knockback";
 import CrouchCancelCharacterSwitches from "@/components/moves/crouch-cancel/crouch-cancel-character-switcher";
+import { CrouchCancelCalculatorHead } from "@/components/head/crouch-cancel-calculator-head";
 
 export type CrouchCancelCharacterPage = {
   character: Character | null;
@@ -96,8 +97,9 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
 
   return (
     <>
+      <CrouchCancelCalculatorHead character={data.character} />
       <div
-        className="h-16 w-full bg-gray-200 dark:bg-gray-800 rounded border
+        className="h-16 w-full bg-red-400 dark:bg-red-700 rounded border
     border-gray-300 dark:border-gray-800 flex justify-center items-center mb-4"
       >
         <p className="text-2xl font-bold text-center">{data.character.name} Crouch Cancel Calculator</p>
@@ -105,7 +107,7 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div>
           <h2 className="text-xl font-bold mb-2">Select your character</h2>
-          <div className="grid grid-cols-10">
+          <div className="grid grid-cols-5 md:grid-cols-10 gap-1">
             <CrouchCancelCharacterSwitches />
           </div>
         </div>

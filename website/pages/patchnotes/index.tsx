@@ -4,6 +4,17 @@ import NextHead from "next/head";
 
 const patchNotes = [
   {
+    version: 0.8,
+    changes: [
+      "Fixed the way that set knockback is displayed within the crouch cancel tables",
+      "Added a toggle to floor the percentages in the crouch cancel tables",
+      "Added the Crouch Cancel Calculator",
+      "Added a link to Emilia's drive",
+      "Added credits and sources page",
+      "Removed the moves link. I can't get this page how I want without paid libraries unfortunately. It might return at a later date.",
+    ],
+  },
+  {
     version: 0.7,
     changes: [
       "Fixed the spelling of Length in Wave Dash Length Rank (thank you Troy Spencer @_CrushPoint_)",

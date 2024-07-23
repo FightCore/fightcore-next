@@ -17,16 +17,22 @@ export const metaConfig = {
     "shieldstun",
   ],
   baseDescription: (middleSection: string) =>
-    `Modern mobile-friendly frame data for ${middleSection} Super Smash Bros Melee`,
+    `Modern mobile-friendly frame data for ${middleSection} in Super Smash Bros Melee`,
 };
 
 export function characterMetaDescription(character: CharacterBase): string {
-  return metaConfig.baseDescription(`${character.name} in `);
+  return metaConfig.baseDescription(`${character.name}`);
 }
 
 export function moveMetaDescription(
   character: CharacterBase,
   move: Move
 ): string {
-  return metaConfig.baseDescription(`${character.name} ${move.name} in `);
+  return metaConfig.baseDescription(`${character.name} ${move.name}`);
+}
+
+export function crouchCancelMetaDescription(character: CharacterBase): string {
+  return metaConfig.baseDescription(
+    `${character.name} crouch cancel information`
+  );
 }

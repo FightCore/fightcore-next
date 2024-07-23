@@ -1,5 +1,4 @@
 import { Hitbox } from "@/models/hitbox";
-import { Chip } from "@nextui-org/chip";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/table";
 import React, { ReactElement } from "react";
 
@@ -28,7 +27,7 @@ function getColorForHitbox(hitbox: Hitbox): string | null {
   if (hitbox.name.includes("id0")) {
     return "bg-red-500";
   } else if (hitbox.name.includes("id1")) {
-    return "bg-greem-500";
+    return "bg-green-500";
   } else if (hitbox.name.includes("id2")) {
     return "bg-blue-300";
   } else if (hitbox.name.includes("id3")) {
@@ -51,6 +50,7 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
       <div className="hidden md:block">
         <Table classNames={classNames} aria-label="Table of hitbox statistics">
           <TableHeader>
+            <TableColumn key="hitbox color"> </TableColumn>
             <TableColumn key="name">Name</TableColumn>
             <TableColumn key="Damage">Damage</TableColumn>
             <TableColumn key="Angle">Angle</TableColumn>
@@ -68,9 +68,9 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
               return (
                 <TableRow key={hitbox.id}>
                   <TableCell>
-                    {hitboxColor ? <div className={"w-3 h-3 " + hitboxColor + " rounded-full "}></div> : <></>}
-                    {hitbox.name}
+                    {hitboxColor ? <div className={"w-3 h-3 " + hitboxColor + " rounded-full"}></div> : <></>}
                   </TableCell>
+                  <TableCell>{hitbox.name}</TableCell>
                   <TableCell>{hitbox.damage}</TableCell>
                   <TableCell>{hitbox.angle}</TableCell>
                   <TableCell>{hitbox.knockbackGrowth}</TableCell>
