@@ -171,6 +171,13 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         <h2 className="text-xl font-bold">Attributes</h2>
         <MoveAttributeTable move={data.move} />
       </div>
+      <div className="my-3 bg-red-700 rounded-lg p-2">
+        <h2 className="text-xl font-bold">Warning</h2>
+        <p>
+          The beta website hitboxes are currently undergoing massive changes. Data will be incorrect. Please refer to
+          the regular website for the accurate data.
+        </p>
+      </div>
       <div className="my-3">
         {data.move.hits && data.move.hits.length > 0 ? <HitboxTiming move={data.move} /> : <></>}
       </div>

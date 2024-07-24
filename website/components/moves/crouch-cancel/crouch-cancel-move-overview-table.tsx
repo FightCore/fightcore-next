@@ -21,37 +21,39 @@ export function CrouchCancelMoveOverviewTable(data: Readonly<CrouchCancelMoveOve
   };
 
   return (
-    <Table classNames={classNames} isStriped>
-      <TableHeader>
-        <TableColumn>Name</TableColumn>
-        <TableColumn>Hitbox</TableColumn>
-        <TableColumn>Breaks at percentage</TableColumn>
-      </TableHeader>
-      <TableBody>
-        {data.moves
-          .filter((move) => move.hitboxes && move.hitboxes.length > 0)
-          .map((move) => {
-            return (
-              <TableRow key={move.id.toString()}>
-                <TableCell>
-                  <Link href={moveRoute(data.character, move)}>{move.name}</Link>
-                </TableCell>
-                <TableCell>
-                  {move.hitboxes?.map((hitbox) => (
-                    <div key={hitbox.id.toString() + "name"}>{hitbox.name}</div>
-                  ))}
-                </TableCell>
-                <TableCell>
-                  {move.hitboxes?.map((hitbox) => (
-                    <div key={hitbox.id + "percentage"}>
-                      {calculateCrouchCancelPercentage(hitbox, data.target, data.knockbackTarget, data.floorPercentage)}
-                    </div>
-                  ))}
-                </TableCell>
-              </TableRow>
-            );
-          })}
-      </TableBody>
-    </Table>
+    <h2>This component has been temporarily disabled due to the hitbox rework. Please visit the main website.</h2>
+    // <Table classNames={classNames} isStriped>
+    //   <TableHeader>
+    //     <TableColumn>Name</TableColumn>
+    //     <TableColumn>Hitbox</TableColumn>
+    //     <TableColumn>Breaks at percentage</TableColumn>
+    //   </TableHeader>
+    //   <TableBody>
+    //     {data.moves
+    //       .filter((move) => move.hits && move.hits.length > 0)
+    //       .map((move) => {
+    //         return (
+    //           <TableRow key={move.id.toString()}>
+    //             <TableCell>
+    //               <Link href={moveRoute(data.character, move)}>{move.name}</Link>
+    //             </TableCell>
+    //             <TableCell>
+    //               {move.hitboxes?.map((hitbox) => (
+    //                 <div key={hitbox.id.toString() + "name"}>{hitbox.name}</div>
+    //               ))}
+    //             </TableCell>
+    //             <TableCell>
+    //               {move.hitboxes?.map((hitbox) => (
+    //                 <div key={hitbox.id + "percentage"}>
+    // eslint-disable-next-line max-len
+    //                   {calculateCrouchCancelPercentage(hitbox, data.target, data.knockbackTarget, data.floorPercentage)}
+    //                 </div>
+    //               ))}
+    //             </TableCell>
+    //           </TableRow>
+    //         );
+    //       })}
+    //   </TableBody>
+    // </Table>
   );
 }
