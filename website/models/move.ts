@@ -1,11 +1,11 @@
 import { Character } from "./character";
-import { Hitbox } from "./hitbox";
+import { Hit } from "./hit";
 import { MoveType } from "./move-type";
 import { Source } from "./source";
 
 export interface Move {
   id: number;
-  hitboxes?: Hitbox[];
+  hits?: Hit[];
   name: string;
   normalizedName: string;
   landLag?: number;

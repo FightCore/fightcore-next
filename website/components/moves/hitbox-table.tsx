@@ -24,6 +24,10 @@ function MobileHitboxHeader(hitboxes: Readonly<Hitbox[]>) {
 }
 
 function getColorForHitbox(hitbox: Hitbox): string | null {
+  if (!hitbox.name) {
+    return null;
+  }
+
   if (hitbox.name.includes("id0")) {
     return "bg-red-500";
   } else if (hitbox.name.includes("id1")) {

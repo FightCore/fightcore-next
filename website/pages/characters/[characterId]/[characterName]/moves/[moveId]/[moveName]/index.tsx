@@ -15,6 +15,7 @@ import SourceSection from "@/components/moves/source-section";
 import { InterpolatedMoveWarning } from "@/components/moves/interpolated-move-warning";
 import slugify from "slugify";
 import { canBeCrouchCanceled } from "@/utilities/crouch-cancel-calculator";
+import { HitboxTiming } from "@/components/moves/hitbox-timing";
 
 export type MovePage = {
   character: CharacterBase;
@@ -171,9 +172,12 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         <MoveAttributeTable move={data.move} />
       </div>
       <div className="my-3">
-        {data.move.hitboxes && data.move.hitboxes.length > 0 ? <HitboxSection hitboxes={data.move.hitboxes} /> : <></>}
+        {data.move.hits && data.move.hits.length > 0 ? <HitboxTiming move={data.move} /> : <></>}
       </div>
-      <div>{canBeCrouchCanceled(data.move) ? <CrouchCancelSection hitboxes={data.move.hitboxes!} /> : <></>}</div>
+      <div className="my-3">
+        {data.move.hits && data.move.hits.length > 0 ? <HitboxSection hits={data.move.hits} /> : <></>}
+      </div>
+      <div>{canBeCrouchCanceled(data.move) ? <CrouchCancelSection hits={data.move.hits!} /> : <></>}</div>
       <div>
         {data.move.sources && data.move.sources.length > 0 ? <SourceSection sources={data.move.sources} /> : <></>}
       </div>
