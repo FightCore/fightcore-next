@@ -1,4 +1,5 @@
 import { Hitbox } from "@/models/hitbox";
+import { areAllHitboxesEqual } from "@/utilities/hitbox-utils";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/table";
 import React, { ReactElement } from "react";
 
@@ -49,6 +50,15 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
     }),
     []
   );
+
+  let hitboxes = params.hitboxes;
+  const allHitboxesEqual = areAllHitboxesEqual(params.hitboxes);
+  if (allHitboxesEqual) {
+    const newHitbox = structuredClone(params.hitboxes[0]);
+    newHitbox.name = params.hitboxes.map((hitbox) => hitbox.name).join(", ");
+    hitboxes = [newHitbox];
+  }
+
   return (
     <>
       <div className="hidden md:block">
@@ -67,12 +77,16 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
             <TableColumn key="Shieldstun">Shieldstun</TableColumn>
           </TableHeader>
           <TableBody>
-            {params.hitboxes.map((hitbox) => {
+            {hitboxes.map((hitbox) => {
               const hitboxColor = getColorForHitbox(hitbox);
               return (
                 <TableRow key={hitbox.id}>
                   <TableCell>
-                    {hitboxColor ? <div className={"w-3 h-3 " + hitboxColor + " rounded-full"}></div> : <></>}
+                    {hitboxColor && !allHitboxesEqual ? (
+                      <div className={"w-3 h-3 " + hitboxColor + " rounded-full"}></div>
+                    ) : (
+                      <></>
+                    )}
                   </TableCell>
                   <TableCell>{hitbox.name}</TableCell>
                   <TableCell>{hitbox.damage}</TableCell>

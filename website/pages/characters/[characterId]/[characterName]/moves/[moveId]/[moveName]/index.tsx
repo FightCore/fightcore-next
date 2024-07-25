@@ -133,14 +133,15 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         </Breadcrumbs>
       </div>
       <div className="w-full md:flex">
-        <div className="w-full md:w-1/2 p-2">
+        <div className="w-full md:w-2/3 p-2">
           {data.move.gifUrl ? (
             <MoveGif move={data.move} characterName={data.character.normalizedName} />
           ) : (
             <em>No GIF available</em>
           )}
+          {data.move.hits && data.move.hits.length > 0 ? <HitboxTiming move={data.move} /> : <></>}
         </div>
-        <div className="w-full md:w-1/2 p-2">
+        <div className="w-full md:w-1/3 p-2">
           <div className="grid grid-cols-1 gap-2 mt-2">
             {data.move.isInterpolated ? <InterpolatedMoveWarning /> : <></>}
             <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
@@ -177,9 +178,6 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
           The beta website hitboxes are currently undergoing massive changes. Data will be incorrect. Please refer to
           the regular website for the accurate data.
         </p>
-      </div>
-      <div className="my-3">
-        {data.move.hits && data.move.hits.length > 0 ? <HitboxTiming move={data.move} /> : <></>}
       </div>
       <div className="my-3">
         {data.move.hits && data.move.hits.length > 0 ? <HitboxSection hits={data.move.hits} /> : <></>}
