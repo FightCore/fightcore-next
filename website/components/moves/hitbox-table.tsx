@@ -55,7 +55,7 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
   const allHitboxesEqual = areAllHitboxesEqual(params.hitboxes);
   if (allHitboxesEqual) {
     const newHitbox = structuredClone(params.hitboxes[0]);
-    newHitbox.name = params.hitboxes.map((hitbox) => hitbox.name).join(", ");
+    newHitbox.name = "All hitboxes";
     hitboxes = [newHitbox];
   }
 
@@ -106,17 +106,17 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
       </div>
       <div className="block md:hidden">
         <Table classNames={classNames} aria-label="Table of hitbox statistics">
-          {MobileHitboxHeader(params.hitboxes)}
+          {MobileHitboxHeader(hitboxes)}
           <TableBody>
-            {MobileHitboxRow(params.hitboxes, "damage", "Damage")}
-            {MobileHitboxRow(params.hitboxes, "angle", "Angle")}
-            {MobileHitboxRow(params.hitboxes, "knockbackGrowth", "Knockback Growth")}
-            {MobileHitboxRow(params.hitboxes, "baseKnockback", "Base Knockback")}
-            {MobileHitboxRow(params.hitboxes, "setKnockback", "Set Knockback")}
-            {MobileHitboxRow(params.hitboxes, "effect", "Effect")}
-            {MobileHitboxRow(params.hitboxes, "hitlagAttacker", "Hitlag attacker")}
-            {MobileHitboxRow(params.hitboxes, "hitlagDefender", "Hitlag defender")}
-            {MobileHitboxRow(params.hitboxes, "shieldstun", "Shieldstun")}
+            {MobileHitboxRow(hitboxes, "damage", "Damage")}
+            {MobileHitboxRow(hitboxes, "angle", "Angle")}
+            {MobileHitboxRow(hitboxes, "knockbackGrowth", "Knockback Growth")}
+            {MobileHitboxRow(hitboxes, "baseKnockback", "Base Knockback")}
+            {MobileHitboxRow(hitboxes, "setKnockback", "Set Knockback")}
+            {MobileHitboxRow(hitboxes, "effect", "Effect")}
+            {MobileHitboxRow(hitboxes, "hitlagAttacker", "Hitlag attacker")}
+            {MobileHitboxRow(hitboxes, "hitlagDefender", "Hitlag defender")}
+            {MobileHitboxRow(hitboxes, "shieldstun", "Shieldstun")}
           </TableBody>
         </Table>
       </div>
