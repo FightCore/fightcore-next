@@ -13,11 +13,10 @@ import { Radio, RadioGroup } from "@nextui-org/radio";
 import React, { useEffect } from "react";
 import { LOCAL_STORAGE_PREFERRED_CC_FLOOR, LOCAL_STORAGE_PREFERRED_CC_SORT } from "@/keys/local-storage-keys";
 import { Checkbox } from "@nextui-org/checkbox";
-import { Tooltip } from "@nextui-org/tooltip";
-import { FaCircleQuestion } from "react-icons/fa6";
+import { Hit } from "@/models/hit";
 
 export interface CrouchCancelTableParams {
-  hitboxes: Hitbox[];
+  hits: Hit[];
 }
 
 export enum CrouchCancelSort {
@@ -83,19 +82,28 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
           </div>
         </Checkbox>
       </div>
-
       <Tabs aria-label="Crouch Cancel and ASDI Tabs" disableAnimation>
-        {params.hitboxes.map((hitbox) => {
-          if (isCrouchCancelPossible(hitbox)) {
-            return (
-              <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
-                {GenerateCard(80, "ASDI Down", hitbox, sortedCharacters, floorPercentages)}
-                {GenerateCard(120, "Crouch Cancel", hitbox, sortedCharacters, floorPercentages)}
-              </Tab>
-            );
-          }
-          return generateUnableToCCTab(hitbox);
-        })}
+        {params.hits.map((hit) => (
+          <Tab key={hit.id} title={hit.start + " - " + hit.end}>
+            <Tabs
+              aria-label="Crouch Cancel and ASDI Tabs"
+              disableAnimation
+              className="grid grid-cols-1 md:grid-cols-2 mb-2"
+            >
+              {hit.hitboxes.map((hitbox) => {
+                if (isCrouchCancelPossible(hitbox)) {
+                  return (
+                    <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
+                      {GenerateCard(80, "ASDI Down", hitbox, sortedCharacters, floorPercentages)}
+                      {GenerateCard(120, "Crouch Cancel", hitbox, sortedCharacters, floorPercentages)}
+                    </Tab>
+                  );
+                }
+                return generateUnableToCCTab(hitbox);
+              })}
+            </Tabs>
+          </Tab>
+        ))}
       </Tabs>
     </>
   );
