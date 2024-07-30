@@ -1,6 +1,7 @@
 import { FlattenedHitbox } from "@/components/moves/hitboxes/hitbox-table-columns";
 import { Hit } from "@/models/hit";
 import { Hitbox } from "@/models/hitbox";
+import { getMappedUnique } from "./utils";
 
 export function areHitboxesOfHitEqual(hit: Hit): boolean {
   return areAllHitboxesEqual(hit.hitboxes);
@@ -74,7 +75,7 @@ export function processDuplicateHits(
 ): FlattenedHitbox[] {
   let newHits = structuredClone(hits);
   // Javascript moment. Gets the unique items in an array that I can then iterate over.
-  let uniqueHitTexts = Array.from(new Set(newHits.map((hit) => hit.hit)));
+  let uniqueHitTexts = getMappedUnique(newHits, (hit) => hit.hit);
   for (let i = uniqueHitTexts.length - 1; i > 0; i--) {
     const firstHits = newHits.filter((hit) => hit.hit === uniqueHitTexts[i]);
     const secondHits = newHits.filter(
@@ -92,7 +93,7 @@ export function processDuplicateHits(
       }
       const leadingIndex = newHits.indexOf(firstHits[0]);
       newHits.splice(leadingIndex, firstHits.length);
-      uniqueHitTexts = Array.from(new Set(newHits.map((hit) => hit.hit)));
+      uniqueHitTexts = getMappedUnique(newHits, (hit) => hit.hit);
     }
   }
 
@@ -145,7 +146,7 @@ const colors = [
 
 export function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
   const result: HitboxColor[] = [];
-  const uniqueTexts = Array.from(new Set(data.map((hitbox) => hitbox.hit)));
+  const uniqueTexts = getMappedUnique(data, (hitbox) => hitbox.hit);
   let iterator = 0;
   for (const text of uniqueTexts) {
     const firstHitbox = data.find((hitbox) => hitbox.hit === text);
