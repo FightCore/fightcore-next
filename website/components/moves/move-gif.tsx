@@ -148,8 +148,8 @@ export const MoveGif = (params: MoveGifParams) => {
         <AccordionItem
           startContent={<FaCircleQuestion />}
           key="1"
-          aria-label="Hitbox legend"
-          title="Hitbox Legend"
+          aria-label="Hitbox GIF legend"
+          title="Hitbox GIF Legend"
           subtitle="Open this to learn more about what the hitbox colors mean"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">

@@ -1,59 +1,97 @@
 import { Move } from "@/models/move";
+import {
+  generateColors,
+  getHitboxColor,
+  processDuplicateHitboxes,
+  processDuplicateHits,
+} from "@/utilities/hitbox-utils";
+import { flattenData } from "./hitboxes/hitbox-table-columns";
 
 export interface HitboxTimingParams {
   move: Move;
 }
 
+export enum HitboxColorConstants {
+  IASA = "bg-orange-500",
+  AutoCancelBorder = "dark:border-green-500 border-red-500",
+}
+
 export function HitboxTiming(params: Readonly<HitboxTimingParams>) {
-  const colors = [
-    "bg-red-500",
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-purple-500",
-    "bg-black dark:bg-white",
-    "bg-pink-500",
-    "bg-green-700",
-    "bg-blue-300",
-    "bg-blue-700",
-    "bg-amber-500",
-    "bg-lime-500",
-  ];
+  const processedHits = processDuplicateHitboxes(params.move.hits!);
+  const data = processDuplicateHits(flattenData(processedHits));
+  const colors = generateColors(data);
+
   const getColor = (value: number): string => {
     // Account for counting at 0 instead of 1
-    value = value + 1;
-    const index = params.move.hits!.findIndex((hit) => value >= hit.start && value <= hit.end);
-    if (index > -1) {
-      return colors[index];
+    const color = getHitboxColor(colors, value);
+
+    if (color) {
+      return color + " text-black";
     }
+
     if (params.move.iasa == value) {
-      return "bg-orange-500";
+      return HitboxColorConstants.IASA;
     }
-    return "bg-gray-700";
+
+    return "dark:bg-gray-700 bg-gray-200";
   };
 
   const getBorderColor = (value: number): string => {
     value = value + 1;
-    if (params.move.autoCancelBefore && params.move.autoCancelBefore > value) {
-      return "border-1 border-green-500";
-    } else if (params.move.autoCancelAfter && params.move.autoCancelAfter < value) {
-      return "border-1 border-green-500";
+    if (
+      (params.move.autoCancelBefore && params.move.autoCancelBefore > value) ||
+      (params.move.autoCancelAfter && params.move.autoCancelAfter < value)
+    ) {
+      return HitboxColorConstants.AutoCancelBorder;
     }
 
     return "";
   };
 
-  const frames = [];
-  for (let frame = 0; frame < params.move.totalFrames; frame++) {
+  // Splits up long moves into multiple chunks of the timeline.
+  const chunkLimit = 20;
+  const chunks = [];
+  let frames = [];
+
+  for (let frame = 1; frame < params.move.totalFrames + 1; frame++) {
     frames.push(frame);
+    if (frames.length >= chunkLimit) {
+      chunks.push(frames);
+      frames = [];
+    }
+  }
+
+  if (frames.length > 0) {
+    chunks.push(frames);
   }
 
   return (
     <div>
       <h2 className="text-xl font-bold">Hitbox timing</h2>
-      <div className="grid grid-flow-col auto-cols-max">
-        {frames.map((key) => (
-          <div key={key} className={`w-4 h-4 border-black border-1 ${getColor(key)} ${getBorderColor(key)}`} />
-        ))}
+      <div className="grid grid-cols-2">
+        <div>
+          {chunks.map((chunkedFrames) => (
+            <div key={chunkedFrames[0]} className="grid grid-flow-col auto-cols-max">
+              {chunkedFrames.map((key) => (
+                <div
+                  key={key}
+                  className={
+                    `w-5 h-5 border-black border-1 ${getColor(key)} ${getBorderColor(key)} text-tiny text-center ` +
+                    (key % 10 === 0 ? "mr-2" : "")
+                  }
+                >
+                  {key}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="m-2 w-16 grid grid-cols-2">
+          <div className={"w-5 h-5 shrink border-black border-1 " + HitboxColorConstants.IASA}></div>
+          <div className="ml-1 grow">IASA</div>
+          <div className={"w-5 h-5 shrink border-black border-1 " + HitboxColorConstants.AutoCancelBorder}></div>
+          <div className="ml-1 grow">Auto Cancelable</div>
+        </div>
       </div>
     </div>
   );
