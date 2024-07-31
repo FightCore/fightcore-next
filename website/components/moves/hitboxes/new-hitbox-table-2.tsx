@@ -17,8 +17,10 @@ export default function NewHitboxTable2(params: Readonly<NewHitboxTableParams>) 
   const data = processDuplicateHits(flattenData(processedHits));
   const colors = generateColors(data);
 
+  const colorCache = new Map<string, string>();
+
   return (
-    <div className="custom-theme-demo">
+    <div className="light:ka-table-light dark:ka-table-dark ka-table">
       <Table
         columns={[
           { key: "hit", title: "Hit", dataType: DataType.String },
@@ -42,7 +44,11 @@ export default function NewHitboxTable2(params: Readonly<NewHitboxTableParams>) 
             content: (props) => {
               switch (props.column.key) {
                 case "hit": {
-                  const color = getHitboxColor(colors, props.groupItems![0].hitObjects[0].start);
+                  if (props.groupItems && props.groupItems[0] && !colorCache.has(props.groupKey[0])) {
+                    const color = getHitboxColor(colors, props.groupItems[0].hitObjects[0].start);
+                    colorCache.set(props.groupKey[0], color!);
+                  }
+                  const color = colorCache.get(props.groupKey[0]);
                   return (
                     <>
                       <div className={"w-5 h-5 mr-1 border-1 border-black " + color}></div> Hits {props.groupKey}

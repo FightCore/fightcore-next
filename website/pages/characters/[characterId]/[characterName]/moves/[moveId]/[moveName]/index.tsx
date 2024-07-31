@@ -118,7 +118,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
     <>
       <MoveHead move={data.move} character={data.character} />
       <div
-        className="min-h-16 w-full bg-red-400 dark:bg-red-700 rounded-b-md border-b border-l border-r border-gray-700
+        className="min-h-16 w-full text-white bg-red-700 rounded-b-md border-b border-l border-r border-gray-700
           flex justify-center items-center mb-2 p-1"
       >
         <p className="text-4xl font-extrabold text-center">
@@ -143,23 +143,23 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         <div className="w-full md:w-1/3 p-2">
           <div className="grid grid-cols-1 gap-2 mt-2">
             {data.move.isInterpolated ? <InterpolatedMoveWarning /> : <></>}
-            <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
+            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">Start</h2>
               <p>{data.move.start}</p>
             </div>
-            <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
+            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">End</h2>
               <p>{data.move.end}</p>
             </div>
-            <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
+            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">Total</h2>
               <p>{data.move.totalFrames} frames</p>
             </div>
-            <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
+            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">IASA</h2>
               <p>{data.move.iasa ? data.move.iasa : "-"}</p>
             </div>
-            <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
+            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">Notes</h2>
               <p>{data.move.notes ? data.move.notes : "-"}</p>
             </div>
@@ -171,13 +171,6 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
       <div className="my-3">
         <h2 className="text-xl font-bold">Attributes</h2>
         <MoveAttributeTable move={data.move} />
-      </div>
-      <div className="my-3 bg-red-700 rounded-lg p-2">
-        <h2 className="text-xl font-bold">Warning</h2>
-        <p>
-          The beta website hitboxes are currently undergoing massive changes. Data will be incorrect. Please refer to
-          the regular website for the accurate data.
-        </p>
       </div>
       <div className="my-3">
         {data.move.hits && data.move.hits.length > 0 ? <HitboxSection hits={data.move.hits} /> : <></>}

@@ -15,7 +15,7 @@ export function SideNav() {
   return (
     <div className="h-full flex flex-col px-2 overflow-y-auto">
       <div className="flex-1">
-        <div className="bg-red-400 dark:bg-red-700 rounded-b-lg mb-2 p-1">
+        <div className="text-white bg-red-700 rounded-b-lg mb-2 p-1">
           <Link href="/" className="w-100 align-content-center flex">
             <Logo className="flex-1" height={50} width={100} />
           </Link>

@@ -63,15 +63,15 @@ export const MoveCard = (params: MoveCardParams) => {
           )}
 
           <div className="grid grid-cols-3 gap-2 mt-2">
-            <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
+            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">Start</h2>
               <p>{params.move.start}</p>
             </div>
-            <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
+            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">End</h2>
               <p>{params.move.end}</p>
             </div>
-            <div className="bg-red-400 dark:bg-red-700 text-black dark:text-white rounded-lg p-2 text-center">
+            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">Total</h2>
               <p>{params.move.totalFrames} frames</p>
             </div>
@@ -100,7 +100,11 @@ export const MoveCard = (params: MoveCardParams) => {
           </Table>
         </CardBody>
         <CardFooter className="gap-3">
-          <Button href={moveRoute(params.character, params.move)} as={Link} className="w-full dark:hover:bg-red-600">
+          <Button
+            href={moveRoute(params.character, params.move)}
+            as={Link}
+            className="w-full hover:bg-red-600 hover:text-white"
+          >
             View
           </Button>
         </CardFooter>

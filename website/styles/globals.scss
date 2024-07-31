@@ -21,7 +21,12 @@
   background-color: #575757;
 }
 
-.custom-theme-demo {
-  @import "./custom-ka-table.scss";
+
+.dark .ka-table {
+  @import "./custom-dark-ka-table.scss";
+  @import "ka-table/style.scss";
+}
+
+.light .ka-table {
   @import "ka-table/style.scss";
 }
