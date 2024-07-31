@@ -139,7 +139,6 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
           ) : (
             <em>No GIF available</em>
           )}
-          {data.move.hits && data.move.hits.length > 0 ? <HitboxTiming move={data.move} /> : <></>}
         </div>
         <div className="w-full md:w-1/3 p-2">
           <div className="grid grid-cols-1 gap-2 mt-2">
@@ -167,6 +166,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
           </div>
         </div>
       </div>
+      <div>{data.move.hits && data.move.hits.length > 0 ? <HitboxTiming move={data.move} /> : <></>}</div>
 
       <div className="my-3">
         <h2 className="text-xl font-bold">Attributes</h2>

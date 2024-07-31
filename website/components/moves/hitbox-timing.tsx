@@ -68,16 +68,20 @@ export function HitboxTiming(params: Readonly<HitboxTimingParams>) {
   return (
     <div>
       <h2 className="text-xl font-bold">Hitbox timing</h2>
-      <div className="grid grid-cols-2">
-        <div>
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="w-1/2">
           {chunks.map((chunkedFrames) => (
-            <div key={chunkedFrames[0]} className="grid grid-flow-col auto-cols-max">
+            <div
+              key={chunkedFrames[0]}
+              className="grid max-lg:grid-cols-10 max-lg:gap-0 lg:grid-flow-col lg:auto-cols-max"
+            >
               {chunkedFrames.map((key) => (
                 <div
                   key={key}
                   className={
-                    `w-5 h-5 border-black border-1 ${getColor(key)} ${getBorderColor(key)} text-tiny text-center ` +
-                    (key % 10 === 0 ? "mr-2" : "")
+                    `shrink w-5 h-5 border-black border-1 ${getColor(key)} ${getBorderColor(
+                      key
+                    )} text-tiny text-center ` + (key % 10 === 0 ? "mr-2" : "")
                   }
                 >
                   {key}
