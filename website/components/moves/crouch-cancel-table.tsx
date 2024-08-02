@@ -104,11 +104,15 @@ function preprocessHits(hits: Hit[]): Hit[] {
 
       if (areAllHitboxesEqual) {
         newHits[i].end = newHits[j].end;
-        newHits[i].name = `Hits from ${newHits[i].start} - ${newHits[i].end}`;
+        newHits[i].name = `Hits ${newHits[i].start} - ${newHits[i].end}`;
         newHits.splice(j, 1);
         j--;
       }
     }
+  }
+
+  if (hits.length !== 1 && newHits.length === 1) {
+    newHits[0].name = "All hits";
   }
 
   return newHits;
@@ -174,9 +178,14 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         </Checkbox>
       </div>
 
-      <Tabs aria-label="Crouch Cancel and ASDI Tabs" disableAnimation placement="top">
+      <Tabs
+        aria-label="Crouch Cancel and ASDI Tabs"
+        disableAnimation
+        placement="top"
+        className="max-w-full w-max overflow-x-scroll"
+      >
         {data.map((hit) => (
-          <Tab key={hit.id} title={hitName(hit)}>
+          <Tab key={hit.id} title={hitName(hit)} className="">
             <Tabs
               aria-label="Crouch Cancel and ASDI Tabs"
               disableAnimation
