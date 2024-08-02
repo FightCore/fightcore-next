@@ -185,7 +185,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         className="max-w-full w-max overflow-x-scroll"
       >
         {data.map((hit) => (
-          <Tab key={hit.id} title={hitName(hit)} className="">
+          <Tab key={hit.id} title={hitName(hit)}>
             <Tabs
               aria-label="Crouch Cancel and ASDI Tabs"
               disableAnimation
