@@ -45,6 +45,10 @@ export function getHitboxColor(
   hits: HitboxColor[],
   frame: number
 ): string | null {
+  if (hits.every((hit) => hit.start === 0 && hit.end === 0)) {
+    return null;
+  }
+
   const index = hits.findIndex((hit) => frame >= hit.start && frame <= hit.end);
 
   if (index == -1) {

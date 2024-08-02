@@ -9,6 +9,9 @@ export function canBeCrouchCanceled(move: Move): boolean {
     MoveType.grounded,
     MoveType.special,
     MoveType.tilt,
+    MoveType.kirbySpecial,
+    MoveType.edgeAttack,
+    MoveType.tech,
     MoveType.unknown,
   ];
   return (

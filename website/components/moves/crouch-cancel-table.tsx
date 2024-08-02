@@ -14,6 +14,7 @@ import React, { useEffect } from "react";
 import { LOCAL_STORAGE_PREFERRED_CC_FLOOR, LOCAL_STORAGE_PREFERRED_CC_SORT } from "@/keys/local-storage-keys";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Hit } from "@/models/hit";
+import { areAllHitboxesEqual, areHitboxesEqual } from "@/utilities/hitbox-utils";
 
 export interface CrouchCancelTableParams {
   hits: Hit[];
@@ -24,7 +25,97 @@ export enum CrouchCancelSort {
   WEIGHT = "weight",
 }
 
+function generateCard(
+  knockbackTarget: number,
+  title: string,
+  hitbox: Hitbox,
+  sortedCharacters: CharacterBase[],
+  floorPercentages: boolean
+) {
+  return (
+    <div className="w-full md:w-1/2 p-2">
+      <Card className="dark:bg-gray-800">
+        <CardHeader>{title}</CardHeader>
+        <CardBody>
+          <div className="grid md:grid-cols-5 grid-cols-3">
+            {sortedCharacters.map((character) => {
+              let percentage = calculateCrouchCancelPercentage(hitbox, character, knockbackTarget, floorPercentages);
+              return (
+                <div key={knockbackTarget + character.fightCoreId}>
+                  <Image alt={character.name} width={40} height={40} src={"/newicons/" + character.name + ".webp"} />
+                  <span className="d-inline">{percentage}</span>
+                </div>
+              );
+            })}
+          </div>
+        </CardBody>
+      </Card>
+    </div>
+  );
+}
+
+function generateUnableToCCTab(hitbox: Hitbox) {
+  return (
+    <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
+      <Card className="dark:bg-gray-800">
+        <CardBody>{getCrouchCancelImpossibleReason(hitbox)}</CardBody>
+      </Card>
+    </Tab>
+  );
+}
+
+function hitName(hit: Hit): string {
+  if (hit.name) {
+    return hit.name;
+  }
+
+  return `${hit.start} - ${hit.end}`;
+}
+
+function sortCharacters(characterA: CharacterBase, characterB: CharacterBase, sort: CrouchCancelSort): number {
+  if (sort === CrouchCancelSort.WEIGHT) {
+    return characterA.characterStatistics.weight < characterB.characterStatistics.weight ? 1 : -1;
+  }
+
+  return characterA.name > characterB.name ? 1 : -1;
+}
+
+function preprocessHits(hits: Hit[]): Hit[] {
+  const newHits: Hit[] = [];
+  for (const hit of hits) {
+    if (areAllHitboxesEqual(hit.hitboxes)) {
+      const newHitbox = structuredClone(hit.hitboxes[0]);
+      newHitbox.name = "All Hitboxes";
+      const newHit = structuredClone(hit);
+      newHit.hitboxes = [newHitbox];
+      newHits.push(newHit);
+    } else {
+      newHits.push(structuredClone(hit));
+    }
+  }
+
+  // Merge hits together if the hitboxes are the same
+  for (let i = 0; i < newHits.length; i++) {
+    for (let j = i + 1; j < newHits.length; j++) {
+      const areAllHitboxesEqual = newHits[i].hitboxes.every((hitA) => {
+        const correspondingHitbox = newHits[j].hitboxes.find((hitboxTwo) => hitboxTwo.name === hitA.name);
+        return correspondingHitbox && areHitboxesEqual(hitA, correspondingHitbox);
+      });
+
+      if (areAllHitboxesEqual) {
+        newHits[i].end = newHits[j].end;
+        newHits[i].name = `Hits from ${newHits[i].start} - ${newHits[i].end}`;
+        newHits.splice(j, 1);
+        j--;
+      }
+    }
+  }
+
+  return newHits;
+}
+
 export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
+  const data = preprocessHits(params.hits);
   const [selected, setSelected] = React.useState(CrouchCancelSort.ALPHABETICAL);
   const [floorPercentages, setFloorPercentages] = React.useState(true);
   const localCharacters = characters
@@ -82,9 +173,10 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
           </div>
         </Checkbox>
       </div>
-      <Tabs aria-label="Crouch Cancel and ASDI Tabs" disableAnimation>
-        {params.hits.map((hit) => (
-          <Tab key={hit.id} title={hit.start + " - " + hit.end}>
+
+      <Tabs aria-label="Crouch Cancel and ASDI Tabs" disableAnimation placement="top">
+        {data.map((hit) => (
+          <Tab key={hit.id} title={hitName(hit)}>
             <Tabs
               aria-label="Crouch Cancel and ASDI Tabs"
               disableAnimation
@@ -94,8 +186,8 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                 if (isCrouchCancelPossible(hitbox)) {
                   return (
                     <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
-                      {GenerateCard(80, "ASDI Down", hitbox, sortedCharacters, floorPercentages)}
-                      {GenerateCard(120, "Crouch Cancel", hitbox, sortedCharacters, floorPercentages)}
+                      {generateCard(80, "ASDI Down", hitbox, sortedCharacters, floorPercentages)}
+                      {generateCard(120, "Crouch Cancel", hitbox, sortedCharacters, floorPercentages)}
                     </Tab>
                   );
                 }
@@ -107,51 +199,4 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
       </Tabs>
     </>
   );
-}
-
-function GenerateCard(
-  knockbackTarget: number,
-  title: string,
-  hitbox: Hitbox,
-  sortedCharacters: CharacterBase[],
-  floorPercentages: boolean
-) {
-  return (
-    <div className="w-full md:w-1/2 p-2">
-      <Card className="dark:bg-gray-800">
-        <CardHeader>{title}</CardHeader>
-        <CardBody>
-          <div className="grid md:grid-cols-5 grid-cols-3">
-            {sortedCharacters.map((character) => {
-              let percentage = calculateCrouchCancelPercentage(hitbox, character, knockbackTarget, floorPercentages);
-              return (
-                <div key={knockbackTarget + character.fightCoreId}>
-                  <Image alt={character.name} width={40} height={40} src={"/newicons/" + character.name + ".webp"} />
-                  <span className="d-inline">{percentage}</span>
-                </div>
-              );
-            })}
-          </div>
-        </CardBody>
-      </Card>
-    </div>
-  );
-}
-
-function generateUnableToCCTab(hitbox: Hitbox) {
-  return (
-    <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
-      <Card className="dark:bg-gray-800">
-        <CardBody>{getCrouchCancelImpossibleReason(hitbox)}</CardBody>
-      </Card>
-    </Tab>
-  );
-}
-
-function sortCharacters(characterA: CharacterBase, characterB: CharacterBase, sort: CrouchCancelSort): number {
-  if (sort === CrouchCancelSort.WEIGHT) {
-    return characterA.characterStatistics.weight < characterB.characterStatistics.weight ? 1 : -1;
-  }
-
-  return characterA.name > characterB.name ? 1 : -1;
 }

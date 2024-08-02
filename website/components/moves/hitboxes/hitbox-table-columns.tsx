@@ -9,7 +9,7 @@ export interface FlattenedHitbox extends Hitbox {
 export function flattenData(hits: Hit[]): FlattenedHitbox[] {
   return hits.flatMap((hit) =>
     hit.hitboxes.flatMap((hitbox) => ({
-      hit: hit.start + " - " + hit.end,
+      hit: hit.name ? hit.name : hit.start + " - " + hit.end,
       hitObjects: [hit],
       ...hitbox,
     }))

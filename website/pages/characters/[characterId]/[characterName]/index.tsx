@@ -56,24 +56,74 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
     {
       type: MoveType.grounded,
       name: "Grounded",
+      sorting: ["jab1", "jab2", "jab3", "rjab", "dattack", "usmash", "fsmash", "fsmash2", "dsmash"],
     },
     {
       type: MoveType.tilt,
       name: "Tilt",
+      sorting: ["ftilt", "uaft", "daft", "utilt", "dtilt"],
     },
     {
       type: MoveType.air,
       name: "Air",
+      sorting: ["nair", "uair", "bair", "fair", "dair"],
     },
     {
       type: MoveType.special,
       name: "Special",
+      sorting: ["neutralb", "aneutralb", "sideb", "asideb", "downb", "adownb", "upb", "aupb"],
     },
     {
       type: MoveType.throw,
-      name: "Throw",
+      name: "Grab/Throw",
+      sorting: [
+        "grab",
+        "dashgrab",
+        "pummel",
+        "fthrow",
+        "bthrow",
+        "uthrow",
+        "dthrow",
+        "cargo_fthrow",
+        "cargo_bthrow",
+        "cargo_uthrow",
+        "cargo_dthrow",
+      ],
     },
-    { type: MoveType.dodge, name: "Dodge" },
+    { type: MoveType.dodge, name: "Dodge", sorting: ["spotdodge", "airdodge", "rollbackwards", "rollforward"] },
+    { type: MoveType.tech, name: "Getups/Techs" },
+    { type: MoveType.item, name: "Item" },
+    {
+      type: MoveType.kirbySpecial,
+      name: "Copy Abilities",
+      sorting: [
+        "bowserspecial",
+        "captainfalconspecial",
+        "donkeykongspecial",
+        "drmariospecial",
+        "falcospecial",
+        "foxspecial",
+        "ganondorfspecial",
+        "iceclimbersspecial",
+        "jigglypuffspecial",
+        "linkspecial",
+        "luigispecial",
+        "mariospecial",
+        "marthspecial",
+        "mewtwospecial",
+        "mrgameandwatchspecial",
+        "nessspecial",
+        "peachspecial",
+        "pichuspecial",
+        "pikachuspecial",
+        "royspecial",
+        "samusspecial",
+        "sheikspecial",
+        "yoshispecial",
+        "younglinkspecial",
+        "zeldaspecial",
+      ],
+    },
     {
       type: MoveType.unknown,
       name: "Uncategorised",
@@ -81,12 +131,16 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
   ];
 
   const movesByCategory = new Map<MoveType, Move[]>();
-
+  const filteredCategories = [];
   for (const moveType of moveTypes) {
-    movesByCategory.set(
-      moveType.type,
-      data.character.moves.filter((move) => move.type === moveType.type)
-    );
+    const moves = data.character.moves.filter((move) => move.type === moveType.type);
+    if (moves.length > 0) {
+      if (moveType.sorting) {
+        moves.sort((a, b) => moveType.sorting.indexOf(a.normalizedName) - moveType.sorting.indexOf(b.normalizedName));
+      }
+      movesByCategory.set(moveType.type, moves);
+      filteredCategories.push(moveType);
+    }
   }
   return (
     <>
@@ -101,7 +155,7 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
         <BreadcrumbItem href="/">Home</BreadcrumbItem>
         <BreadcrumbItem href={characterRoute(data.character)}>{data.character.name}</BreadcrumbItem>
       </Breadcrumbs>
-      {moveTypes.map((moveType) => (
+      {filteredCategories.map((moveType) => (
         <div key={moveType.type}>
           <div
             className="h-16 w-full bg-gray-200 dark:bg-gray-800 rounded border

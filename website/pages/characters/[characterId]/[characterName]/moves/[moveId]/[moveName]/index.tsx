@@ -79,6 +79,18 @@ export async function getStaticPaths() {
   };
 }
 
+function shouldDisplayFrameTimeline(move: Move): boolean {
+  if (!move.hits || move.hits.length === 0) {
+    return false;
+  }
+
+  if (move.hits.every((hit) => hit.start === 0 && hit.end === 0)) {
+    return false;
+  }
+
+  return true;
+}
+
 export const getStaticProps = async (context: any) => {
   const characterBase = characters.find(
     (baseCharacter) => baseCharacter.fightCoreId.toString() === context?.params?.characterId
@@ -166,7 +178,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
           </div>
         </div>
       </div>
-      <div>{data.move.hits && data.move.hits.length > 0 ? <HitboxTiming move={data.move} /> : <></>}</div>
+      <div>{shouldDisplayFrameTimeline(data.move) ? <HitboxTiming move={data.move} /> : <></>}</div>
 
       <div className="my-3">
         <h2 className="text-xl font-bold">Attributes</h2>
