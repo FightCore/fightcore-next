@@ -30,3 +30,9 @@
 .light .ka-table {
   @import "ka-table/style.scss";
 }
+
+.legend {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px; /* Adjust as needed */
+}

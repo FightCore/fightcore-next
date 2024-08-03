@@ -22,7 +22,6 @@ export function HitboxTiming(params: Readonly<HitboxTimingParams>) {
   const colors = generateColors(data);
 
   const getColor = (value: number): string => {
-    // Account for counting at 0 instead of 1
     const color = getHitboxColor(colors, value);
 
     if (color) {
@@ -37,7 +36,6 @@ export function HitboxTiming(params: Readonly<HitboxTimingParams>) {
   };
 
   const getBorderColor = (value: number): string => {
-    value = value + 1;
     if (
       (params.move.autoCancelBefore && params.move.autoCancelBefore > value) ||
       (params.move.autoCancelAfter && params.move.autoCancelAfter < value)
