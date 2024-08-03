@@ -9,7 +9,7 @@ import {
 } from "@/utilities/hitbox-utils";
 import MobileHitboxTable from "./mobile-hitbox-table";
 
-export interface NewHitboxTableParams {
+export interface HitboxTableParams {
   hits: Hit[];
 }
 
@@ -31,7 +31,7 @@ function getColorForHitbox(name: string): string | null {
   return null;
 }
 
-export default function NewHitboxTable2(params: Readonly<NewHitboxTableParams>) {
+export default function HitboxTable(params: Readonly<HitboxTableParams>) {
   const processedHits = processDuplicateHitboxes(params.hits);
   const data = processDuplicateHits(flattenData(processedHits));
   const mobileData = structuredClone(data);

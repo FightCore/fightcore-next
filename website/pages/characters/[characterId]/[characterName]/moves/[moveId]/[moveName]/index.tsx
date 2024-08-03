@@ -15,8 +15,7 @@ import SourceSection from "@/components/moves/source-section";
 import { InterpolatedMoveWarning } from "@/components/moves/interpolated-move-warning";
 import slugify from "slugify";
 import { canBeCrouchCanceled } from "@/utilities/crouch-cancel-calculator";
-import { HitboxTiming } from "@/components/moves/hitbox-timing";
-import D3BasedHitboxTimeline from '@/components/moves/hitboxes/d3-based-hitbox-timeline';
+import HitboxTimeline from "@/components/moves/hitboxes/hitbox-timeline";
 
 export type MovePage = {
   character: CharacterBase;
@@ -179,7 +178,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
           </div>
         </div>
       </div>
-      <div>{shouldDisplayFrameTimeline(data.move) ? <D3BasedHitboxTimeline move={data.move} /> : <></>}</div>
+      <div>{shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline move={data.move} /> : <></>}</div>
 
       <div className="my-3">
         <h2 className="text-xl font-bold">Attributes</h2>

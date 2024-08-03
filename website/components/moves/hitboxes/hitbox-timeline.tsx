@@ -4,15 +4,17 @@ import { Move } from "@/models/move";
 import { processDuplicateHitboxes, processDuplicateHits } from "@/utilities/hitbox-utils";
 import { flattenData, FlattenedHitbox } from "./hitbox-table-columns";
 import { getMappedUnique, getUnique } from "@/utilities/utils";
+import { useTheme } from "next-themes";
 
-export interface D3HitboxTimingParams {
+export interface HitboxTimingParams {
   move: Move;
 }
 
-export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingParams>) {
+export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
   const processedHits = processDuplicateHitboxes(params.move.hits!);
   const data = processDuplicateHits(flattenData(processedHits));
   const colors = generateColors(data);
+  const { theme } = useTheme();
 
   const getColor = (value: number): string => {
     // Account for counting at 0 instead of 1
@@ -26,7 +28,10 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
       return "orange";
     }
 
-    return "#1f2937";
+    if (theme === "dark") {
+      return "#1f2937";
+    }
+    return "#dddde0";
   };
 
   const getBorderColor = (frame: number): string => {
@@ -45,7 +50,6 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
     borderColor: string;
   }[] = [];
 
-  const columns = 10; // Number of columns in the grid
   const rectSize = 30; // Size of each rectangle (reduced size)
   const spacing = 5; // Spacing between rectangles
   const maxColumns = 20; // Maximum number of columns
@@ -63,7 +67,13 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
     // Clear any existing SVG elements
     timelineContainer.selectAll("*").remove();
 
-    const containerWidth = timelineContainer.node().clientWidth;
+    const node = timelineContainer.node() as Element | null;
+    4;
+    if (node === null) {
+      throw new Error("Node is unexpected null");
+    }
+
+    const containerWidth = node.clientWidth;
     const columns = Math.min(Math.floor(containerWidth / (rectSize + spacing)), maxColumns);
     const rows = Math.ceil(frames.length / columns);
     const svgWidth = columns * (rectSize + spacing);
@@ -155,7 +165,7 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
       .attr("y", (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing) + rectSize / 2)
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px") // Adjusted font size
-      .attr("fill", "white")
+      .attr("fill", (d) => (d.color === "#ffffff" || theme === "light" ? "black" : "white"))
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle");
   };
@@ -196,7 +206,7 @@ interface HitboxColor {
   color: string;
 }
 
-const colors = ["#ef4444", "#3b82f6", "#22c55e", "#a855f7"];
+const colors = ["#ef4444", "#3b82f6", "#22c55e", "#a855f7", "#ffffff"];
 
 function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
   const result: HitboxColor[] = [];

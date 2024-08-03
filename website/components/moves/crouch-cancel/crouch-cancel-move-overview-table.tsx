@@ -1,11 +1,16 @@
 import { CharacterBase } from "@/models/character";
 import { Move } from "@/models/move";
-import { calculateCrouchCancelPercentage } from "@/utilities/crouch-cancel-calculator";
+import {
+  calculateCrouchCancelPercentage,
+  getCrouchCancelImpossibleReason,
+  isCrouchCancelPossible,
+} from "@/utilities/crouch-cancel-calculator";
 import { processDuplicateHitboxes, processDuplicateHits } from "@/utilities/hitbox-utils";
 import { moveRoute } from "@/utilities/routes";
 import { Link } from "@nextui-org/link";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/table";
 import { flattenData, FlattenedHitbox } from "../hitboxes/hitbox-table-columns";
+import { Hitbox } from "@/models/hitbox";
 
 export interface CrouchCancelMoveOverviewTableParams {
   character: CharacterBase;
@@ -17,6 +22,14 @@ export interface CrouchCancelMoveOverviewTableParams {
 
 interface ExpandedFlattenedHitbox extends FlattenedHitbox {
   move: Move;
+}
+
+function generateHitboxPercentage(hitbox: Hitbox, target: CharacterBase, knockbackTarget: number, floor: boolean) {
+  if (!isCrouchCancelPossible(hitbox)) {
+    return getCrouchCancelImpossibleReason(hitbox);
+  }
+
+  return calculateCrouchCancelPercentage(hitbox, target, knockbackTarget, floor);
 }
 
 export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveOverviewTableParams>) {
@@ -65,7 +78,7 @@ export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveO
               </TableCell>
               <TableCell>{hitbox.name}</TableCell>
               <TableCell className="md:text-center">
-                {calculateCrouchCancelPercentage(hitbox, params.target, params.knockbackTarget, params.floorPercentage)}
+                {generateHitboxPercentage(hitbox, params.target, params.knockbackTarget, params.floorPercentage)}
               </TableCell>
             </TableRow>
           );

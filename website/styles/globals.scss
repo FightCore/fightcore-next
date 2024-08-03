@@ -28,5 +28,6 @@
 }
 
 .light .ka-table {
+  @import "./custom-light-ka-table.scss";
   @import "ka-table/style.scss";
 }
