@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { Move } from "@/models/move";
 import { processDuplicateHitboxes, processDuplicateHits } from "@/utilities/hitbox-utils";
 import { flattenData, FlattenedHitbox } from "./hitbox-table-columns";
-import { getMappedUnique } from "@/utilities/utils";
+import { getMappedUnique, getUnique } from "@/utilities/utils";
 
 export interface D3HitboxTimingParams {
   move: Move;
@@ -26,7 +26,7 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
       return "orange";
     }
 
-    return "";
+    return "#1f2937";
   };
 
   const getBorderColor = (frame: number): string => {
@@ -77,11 +77,28 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
       { label: "Auto Cancelable", color: "none", borderColor: "green" },
     ];
 
+    const grouping = Object.groupBy(colors, (c) => c.color);
+    for (const color of getMappedUnique(colors, (color) => color.color)) {
+      const value = grouping[color];
+      if (value) {
+        legendData.push({
+          label: `Hits between frame ${Math.min(...value.map((hitbox) => hitbox.start))} and ${Math.max(
+            ...value.map((hitbox) => hitbox.end)
+          )}`,
+          color: color,
+          borderColor: "none",
+        });
+      }
+    }
+
     // Add legend container
     const legendContainer = container.append("div").attr("class", "legend");
 
     // Legend SVG
-    const legendSvg = legendContainer.append("svg").attr("width", 200).attr("height", 100);
+    const legendSvg = legendContainer
+      .append("svg")
+      .attr("width", 300)
+      .attr("height", 100 + legendData.length * rectSize);
 
     legendSvg
       .selectAll("rect")

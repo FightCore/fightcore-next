@@ -37,8 +37,16 @@ export default function MobileHitboxTable(params: MobileHitboxTableParams) {
       <Tabs disableAnimation placement="top" className="max-w-full w-max overflow-x-scroll">
         {hits.map((hit) => {
           const hitboxes = params.hitboxes.filter((hitbox) => hitbox.hit === hit);
+          const hitObjects = hitboxes[0].hitObjects;
+          const minStart = Math.min(...hitObjects.map((hitbox) => hitbox.start));
+          const maxEnd = Math.max(...hitObjects.map((hitbox) => hitbox.end));
+          let title = hit;
+          if (minStart !== 0 && maxEnd !== 0) {
+            title = minStart + " - " + maxEnd;
+          }
+
           return (
-            <Tab key={hit} title={hit}>
+            <Tab key={hit} title={title}>
               <Table classNames={classNames} aria-label="Table of hitbox statistics">
                 {MobileHitboxHeader(hitboxes)}
                 <TableBody>
