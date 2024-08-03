@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <CharactersHead />
       <div
-        className="h-16 w-full bg-gray-200 dark:bg-gray-800 rounded border
+        className="h-16 w-full text-white bg-red-700 rounded-b-md border-b border-l border-r
               border-gray-300 dark:border-gray-800 flex justify-center items-center mb-4"
       >
         <p className="text-2xl font-bold text-center">Characters</p>

@@ -4,6 +4,32 @@ import NextHead from "next/head";
 
 const patchNotes = [
   {
+    version: 0.9,
+    changes: [
+      "Changed the entire hitbox system to now be based on hits rather than hitboxes",
+      "Added the hitbox timeline for relevant moves",
+      "Reworked the hitbox table to show the hits and their stats",
+      "Reworked the hitbox table to group similar hitboxes (Before these would show as all id0 which confused people)",
+      "Updated some styling to use the deeper red within Light Mode",
+      "Added Fox, Falco, Ice Climbers, Jigglypuff, Kirby and Zelda Down/Up angled forward tilt",
+      "Reworked the Crouch Cancel calculator to work based on hits",
+      "Massively expanded the number of hitboxes found within FightCore",
+      'Reworked the naming of hitboxes, categorizing names like "Late" or "Clean" have now been moved to the hit name rather than the hitbox. You can view these as nicely split categories.',
+      "Moved the Grab to the Throw category and renamed it to Grab/Throw",
+      "Added the Tech, EdgeAttack, Item, and Copy Abilities categories",
+      "Moves are now consistently sorted on the character page",
+      "Special moves aerial versions are now next to their grounded versions within the character page",
+      "Kirby's copy abilities are now sorted the same as the characters",
+      "Fixed an issue where some of Female Wireframe's moves were categorized incorrectly",
+      "Renamed Kirby's copy abilities to be more in line with the character names on FightCore",
+      "Removed notes from moves that talk about weak/strong hitboxes as this is now visible on the site itself",
+      "Added the hitbox color to the hitboxes table",
+      "Merged together hits and hitboxes that are equal within the Crouch Cancel Percentages section",
+      "Overhauled the hitboxes for aerial special moves, including a lot of missing hitboxes",
+      "Overhauled the scripts used to generate the frame data, open sourcing the calculations even more",
+    ],
+  },
+  {
     version: 0.8,
     changes: [
       "Fixed the way that set knockback is displayed within the crouch cancel tables",

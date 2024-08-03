@@ -5,4 +5,5 @@ export interface Hit {
   start: number;
   end: number;
   hitboxes: Hitbox[];
+  name: string;
 }

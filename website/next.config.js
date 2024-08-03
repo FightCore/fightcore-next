@@ -1,4 +1,5 @@
 const CompressionPlugin = require("compression-webpack-plugin");
+const path = require('path')
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
@@ -16,6 +17,9 @@ const nextConfig = {
     DO_TRACKING: process.env.DO_TRACKING,
   },
   productionBrowserSourceMaps: true,
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+  },
 
   /** @type {(config: import('webpack').Configuration, context: import('next/dist/server/config-shared').WebpackConfigContext) => import('webpack').Configuration} */
   webpack: (config, { isServer }) => {

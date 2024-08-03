@@ -8,14 +8,23 @@ import { characters } from "@/config/framedata/framedata";
 import React from "react";
 import { Socials } from "./socials";
 import { SearchBar } from "./search-bar";
-import { FaAward, FaCalculator, FaCircleUser, FaGoogleDrive, FaRectangleList, FaRobot } from "react-icons/fa6";
+import {
+  FaAward,
+  FaCalculator,
+  FaCircleUser,
+  FaGoogleDrive,
+  FaMugHot,
+  FaRectangleList,
+  FaRobot,
+} from "react-icons/fa6";
 import { characterRoute } from "@/utilities/routes";
+import Script from "next/script";
 
 export function SideNav() {
   return (
     <div className="h-full flex flex-col px-2 overflow-y-auto">
       <div className="flex-1">
-        <div className="bg-red-400 dark:bg-red-700 rounded-b-lg mb-2 p-1">
+        <div className="text-white bg-red-700 rounded-b-lg mb-2 p-1">
           <Link href="/" className="w-100 align-content-center flex">
             <Logo className="flex-1" height={50} width={100} />
           </Link>
@@ -41,7 +50,7 @@ export function SideNav() {
         </div>
         <Divider className="my-4" />
 
-        <ul className="space-y-2 font-medium">
+        <ul className="space-y-1 font-medium">
           <li>
             <Link
               color="foreground"
@@ -94,13 +103,24 @@ export function SideNav() {
               <span className="ms-3">Credits & Sources</span>
             </Link>
           </li>
+          <li>
+            <Link
+              color="foreground"
+              href="https://ko-fi.com/fc_bort"
+              target="_blank"
+              className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            >
+              <FaMugHot />
+              <span className="ms-3">Buy me a coffee</span>
+            </Link>
+          </li>
         </ul>
       </div>
       <div className="grow"></div>
-      <SearchBar className="mb-2" />
+      {/* <SearchBar className="mb-2" /> */}
       <Socials className="shrink" />
       <div className="w-full text-center">
-        <Link href="/patchnotes">Version 0.8</Link>
+        <Link href="/patchnotes">Version 0.9</Link>
       </div>
     </div>
   );

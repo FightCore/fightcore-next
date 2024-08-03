@@ -24,23 +24,33 @@ export const NavBar = () => {
       </NavbarContent>
       <NavbarMenu>
         <NavbarMenuItem>
-          <Link color="foreground" className="w-full" href="/" size="lg">
+          <Link color="foreground" className="w-full" href="/">
             Characters
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link color="foreground" className="w-full" href="#" size="lg" isDisabled>
-            Moves
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link color="foreground" className="w-full" href="#" size="lg" isDisabled>
+          <Link color="foreground" className="w-full" href="/crouch-cancel-calculator">
             Crouch Cancel Calculator
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link color="foreground" className="w-full" href="https://bot.fightcore.gg" size="lg" isExternal>
+          <Link color="foreground" className="w-full" href="https://bot.fightcore.gg" isExternal>
             Discord Bot
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link color="foreground" className="w-full" href="https://drive.fightcore.gg" isExternal>
+            Drive
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link color="foreground" href="/credits" className="w-full">
+            Credits & Sources
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link color="foreground" href="https://ko-fi.com/fc_bort" target="_blank" className="w-full">
+            Buy me a coffee
           </Link>
         </NavbarMenuItem>
         <Divider></Divider>
@@ -65,7 +75,7 @@ export const NavBar = () => {
         <div className="grow"></div>
         <Socials className="shrink" />
         <div className="w-full text-center">
-          <Link href="/patchnotes">Version 0.4</Link>
+          <Link href="/patchnotes">Version 0.9</Link>
         </div>
       </NavbarMenu>
     </Navbar>
