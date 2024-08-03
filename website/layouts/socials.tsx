@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { Link } from "@nextui-org/link";
+import { Image } from "@nextui-org/image";
 import { ThemeSwitch } from "../components/theme-switch";
 import { FaDiscord, FaGithub } from "react-icons/fa6";
 export const Socials = ({ ...params }) => {

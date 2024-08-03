@@ -58,18 +58,18 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
     });
   }
   const drawTimeline = () => {
-    const container = d3.select("#d3-based-hitbox-timeline");
+    const timelineContainer = d3.select("#d3-based-hitbox-timeline");
 
     // Clear any existing SVG elements
-    container.selectAll("*").remove();
+    timelineContainer.selectAll("*").remove();
 
-    const containerWidth = container.node().clientWidth;
+    const containerWidth = timelineContainer.node().clientWidth;
     const columns = Math.min(Math.floor(containerWidth / (rectSize + spacing)), maxColumns);
     const rows = Math.ceil(frames.length / columns);
     const svgWidth = columns * (rectSize + spacing);
-    const svgHeight = rows * (rectSize + spacing);
+    const svgHeight = 10 + rows * (rectSize + spacing);
 
-    const svg = container.append("svg").attr("width", svgWidth).attr("height", svgHeight);
+    const svg = timelineContainer.append("svg").attr("width", svgWidth).attr("height", svgHeight);
 
     // Legend data
     const legendData = [
@@ -91,8 +91,10 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
       }
     }
 
-    // Add legend container
-    const legendContainer = container.append("div").attr("class", "legend");
+    const legendContainer = d3.select("#d3-based-legend");
+
+    // Clear any existing SVG elements
+    legendContainer.selectAll("*").remove();
 
     // Legend SVG
     const legendSvg = legendContainer
@@ -134,7 +136,7 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
       .enter()
       .append("rect")
       .attr("x", (d, i) => (i % columns) * (rectSize + spacing))
-      .attr("y", (d, i) => Math.floor(i / columns) * (rectSize + spacing))
+      .attr("y", (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing))
       .attr("width", rectSize)
       .attr("height", rectSize)
       .attr("fill", (d) => d.color)
@@ -150,7 +152,7 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
       .append("text")
       .text((d) => d.value.toString())
       .attr("x", (d, i) => (i % columns) * (rectSize + spacing) + rectSize / 2)
-      .attr("y", (d, i) => Math.floor(i / columns) * (rectSize + spacing) + rectSize / 2)
+      .attr("y", (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing) + rectSize / 2)
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px") // Adjusted font size
       .attr("fill", "white")
@@ -175,9 +177,15 @@ export default function D3BasedHitboxTimeline(params: Readonly<D3HitboxTimingPar
   }, [frames]);
 
   return (
-    <div style={{ display: "flex" }}>
-      <div id="d3-based-hitbox-timeline" style={{ width: "80%" }}></div>
-      <div className="legend"></div>
+    <div className="flex flex-wrap">
+      <div className="w-screen lg:w-2/3">
+        <h2 className="text-lg text-bold">Hitbox timeline</h2>
+        <div id="d3-based-hitbox-timeline"></div>
+      </div>
+      <div className="w-screen lg:w-1/3">
+        <h2 className="text-lg text-bold">Legend</h2>
+        <div id="d3-based-legend"></div>
+      </div>
     </div>
   );
 }
@@ -188,7 +196,7 @@ interface HitboxColor {
   color: string;
 }
 
-const colors = ["#ef4444", "#3b82f6"];
+const colors = ["#ef4444", "#3b82f6", "#22c55e", "#a855f7"];
 
 function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
   const result: HitboxColor[] = [];

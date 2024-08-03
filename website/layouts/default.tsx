@@ -30,13 +30,6 @@ export default function DefaultLayout({
           className="container mx-auto max-w-7xl pt-16 md:pt-0 px-6 flex-grow bg-white border-r
           border-gray-200 sm:translate-x-0 dark:bg-gray-900 dark:border-gray-700"
         >
-          <div className="mb-3 text-white bg-red-700 rounded-b-lg p-2">
-            <h2 className="text-xl font-bold">Warning</h2>
-            <p>
-              The beta website hitboxes are currently undergoing massive changes. Data will be incorrect. Please refer
-              to the regular website for the accurate data.
-            </p>
-          </div>
           {children}
         </main>
       </div>
