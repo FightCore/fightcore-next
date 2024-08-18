@@ -5,18 +5,14 @@ import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from 
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/modal";
 import React from "react";
-import { MoveGif } from "./move-gif";
 import { CharacterBase } from "@/models/character";
 import { moveRoute } from "@/utilities/routes";
+import ApngMove from "./apng-move-gif";
 
 interface MoveCardParams {
   move: Move;
   character: CharacterBase;
   lazy: boolean;
-}
-
-function GetMoveWebm(params: MoveCardParams) {
-  return params.move.gifUrl?.replaceAll(".gif", ".webm");
 }
 
 export const MoveCard = (params: MoveCardParams) => {
@@ -47,7 +43,7 @@ export const MoveCard = (params: MoveCardParams) => {
           </div>
         </CardHeader>
         <CardBody className="px-3 py-0 text-small text-default-400">
-          {params.move.gifUrl ? (
+          {params.move.webmUrl ? (
             <video
               onClick={onOpen}
               muted
@@ -56,7 +52,7 @@ export const MoveCard = (params: MoveCardParams) => {
               loop
               width={600}
               height={400}
-              src={GetMoveWebm(params)}
+              src={params.move.webmUrl}
             />
           ) : (
             <em>There is no GIF available</em>
@@ -109,13 +105,14 @@ export const MoveCard = (params: MoveCardParams) => {
           </Button>
         </CardFooter>
       </Card>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal size="5xl" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">{params.move.name}</ModalHeader>
               <ModalBody>
-                <MoveGif characterName={params.character.name} move={params.move}></MoveGif>
+                <ApngMove url={params.move.pngUrl!} />
+                {/* <MoveGif characterName={params.character.name} move={params.move}></MoveGif> */}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

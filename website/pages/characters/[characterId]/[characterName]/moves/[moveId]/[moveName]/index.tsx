@@ -16,6 +16,8 @@ import { InterpolatedMoveWarning } from "@/components/moves/interpolated-move-wa
 import slugify from "slugify";
 import { canBeCrouchCanceled } from "@/utilities/crouch-cancel-calculator";
 import HitboxTimeline from "@/components/moves/hitboxes/hitbox-timeline";
+import ApngMove from "@/components/moves/apng-move-gif";
+import MoveAnimationDisplay from "@/components/moves/move-animation-display";
 
 export type MovePage = {
   character: CharacterBase;
@@ -145,12 +147,8 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         </Breadcrumbs>
       </div>
       <div className="w-full md:flex">
-        <div className="w-full md:w-2/3 p-2">
-          {data.move.gifUrl ? (
-            <MoveGif move={data.move} characterName={data.character.normalizedName} />
-          ) : (
-            <em>No GIF available</em>
-          )}
+        <div className="w-full md:w-1/2 p-2">
+          <MoveAnimationDisplay move={data.move} characterName={data.character.name}></MoveAnimationDisplay>
         </div>
         <div className="w-full md:w-1/3 p-2">
           <div className="grid grid-cols-1 gap-2 mt-2">

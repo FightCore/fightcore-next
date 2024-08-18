@@ -87,9 +87,8 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       { label: "Auto Cancelable", color: "none", borderColor: "green" },
     ];
 
-    const grouping = Object.groupBy(colors, (c) => c.color);
     for (const color of getMappedUnique(colors, (color) => color.color)) {
-      const value = grouping[color];
+      const value = colors.filter((storedColor) => storedColor.color === color);
       if (value) {
         legendData.push({
           label: `Hits between frame ${Math.min(...value.map((hitbox) => hitbox.start))} and ${Math.max(
