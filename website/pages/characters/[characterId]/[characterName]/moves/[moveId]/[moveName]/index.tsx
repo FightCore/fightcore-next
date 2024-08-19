@@ -3,7 +3,6 @@ import { Character, CharacterBase } from "@/models/character";
 import { Move } from "@/models/move";
 import { InferGetStaticPropsType } from "next";
 import { promises as fs } from "fs";
-import { MoveGif } from "@/components/moves/move-gif";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/breadcrumbs";
 import React from "react";
 import MoveAttributeTable from "@/components/moves/move-attribute-table";
@@ -16,8 +15,9 @@ import { InterpolatedMoveWarning } from "@/components/moves/interpolated-move-wa
 import slugify from "slugify";
 import { canBeCrouchCanceled } from "@/utilities/crouch-cancel-calculator";
 import HitboxTimeline from "@/components/moves/hitboxes/hitbox-timeline";
-import ApngMove from "@/components/moves/apng-move-gif";
 import MoveAnimationDisplay from "@/components/moves/move-animation-display";
+import { createRelevantMoves } from "@/utilities/relevant-moves-creator";
+import { RelevantMoves } from "@/components/moves/relevant-moves";
 
 export type MovePage = {
   character: CharacterBase;
@@ -116,11 +116,14 @@ export const getStaticProps = async (context: any) => {
     return { notFound: true };
   }
 
+  const relevantMoves = createRelevantMoves(move, character);
+
   return {
     props: {
       data: {
         character: characterBase,
         move,
+        relevantMoves,
       },
     },
     revalidate: false,
@@ -150,28 +153,33 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         <div className="w-full md:w-1/2 p-2">
           <MoveAnimationDisplay move={data.move} characterName={data.character.name}></MoveAnimationDisplay>
         </div>
-        <div className="w-full md:w-1/3 p-2">
-          <div className="grid grid-cols-1 gap-2 mt-2">
-            {data.move.isInterpolated ? <InterpolatedMoveWarning /> : <></>}
-            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
-              <h2 className="text-xl font-semibold">Start</h2>
-              <p>{data.move.start}</p>
-            </div>
-            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
-              <h2 className="text-xl font-semibold">End</h2>
-              <p>{data.move.end}</p>
-            </div>
-            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
-              <h2 className="text-xl font-semibold">Total</h2>
-              <p>{data.move.totalFrames} frames</p>
-            </div>
-            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
-              <h2 className="text-xl font-semibold">IASA</h2>
-              <p>{data.move.iasa ? data.move.iasa : "-"}</p>
-            </div>
-            <div className="text-white bg-red-700 rounded-lg p-2 text-center">
-              <h2 className="text-xl font-semibold">Notes</h2>
-              <p>{data.move.notes ? data.move.notes : "-"}</p>
+        <div className="w-full md:w-1/2 p-2">
+          <div className="w-full px-2">
+            <RelevantMoves relevantMoves={data.relevantMoves} />
+          </div>
+          <div className="w-full">
+            <div className="grid grid-cols-1 gap-2 mt-2">
+              {data.move.isInterpolated ? <InterpolatedMoveWarning /> : <></>}
+              <div className="text-white bg-red-700 rounded-lg p-2 text-center">
+                <h2 className="text-xl font-semibold">Start</h2>
+                <p>{data.move.start}</p>
+              </div>
+              <div className="text-white bg-red-700 rounded-lg p-2 text-center">
+                <h2 className="text-xl font-semibold">End</h2>
+                <p>{data.move.end}</p>
+              </div>
+              <div className="text-white bg-red-700 rounded-lg p-2 text-center">
+                <h2 className="text-xl font-semibold">Total</h2>
+                <p>{data.move.totalFrames} frames</p>
+              </div>
+              <div className="text-white bg-red-700 rounded-lg p-2 text-center">
+                <h2 className="text-xl font-semibold">IASA</h2>
+                <p>{data.move.iasa ? data.move.iasa : "-"}</p>
+              </div>
+              <div className="text-white bg-red-700 rounded-lg p-2 text-center">
+                <h2 className="text-xl font-semibold">Notes</h2>
+                <p>{data.move.notes ? data.move.notes : "-"}</p>
+              </div>
             </div>
           </div>
         </div>

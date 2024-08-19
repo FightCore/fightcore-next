@@ -1,3 +1,4 @@
+import eventEmitter from "@/events/event-emitter";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
@@ -109,6 +110,37 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
 
     loadAPNG();
   }, [loaded]);
+
+  useEffect(() => {
+    const handleSeek = (frame: number): void => {
+      if (!player) {
+        return;
+      }
+
+      const targetFrame = frame;
+      if (playing) {
+        player.pause();
+      }
+
+      let framesPassed = 0;
+      while (targetFrame - 1 != player.currentFrameNumber) {
+        player.renderNextFrame();
+        framesPassed++;
+
+        // Safety measure to make sure we don't loop infinitely
+        if (framesPassed > 200) {
+          return;
+        }
+      }
+    };
+
+    eventEmitter.on("seek", handleSeek);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      eventEmitter.off("seek", handleSeek);
+    };
+  }, [player]);
 
   const previousFrame = () => {
     if (!player) {
