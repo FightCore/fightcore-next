@@ -6,6 +6,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 /** @type {import('next').NextConfig} */
+/** @type {import('next-sitemap').IConfig} */
 const nextConfig = {
   output: "export",
   compress: true,
@@ -20,14 +21,13 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-
   /** @type {(config: import('webpack').Configuration, context: import('next/dist/server/config-shared').WebpackConfigContext) => import('webpack').Configuration} */
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.plugins.push(new CompressionPlugin());
     }
     return config;
-  },
+  }
 };
 
 module.exports = withBundleAnalyzer(nextConfig);

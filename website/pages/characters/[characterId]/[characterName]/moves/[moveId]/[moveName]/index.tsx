@@ -57,26 +57,8 @@ export async function getStaticPaths() {
     },
   }));
 
-  const nonNormalizedPaths = flattenedMoves.map((move) => ({
-    params: {
-      characterName: move.characterName,
-      characterId: move.characterId,
-      moveName: slugify(move.moveName),
-      moveId: move.moveId,
-    },
-  }));
-
-  const mixedNormalizedPaths = flattenedMoves.map((move) => ({
-    params: {
-      characterName: slugify(move.normalizedCharacterName),
-      characterId: move.characterId,
-      moveName: slugify(move.moveName),
-      moveId: move.moveId,
-    },
-  }));
-
   return {
-    paths: [...normalizedPaths, ...nonNormalizedPaths, ...mixedNormalizedPaths],
+    paths: [...normalizedPaths],
     fallback: false,
   };
 }
