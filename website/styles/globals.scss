@@ -32,15 +32,6 @@
   @import "ka-table/style.scss";
 }
 
-@keyframes pulse {
-  0%, 100% {
-      opacity: 1;
-  }
-  50% {
-      opacity: 0.5;
-  }
-}
-
 .skeleton {
   animation: pulse 1.5s ease-in-out infinite;
 }

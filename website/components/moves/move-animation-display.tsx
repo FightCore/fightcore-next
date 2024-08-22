@@ -1,11 +1,11 @@
 import { Move } from "@/models/move";
-import ApngMove from "./apng-move-gif";
+import ApngMove from "./animations/apng-move-gif";
 import { useState } from "react";
 import { Pagination } from "@nextui-org/pagination";
 import { Button } from "@nextui-org/button";
 import { useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import { FaExpand } from "react-icons/fa6";
-import { MoveGif } from "./move-gif";
+import { MoveGif } from "./animations/move-gif";
 
 export interface MoveAnimationDisplayParams {
   move: Move;

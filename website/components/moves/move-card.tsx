@@ -7,7 +7,7 @@ import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure
 import React from "react";
 import { CharacterBase } from "@/models/character";
 import { moveRoute } from "@/utilities/routes";
-import ApngMove from "./apng-move-gif";
+import ApngMove from "./animations/apng-move-gif";
 
 interface MoveCardParams {
   move: Move;
