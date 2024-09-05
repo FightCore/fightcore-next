@@ -1,3 +1,4 @@
+import { AlternativeAnimation } from "./alternative-animation";
 import { Character } from "./character";
 import { Hit } from "./hit";
 import { MoveType } from "./move-type";
@@ -23,6 +24,9 @@ export interface Move {
   characterId?: number;
   landingFallSpecialLag?: number;
   gifUrl?: string;
+  webmUrl?: string;
+  pngUrl?: string;
   sources?: Source[];
   isInterpolated: boolean;
+  alternativeAnimations?: AlternativeAnimation[];
 }

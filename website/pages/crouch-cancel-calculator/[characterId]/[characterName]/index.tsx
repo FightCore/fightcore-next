@@ -25,11 +25,8 @@ export async function getStaticPaths() {
   const normalizedPaths = characters.map((character) => {
     return { params: { characterName: character.normalizedName, characterId: character.fightCoreId.toString() } };
   });
-  const nonNormalizedPaths = characters.map((character) => {
-    return { params: { characterName: slugify(character.name), characterId: character.fightCoreId.toString() } };
-  });
   return {
-    paths: [...normalizedPaths, ...nonNormalizedPaths],
+    paths: [...normalizedPaths],
     fallback: false,
   };
 }

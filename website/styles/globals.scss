@@ -31,3 +31,7 @@
   @import "./custom-light-ka-table.scss";
   @import "ka-table/style.scss";
 }
+
+.skeleton {
+  animation: pulse 1.5s ease-in-out infinite;
+}

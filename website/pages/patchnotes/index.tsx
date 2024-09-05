@@ -4,6 +4,23 @@ import NextHead from "next/head";
 
 const patchNotes = [
   {
+    version: 1.0,
+    changes: [
+      "Changed the GIF based playback by png playback, this improves quality and ease of use. GIFs will be used in case an png is not available.",
+      "Changed Link's up smash IASA frame to 52 (Thank you Blubba_Pinecone)",
+      "Added alternative animations. There are now numbers above moves with multiple animations, check Peach's forward smash as an example!",
+      "Added 130 alternatives animations that were already recorded by Emi (thank you Emi)",
+      "Added a full-screen button besides above the player, gives you a more close up view of the animation",
+      "Changed the popup from clicking the GIF on the move to be full screen rather than the same size",
+      "Added a note to Peach up b that closed parasol has 4 frames of landing lag",
+      "(PLANNED) All the grammar based changes suggested by CrushPoint",
+      "Updated 10 of Young Links moves to have accurate data (thank you Neilharbin0)",
+      "Added the ability to click on the hitbox timeline to jump to a specific frame in the player",
+      "(PLANNED) Update the right side of the move view to contain links to other relevant moves",
+      "(BUG) It seems that all of female wireframe's animations are gone, no idea why yet",
+    ],
+  },
+  {
     version: 0.9,
     changes: [
       "Changed the entire hitbox system to now be based on hits rather than hitboxes",

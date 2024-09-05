@@ -1,2 +1,9 @@
+# *
 User-agent: *
 Allow: /
+
+# Host
+Host: https://www.fightcore.gg
+
+# Sitemaps
+Sitemap: https://www.fightcore.gg/sitemap.xml

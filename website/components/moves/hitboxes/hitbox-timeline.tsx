@@ -5,6 +5,7 @@ import { processDuplicateHitboxes, processDuplicateHits } from "@/utilities/hitb
 import { flattenData, FlattenedHitbox } from "./hitbox-table-columns";
 import { getMappedUnique, getUnique } from "@/utilities/utils";
 import { useTheme } from "next-themes";
+import emitter from "@/events/event-emitter";
 
 export interface HitboxTimingParams {
   move: Move;
@@ -68,7 +69,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
     timelineContainer.selectAll("*").remove();
 
     const node = timelineContainer.node() as Element | null;
-    4;
+
     if (node === null) {
       throw new Error("Node is unexpected null");
     }
@@ -151,8 +152,13 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       .attr("fill", (d) => d.color)
       .attr("stroke", (d) => d.borderColor)
       .attr("stroke-width", 2)
-      .attr("rx", 5) // Rounded corners for a nicer look
-      .attr("ry", 5); // Rounded corners for a nicer look
+      .attr("rx", 5)
+      .attr("ry", 5)
+      .attr("cursor", "pointer")
+      .on("click", function (event, d) {
+        const index = d3.select(this).datum() as { value: number };
+        emitter.emit("seek", index.value);
+      });
 
     svg
       .selectAll("text")
@@ -166,7 +172,12 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       .attr("font-size", "12px") // Adjusted font size
       .attr("fill", (d) => (d.color === "#ffffff" || theme === "light" ? "black" : "white"))
       .attr("text-anchor", "middle")
-      .attr("alignment-baseline", "middle");
+      .attr("alignment-baseline", "middle")
+      .attr("cursor", "pointer")
+      .on("click", function (event, d) {
+        const index = d3.select(this).datum() as { value: number };
+        emitter.emit("seek", index.value);
+      });
   };
 
   useEffect(() => {
