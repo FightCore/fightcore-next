@@ -38,6 +38,7 @@
     "@nextui-org/tabs": "^2.0.35",
     "@nextui-org/theme": "^2.2.9",
     "@nextui-org/tooltip": "^2.0.39",
+    "@sentry/nextjs": "^8.34.0",
     "@wizpanda/super-gif": "^0.0.6",
     "apng-js": "^1.1.2",
     "autoprefixer": "10.4.19",
