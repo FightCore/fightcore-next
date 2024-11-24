@@ -4,7 +4,7 @@ import NextHead from "next/head";
 
 const patchNotes = [
   {
-    version: 1.0,
+    version: "1.0",
     changes: [
       "Changed the GIF based playback by png playback, this improves quality and ease of use. GIFs will be used in case an png is not available.",
       "Changed Link's up smash IASA frame to 52 (Thank you Blubba_Pinecone)",
@@ -13,15 +13,20 @@ const patchNotes = [
       "Added a full-screen button besides above the player, gives you a more close up view of the animation",
       "Changed the popup from clicking the GIF on the move to be full screen rather than the same size",
       "Added a note to Peach up b that closed parasol has 4 frames of landing lag",
-      "(PLANNED) All the grammar based changes suggested by CrushPoint",
+      "All the grammar based changes suggested by CrushPoint",
+      "Added a toggle to switch between 99% and Never breaks for crouch cancel values.",
       "Updated 10 of Young Links moves to have accurate data (thank you Neilharbin0)",
       "Added the ability to click on the hitbox timeline to jump to a specific frame in the player",
-      "(PLANNED) Update the right side of the move view to contain links to other relevant moves",
-      "(BUG) It seems that all of female wireframe's animations are gone, no idea why yet",
+      "Update the right side of the move view to contain links to other relevant moves",
+      "Added Sentry to track errors and performance of pages",
+      "Added a sitemap to improve SEO.",
+      "Removed some of the duplicate routes that nobody was using",
+      "Reintroduce the hitlag for crouched defender and attacker, this was accidentally removed from 0.9",
+      "Fixed an issue where the moves overview of characters would have white backgrounds on iOS devices",
     ],
   },
   {
-    version: 0.9,
+    version: "0.9",
     changes: [
       "Changed the entire hitbox system to now be based on hits rather than hitboxes",
       "Added the hitbox timeline for relevant moves",
@@ -47,7 +52,7 @@ const patchNotes = [
     ],
   },
   {
-    version: 0.8,
+    version: "0.8",
     changes: [
       "Fixed the way that set knockback is displayed within the crouch cancel tables",
       "Added a toggle to floor the percentages in the crouch cancel tables",
@@ -58,7 +63,7 @@ const patchNotes = [
     ],
   },
   {
-    version: 0.7,
+    version: "0.7",
     changes: [
       "Fixed the spelling of Length in Wave Dash Length Rank (thank you Troy Spencer @_CrushPoint_)",
       "Fixed a spelling mistake in Bowser's Fire Breath (thank you Troy Spencer @_CrushPoint_)",
@@ -75,7 +80,7 @@ const patchNotes = [
     ],
   },
   {
-    version: 0.6,
+    version: "0.6",
     changes: [
       "Added the social bar, patch notes and light theme to mobile",
       "Made some mobile only light mode changes",
@@ -89,7 +94,7 @@ const patchNotes = [
     ],
   },
   {
-    version: 0.5,
+    version: "0.5",
     changes: [
       "Changed SEO info to be better",
       "Added the open source analytics of Umami (uBlock Origin blocks this. Data is open and public)",
@@ -98,7 +103,7 @@ const patchNotes = [
     ],
   },
   {
-    version: 0.4,
+    version: "0.4",
     changes: [
       "Fixed SEO info not properly being merged (no more beautiful website text)",
       "Added the renamed Roy/Marth sideb gifs",
@@ -112,7 +117,7 @@ const patchNotes = [
     ],
   },
   {
-    version: 0.3,
+    version: "0.3",
     changes: [
       "Added SEO information to the Patch notes page",
       "Added SEO information to the Character page",
@@ -121,7 +126,7 @@ const patchNotes = [
     ],
   },
   {
-    version: 0.2,
+    version: "0.2",
     changes: [
       "A Move GIF's frame counter now starts from 1 instead of 0",
       "Hid the Hitboxes and Crouch cancel table for moves without a hitbox",
@@ -130,7 +135,7 @@ const patchNotes = [
       "Added a characters banner above the characters",
     ],
   },
-  { version: 0.1, changes: ["Initial beta release"] },
+  { version: "0.1", changes: ["Initial beta release"] },
 ];
 
 export default function PatchNotesPage() {

@@ -8,6 +8,7 @@ import React from "react";
 import { CharacterBase } from "@/models/character";
 import { moveRoute } from "@/utilities/routes";
 import ApngMove from "./animations/apng-move-gif";
+import { PreviewVideo } from "./animations/preview-video";
 
 interface MoveCardParams {
   move: Move;
@@ -16,7 +17,6 @@ interface MoveCardParams {
 }
 
 export const MoveCard = (params: MoveCardParams) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const classNames = React.useMemo(
     () => ({
       td: ["text-default-600"],
@@ -32,6 +32,7 @@ export const MoveCard = (params: MoveCardParams) => {
     ["Landing Fall Special Lag", "landingFallSpecialLag"],
     ["Notes", "notes"],
   ];
+
   return (
     <>
       <Card key={params.move.normalizedName} className="dark:bg-gray-800 w-full">
@@ -43,21 +44,7 @@ export const MoveCard = (params: MoveCardParams) => {
           </div>
         </CardHeader>
         <CardBody className="px-3 py-0 text-small text-default-400">
-          {params.move.webmUrl ? (
-            <video
-              onClick={onOpen}
-              muted
-              playsInline
-              autoPlay
-              loop
-              width={600}
-              height={400}
-              src={params.move.webmUrl}
-            />
-          ) : (
-            <em>There is no GIF available</em>
-          )}
-
+          <PreviewVideo move={params.move} characterName={params.character.name} lazy={params.move.type !== 2} />
           <div className="grid grid-cols-3 gap-2 mt-2">
             <div className="text-white bg-red-700 rounded-lg p-2 text-center">
               <h2 className="text-xl font-semibold">Start</h2>
@@ -105,24 +92,6 @@ export const MoveCard = (params: MoveCardParams) => {
           </Button>
         </CardFooter>
       </Card>
-      <Modal size="5xl" isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">{params.move.name}</ModalHeader>
-              <ModalBody>
-                <ApngMove url={params.move.pngUrl!} />
-                {/* <MoveGif characterName={params.character.name} move={params.move}></MoveGif> */}
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
     </>
   );
 };

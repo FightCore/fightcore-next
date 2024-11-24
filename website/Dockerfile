@@ -1,5 +1,5 @@
 # Stage 1: Build the Next.js application
-FROM node:18 AS builder
+FROM node:22 AS builder
 
 ARG IS_BETA
 ARG DO_TRACKING

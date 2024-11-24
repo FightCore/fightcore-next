@@ -2,6 +2,7 @@ import { CharacterBase } from "@/models/character";
 import { Hitbox } from "@/models/hitbox";
 import { Move } from "@/models/move";
 import { MoveType } from "@/models/move-type";
+import * as Sentry from "@sentry/browser";
 
 export function canBeCrouchCanceled(move: Move): boolean {
   const allowedTypes = [
@@ -37,10 +38,16 @@ export function calculateCrouchCancelPercentage(
   hitbox: Hitbox,
   target: CharacterBase,
   knockbackTarget: number,
-  floor: boolean
+  floor: boolean,
+  display99PercentForNeverBreaks: boolean
 ): string {
   if (hitbox.setKnockback) {
-    return setKnockbackCalculation(hitbox, target, knockbackTarget);
+    return setKnockbackCalculation(
+      hitbox,
+      target,
+      knockbackTarget,
+      display99PercentForNeverBreaks
+    );
   }
 
   const percentage =
@@ -50,6 +57,14 @@ export function calculateCrouchCancelPercentage(
         18) /
         (hitbox.damage + 2)) -
     hitbox.damage;
+  if (Infinity === percentage) {
+    Sentry.captureMessage(
+      `Crouch cancel calculation resulted in Infinity for ${hitbox.id} for target ${target.fightCoreId}`
+    );
+
+    return display99PercentForNeverBreaks ? "99%" : "Never breaks";
+  }
+
   if (percentage > 0) {
     if (floor) {
       return Math.floor(percentage) + "%";
@@ -85,11 +100,12 @@ export function meetsKnockbackTarget(
 function setKnockbackCalculation(
   hitbox: Hitbox,
   target: CharacterBase,
-  knockbackTarget: number
+  knockbackTarget: number,
+  display99PercentForNeverBreaks: boolean
 ): string {
   if (meetsKnockbackTarget(hitbox, target, knockbackTarget)) {
-    return "Can never";
+    return "0%";
   } else {
-    return "Will always";
+    return display99PercentForNeverBreaks ? "99%" : "Never breaks";
   }
 }

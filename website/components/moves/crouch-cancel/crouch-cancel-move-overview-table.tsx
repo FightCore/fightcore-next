@@ -29,7 +29,7 @@ function generateHitboxPercentage(hitbox: Hitbox, target: CharacterBase, knockba
     return getCrouchCancelImpossibleReason(hitbox);
   }
 
-  return calculateCrouchCancelPercentage(hitbox, target, knockbackTarget, floor);
+  return calculateCrouchCancelPercentage(hitbox, target, knockbackTarget, floor, false);
 }
 
 export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveOverviewTableParams>) {

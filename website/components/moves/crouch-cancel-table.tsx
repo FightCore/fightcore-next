@@ -11,7 +11,11 @@ import {
 import { CharacterBase } from "@/models/character";
 import { Radio, RadioGroup } from "@nextui-org/radio";
 import React, { useEffect } from "react";
-import { LOCAL_STORAGE_PREFERRED_CC_FLOOR, LOCAL_STORAGE_PREFERRED_CC_SORT } from "@/keys/local-storage-keys";
+import {
+  LOCAL_STORAGE_PREFERRED_CC_FLOOR,
+  LOCAL_STORAGE_PREFERRED_CC_NUMERIC_MAX,
+  LOCAL_STORAGE_PREFERRED_CC_SORT,
+} from "@/keys/local-storage-keys";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Hit } from "@/models/hit";
 import { areAllHitboxesEqual, areHitboxesEqual } from "@/utilities/hitbox-utils";
@@ -30,7 +34,8 @@ function generateCard(
   title: string,
   hitbox: Hitbox,
   sortedCharacters: CharacterBase[],
-  floorPercentages: boolean
+  floorPercentages: boolean,
+  use99Percent: boolean
 ) {
   return (
     <div className="w-full md:w-1/2 p-2">
@@ -39,7 +44,13 @@ function generateCard(
         <CardBody>
           <div className="grid md:grid-cols-5 grid-cols-3">
             {sortedCharacters.map((character) => {
-              let percentage = calculateCrouchCancelPercentage(hitbox, character, knockbackTarget, floorPercentages);
+              let percentage = calculateCrouchCancelPercentage(
+                hitbox,
+                character,
+                knockbackTarget,
+                floorPercentages,
+                use99Percent
+              );
               return (
                 <div key={knockbackTarget + character.fightCoreId}>
                   <Image alt={character.name} width={40} height={40} src={"/newicons/" + character.name + ".webp"} />
@@ -122,6 +133,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
   const data = preprocessHits(params.hits);
   const [selected, setSelected] = React.useState(CrouchCancelSort.ALPHABETICAL);
   const [floorPercentages, setFloorPercentages] = React.useState(true);
+  const [numericalPercentage, setNumericalBreak] = React.useState(false);
   const localCharacters = characters
     .filter((character) => character.characterStatistics.weight > 0)
     .sort((a, b) => sortCharacters(a, b, selected));
@@ -135,6 +147,11 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
   const setFlooringChange = (value: boolean) => {
     setFloorPercentages(value);
     localStorage.setItem(LOCAL_STORAGE_PREFERRED_CC_FLOOR, String(value));
+  };
+
+  const setNumericalChange = (value: boolean) => {
+    setNumericalBreak(value);
+    localStorage.setItem(LOCAL_STORAGE_PREFERRED_CC_NUMERIC_MAX, String(value));
   };
 
   useEffect(() => {
@@ -154,16 +171,24 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
       // If the flooring value wasn't set before, use true to prevent confusion.
       if (flooredText === null) {
         setFlooringChange(true);
+      } else {
+        const floor = !!flooredText;
+        setFloorPercentages(floor);
       }
 
-      const floor = !!flooredText;
-      setFloorPercentages(floor);
+      const numericBreakText = localStorage.getItem(LOCAL_STORAGE_PREFERRED_CC_NUMERIC_MAX);
+      if (numericBreakText === null) {
+        setNumericalChange(false);
+      } else {
+        const numericBreak = !!numericBreakText;
+        setNumericalBreak(numericBreak);
+      }
     }
   }, [selected]);
 
   return (
     <>
-      <div className="border border-gray-700 rounded-md p-2 grid grid-cols-1 md:grid-cols-2 mb-2">
+      <div className="border border-gray-700 rounded-md p-2 grid grid-cols-1 md:grid-cols-3 mb-2">
         <RadioGroup label="Sorting" orientation="horizontal" value={selected} onValueChange={setSelection}>
           <Radio value={CrouchCancelSort.ALPHABETICAL}>Alphametical</Radio>
           <Radio value={CrouchCancelSort.WEIGHT}>Weight</Radio>
@@ -174,6 +199,14 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
           <div className="text-small">
             Melee uses floored percentages for its calculations, un-floored percentages can be viewed but should not be
             used.
+          </div>
+        </Checkbox>
+
+        <Checkbox isSelected={numericalPercentage} onValueChange={setNumericalChange}>
+          <div className="text-medium font-bold">Use 99% for moves that never break</div>
+          <div className="text-small">
+            Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;99%&quot; rather than
+            &quot;Never breaks&quot;
           </div>
         </Checkbox>
       </div>
@@ -195,8 +228,15 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                 if (isCrouchCancelPossible(hitbox)) {
                   return (
                     <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
-                      {generateCard(80, "ASDI Down", hitbox, sortedCharacters, floorPercentages)}
-                      {generateCard(120, "Crouch Cancel", hitbox, sortedCharacters, floorPercentages)}
+                      {generateCard(80, "ASDI Down", hitbox, sortedCharacters, floorPercentages, numericalPercentage)}
+                      {generateCard(
+                        120,
+                        "Crouch Cancel",
+                        hitbox,
+                        sortedCharacters,
+                        floorPercentages,
+                        numericalPercentage
+                      )}
                     </Tab>
                   );
                 }

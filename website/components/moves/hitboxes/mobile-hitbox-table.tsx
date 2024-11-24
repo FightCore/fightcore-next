@@ -32,6 +32,30 @@ export default function MobileHitboxTable(params: MobileHitboxTableParams) {
   };
 
   const hits = getMappedUnique(params.hitboxes, (hitbox) => hitbox.hit);
+
+  const useCrouchedHitlag = params.hitboxes.some(
+    (hitbox) =>
+      hitbox.hitlagAttacker !== hitbox.hitlagAttackerCrouched || hitbox.hitlagDefender !== hitbox.hitlagDefenderCrouched
+  );
+
+  const tableRows: { key: keyof Hitbox; title: string }[] = [
+    { key: "damage", title: "Damage" },
+    { key: "angle", title: "Angle" },
+    { key: "knockbackGrowth", title: "Knockback Growth" },
+    { key: "setKnockback", title: "Set Knockback" },
+    { key: "baseKnockback", title: "Base Knockback" },
+    { key: "effect", title: "Effect" },
+    { key: "hitlagAttacker", title: "Hitlag Attacker" },
+    { key: "hitlagDefender", title: "Hitlag Defender" },
+  ];
+
+  if (useCrouchedHitlag) {
+    tableRows.push({ key: "hitlagAttackerCrouched", title: "Crouched Hitlag Attacker" });
+    tableRows.push({ key: "hitlagDefenderCrouched", title: "Crouched Hitlag Defender" });
+  }
+
+  tableRows.push({ key: "shieldstun", title: "Shieldstun" });
+
   return (
     <div>
       <Tabs disableAnimation placement="top" className="max-w-full w-max overflow-x-scroll">
@@ -49,17 +73,7 @@ export default function MobileHitboxTable(params: MobileHitboxTableParams) {
             <Tab key={hit} title={title}>
               <Table classNames={classNames} aria-label="Table of hitbox statistics">
                 {MobileHitboxHeader(hitboxes)}
-                <TableBody>
-                  {MobileHitboxRow(hitboxes, "damage", "Damage")}
-                  {MobileHitboxRow(hitboxes, "angle", "Angle")}
-                  {MobileHitboxRow(hitboxes, "knockbackGrowth", "Knockback Growth")}
-                  {MobileHitboxRow(hitboxes, "baseKnockback", "Base Knockback")}
-                  {MobileHitboxRow(hitboxes, "setKnockback", "Set Knockback")}
-                  {MobileHitboxRow(hitboxes, "effect", "Effect")}
-                  {MobileHitboxRow(hitboxes, "hitlagAttacker", "Hitlag attacker")}
-                  {MobileHitboxRow(hitboxes, "hitlagDefender", "Hitlag defender")}
-                  {MobileHitboxRow(hitboxes, "shieldstun", "Shieldstun")}
-                </TableBody>
+                <TableBody>{tableRows.map((row) => MobileHitboxRow(hitboxes, row.key, row.title))}</TableBody>
               </Table>
             </Tab>
           );
