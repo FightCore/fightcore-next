@@ -4,6 +4,14 @@ import NextHead from "next/head";
 
 const patchNotes = [
   {
+    version: "1.0.1",
+    changes: [
+      "Fixed an issue where the hitlag for crouch canceled defender was wrong (thank you skullbro)",
+      "Removed the hitlag attacked (crouched) as this doesn't apply in Melee (thank you skullbro)",
+      "Fixed an issue where CC percentage was calculated as Infinite",
+    ],
+  },
+  {
     version: "1.0",
     changes: [
       "Changed the GIF based playback by png playback, this improves quality and ease of use. GIFs will be used in case an png is not available.",

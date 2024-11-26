@@ -50,6 +50,10 @@ export function calculateCrouchCancelPercentage(
     );
   }
 
+  if (hitbox.knockbackGrowth === 0) {
+    return display99PercentForNeverBreaks ? "99%" : "Never breaks";
+  }
+
   const percentage =
     ((100 + target.characterStatistics.weight) / 14) *
       (((100 / hitbox.knockbackGrowth) *
@@ -57,6 +61,7 @@ export function calculateCrouchCancelPercentage(
         18) /
         (hitbox.damage + 2)) -
     hitbox.damage;
+
   if (Infinity === percentage) {
     Sentry.captureMessage(
       `Crouch cancel calculation resulted in Infinity for ${hitbox.id} for target ${target.fightCoreId}`

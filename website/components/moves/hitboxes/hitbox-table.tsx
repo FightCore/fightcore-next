@@ -35,9 +35,7 @@ function getColorForHitbox(name: string): string | null {
 }
 
 function getColumns(hits: FlattenedHitbox[]): Column<FlattenedHitbox>[] {
-  const useCrouchedHitlag = hits.some(
-    (hit) => hit.hitlagAttacker !== hit.hitlagAttackerCrouched || hit.hitlagDefender !== hit.hitlagDefenderCrouched
-  );
+  const useCrouchedHitlag = hits.some((hit) => hit.hitlagDefender !== hit.hitlagDefenderCrouched);
   return [
     { key: "hit", title: "Hit", dataType: DataType.String, width: 100 },
     { key: "name", title: "Name", dataType: DataType.String, width: 100 },
@@ -51,7 +49,7 @@ function getColumns(hits: FlattenedHitbox[]): Column<FlattenedHitbox>[] {
       key: "hitlagAttacker",
       title: "Hitlag Attacker",
       dataType: DataType.Number,
-      width: useCrouchedHitlag ? 150 : 100,
+      width: 100,
     },
     {
       key: "hitlagDefender",
@@ -117,13 +115,6 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
                         <div className={"w-3 h-3 mr-1 border-1 border-black inline-block " + color}></div> {props.value}
                       </>
                     );
-                  }
-                  case "hitlagAttacker": {
-                    if (props.value !== props.rowData.hitlagAttackerCrouched) {
-                      return `${props.value} (${props.rowData.hitlagAttackerCrouched} Crouched)`;
-                    }
-
-                    return props.value;
                   }
                   case "hitlagDefender": {
                     if (props.value !== props.rowData.hitlagDefenderCrouched) {

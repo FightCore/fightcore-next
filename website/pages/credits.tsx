@@ -17,12 +17,19 @@ export default function Credits() {
             <strong>Bort</strong> Main developer of the website
           </li>
           <li>
-            <strong>Emilia</strong> Recorder of all the GIFs and maintainer of{" "}
-            <Link href="https://drive.fightcore.gg">the Google Drive</Link>
+            <Link href="https://x.com/hrtfiend" isExternal>
+              Emilia
+            </Link>{" "}
+            Recorder of all the GIFs and maintainer of{" "}
+            <Link href="https://drive.fightcore.gg" isExternal>
+              the Google Drive
+            </Link>
           </li>
           <li>
-            <strong>NeilHarbin0</strong> Creating frame data software allowing for background-less recording and easy
-            editing.
+            <Link href="https://github.com/neilharbin0" isExternal>
+              NeilHarbin0
+            </Link>{" "}
+            Creating frame data software allowing for background-less recording and easy editing.
           </li>
           <li>
             <strong>skullbro</strong> Providing insights in how to improve the crouch cancel and ASDI Down calculations
