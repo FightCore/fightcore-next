@@ -1,10 +1,10 @@
-import { FC, useState, useEffect } from 'react';
-import { VisuallyHidden } from '@react-aria/visually-hidden';
 import { SwitchProps, useSwitch } from '@nextui-org/switch';
-import { useTheme } from 'next-themes';
+import { VisuallyHidden } from '@react-aria/visually-hidden';
 import clsx from 'clsx';
+import { useTheme } from 'next-themes';
+import { FC, useEffect, useState } from 'react';
 
-import { SunFilledIcon, MoonFilledIcon } from '@/components/icons';
+import { MoonFilledIcon, SunFilledIcon } from '@/components/icons';
 
 export interface ThemeSwitchProps {
   className?: string;
@@ -52,7 +52,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({ className, classNames }) => 
               'rounded-lg',
               'flex items-center justify-center',
               'group-data-[selected=true]:bg-transparent',
-              '!text-default-500',
+              '!text-foreground',
               'pt-px',
               'px-0',
               'mx-0',

@@ -20,9 +20,7 @@ export default function DefaultLayout({
         <SideNav />
       </aside>
       <div className="z-0 px-3 md:ml-64 md:mt-0">
-        <main className="container mx-auto max-w-7xl flex-grow border-r border-gray-200 bg-white px-6 pt-16 dark:border-gray-700 dark:bg-gray-900 sm:translate-x-0 md:pt-0">
-          {children}
-        </main>
+        <main className="container mx-auto max-w-7xl flex-grow px-6 pt-16 sm:translate-x-0 md:pt-0">{children}</main>
       </div>
       <footer className="flex w-full items-center justify-center py-3"></footer>
     </div>

@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { PageTitle } from '@/components/page-title';
 import { Card, CardBody, CardHeader } from '@nextui-org/card';
 import NextHead from 'next/head';
 
@@ -164,25 +165,26 @@ export default function PatchNotesPage() {
         <meta name="twitter:title" content="Patch notes - FightCore" />
         <meta name="twitter:description" content="Shows off the patch notes for the FightCore website" />
       </NextHead>
-      <div className="mb-2 flex h-16 w-full items-center justify-center rounded-b-md border-b border-l border-r border-gray-700 bg-red-400 dark:bg-red-700">
-        <p className="text-center text-4xl font-extrabold">Patch notes</p>
+      <PageTitle title="Patch notes" />
+
+      <div className="space-y-5">
+        {patchNotes.map((patchNote) => (
+          <Card key={patchNote.version} className="dark:bg-gray-800">
+            <CardHeader>
+              <h2 className="ml-2 text-lg font-bold">Version {patchNote.version}</h2>
+            </CardHeader>
+            <CardBody>
+              <div className="mb-3 px-6">
+                <ul className="list-disc">
+                  {patchNote.changes.map((change) => (
+                    <li key={change}>{change}</li>
+                  ))}
+                </ul>
+              </div>
+            </CardBody>
+          </Card>
+        ))}
       </div>
-      {patchNotes.map((patchNote) => (
-        <Card key={patchNote.version} className="my-2 dark:bg-gray-800">
-          <CardHeader>
-            <p className="text-md">{patchNote.version}</p>
-          </CardHeader>
-          <CardBody>
-            <div className="px-4">
-              <ul className="list-disc">
-                {patchNote.changes.map((change) => (
-                  <li key={change}>{change}</li>
-                ))}
-              </ul>
-            </div>
-          </CardBody>
-        </Card>
-      ))}
     </>
   );
 }

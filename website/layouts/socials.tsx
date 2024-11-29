@@ -1,24 +1,20 @@
 import { siteConfig } from '@/config/site';
 import { Link } from '@nextui-org/link';
-import { Image } from '@nextui-org/image';
-import { ThemeSwitch } from '../components/theme-switch';
 import { FaDiscord, FaGithub } from 'react-icons/fa6';
-export const Socials = ({ ...params }) => {
+import { ThemeSwitch } from '../components/theme-switch';
+
+export const Socials = () => {
   return (
-    <div className={params.className}>
-      <div className="my-2 grid grid-cols-3">
-        <Link className="justify-center" isExternal href={siteConfig.links.discord} aria-label="Discord">
-          <FaDiscord className="text-default-500" />
-        </Link>
-        <Link className="justify-center" isExternal href={siteConfig.links.github} aria-label="Github">
-          <FaGithub className="text-default-500" />
-        </Link>
-        <ThemeSwitch className="w-full min-w-full justify-center" />
-      </div>
-      <div className="w-full text-center">
-        <p>
-          Created by <Link className="inline">Bort</Link>
-        </p>
+    <div className="flex flex-wrap justify-between">
+      <Link className="justify-center" isExternal href={siteConfig.links.discord} aria-label="Discord">
+        <FaDiscord className="text-foreground" />
+      </Link>
+      <Link className="justify-center" isExternal href={siteConfig.links.github} aria-label="Github">
+        <FaGithub className="text-foreground" />
+      </Link>
+      <ThemeSwitch className="w-full" />
+      <div className="mt-2 w-full">
+        Created by <Link className="inline">Bort</Link>
       </div>
     </div>
   );
