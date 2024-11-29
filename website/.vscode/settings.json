@@ -1,7 +1,15 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": [
-    "Hitbox",
-    "hitboxes"
-  ]
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "[markdown]": {
+    "editor.rulers": [80]
+  },
+  "[markdown][json][html][jsonc][typescript][scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
