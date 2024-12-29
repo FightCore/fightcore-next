@@ -1,6 +1,8 @@
+@use 'sass:color';
+
 $fightcore-background-color: #1f2937;
 
-$ka-border-color: darken($fightcore-background-color, 5) !default;
+$ka-border-color: color.adjust($fightcore-background-color, $lightness: -5%) !default;
 $ka-color-base: white !default;
 $ka-thead-color: white !default;
 
@@ -12,12 +14,12 @@ $ka-cell-color: $ka-color-base !default;
 $ka-cell-hover-background-color: null !default;
 $ka-cell-line-height: 15px !default;
 $ka-cell-padding: 8px 10px !default;
-$ka-column-resize-border-color: darken($ka-border-color, 10) !default;
+$ka-column-resize-border-color: color.adjust($ka-border-color, $lightness: -10%) !default;
 $ka-filter-row-cell-padding: 0 20px 15px 20px !default;
 $ka-font-size: 14px !default;
 $ka-group-cell-padding: 8px 10px !default;
 $ka-group-row-background-color: $fightcore-background-color !default;
-$ka-group-row-border-color: darken($fightcore-background-color, 10) !default;
+$ka-group-row-border-color: color.adjust($fightcore-background-color, $lightness: -10%) !default;
 $ka-group-row-border-size: 1px !default;
 $ka-icon-font-size: 10px !default;
 $ka-input-validation-background-color: #ffe7e7 !default;
@@ -30,10 +32,11 @@ $ka-paging-pages-margin: 0 !default;
 $ka-paging-pages-padding: 0 10px !default;
 $ka-row-border-size: 2px !default;
 $ka-row-hover-background-color: null !default;
-$ka-selected-border-color: darken($ka-border-color, 7) !default;
+$ka-selected-border-color: color.adjust($ka-border-color, $lightness: -7%) !default;
 $ka-selected-background-color: #f7fcfd !default;
 $ka-summary-cell-padding: 12px 20px !default;
-$ka-thead-background-color: lighten($fightcore-background-color, 5) !default;
+
+$ka-thead-background-color: color.adjust($fightcore-background-color, $lightness: 5%) !default;
 $ka-thead-cell-padding: 15px 20px !default;
 $ka-validation-background-color: #ff0c0c !default;
 $ka-validation-color: white !default;
