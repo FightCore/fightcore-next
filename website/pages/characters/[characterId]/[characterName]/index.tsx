@@ -87,7 +87,7 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
       ],
     },
     { type: MoveType.dodge, name: 'Dodge', sorting: ['spotdodge', 'airdodge', 'rollbackwards', 'rollforward'] },
-    { type: MoveType.tech, name: 'Getups/Techs' },
+    { type: MoveType.tech, name: 'Getups/Techs', sorting: ['neutraltech', 'ftechroll', 'btechroll'] },
     { type: MoveType.item, name: 'Item' },
     {
       type: MoveType.kirbySpecial,

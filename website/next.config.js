@@ -1,6 +1,5 @@
 const CompressionPlugin = require('compression-webpack-plugin');
-const path = require('path');
-const { withSentryConfig } = require('@sentry/nextjs');
+const path = require('path')
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
@@ -32,16 +31,4 @@ const nextConfig = {
   },
 };
 
-module.exports = process.env.USE_SENTRY
-  ? withSentryConfig(withBundleAnalyzer(nextConfig), {
-    org: 'fightcore',
-    project: 'javascript-nextjs',
-
-    // An auth token is required for uploading source maps.
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-
-    tunnelRoute: '/monitoring-tunnel',
-
-    silent: false, // Can be used to suppress logs
-  })
-  : withBundleAnalyzer(nextConfig);
+module.exports = withBundleAnalyzer(nextConfig);
