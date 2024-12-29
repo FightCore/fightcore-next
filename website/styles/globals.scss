@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .super-gif > canvas {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -12,7 +12,7 @@
 
 ::-webkit-scrollbar:vertical {
   width: 11px;
-   background-color:   #303030
+  background-color: #303030;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -21,15 +21,14 @@
   background-color: #575757;
 }
 
-
 .dark .ka-table {
-  @import "./custom-dark-ka-table.scss";
-  @import "ka-table/style.scss";
+  @import './custom-dark-ka-table.scss';
+  @import 'ka-table/style.scss';
 }
 
 .light .ka-table {
-  @import "./custom-light-ka-table.scss";
-  @import "ka-table/style.scss";
+  @import './custom-light-ka-table.scss';
+  @import 'ka-table/style.scss';
 }
 
 .skeleton {

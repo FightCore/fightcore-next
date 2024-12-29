@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Move } from "@/models/move";
-import { Button } from "@nextui-org/button";
-import { Image } from "@nextui-org/image";
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/modal";
-import ApngMove from "./apng-move-gif";
-import { MoveGif } from "./move-gif";
+import { Move } from '@/models/move';
+import { Button } from '@nextui-org/button';
+import { Image } from '@nextui-org/image';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/modal';
+import ApngMove from './apng-move-gif';
+import { MoveGif } from './move-gif';
 
 export interface PreviewVideoParams {
   move: Move;
@@ -29,10 +29,10 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
           className="cursor-pointer"
           onClick={onOpen}
           src={params.move.gifUrl}
-          alt={params.characterName + " " + params.move.name}
+          alt={params.characterName + ' ' + params.move.name}
           width={600}
           height={300}
-          loading={params.lazy ? undefined : "eager"}
+          loading={params.lazy ? undefined : 'eager'}
         />
       );
     }

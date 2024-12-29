@@ -1,32 +1,32 @@
-import { Hitbox } from "@/models/hitbox";
-import { characters } from "@/config/framedata/framedata";
-import { Tabs, Tab } from "@nextui-org/tabs";
-import { Image } from "@nextui-org/image";
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { Hitbox } from '@/models/hitbox';
+import { characters } from '@/config/framedata/framedata';
+import { Tabs, Tab } from '@nextui-org/tabs';
+import { Image } from '@nextui-org/image';
+import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import {
   calculateCrouchCancelPercentage,
   getCrouchCancelImpossibleReason,
   isCrouchCancelPossible,
-} from "@/utilities/crouch-cancel-calculator";
-import { CharacterBase } from "@/models/character";
-import { Radio, RadioGroup } from "@nextui-org/radio";
-import React, { useEffect } from "react";
+} from '@/utilities/crouch-cancel-calculator';
+import { CharacterBase } from '@/models/character';
+import { Radio, RadioGroup } from '@nextui-org/radio';
+import React, { useEffect } from 'react';
 import {
   LOCAL_STORAGE_PREFERRED_CC_FLOOR,
   LOCAL_STORAGE_PREFERRED_CC_NUMERIC_MAX,
   LOCAL_STORAGE_PREFERRED_CC_SORT,
-} from "@/keys/local-storage-keys";
-import { Checkbox } from "@nextui-org/checkbox";
-import { Hit } from "@/models/hit";
-import { areAllHitboxesEqual, areHitboxesEqual } from "@/utilities/hitbox-utils";
+} from '@/keys/local-storage-keys';
+import { Checkbox } from '@nextui-org/checkbox';
+import { Hit } from '@/models/hit';
+import { areAllHitboxesEqual, areHitboxesEqual } from '@/utilities/hitbox-utils';
 
 export interface CrouchCancelTableParams {
   hits: Hit[];
 }
 
 export enum CrouchCancelSort {
-  ALPHABETICAL = "alphabetical",
-  WEIGHT = "weight",
+  ALPHABETICAL = 'alphabetical',
+  WEIGHT = 'weight',
 }
 
 function generateCard(
@@ -35,25 +35,25 @@ function generateCard(
   hitbox: Hitbox,
   sortedCharacters: CharacterBase[],
   floorPercentages: boolean,
-  use99Percent: boolean
+  use99Percent: boolean,
 ) {
   return (
-    <div className="w-full md:w-1/2 p-2">
+    <div className="w-full p-2 md:w-1/2">
       <Card className="dark:bg-gray-800">
         <CardHeader>{title}</CardHeader>
         <CardBody>
-          <div className="grid md:grid-cols-5 grid-cols-3">
+          <div className="grid grid-cols-3 md:grid-cols-5">
             {sortedCharacters.map((character) => {
               let percentage = calculateCrouchCancelPercentage(
                 hitbox,
                 character,
                 knockbackTarget,
                 floorPercentages,
-                use99Percent
+                use99Percent,
               );
               return (
                 <div key={knockbackTarget + character.fightCoreId}>
-                  <Image alt={character.name} width={40} height={40} src={"/newicons/" + character.name + ".webp"} />
+                  <Image alt={character.name} width={40} height={40} src={'/newicons/' + character.name + '.webp'} />
                   <span className="d-inline">{percentage}</span>
                 </div>
               );
@@ -96,7 +96,7 @@ function preprocessHits(hits: Hit[]): Hit[] {
   for (const hit of hits) {
     if (areAllHitboxesEqual(hit.hitboxes)) {
       const newHitbox = structuredClone(hit.hitboxes[0]);
-      newHitbox.name = "All Hitboxes";
+      newHitbox.name = 'All Hitboxes';
       const newHit = structuredClone(hit);
       newHit.hitboxes = [newHitbox];
       newHits.push(newHit);
@@ -123,7 +123,7 @@ function preprocessHits(hits: Hit[]): Hit[] {
   }
 
   if (hits.length !== 1 && newHits.length === 1) {
-    newHits[0].name = "All hits";
+    newHits[0].name = 'All hits';
   }
 
   return newHits;
@@ -162,7 +162,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
   }, [selected]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       const sort =
         (localStorage.getItem(LOCAL_STORAGE_PREFERRED_CC_SORT) as CrouchCancelSort) ?? CrouchCancelSort.ALPHABETICAL;
       setSelected(sort);
@@ -188,7 +188,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
 
   return (
     <>
-      <div className="border border-gray-700 rounded-md p-2 grid grid-cols-1 md:grid-cols-3 mb-2">
+      <div className="mb-2 grid grid-cols-1 rounded-md border border-gray-700 p-2 md:grid-cols-3">
         <RadioGroup label="Sorting" orientation="horizontal" value={selected} onValueChange={setSelection}>
           <Radio value={CrouchCancelSort.ALPHABETICAL}>Alphametical</Radio>
           <Radio value={CrouchCancelSort.WEIGHT}>Weight</Radio>
@@ -215,27 +215,27 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         aria-label="Crouch Cancel and ASDI Tabs"
         disableAnimation
         placement="top"
-        className="max-w-full w-max overflow-x-scroll"
+        className="w-max max-w-full overflow-x-scroll"
       >
         {data.map((hit) => (
           <Tab key={hit.id} title={hitName(hit)}>
             <Tabs
               aria-label="Crouch Cancel and ASDI Tabs"
               disableAnimation
-              className="grid grid-cols-1 md:grid-cols-2 mb-2"
+              className="mb-2 grid grid-cols-1 md:grid-cols-2"
             >
               {hit.hitboxes.map((hitbox) => {
                 if (isCrouchCancelPossible(hitbox)) {
                   return (
                     <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
-                      {generateCard(80, "ASDI Down", hitbox, sortedCharacters, floorPercentages, numericalPercentage)}
+                      {generateCard(80, 'ASDI Down', hitbox, sortedCharacters, floorPercentages, numericalPercentage)}
                       {generateCard(
                         120,
-                        "Crouch Cancel",
+                        'Crouch Cancel',
                         hitbox,
                         sortedCharacters,
                         floorPercentages,
-                        numericalPercentage
+                        numericalPercentage,
                       )}
                     </Tab>
                   );

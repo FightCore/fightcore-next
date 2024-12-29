@@ -1,20 +1,13 @@
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/modal";
-import { Button } from "@nextui-org/button";
-import { Kbd } from "@nextui-org/kbd";
-import { Input } from "@nextui-org/input";
-import { SearchIcon } from "../components/icons";
-import { useEffect, useState } from "react";
-import { MoveCard } from "@/components/moves/move-card";
-import { characters } from "@/config/framedata/framedata";
-import { ExportedMove } from "@/models/exported-moves";
-import { search } from "@/utilities/search/search";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/modal';
+import { Button } from '@nextui-org/button';
+import { Kbd } from '@nextui-org/kbd';
+import { Input } from '@nextui-org/input';
+import { SearchIcon } from '../components/icons';
+import { useEffect, useState } from 'react';
+import { MoveCard } from '@/components/moves/move-card';
+import { characters } from '@/config/framedata/framedata';
+import { ExportedMove } from '@/models/exported-moves';
+import { search } from '@/utilities/search/search';
 
 function getCharacter(move: ExportedMove) {
   return characters.find((character) => character.fightCoreId === move.characterId);
@@ -22,7 +15,7 @@ function getCharacter(move: ExportedMove) {
 
 export const SearchBar = ({ ...props }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const initialState: ExportedMove[] = [];
   const [filteredItems, setFilteredItems] = useState(initialState);
 
@@ -38,18 +31,18 @@ export const SearchBar = ({ ...props }) => {
       <Input
         aria-label="Search"
         classNames={{
-          inputWrapper: "bg-default-100 " + props.className,
-          input: "text-sm",
+          inputWrapper: 'bg-default-100 ' + props.className,
+          input: 'text-sm',
         }}
         endContent={
-          <Kbd className="hidden lg:inline-block" keys={["ctrl"]}>
+          <Kbd className="hidden lg:inline-block" keys={['ctrl']}>
             K
           </Kbd>
         }
         onClick={onOpen}
         labelPlacement="outside"
         placeholder="Search..."
-        startContent={<SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />}
+        startContent={<SearchIcon className="pointer-events-none flex-shrink-0 text-base text-default-400" />}
         type="search"
       />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">

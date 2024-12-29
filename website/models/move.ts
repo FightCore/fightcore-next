@@ -1,8 +1,8 @@
-import { AlternativeAnimation } from "./alternative-animation";
-import { Character } from "./character";
-import { Hit } from "./hit";
-import { MoveType } from "./move-type";
-import { Source } from "./source";
+import { AlternativeAnimation } from './alternative-animation';
+import { Character } from './character';
+import { Hit } from './hit';
+import { MoveType } from './move-type';
+import { Source } from './source';
 
 export interface Move {
   id: number;

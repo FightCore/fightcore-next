@@ -5,7 +5,7 @@ interface ListboxWrapperInput {
 }
 
 export const ListboxWrapper = (input: ListboxWrapperInput) => (
-  <div className='w-full max-w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100'>
+  <div className="w-full max-w-[260px] rounded-small border-small border-default-200 px-1 py-2 dark:border-default-100">
     {input.children}
   </div>
 );

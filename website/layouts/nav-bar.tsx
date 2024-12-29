@@ -1,20 +1,20 @@
-import { characters } from "@/config/framedata/framedata";
-import { Logo } from "../components/icons";
-import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
-import { Divider } from "@nextui-org/divider";
-import { Image } from "@nextui-org/image";
-import { Tooltip } from "@nextui-org/tooltip";
-import React from "react";
-import { characterRoute } from "@/utilities/routes";
-import { Socials } from "./socials";
+import { characters } from '@/config/framedata/framedata';
+import { Logo } from '../components/icons';
+import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from '@nextui-org/navbar';
+import { Link } from '@nextui-org/link';
+import { Divider } from '@nextui-org/divider';
+import { Image } from '@nextui-org/image';
+import { Tooltip } from '@nextui-org/tooltip';
+import React from 'react';
+import { characterRoute } from '@/utilities/routes';
+import { Socials } from './socials';
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
     <Navbar className="bg-red-400 dark:bg-background" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
-        <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
+        <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
         <NavbarBrand>
           <Link href="/">
             <Logo height={50} width={200} />
@@ -54,7 +54,7 @@ export const NavBar = () => {
           </Link>
         </NavbarMenuItem>
         <Divider></Divider>
-        <div className="w-full p-2 grid grid-cols-4 gap-2">
+        <div className="grid w-full grid-cols-4 gap-2 p-2">
           {characters.map((character) => (
             <div key={character.normalizedName}>
               <Tooltip content={character.name} delay={1000}>
@@ -65,7 +65,7 @@ export const NavBar = () => {
                     alt={character.name}
                     width={40}
                     height={40}
-                    src={"/newicons/" + character.name + ".webp"}
+                    src={'/newicons/' + character.name + '.webp'}
                   />
                 </Link>
               </Tooltip>

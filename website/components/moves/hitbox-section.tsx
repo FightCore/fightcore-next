@@ -1,5 +1,5 @@
-import { Hit } from "@/models/hit";
-import HitboxTable from "./hitboxes/hitbox-table";
+import { Hit } from '@/models/hit';
+import HitboxTable from './hitboxes/hitbox-table';
 
 export interface HitboxSectionParams {
   hits: Hit[];

@@ -1,11 +1,11 @@
-import { Move } from "@/models/move";
-import ApngMove from "./animations/apng-move-gif";
-import { useState } from "react";
-import { Pagination } from "@nextui-org/pagination";
-import { Button } from "@nextui-org/button";
-import { useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
-import { FaExpand } from "react-icons/fa6";
-import { MoveGif } from "./animations/move-gif";
+import { Move } from '@/models/move';
+import ApngMove from './animations/apng-move-gif';
+import { useState } from 'react';
+import { Pagination } from '@nextui-org/pagination';
+import { Button } from '@nextui-org/button';
+import { useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
+import { FaExpand } from 'react-icons/fa6';
+import { MoveGif } from './animations/move-gif';
 
 export interface MoveAnimationDisplayParams {
   move: Move;
@@ -41,13 +41,13 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
   }
 
   const urlArray = [
-    "invalid",
+    'invalid',
     params.move.pngUrl,
     ...params.move.alternativeAnimations!.map((animation) => animation.pngUrl),
   ];
   const descriptionArray = [
-    "invalid",
-    "Regular",
+    'invalid',
+    'Regular',
     ...params.move.alternativeAnimations!.map((animation) => animation.description),
   ];
 
@@ -58,7 +58,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
 
   return (
     <>
-      <span className="block" key={"url" + currentPage}>
+      <span className="block" key={'url' + currentPage}>
         {descriptionArray[currentPage]}
       </span>
       <Pagination
@@ -66,12 +66,12 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         color="secondary"
         page={currentPage}
         onChange={setCurrentPage}
-        className="w-2/3 inline-flex"
+        className="inline-flex w-2/3"
       />
       <Button isIconOnly aria-label="fullscreen" onClick={onOpen} className="float-right">
         <FaExpand />
       </Button>
-      <ApngMove key={"gif" + currentPage} url={urlArray[currentPage]!} />
+      <ApngMove key={'gif' + currentPage} url={urlArray[currentPage]!} />
       <FullScreenModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}

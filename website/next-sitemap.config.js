@@ -10,21 +10,20 @@ module.exports = {
       priority: determinePriority(path),
       lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
       alternateRefs: config.alternateRefs ?? [],
-    }
-  }
-}
-
+    };
+  },
+};
 
 determinePriority = (url) => {
-  if (url.includes("moves")) {
+  if (url.includes('moves')) {
     return 0.5;
-  } else if (url === "https://www.fightcore.gg/") {
+  } else if (url === 'https://www.fightcore.gg/') {
     return 1;
-  } else if (url.includes("credits")) {
+  } else if (url.includes('credits')) {
     return 0.7;
-  } else if (url.includes("crouch-cancel")) {
+  } else if (url.includes('crouch-cancel')) {
     return 0.7;
   }
 
   return 0.7;
-}
+};

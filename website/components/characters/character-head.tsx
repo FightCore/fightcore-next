@@ -1,9 +1,9 @@
-import React from "react";
-import NextHead from "next/head";
-import { siteConfig } from "@/config/site";
-import { CharacterBase } from "@/models/character";
-import { characterRoute } from "@/utilities/routes";
-import { characterMetaDescription, metaConfig } from "@/config/meta";
+import React from 'react';
+import NextHead from 'next/head';
+import { siteConfig } from '@/config/site';
+import { CharacterBase } from '@/models/character';
+import { characterRoute } from '@/utilities/routes';
+import { characterMetaDescription, metaConfig } from '@/config/meta';
 
 export interface CharacterHeadParams {
   character: CharacterBase;
@@ -18,7 +18,7 @@ export const CharacterHead = (params: CharacterHeadParams) => {
   baseTags.push(params.character.name);
   baseTags.push(params.character.normalizedName);
 
-  const tags = baseTags.join(",");
+  const tags = baseTags.join(',');
 
   const url = `https://www.fightcore.gg${characterRoute(params.character)}`;
   return (
