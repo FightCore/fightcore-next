@@ -1,8 +1,8 @@
-import { crouchCancelMetaDescription, metaConfig } from "@/config/meta";
-import { siteConfig } from "@/config/site";
-import { CharacterBase } from "@/models/character";
-import { crouchCancelCharacterRoute } from "@/utilities/routes";
-import NextHead from "next/head";
+import { crouchCancelMetaDescription, metaConfig } from '@/config/meta';
+import { siteConfig } from '@/config/site';
+import { CharacterBase } from '@/models/character';
+import { crouchCancelCharacterRoute } from '@/utilities/routes';
+import NextHead from 'next/head';
 
 export interface CrouchCancelCalculatorHeadParams {
   character: CharacterBase;
@@ -16,7 +16,7 @@ export function CrouchCancelCalculatorHead(params: Readonly<CrouchCancelCalculat
   baseTags.push(params.character.name);
   baseTags.push(params.character.normalizedName);
 
-  const tags = baseTags.join(",");
+  const tags = baseTags.join(',');
 
   const url = `https://www.fightcore.gg${crouchCancelCharacterRoute(params.character)}`;
 

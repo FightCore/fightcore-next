@@ -705,9 +705,7 @@ export const rawCharacters: CharacterBase[] = [
   },
 ];
 
-const sortFunction = (
-  characterOne: { name: string },
-  characterTwo: { name: string }
-) => (characterOne.name > characterTwo.name ? 1 : -1);
+const sortFunction = (characterOne: { name: string }, characterTwo: { name: string }) =>
+  characterOne.name > characterTwo.name ? 1 : -1;
 
 export const characters = rawCharacters.sort(sortFunction);

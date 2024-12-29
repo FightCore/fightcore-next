@@ -1,9 +1,9 @@
-import { Move } from "@/models/move";
-import { Button } from "@nextui-org/button";
-import { Image } from "@nextui-org/image";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Kbd } from "@nextui-org/kbd";
-import AnimationLegend from "./animation-legend";
+import { Move } from '@/models/move';
+import { Button } from '@nextui-org/button';
+import { Image } from '@nextui-org/image';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Kbd } from '@nextui-org/kbd';
+import AnimationLegend from './animation-legend';
 
 interface MoveGifParams {
   move: Move;
@@ -19,7 +19,7 @@ export const MoveGif = (params: MoveGifParams) => {
 
   const escFunction = useCallback(
     (event: KeyboardEvent) => {
-      if (event.key === " ") {
+      if (event.key === ' ') {
         if (gifPlayer.isPlaying()) {
           pause();
         } else {
@@ -27,21 +27,21 @@ export const MoveGif = (params: MoveGifParams) => {
         }
         event.preventDefault();
       }
-      if (event.key === "ArrowRight") {
+      if (event.key === 'ArrowRight') {
         nextFrame();
       }
-      if (event.key === "ArrowLeft") {
+      if (event.key === 'ArrowLeft') {
         previousFrame();
       }
     },
-    [gifPlayer]
+    [gifPlayer],
   );
 
   useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
+    document.addEventListener('keydown', escFunction, false);
 
     return () => {
-      document.removeEventListener("keydown", escFunction, false);
+      document.removeEventListener('keydown', escFunction, false);
     };
   }, [escFunction]);
 
@@ -53,10 +53,10 @@ export const MoveGif = (params: MoveGifParams) => {
     initialized.current = true;
 
     if (imageRef.current?.complete) {
-      const SuperGif = (await import("@wizpanda/super-gif")).SuperGif;
+      const SuperGif = (await import('@wizpanda/super-gif')).SuperGif;
       const superGif = new SuperGif(imageRef.current, {});
       superGif.load(() => {
-        console.log("Initialized");
+        console.log('Initialized');
       });
       setGifPlayer(superGif);
     }
@@ -117,17 +117,17 @@ export const MoveGif = (params: MoveGifParams) => {
           ref={imageRef}
           src={params.move.gifUrl}
           onLoad={initializeGifPlayer}
-          alt={params.move.name + " - " + params.move.character?.name}
+          alt={params.move.name + ' - ' + params.move.character?.name}
         />
       </div>
 
       <div className="grid grid-cols-2 gap-2">
         {running ? (
-          <Button onClick={pause} aria-label="Pause gif" startContent={<Kbd keys={["space"]} />}>
+          <Button onClick={pause} aria-label="Pause gif" startContent={<Kbd keys={['space']} />}>
             Pause
           </Button>
         ) : (
-          <Button onClick={play} aria-label="Play gif" startContent={<Kbd keys={["space"]} />}>
+          <Button onClick={play} aria-label="Play gif" startContent={<Kbd keys={['space']} />}>
             Play
           </Button>
         )}
@@ -135,10 +135,10 @@ export const MoveGif = (params: MoveGifParams) => {
           Frame: {frameCounter}
         </Button>
 
-        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={["left"]} />}>
+        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
           Previous Frame
         </Button>
-        <Button onClick={nextFrame} aria-label="Next frame" startContent={<Kbd keys={["right"]} />}>
+        <Button onClick={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
           Next Frame
         </Button>
       </div>

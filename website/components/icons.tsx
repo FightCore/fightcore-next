@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import * as React from "react";
-import { IconSvgProps } from "@/types";
+import * as React from 'react';
+import { IconSvgProps } from '@/types';
 
 export const Logo: React.FC<IconSvgProps> = ({ size, width = 400, height = 50, ...props }) => (
   <svg

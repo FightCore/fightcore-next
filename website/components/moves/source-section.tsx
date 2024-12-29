@@ -1,5 +1,5 @@
-import { Source } from "@/models/source";
-import { Link } from "@nextui-org/link";
+import { Source } from '@/models/source';
+import { Link } from '@nextui-org/link';
 
 export interface SourceSectionParams {
   sources: Source[];
@@ -14,7 +14,7 @@ export default function SourceSection(params: SourceSectionParams) {
           <li key={source.id}>
             <Link href={source.url} isExternal>
               {source.name}
-            </Link>{" "}
+            </Link>{' '}
           </li>
         ))}
       </ul>

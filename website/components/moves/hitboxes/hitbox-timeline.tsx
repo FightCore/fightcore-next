@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import * as d3 from "d3";
-import { Move } from "@/models/move";
-import { processDuplicateHitboxes, processDuplicateHits } from "@/utilities/hitbox-utils";
-import { flattenData, FlattenedHitbox } from "./hitbox-table-columns";
-import { getMappedUnique, getUnique } from "@/utilities/utils";
-import { useTheme } from "next-themes";
-import emitter from "@/events/event-emitter";
+import React, { useEffect } from 'react';
+import * as d3 from 'd3';
+import { Move } from '@/models/move';
+import { processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
+import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
+import { getMappedUnique, getUnique } from '@/utilities/utils';
+import { useTheme } from 'next-themes';
+import emitter from '@/events/event-emitter';
 
 export interface HitboxTimingParams {
   move: Move;
@@ -26,13 +26,13 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
     }
 
     if (params.move.iasa == value) {
-      return "orange";
+      return 'orange';
     }
 
-    if (theme === "dark") {
-      return "#1f2937";
+    if (theme === 'dark') {
+      return '#1f2937';
     }
-    return "#dddde0";
+    return '#dddde0';
   };
 
   const getBorderColor = (frame: number): string => {
@@ -40,10 +40,10 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       (params.move.autoCancelBefore && params.move.autoCancelBefore > frame) ||
       (params.move.autoCancelAfter && params.move.autoCancelAfter < frame)
     ) {
-      return "green";
+      return 'green';
     }
 
-    return "";
+    return '';
   };
   const frames: {
     value: number;
@@ -63,15 +63,15 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
     });
   }
   const drawTimeline = () => {
-    const timelineContainer = d3.select("#d3-based-hitbox-timeline");
+    const timelineContainer = d3.select('#d3-based-hitbox-timeline');
 
     // Clear any existing SVG elements
-    timelineContainer.selectAll("*").remove();
+    timelineContainer.selectAll('*').remove();
 
     const node = timelineContainer.node() as Element | null;
 
     if (node === null) {
-      throw new Error("Node is unexpected null");
+      throw new Error('Node is unexpected null');
     }
 
     const containerWidth = node.clientWidth;
@@ -80,12 +80,12 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
     const svgWidth = columns * (rectSize + spacing);
     const svgHeight = 10 + rows * (rectSize + spacing);
 
-    const svg = timelineContainer.append("svg").attr("width", svgWidth).attr("height", svgHeight);
+    const svg = timelineContainer.append('svg').attr('width', svgWidth).attr('height', svgHeight);
 
     // Legend data
     const legendData = [
-      { label: "IASA", color: "orange", borderColor: "none" },
-      { label: "Auto Cancelable", color: "none", borderColor: "green" },
+      { label: 'IASA', color: 'orange', borderColor: 'none' },
+      { label: 'Auto Cancelable', color: 'none', borderColor: 'green' },
     ];
 
     for (const color of getMappedUnique(colors, (color) => color.color)) {
@@ -93,90 +93,90 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       if (value) {
         legendData.push({
           label: `Hits between frame ${Math.min(...value.map((hitbox) => hitbox.start))} and ${Math.max(
-            ...value.map((hitbox) => hitbox.end)
+            ...value.map((hitbox) => hitbox.end),
           )}`,
           color: color,
-          borderColor: "none",
+          borderColor: 'none',
         });
       }
     }
 
-    const legendContainer = d3.select("#d3-based-legend");
+    const legendContainer = d3.select('#d3-based-legend');
 
     // Clear any existing SVG elements
-    legendContainer.selectAll("*").remove();
+    legendContainer.selectAll('*').remove();
 
     // Legend SVG
     const legendSvg = legendContainer
-      .append("svg")
-      .attr("width", 300)
-      .attr("height", 100 + legendData.length * rectSize);
+      .append('svg')
+      .attr('width', 300)
+      .attr('height', 100 + legendData.length * rectSize);
 
     legendSvg
-      .selectAll("rect")
+      .selectAll('rect')
       .data(legendData)
       .enter()
-      .append("rect")
-      .attr("x", 10)
-      .attr("y", (d, i) => 10 + i * 40)
-      .attr("width", rectSize)
-      .attr("height", rectSize)
-      .attr("fill", (d) => d.color)
-      .attr("stroke", (d) => d.borderColor)
-      .attr("stroke-width", 2)
-      .attr("rx", 5) // Rounded corners for a nicer look
-      .attr("ry", 5); // Rounded corners for a nicer look
+      .append('rect')
+      .attr('x', 10)
+      .attr('y', (d, i) => 10 + i * 40)
+      .attr('width', rectSize)
+      .attr('height', rectSize)
+      .attr('fill', (d) => d.color)
+      .attr('stroke', (d) => d.borderColor)
+      .attr('stroke-width', 2)
+      .attr('rx', 5) // Rounded corners for a nicer look
+      .attr('ry', 5); // Rounded corners for a nicer look
 
     legendSvg
-      .selectAll("text")
+      .selectAll('text')
       .data(legendData)
       .enter()
-      .append("text")
+      .append('text')
       .text((d) => d.label)
-      .attr("x", 60)
-      .attr("y", (d, i) => 30 + i * 40)
-      .attr("font-family", "sans-serif")
-      .attr("font-size", "14px")
-      .attr("fill", "white")
-      .attr("alignment-baseline", "middle");
+      .attr('x', 60)
+      .attr('y', (d, i) => 30 + i * 40)
+      .attr('font-family', 'sans-serif')
+      .attr('font-size', '14px')
+      .attr('fill', 'white')
+      .attr('alignment-baseline', 'middle');
 
     svg
-      .selectAll("rect")
+      .selectAll('rect')
       .data(frames)
       .enter()
-      .append("rect")
-      .attr("x", (d, i) => (i % columns) * (rectSize + spacing))
-      .attr("y", (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing))
-      .attr("width", rectSize)
-      .attr("height", rectSize)
-      .attr("fill", (d) => d.color)
-      .attr("stroke", (d) => d.borderColor)
-      .attr("stroke-width", 2)
-      .attr("rx", 5)
-      .attr("ry", 5)
-      .attr("cursor", "pointer")
-      .on("click", function (event, d) {
+      .append('rect')
+      .attr('x', (d, i) => (i % columns) * (rectSize + spacing))
+      .attr('y', (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing))
+      .attr('width', rectSize)
+      .attr('height', rectSize)
+      .attr('fill', (d) => d.color)
+      .attr('stroke', (d) => d.borderColor)
+      .attr('stroke-width', 2)
+      .attr('rx', 5)
+      .attr('ry', 5)
+      .attr('cursor', 'pointer')
+      .on('click', function (event, d) {
         const index = d3.select(this).datum() as { value: number };
-        emitter.emit("seek", index.value);
+        emitter.emit('seek', index.value);
       });
 
     svg
-      .selectAll("text")
+      .selectAll('text')
       .data(frames)
       .enter()
-      .append("text")
+      .append('text')
       .text((d) => d.value.toString())
-      .attr("x", (d, i) => (i % columns) * (rectSize + spacing) + rectSize / 2)
-      .attr("y", (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing) + rectSize / 2)
-      .attr("font-family", "sans-serif")
-      .attr("font-size", "12px") // Adjusted font size
-      .attr("fill", (d) => (d.color === "#ffffff" || theme === "light" ? "black" : "white"))
-      .attr("text-anchor", "middle")
-      .attr("alignment-baseline", "middle")
-      .attr("cursor", "pointer")
-      .on("click", function (event, d) {
+      .attr('x', (d, i) => (i % columns) * (rectSize + spacing) + rectSize / 2)
+      .attr('y', (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing) + rectSize / 2)
+      .attr('font-family', 'sans-serif')
+      .attr('font-size', '12px') // Adjusted font size
+      .attr('fill', (d) => (d.color === '#ffffff' || theme === 'light' ? 'black' : 'white'))
+      .attr('text-anchor', 'middle')
+      .attr('alignment-baseline', 'middle')
+      .attr('cursor', 'pointer')
+      .on('click', function (event, d) {
         const index = d3.select(this).datum() as { value: number };
-        emitter.emit("seek", index.value);
+        emitter.emit('seek', index.value);
       });
   };
 
@@ -188,22 +188,22 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       drawTimeline();
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Cleanup event listener on component unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [frames]);
 
   return (
     <div className="flex flex-wrap">
       <div className="w-screen lg:w-2/3">
-        <h2 className="text-lg text-bold">Hitbox timeline</h2>
+        <h2 className="text-bold text-lg">Hitbox timeline</h2>
         <div id="d3-based-hitbox-timeline"></div>
       </div>
       <div className="w-screen lg:w-1/3">
-        <h2 className="text-lg text-bold">Legend</h2>
+        <h2 className="text-bold text-lg">Legend</h2>
         <div id="d3-based-legend"></div>
       </div>
     </div>
@@ -216,7 +216,7 @@ interface HitboxColor {
   color: string;
 }
 
-const colors = ["#ef4444", "#3b82f6", "#22c55e", "#a855f7", "#ffffff"];
+const colors = ['#ef4444', '#3b82f6', '#22c55e', '#a855f7', '#ffffff'];
 
 function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
   const result: HitboxColor[] = [];

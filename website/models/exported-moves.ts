@@ -1,5 +1,5 @@
-import { CharacterBase } from "@/models/character";
-import { Move } from "@/models/move";
+import { CharacterBase } from '@/models/character';
+import { Move } from '@/models/move';
 
 export interface ExportedMove extends Move {
   characterName: string;

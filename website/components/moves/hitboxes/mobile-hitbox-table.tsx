@@ -1,12 +1,12 @@
-import { Hitbox } from "@/models/hitbox";
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
-import { FlattenedHitbox } from "./hitbox-table-columns";
-import { Tabs, Tab } from "@nextui-org/tabs";
-import { getMappedUnique } from "@/utilities/utils";
+import { Hitbox } from '@/models/hitbox';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
+import { FlattenedHitbox } from './hitbox-table-columns';
+import { Tabs, Tab } from '@nextui-org/tabs';
+import { getMappedUnique } from '@/utilities/utils';
 
 function MobileHitboxHeader(hitboxes: Readonly<Hitbox[]>) {
   const cells = [<TableColumn key="name-key">Name</TableColumn>];
-  cells.push(...hitboxes.map((hitbox) => <TableColumn key={"id" + hitbox.id}>{hitbox.name}</TableColumn>));
+  cells.push(...hitboxes.map((hitbox) => <TableColumn key={'id' + hitbox.id}>{hitbox.name}</TableColumn>));
   return <TableHeader>{cells}</TableHeader>;
 }
 
@@ -27,38 +27,39 @@ export interface MobileHitboxTableParams {
 
 export default function MobileHitboxTable(params: MobileHitboxTableParams) {
   const classNames = {
-    wrapper: ["dark:bg-gray-800", "shadow-none"],
-    th: ["bg-transparent"],
+    wrapper: ['dark:bg-gray-800', 'shadow-none'],
+    th: ['bg-transparent'],
   };
 
   const hits = getMappedUnique(params.hitboxes, (hitbox) => hitbox.hit);
 
   const useCrouchedHitlag = params.hitboxes.some(
     (hitbox) =>
-      hitbox.hitlagAttacker !== hitbox.hitlagAttackerCrouched || hitbox.hitlagDefender !== hitbox.hitlagDefenderCrouched
+      hitbox.hitlagAttacker !== hitbox.hitlagAttackerCrouched ||
+      hitbox.hitlagDefender !== hitbox.hitlagDefenderCrouched,
   );
 
   const tableRows: { key: keyof Hitbox; title: string }[] = [
-    { key: "damage", title: "Damage" },
-    { key: "angle", title: "Angle" },
-    { key: "knockbackGrowth", title: "Knockback Growth" },
-    { key: "setKnockback", title: "Set Knockback" },
-    { key: "baseKnockback", title: "Base Knockback" },
-    { key: "effect", title: "Effect" },
-    { key: "hitlagAttacker", title: "Hitlag Attacker" },
-    { key: "hitlagDefender", title: "Hitlag Defender" },
+    { key: 'damage', title: 'Damage' },
+    { key: 'angle', title: 'Angle' },
+    { key: 'knockbackGrowth', title: 'Knockback Growth' },
+    { key: 'setKnockback', title: 'Set Knockback' },
+    { key: 'baseKnockback', title: 'Base Knockback' },
+    { key: 'effect', title: 'Effect' },
+    { key: 'hitlagAttacker', title: 'Hitlag Attacker' },
+    { key: 'hitlagDefender', title: 'Hitlag Defender' },
   ];
 
   if (useCrouchedHitlag) {
-    tableRows.push({ key: "hitlagAttackerCrouched", title: "Crouched Hitlag Attacker" });
-    tableRows.push({ key: "hitlagDefenderCrouched", title: "Crouched Hitlag Defender" });
+    tableRows.push({ key: 'hitlagAttackerCrouched', title: 'Crouched Hitlag Attacker' });
+    tableRows.push({ key: 'hitlagDefenderCrouched', title: 'Crouched Hitlag Defender' });
   }
 
-  tableRows.push({ key: "shieldstun", title: "Shieldstun" });
+  tableRows.push({ key: 'shieldstun', title: 'Shieldstun' });
 
   return (
     <div>
-      <Tabs disableAnimation placement="top" className="max-w-full w-max overflow-x-scroll">
+      <Tabs disableAnimation placement="top" className="w-max max-w-full overflow-x-scroll">
         {hits.map((hit) => {
           const hitboxes = params.hitboxes.filter((hitbox) => hitbox.hit === hit);
           const hitObjects = hitboxes[0].hitObjects;
@@ -66,7 +67,7 @@ export default function MobileHitboxTable(params: MobileHitboxTableParams) {
           const maxEnd = Math.max(...hitObjects.map((hitbox) => hitbox.end));
           let title = hit;
           if (minStart !== 0 && maxEnd !== 0) {
-            title = minStart + " - " + maxEnd;
+            title = minStart + ' - ' + maxEnd;
           }
 
           return (

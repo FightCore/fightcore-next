@@ -1,13 +1,13 @@
-import React from "react";
-import NextHead from "next/head";
-import { siteConfig } from "@/config/site";
+import React from 'react';
+import NextHead from 'next/head';
+import { siteConfig } from '@/config/site';
 
 export const CharactersHead = () => {
   const title = `${siteConfig.name}`;
   const description =
-    title + " showcases all the data about the frame data, hitboxes and with an interactive animation player.";
-  const baseTags = ["frame data", "super smash bros melee", "melee", "ssbm", "melee frame data", "frames"];
-  const tags = baseTags.join(",");
+    title + ' showcases all the data about the frame data, hitboxes and with an interactive animation player.';
+  const baseTags = ['frame data', 'super smash bros melee', 'melee', 'ssbm', 'melee frame data', 'frames'];
+  const tags = baseTags.join(',');
   const url = `https://www.fightcore.gg`;
   return (
     <NextHead>

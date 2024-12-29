@@ -1,8 +1,8 @@
-import { CharacterBase } from "@/models/character";
-import { Hitbox } from "@/models/hitbox";
-import { Move } from "@/models/move";
-import { MoveType } from "@/models/move-type";
-import * as Sentry from "@sentry/browser";
+import { CharacterBase } from '@/models/character';
+import { Hitbox } from '@/models/hitbox';
+import { Move } from '@/models/move';
+import { MoveType } from '@/models/move-type';
+import * as Sentry from '@sentry/browser';
 
 export function canBeCrouchCanceled(move: Move): boolean {
   const allowedTypes = [
@@ -15,9 +15,7 @@ export function canBeCrouchCanceled(move: Move): boolean {
     MoveType.tech,
     MoveType.unknown,
   ];
-  return (
-    allowedTypes.includes(move.type) && !!move.hits && move.hits.length > 0
-  );
+  return allowedTypes.includes(move.type) && !!move.hits && move.hits.length > 0;
 }
 
 export function isCrouchCancelPossible(hitbox: Hitbox): boolean {
@@ -39,62 +37,47 @@ export function calculateCrouchCancelPercentage(
   target: CharacterBase,
   knockbackTarget: number,
   floor: boolean,
-  display99PercentForNeverBreaks: boolean
+  display99PercentForNeverBreaks: boolean,
 ): string {
   if (hitbox.setKnockback) {
-    return setKnockbackCalculation(
-      hitbox,
-      target,
-      knockbackTarget,
-      display99PercentForNeverBreaks
-    );
+    return setKnockbackCalculation(hitbox, target, knockbackTarget, display99PercentForNeverBreaks);
   }
 
   if (hitbox.knockbackGrowth === 0) {
-    return display99PercentForNeverBreaks ? "99%" : "Never breaks";
+    return display99PercentForNeverBreaks ? '99%' : 'Never breaks';
   }
 
   const percentage =
     ((100 + target.characterStatistics.weight) / 14) *
-      (((100 / hitbox.knockbackGrowth) *
-        (knockbackTarget - hitbox.baseKnockback) -
-        18) /
-        (hitbox.damage + 2)) -
+      (((100 / hitbox.knockbackGrowth) * (knockbackTarget - hitbox.baseKnockback) - 18) / (hitbox.damage + 2)) -
     hitbox.damage;
 
   if (Infinity === percentage) {
     Sentry.captureMessage(
-      `Crouch cancel calculation resulted in Infinity for ${hitbox.id} for target ${target.fightCoreId}`
+      `Crouch cancel calculation resulted in Infinity for ${hitbox.id} for target ${target.fightCoreId}`,
     );
 
-    return display99PercentForNeverBreaks ? "99%" : "Never breaks";
+    return display99PercentForNeverBreaks ? '99%' : 'Never breaks';
   }
 
   if (percentage > 0) {
     if (floor) {
-      return Math.floor(percentage) + "%";
+      return Math.floor(percentage) + '%';
     }
 
-    return percentage.toFixed(2) + "%";
+    return percentage.toFixed(2) + '%';
   }
 
-  return "0%";
+  return '0%';
 }
 
-export function meetsKnockbackTarget(
-  hitbox: Hitbox,
-  character: CharacterBase,
-  knockbackTarget: number
-): boolean {
+export function meetsKnockbackTarget(hitbox: Hitbox, character: CharacterBase, knockbackTarget: number): boolean {
   // Weight dependant set knockback formula as found on the following sources:
   // eslint-disable-next-line max-len
   // - IKneeData: https://github.com/schmooblidon/schmooblidon.github.io/blob/09c8d4303ce6d98d62918073b474099b5ed9a026/calculatormaths.js#L101
   // - standardtoaster/magus on Smashboards: https://smashboards.com/threads/melee-knockback-values.334245/post-15368915
   const knockback =
-    (((hitbox.setKnockback * 10) / 20 + 1) *
-      1.4 *
-      (200 / (character.characterStatistics.weight + 100)) +
-      18) *
+    (((hitbox.setKnockback * 10) / 20 + 1) * 1.4 * (200 / (character.characterStatistics.weight + 100)) + 18) *
       (hitbox.knockbackGrowth / 100) +
     hitbox.baseKnockback;
 
@@ -106,11 +89,11 @@ function setKnockbackCalculation(
   hitbox: Hitbox,
   target: CharacterBase,
   knockbackTarget: number,
-  display99PercentForNeverBreaks: boolean
+  display99PercentForNeverBreaks: boolean,
 ): string {
   if (meetsKnockbackTarget(hitbox, target, knockbackTarget)) {
-    return "0%";
+    return '0%';
   } else {
-    return display99PercentForNeverBreaks ? "99%" : "Never breaks";
+    return display99PercentForNeverBreaks ? '99%' : 'Never breaks';
   }
 }

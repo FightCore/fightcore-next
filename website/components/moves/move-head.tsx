@@ -1,10 +1,10 @@
-import React from "react";
-import NextHead from "next/head";
-import { siteConfig } from "@/config/site";
-import { Move } from "@/models/move";
-import { CharacterBase } from "@/models/character";
-import { moveRoute } from "@/utilities/routes";
-import { metaConfig, moveMetaDescription } from "@/config/meta";
+import React from 'react';
+import NextHead from 'next/head';
+import { siteConfig } from '@/config/site';
+import { Move } from '@/models/move';
+import { CharacterBase } from '@/models/character';
+import { moveRoute } from '@/utilities/routes';
+import { metaConfig, moveMetaDescription } from '@/config/meta';
 
 export interface MoveHeadParams {
   move: Move;
@@ -21,7 +21,7 @@ export const MoveHead = (params: MoveHeadParams) => {
   baseTags.push(params.move.name);
   baseTags.push(params.move.normalizedName);
 
-  const tags = baseTags.join(",");
+  const tags = baseTags.join(',');
 
   // eslint-disable-next-line max-len
   const imageAlt = `${params.character.name} ${params.move.name} frame by frame animation showcasing detailed hitbox information`;

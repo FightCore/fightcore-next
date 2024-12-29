@@ -1,4 +1,4 @@
-import { Hitbox } from "./hitbox";
+import { Hitbox } from './hitbox';
 
 export interface Hit {
   id: number;

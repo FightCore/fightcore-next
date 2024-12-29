@@ -1,15 +1,15 @@
-const CompressionPlugin = require("compression-webpack-plugin");
-const path = require('path')
-const { withSentryConfig } = require("@sentry/nextjs");
+const CompressionPlugin = require('compression-webpack-plugin');
+const path = require('path');
+const { withSentryConfig } = require('@sentry/nextjs');
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
 });
 
 /** @type {import('next').NextConfig} */
 /** @type {import('next-sitemap').IConfig} */
 const nextConfig = {
-  output: "export",
+  output: 'export',
   compress: true,
   reactStrictMode: true,
   trailingSlash: true,
@@ -28,20 +28,19 @@ const nextConfig = {
       config.plugins.push(new CompressionPlugin());
     }
     return config;
-  }
+  },
 };
 
-module.exports = process.env.USE_SENTRY ?
-  withSentryConfig(withBundleAnalyzer(nextConfig), {
-    org: "fightcore",
-    project: "javascript-nextjs",
+module.exports = process.env.USE_SENTRY
+  ? withSentryConfig(withBundleAnalyzer(nextConfig), {
+      org: 'fightcore',
+      project: 'javascript-nextjs',
 
-    // An auth token is required for uploading source maps.
-    authToken: process.env.SENTRY_AUTH_TOKEN,
+      // An auth token is required for uploading source maps.
+      authToken: process.env.SENTRY_AUTH_TOKEN,
 
-    tunnelRoute: "/monitoring-tunnel",
+      tunnelRoute: '/monitoring-tunnel',
 
-    silent: false, // Can be used to suppress logs
-  })
+      silent: false, // Can be used to suppress logs
+    })
   : withBundleAnalyzer(nextConfig);
-

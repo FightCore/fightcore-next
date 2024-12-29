@@ -1,6 +1,6 @@
-import { Move } from "@/models/move";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/table";
-import React from "react";
+import { Move } from '@/models/move';
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
+import React from 'react';
 
 export interface MoveTableParams {
   move: Move;
@@ -9,10 +9,10 @@ export interface MoveTableParams {
 export default function MoveAttributeTable(params: Readonly<MoveTableParams>) {
   const classNames = React.useMemo(
     () => ({
-      wrapper: ["dark:bg-gray-800", "shadow-none"],
-      th: ["bg-transparent"],
+      wrapper: ['dark:bg-gray-800', 'shadow-none'],
+      th: ['bg-transparent'],
     }),
-    []
+    [],
   );
   return (
     <>

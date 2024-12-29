@@ -1,10 +1,10 @@
-import eventEmitter from "@/events/event-emitter";
-import { Button } from "@nextui-org/button";
-import { Kbd } from "@nextui-org/kbd";
-import parseAPNG from "apng-js";
-import Player from "apng-js/types/library/player";
-import { useCallback, useEffect, useRef, useState } from "react";
-import AnimationLegend from "./animation-legend";
+import eventEmitter from '@/events/event-emitter';
+import { Button } from '@nextui-org/button';
+import { Kbd } from '@nextui-org/kbd';
+import parseAPNG from 'apng-js';
+import Player from 'apng-js/types/library/player';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import AnimationLegend from './animation-legend';
 
 export interface ApngMoveParams {
   url: string;
@@ -24,7 +24,7 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       if (!player) {
         return;
       }
-      if (event.key === " ") {
+      if (event.key === ' ') {
         if (!playing) {
           player.pause();
         } else {
@@ -32,21 +32,21 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
         }
         event.preventDefault();
       }
-      if (event.key === "ArrowRight") {
+      if (event.key === 'ArrowRight') {
         nextFrame();
       }
-      if (event.key === "ArrowLeft") {
+      if (event.key === 'ArrowLeft') {
         previousFrame();
       }
     },
-    [player]
+    [player],
   );
 
   useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
+    document.addEventListener('keydown', escFunction, false);
 
     return () => {
-      document.removeEventListener("keydown", escFunction, false);
+      document.removeEventListener('keydown', escFunction, false);
     };
   }, [escFunction]);
 
@@ -71,34 +71,34 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       const apng = await parseAPNG(buffer);
 
       if (apng instanceof Error) {
-        console.error("Error parsing APNG:", apng);
+        console.error('Error parsing APNG:', apng);
         return;
       }
       setTotalFrames(apng.frames.length);
       if (!canvasDivRef || !canvasDivRef.current) {
-        console.error("Canvas not found");
+        console.error('Canvas not found');
         return;
       }
       if (canvasDivRef.current.children.length > 0) {
         return;
       }
-      const canvas = document.createElement("canvas");
+      const canvas = document.createElement('canvas');
       canvas.width = apng.width;
       canvas.height = apng.height;
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
       canvasDivRef.current.appendChild(canvas);
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
 
       const localPlayer = await apng.getPlayer(ctx!);
       localPlayer.playbackRate = 0.2;
-      localPlayer.addListener("frame", (frameNumber: number) => {
+      localPlayer.addListener('frame', (frameNumber: number) => {
         setFrameCounter(frameNumber + 1);
       });
-      localPlayer.addListener("play", () => {
+      localPlayer.addListener('play', () => {
         setPlaying(true);
       });
-      localPlayer.addListener("pause", () => {
+      localPlayer.addListener('pause', () => {
         setPlaying(false);
       });
       localPlayer.play();
@@ -131,11 +131,11 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       }
     };
 
-    eventEmitter.on("seek", handleSeek);
+    eventEmitter.on('seek', handleSeek);
 
     // Clean up the event listener on component unmount
     return () => {
-      eventEmitter.off("seek", handleSeek);
+      eventEmitter.off('seek', handleSeek);
     };
   }, [player]);
 
@@ -182,8 +182,8 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
   return (
     <>
       {!loaded || !player ? (
-        <div className="p-3 h-96 w-full">
-          <div className="h-full w-full rounded-lg bg-default-300 skeleton"></div>
+        <div className="h-96 w-full p-3">
+          <div className="skeleton h-full w-full rounded-lg bg-default-300"></div>
         </div>
       ) : (
         <></>
@@ -192,11 +192,11 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
 
       <div className="grid grid-cols-2 gap-2">
         {playing ? (
-          <Button onClick={pause} aria-label="Pause gif" startContent={<Kbd keys={["space"]} />}>
+          <Button onClick={pause} aria-label="Pause gif" startContent={<Kbd keys={['space']} />}>
             Pause
           </Button>
         ) : (
-          <Button onClick={play} aria-label="Play gif" startContent={<Kbd keys={["space"]} />}>
+          <Button onClick={play} aria-label="Play gif" startContent={<Kbd keys={['space']} />}>
             Play
           </Button>
         )}
@@ -204,10 +204,10 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
           Frame: {frameCounter}
         </Button>
 
-        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={["left"]} />}>
+        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
           Previous Frame
         </Button>
-        <Button onClick={nextFrame} aria-label="Next frame" startContent={<Kbd keys={["right"]} />}>
+        <Button onClick={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
           Next Frame
         </Button>
       </div>

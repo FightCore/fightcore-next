@@ -1,5 +1,5 @@
-import { Hit } from "@/models/hit";
-import { Hitbox } from "@/models/hitbox";
+import { Hit } from '@/models/hit';
+import { Hitbox } from '@/models/hitbox';
 
 export interface FlattenedHitbox extends Hitbox {
   hit: string;
@@ -9,9 +9,9 @@ export interface FlattenedHitbox extends Hitbox {
 export function flattenData(hits: Hit[]): FlattenedHitbox[] {
   return hits.flatMap((hit) =>
     hit.hitboxes.flatMap((hitbox) => ({
-      hit: hit.name ? hit.name : hit.start + " - " + hit.end,
+      hit: hit.name ? hit.name : hit.start + ' - ' + hit.end,
       hitObjects: [hit],
       ...hitbox,
-    }))
+    })),
   );
 }

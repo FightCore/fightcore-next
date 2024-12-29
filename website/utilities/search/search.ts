@@ -1,5 +1,5 @@
-import { characters } from "@/config/characters";
-import { ExportedMove } from "@/models/exported-moves";
+import { characters } from '@/config/characters';
+import { ExportedMove } from '@/models/exported-moves';
 
 const distanceConfiguration = {
   caseSensitive: false,
@@ -7,11 +7,8 @@ const distanceConfiguration = {
 
 const threshold = 0.8;
 
-export async function search(
-  query: string,
-  items: ExportedMove[]
-): Promise<ExportedMove[]> {
-  const keyWords = query.split(" ");
+export async function search(query: string, items: ExportedMove[]): Promise<ExportedMove[]> {
+  const keyWords = query.split(' ');
   if (keyWords.length === 0) {
     return items.slice(0, 3);
   }
@@ -21,9 +18,7 @@ export async function search(
     return [];
   }
 
-  const remainingMoves = items.filter(
-    (move) => move.normalizedCharacterName === searchResult.name
-  );
+  const remainingMoves = items.filter((move) => move.normalizedCharacterName === searchResult.name);
 
   if (!searchResult.remainder) {
     return remainingMoves.slice(0, 3);
@@ -47,19 +42,15 @@ async function findCharacter(keyWords: string[]): Promise<{
   name: string | null;
   remainder: string;
 }> {
-  let characterName = "";
+  let characterName = '';
   let topDistance = 0;
   let lastIndex = 0;
-  let actualName = "";
+  let actualName = '';
   for (let index = 0; index < keyWords.length; index++) {
     const word = keyWords[index];
     characterName += word;
     for (const character of characters) {
-      const distance = await compareToCharacter(
-        character.name,
-        character.normalizedName,
-        characterName
-      );
+      const distance = await compareToCharacter(character.name, character.normalizedName, characterName);
 
       // If the distance is undefined, nothing has been found and it can be skipped over.
       if (distance == undefined) {
@@ -75,17 +66,13 @@ async function findCharacter(keyWords: string[]): Promise<{
   }
   return {
     name: actualName,
-    remainder: keyWords.slice(lastIndex + 1).join(" "),
+    remainder: keyWords.slice(lastIndex + 1).join(' '),
   };
 }
 
-async function compareToCharacter(
-  name: string,
-  normalizedName: string,
-  query: string
-): Promise<number | undefined> {
+async function compareToCharacter(name: string, normalizedName: string, query: string): Promise<number | undefined> {
   let distance = 0;
-  const jaroWinkler = (await import("jaro-winkler-typescript")).jaroWinkler;
+  const jaroWinkler = (await import('jaro-winkler-typescript')).jaroWinkler;
   distance = jaroWinkler(normalizedName, query, distanceConfiguration);
 
   const nameDistance = jaroWinkler(name, query, {
@@ -101,12 +88,9 @@ async function compareToCharacter(
   return undefined;
 }
 
-async function compareToMove(
-  move: ExportedMove,
-  query: string
-): Promise<number | undefined> {
+async function compareToMove(move: ExportedMove, query: string): Promise<number | undefined> {
   let distance = 0;
-  const jaroWinkler = (await import("jaro-winkler-typescript")).jaroWinkler;
+  const jaroWinkler = (await import('jaro-winkler-typescript')).jaroWinkler;
   distance = jaroWinkler(move.normalizedName, query, distanceConfiguration);
 
   const nameDistance = jaroWinkler(move.name, query, {

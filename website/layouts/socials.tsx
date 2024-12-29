@@ -1,12 +1,12 @@
-import { siteConfig } from "@/config/site";
-import { Link } from "@nextui-org/link";
-import { Image } from "@nextui-org/image";
-import { ThemeSwitch } from "../components/theme-switch";
-import { FaDiscord, FaGithub } from "react-icons/fa6";
+import { siteConfig } from '@/config/site';
+import { Link } from '@nextui-org/link';
+import { Image } from '@nextui-org/image';
+import { ThemeSwitch } from '../components/theme-switch';
+import { FaDiscord, FaGithub } from 'react-icons/fa6';
 export const Socials = ({ ...params }) => {
   return (
     <div className={params.className}>
-      <div className="grid grid-cols-3 my-2">
+      <div className="my-2 grid grid-cols-3">
         <Link className="justify-center" isExternal href={siteConfig.links.discord} aria-label="Discord">
           <FaDiscord className="text-default-500" />
         </Link>

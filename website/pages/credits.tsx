@@ -1,16 +1,13 @@
-import { Link } from "@nextui-org/link";
+import { Link } from '@nextui-org/link';
 
 export default function Credits() {
   return (
     <>
-      <div
-        className="h-16 w-full bg-gray-200 dark:bg-gray-800 rounded border
-          border-gray-300 dark:border-gray-800 flex justify-center items-center mb-4"
-      >
-        <p className="text-2xl font-bold text-center">Credits & Sources</p>
+      <div className="mb-4 flex h-16 w-full items-center justify-center rounded border border-gray-300 bg-gray-200 dark:border-gray-800 dark:bg-gray-800">
+        <p className="text-center text-2xl font-bold">Credits & Sources</p>
       </div>
       <div className="mb-2">
-        <div className="text-xl text-bold">Credits</div>
+        <div className="text-bold text-xl">Credits</div>
         <p>A more detailed list of people that have been vital to this project.</p>
         <ul>
           <li>
@@ -19,8 +16,8 @@ export default function Credits() {
           <li>
             <Link href="https://x.com/hrtfiend" isExternal>
               Emilia
-            </Link>{" "}
-            Recorder of all the GIFs and maintainer of{" "}
+            </Link>{' '}
+            Recorder of all the GIFs and maintainer of{' '}
             <Link href="https://drive.fightcore.gg" isExternal>
               the Google Drive
             </Link>
@@ -28,7 +25,7 @@ export default function Credits() {
           <li>
             <Link href="https://github.com/neilharbin0" isExternal>
               NeilHarbin0
-            </Link>{" "}
+            </Link>{' '}
             Creating frame data software allowing for background-less recording and easy editing.
           </li>
           <li>
@@ -40,7 +37,7 @@ export default function Credits() {
         </ul>
       </div>
       <div>
-        <div className="text-xl text-bold">Sources</div>
+        <div className="text-bold text-xl">Sources</div>
         <p>The following is a list of sources used when building FightCore.</p>
         <ul>
           <li>

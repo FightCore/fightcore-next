@@ -1,5 +1,5 @@
-import { CrouchCancelTable } from "./crouch-cancel-table";
-import { Hit } from "@/models/hit";
+import { CrouchCancelTable } from './crouch-cancel-table';
+import { Hit } from '@/models/hit';
 
 export interface CrouchCancelSectionParams {
   hits: Hit[];
