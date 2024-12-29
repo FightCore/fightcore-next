@@ -1,7 +1,6 @@
 import { characters } from '@/config/framedata/framedata';
 import { Character, CharacterBase } from '@/models/character';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import slugify from 'slugify';
 import { promises as fs } from 'fs';
 import { Select, SelectItem } from '@nextui-org/select';
 import { Key, useEffect, useState } from 'react';

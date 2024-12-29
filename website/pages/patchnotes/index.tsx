@@ -4,6 +4,13 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: "1.0.2",
+    changes: [
+      "Fixed an issue where Dr Mario's down air had an incorrect frame at 32-33 (thank you skullbro)",
+      "Fixed an issue where Peach down smash had an incorrect last 2 frames (thank you Vlerk)",
+    ],
+  },
+  {
     version: '1.0.1',
     changes: [
       'Fixed an issue where the hitlag for crouch canceled defender was wrong (thank you skullbro)',

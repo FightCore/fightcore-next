@@ -1,5 +1,5 @@
 {
-  "name": "next-app-template",
+  "name": "fightcore-frontend",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -39,14 +39,15 @@
     "@nextui-org/tabs": "^2.0.37",
     "@nextui-org/theme": "^2.2.11",
     "@nextui-org/tooltip": "^2.0.41",
-    "@sentry/nextjs": "^8.38.0",
+    "@sentry/browser": "^8.42.0",
+    "@sentry/replay": "^7.116.0",
     "@wizpanda/super-gif": "^0.0.6",
     "apng-js": "^1.1.4",
     "autoprefixer": "10.4.19",
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
-    "framer-motion": "^11.11.17",
-    "intl-messageformat": "^10.7.6",
+    "framer-motion": "^11.12.0",
+    "intl-messageformat": "^10.7.7",
     "jaro-winkler-typescript": "^1.0.1",
     "ka-table": "^11.3.0",
     "mitt": "^3.0.1",
@@ -58,8 +59,7 @@
     "postcss-preset-env": "^9.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^5.3.0",
-    "slugify": "^1.6.6"
+    "react-icons": "^5.3.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^14.2.18",

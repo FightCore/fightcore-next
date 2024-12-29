@@ -12,7 +12,6 @@ import { CrouchCancelSection } from '@/components/moves/crouch-cancel-section';
 import { HitboxSection } from '@/components/moves/hitbox-section';
 import SourceSection from '@/components/moves/source-section';
 import { InterpolatedMoveWarning } from '@/components/moves/interpolated-move-warning';
-import slugify from 'slugify';
 import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
 import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
 import MoveAnimationDisplay from '@/components/moves/move-animation-display';

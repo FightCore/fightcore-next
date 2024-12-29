@@ -8,7 +8,6 @@ import { promises as fs } from 'fs';
 import { Breadcrumbs, BreadcrumbItem } from '@nextui-org/breadcrumbs';
 import { characterRoute } from '@/utilities/routes';
 import { CharacterHead } from '@/components/characters/character-head';
-import slugify from 'slugify';
 
 export type CharacterPage = {
   character: Character | null;
@@ -88,7 +87,7 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
       ],
     },
     { type: MoveType.dodge, name: 'Dodge', sorting: ['spotdodge', 'airdodge', 'rollbackwards', 'rollforward'] },
-    { type: MoveType.tech, name: 'Getups/Techs' },
+    { type: MoveType.tech, name: 'Getups/Techs', sorting: ["neutraltech", "ftechroll", "btechroll"] },
     { type: MoveType.item, name: 'Item' },
     {
       type: MoveType.kirbySpecial,
