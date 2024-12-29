@@ -25,10 +25,7 @@ export function characterMetaDescription(character: CharacterBase): string {
   return metaConfig.baseDescription(`${character.name}`);
 }
 
-export function moveMetaDescription(
-  character: CharacterBase,
-  move: Move
-): string {
+export function moveMetaDescription(character: CharacterBase, move: Move): string {
   const moveSummary = createMoveSummary(move);
   const pageName = `${character.name} ${move.name}`;
   const siteDescription = metaConfig.baseDescription(pageName);
@@ -37,9 +34,7 @@ export function moveMetaDescription(
 }
 
 export function crouchCancelMetaDescription(character: CharacterBase): string {
-  return metaConfig.baseDescription(
-    `${character.name} crouch cancel information`
-  );
+  return metaConfig.baseDescription(`${character.name} crouch cancel information`);
 }
 
 function createMoveSummary(move: Move): string {
@@ -47,7 +42,7 @@ function createMoveSummary(move: Move): string {
     return `Total Frames: ${move.totalFrames} ${move.notes}`;
   }
 
-  let summary = "";
+  let summary = '';
   if (move.start) {
     summary += `Start: ${move.start} `;
   }
