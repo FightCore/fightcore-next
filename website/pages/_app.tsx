@@ -9,10 +9,10 @@ import * as Sentry from '@sentry/browser';
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    console.log("Initializing Sentry");
+    console.log('Initializing Sentry');
     Sentry.init({
-      dsn: "https://373aec30d96a935aec1a26d7980eabd5@o4507902200119296.ingest.de.sentry.io/4507902211194960",
-      tunnel: "https://sentry.fightcore.gg",
+      dsn: 'https://373aec30d96a935aec1a26d7980eabd5@o4507902200119296.ingest.de.sentry.io/4507902211194960',
+      tunnel: 'https://sentry.fightcore.gg',
 
       // Set tracesSampleRate to 1.0 to capture 100%
       // of transactions for tracing.
