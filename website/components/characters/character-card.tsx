@@ -1,3 +1,4 @@
+import { CharacterBase } from '@/models/character';
 import { Button } from '@nextui-org/button';
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
@@ -6,7 +7,7 @@ import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from 
 import React from 'react';
 
 interface CharacterCardInput {
-  character: any;
+  character: CharacterBase;
 }
 
 export const CharacterCard = (input: CharacterCardInput) => {
