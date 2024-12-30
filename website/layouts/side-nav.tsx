@@ -1,36 +1,25 @@
 'use client';
+import { characters } from '@/config/framedata/framedata';
+import { characterRoute } from '@/utilities/routes';
 import { Divider } from '@nextui-org/divider';
 import { Image } from '@nextui-org/image';
 import { Link } from '@nextui-org/link';
 import { Tooltip } from '@nextui-org/tooltip';
+import { FaAward, FaCalculator, FaCircleUser, FaGoogleDrive, FaMugHot, FaRobot } from 'react-icons/fa6';
 import { Logo } from '../components/icons';
-import { characters } from '@/config/framedata/framedata';
-import React from 'react';
 import { Socials } from './socials';
-import { SearchBar } from './search-bar';
-import {
-  FaAward,
-  FaCalculator,
-  FaCircleUser,
-  FaGoogleDrive,
-  FaMugHot,
-  FaRectangleList,
-  FaRobot,
-} from 'react-icons/fa6';
-import { characterRoute } from '@/utilities/routes';
-import Script from 'next/script';
 
 export function SideNav() {
   return (
-    <div className="flex h-full flex-col overflow-y-auto px-2">
-      <div className="flex-1">
-        <div className="mb-2 rounded-b-lg bg-red-700 p-1 text-white">
-          <Link href="/" className="w-100 align-content-center flex">
-            <Logo className="flex-1" height={50} width={100} />
-          </Link>
-          {process.env.IS_BETA ? <p>Beta</p> : <></>}
-        </div>
+    <div className="flex h-full flex-col overflow-y-auto">
+      <div className="bg-red-700 p-2 text-white dark:bg-transparent">
+        <Link href="/" className="w-100 align-content-center flex">
+          <Logo className="flex-1" height={50} width={100} />
+        </Link>
+        {process.env.IS_BETA ? <p>Beta</p> : <></>}
+      </div>
 
+      <div className="px-2">
         <div className="grid grid-cols-4 gap-2 p-2">
           {characters.map((character) => (
             <div key={character.normalizedName}>
@@ -48,7 +37,7 @@ export function SideNav() {
             </div>
           ))}
         </div>
-        <Divider className="my-4" />
+        <Divider className="my-1" />
 
         <ul className="space-y-1 font-medium">
           <li>
@@ -116,10 +105,14 @@ export function SideNav() {
           </li>
         </ul>
       </div>
-      <div className="grow"></div>
-      <Socials className="shrink" />
-      <div className="w-full text-center">
-        <Link href="/patchnotes">Version 1.0.1</Link>
+
+      <div className="grow" />
+
+      <div className="mb-5 px-4">
+        <Socials />
+        <Link className="mt-2" href="/patchnotes">
+          Version 1.0.1
+        </Link>
       </div>
     </div>
   );

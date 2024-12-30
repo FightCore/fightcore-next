@@ -1,0 +1,10 @@
+{
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "javascript"
+  },
+  "cSpell.language": "en-US,nl",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  }
+}

@@ -1,21 +1,18 @@
-import { characters } from '@/config/framedata/framedata';
-import { Character, CharacterBase } from '@/models/character';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import slugify from 'slugify';
-import { promises as fs } from 'fs';
-import { Select, SelectItem } from '@nextui-org/select';
-import { Key, useEffect, useState } from 'react';
-import { crouchCancelCharacterRoute } from '@/utilities/routes';
-import { Tooltip } from '@nextui-org/tooltip';
-import { Link } from '@nextui-org/link';
-import { Image } from '@nextui-org/image';
-import { CrouchCancelMoveList } from '@/components/moves/crouch-cancel/crouch-cancel-move-list';
-import { RadioGroup, Radio } from '@nextui-org/radio';
-import { Checkbox } from '@nextui-org/checkbox';
-import { LOCAL_STORAGE_PREFERRED_CC_FLOOR } from '@/keys/local-storage-keys';
-import { Knockback } from '@/types/knockback';
-import CrouchCancelCharacterSwitches from '@/components/moves/crouch-cancel/crouch-cancel-character-switcher';
 import { CrouchCancelCalculatorHead } from '@/components/head/crouch-cancel-calculator-head';
+import CrouchCancelCharacterSwitches from '@/components/moves/crouch-cancel/crouch-cancel-character-switcher';
+import { CrouchCancelMoveList } from '@/components/moves/crouch-cancel/crouch-cancel-move-list';
+import { PageTitle } from '@/components/page-title';
+import { characters } from '@/config/framedata/framedata';
+import { LOCAL_STORAGE_PREFERRED_CC_FLOOR } from '@/keys/local-storage-keys';
+import { Character, CharacterBase } from '@/models/character';
+import { Knockback } from '@/types/knockback';
+import { Checkbox } from '@nextui-org/checkbox';
+import { Image } from '@nextui-org/image';
+import { Radio, RadioGroup } from '@nextui-org/radio';
+import { Select, SelectItem } from '@nextui-org/select';
+import { promises as fs } from 'fs';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { Key, useEffect, useState } from 'react';
 
 export type CrouchCancelCharacterPage = {
   character: Character | null;
@@ -95,24 +92,24 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
   return (
     <>
       <CrouchCancelCalculatorHead character={data.character} />
-      <div className="mb-4 flex h-16 w-full items-center justify-center rounded border border-gray-300 bg-red-400 dark:border-gray-800 dark:bg-red-700">
-        <p className="text-center text-2xl font-bold">{data.character.name} Crouch Cancel Calculator</p>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+
+      <PageTitle title={`${data.character.name} Crouch Cancel Calculator`} />
+
+      <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
         <div>
-          <h2 className="mb-2 text-xl font-bold">Select your character</h2>
+          <h2 className="mb-5 text-xl font-bold">Select your character</h2>
           <div className="grid grid-cols-5 gap-1 md:grid-cols-10">
             <CrouchCancelCharacterSwitches />
           </div>
         </div>
 
         <div>
-          <h2 className="mb-2 text-xl font-bold">Options</h2>
+          <h2 className="mb-5 text-xl font-bold">Options</h2>
           <Select
             items={characters}
             label="Target"
             placeholder="Select the target that should crouch cancel the move"
-            className="w-full"
+            className="mb-5 w-full"
             classNames={{
               trigger: 'dark:bg-gray-800',
               listboxWrapper: 'dark:bg-gray-900',
@@ -131,24 +128,25 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
               </SelectItem>
             )}
           </Select>
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            <RadioGroup
-              value={mode.toString()}
-              onValueChange={setModeChange}
-              label="Select calculator mode"
-              orientation="horizontal"
-            >
-              <Radio value="120">Crouch Cancel</Radio>
-              <Radio value="80">ASDI Down</Radio>
-            </RadioGroup>
-            <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
-              <div className="text-medium font-bold">Floor percentages</div>
-              <div className="text-small">
-                Melee uses floored percentages for its calculations, un-floored percentages can be viewed but should not
-                be used.
-              </div>
-            </Checkbox>
-          </div>
+
+          <RadioGroup
+            value={mode.toString()}
+            onValueChange={setModeChange}
+            label="Select calculator mode"
+            orientation="horizontal"
+            className="mb-5 text-white"
+          >
+            <Radio value="120">Crouch Cancel</Radio>
+            <Radio value="80">ASDI Down</Radio>
+          </RadioGroup>
+
+          <div className="mb-1 text-medium text-foreground-500">Floor percentages</div>
+          <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
+            <div className="text-small">
+              Melee uses floored percentages for its calculations, un-floored percentages can be viewed but should not
+              be used.
+            </div>
+          </Checkbox>
         </div>
       </div>
 

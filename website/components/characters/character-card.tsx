@@ -1,9 +1,9 @@
-import React from 'react';
-import { Card, CardHeader, CardBody, CardFooter } from '@nextui-org/card';
 import { Button } from '@nextui-org/button';
+import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
 import { Link } from '@nextui-org/link';
-import { Table, TableHeader, TableColumn, TableRow, TableCell, TableBody } from '@nextui-org/table';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
+import React from 'react';
 
 interface CharacterCardInput {
   character: any;
@@ -20,9 +20,9 @@ export const CharacterCard = (input: CharacterCardInput) => {
     [],
   );
   return (
-    <Card key={character.normalizedName} className="max-w-[340px] dark:bg-gray-800">
+    <Card key={character.normalizedName} className="w-full dark:bg-gray-800 md:max-w-[340px]">
       <CardHeader className="justify-between">
-        <div className="flex gap-5">
+        <div className="ml-3 mt-3 flex gap-3">
           <Image
             width={40}
             height={40}
@@ -31,7 +31,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
             loading={'eager'}
           />
           <div className="flex flex-col items-start justify-center gap-1">
-            <h4 className="text-medium font-semibold leading-none text-default-600">{character.name}</h4>
+            <h4 className="text-lg font-bold leading-none text-default-600">{character.name}</h4>
           </div>
         </div>
       </CardHeader>
@@ -39,44 +39,48 @@ export const CharacterCard = (input: CharacterCardInput) => {
         <Table classNames={classNames} key={character.normalizedName} aria-label="Example static collection table">
           <TableHeader>
             <TableColumn key={'col1' + character.normalizedName}>NAME</TableColumn>
-            <TableColumn key={'col2' + character.normalizedName}>VALUE</TableColumn>
+            <TableColumn className="text-right font-mono" key={'col2' + character.normalizedName}>
+              VALUE
+            </TableColumn>
           </TableHeader>
           <TableBody>
             <TableRow key={'1' + character.normalizedName}>
               <TableCell>Weight</TableCell>
-              <TableCell>{character.characterStatistics.weight}</TableCell>
+              <TableCell className="text-right font-mono">{character.characterStatistics.weight}</TableCell>
             </TableRow>
             <TableRow key={'2' + character.normalizedName}>
               <TableCell>Gravity</TableCell>
-              <TableCell>{character.characterStatistics.gravity}</TableCell>
+              <TableCell className="text-right font-mono">{character.characterStatistics.gravity}</TableCell>
             </TableRow>
             <TableRow key={'3' + character.normalizedName}>
               <TableCell>Walk Speed</TableCell>
-              <TableCell>{character.characterStatistics.walkSpeed}</TableCell>
+              <TableCell className="text-right font-mono">{character.characterStatistics.walkSpeed}</TableCell>
             </TableRow>
             <TableRow key={'4' + character.normalizedName}>
               <TableCell>Run Speed</TableCell>
-              <TableCell>{character.characterStatistics.runSpeed}</TableCell>
+              <TableCell className="text-right font-mono">{character.characterStatistics.runSpeed}</TableCell>
             </TableRow>
             <TableRow key={'5' + character.normalizedName}>
               <TableCell>Wave Dash Length Rank</TableCell>
-              <TableCell>{character.characterStatistics.waveDashLengthRank}</TableCell>
+              <TableCell className="text-right font-mono">{character.characterStatistics.waveDashLengthRank}</TableCell>
             </TableRow>
             <TableRow key={'6' + character.normalizedName}>
               <TableCell>Initial Dash</TableCell>
-              <TableCell>{character.characterStatistics.initialDash}</TableCell>
+              <TableCell className="text-right font-mono">{character.characterStatistics.initialDash}</TableCell>
             </TableRow>
             <TableRow key={'7' + character.normalizedName}>
               <TableCell>Dash frames</TableCell>
-              <TableCell>{character.characterStatistics.dashFrames}</TableCell>
+              <TableCell className="text-right font-mono">{character.characterStatistics.dashFrames}</TableCell>
             </TableRow>
             <TableRow key={'8' + character.normalizedName}>
               <TableCell>Jump Squat</TableCell>
-              <TableCell>{character.characterStatistics.jumpSquat}</TableCell>
+              <TableCell className="text-right font-mono">{character.characterStatistics.jumpSquat}</TableCell>
             </TableRow>
             <TableRow key={'9' + character.normalizedName}>
               <TableCell>Can Wall Jump</TableCell>
-              <TableCell>{character.characterStatistics.canWallJump ? 'True' : 'False'}</TableCell>
+              <TableCell className="text-right font-mono">
+                {character.characterStatistics.canWallJump ? 'Yes' : 'No'}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -85,7 +89,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
         <Button
           href={'/characters/' + character.fightCoreId + '/' + character.normalizedName}
           as={Link}
-          className="w-full dark:hover:bg-red-600"
+          className="w-full bg-red-700 text-medium font-bold text-white hover:bg-red-500"
         >
           View
         </Button>
