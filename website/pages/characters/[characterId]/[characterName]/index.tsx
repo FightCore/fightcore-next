@@ -1,14 +1,13 @@
+import { CharacterHead } from '@/components/characters/character-head';
 import { MoveCard } from '@/components/moves/move-card';
 import { characters } from '@/config/framedata/framedata';
 import { Character } from '@/models/character';
 import { Move } from '@/models/move';
 import { MoveType } from '@/models/move-type';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { promises as fs } from 'fs';
-import { Breadcrumbs, BreadcrumbItem } from '@nextui-org/breadcrumbs';
 import { characterRoute } from '@/utilities/routes';
-import { CharacterHead } from '@/components/characters/character-head';
-import slugify from 'slugify';
+import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/breadcrumbs';
+import { promises as fs } from 'fs';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 export type CharacterPage = {
   character: Character | null;
@@ -142,6 +141,7 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
   return (
     <>
       <CharacterHead character={data.character} />
+      {/* eslint-disable-next-line max-len */}
       <div className="mb-2 flex min-h-16 w-full items-center justify-center rounded-b-md border-b border-l border-r border-gray-700 bg-red-700 p-1 text-white">
         <p className="text-center text-4xl font-extrabold">{data.character.name}</p>
       </div>
@@ -151,11 +151,12 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
       </Breadcrumbs>
       {filteredCategories.map((moveType) => (
         <div key={moveType.type}>
+          {/* eslint-disable-next-line max-len */}
           <div className="my-4 flex h-16 w-full items-center justify-center rounded border border-gray-300 bg-gray-200 dark:border-gray-800 dark:bg-gray-800">
             <p className="text-center text-2xl font-bold">{moveType.name}</p>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {movesByCategory.get(moveType.type)!.map((move: any, index: number) => (
+            {movesByCategory.get(moveType.type)!.map((move: Move, index: number) => (
               <div className="flex flex-grow" key={move.normalizedName}>
                 <MoveCard character={data.character} move={move} lazy={index > 5} />
               </div>

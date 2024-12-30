@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import * as d3 from 'd3';
+import emitter from '@/events/event-emitter';
 import { Move } from '@/models/move';
 import { processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
-import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
-import { getMappedUnique, getUnique } from '@/utilities/utils';
+import { getMappedUnique } from '@/utilities/utils';
+import * as d3 from 'd3';
 import { useTheme } from 'next-themes';
-import emitter from '@/events/event-emitter';
+import { useEffect } from 'react';
+import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
 
 export interface HitboxTimingParams {
   move: Move;
@@ -15,6 +15,8 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
   const processedHits = processDuplicateHitboxes(params.move.hits!);
   const data = processDuplicateHits(flattenData(processedHits));
   const colors = generateColors(data);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { theme } = useTheme();
 
   const getColor = (value: number): string => {
@@ -155,7 +157,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       .attr('rx', 5)
       .attr('ry', 5)
       .attr('cursor', 'pointer')
-      .on('click', function (event, d) {
+      .on('click', function () {
         const index = d3.select(this).datum() as { value: number };
         emitter.emit('seek', index.value);
       });
@@ -174,7 +176,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       .attr('text-anchor', 'middle')
       .attr('alignment-baseline', 'middle')
       .attr('cursor', 'pointer')
-      .on('click', function (event, d) {
+      .on('click', function () {
         const index = d3.select(this).datum() as { value: number };
         emitter.emit('seek', index.value);
       });

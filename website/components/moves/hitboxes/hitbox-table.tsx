@@ -1,16 +1,14 @@
 import { Hit } from '@/models/hit';
-import { DataType, Table } from 'ka-table';
-import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
 import {
   generateColors,
   getHitboxColor,
   processDuplicateHitboxes,
   processDuplicateHits,
 } from '@/utilities/hitbox-utils';
-import MobileHitboxTable from './mobile-hitbox-table';
-import { Hitbox } from '@/models/hitbox';
-import { get } from 'http';
+import { DataType, Table } from 'ka-table';
 import { Column } from 'ka-table/models';
+import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
+import MobileHitboxTable from './mobile-hitbox-table';
 
 export interface HitboxTableParams {
   hits: Hit[];

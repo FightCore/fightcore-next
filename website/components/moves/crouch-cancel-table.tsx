@@ -1,24 +1,24 @@
-import { Hitbox } from '@/models/hitbox';
 import { characters } from '@/config/framedata/framedata';
-import { Tabs, Tab } from '@nextui-org/tabs';
-import { Image } from '@nextui-org/image';
-import { Card, CardHeader, CardBody } from '@nextui-org/card';
-import {
-  calculateCrouchCancelPercentage,
-  getCrouchCancelImpossibleReason,
-  isCrouchCancelPossible,
-} from '@/utilities/crouch-cancel-calculator';
-import { CharacterBase } from '@/models/character';
-import { Radio, RadioGroup } from '@nextui-org/radio';
-import React, { useEffect } from 'react';
 import {
   LOCAL_STORAGE_PREFERRED_CC_FLOOR,
   LOCAL_STORAGE_PREFERRED_CC_NUMERIC_MAX,
   LOCAL_STORAGE_PREFERRED_CC_SORT,
 } from '@/keys/local-storage-keys';
-import { Checkbox } from '@nextui-org/checkbox';
+import { CharacterBase } from '@/models/character';
 import { Hit } from '@/models/hit';
+import { Hitbox } from '@/models/hitbox';
+import {
+  calculateCrouchCancelPercentage,
+  getCrouchCancelImpossibleReason,
+  isCrouchCancelPossible,
+} from '@/utilities/crouch-cancel-calculator';
 import { areAllHitboxesEqual, areHitboxesEqual } from '@/utilities/hitbox-utils';
+import { Card, CardBody, CardHeader } from '@nextui-org/card';
+import { Checkbox } from '@nextui-org/checkbox';
+import { Image } from '@nextui-org/image';
+import { Radio, RadioGroup } from '@nextui-org/radio';
+import { Tab, Tabs } from '@nextui-org/tabs';
+import React, { useEffect } from 'react';
 
 export interface CrouchCancelTableParams {
   hits: Hit[];
@@ -44,7 +44,7 @@ function generateCard(
         <CardBody>
           <div className="grid grid-cols-3 md:grid-cols-5">
             {sortedCharacters.map((character) => {
-              let percentage = calculateCrouchCancelPercentage(
+              const percentage = calculateCrouchCancelPercentage(
                 hitbox,
                 character,
                 knockbackTarget,

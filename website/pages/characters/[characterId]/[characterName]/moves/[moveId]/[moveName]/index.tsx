@@ -1,23 +1,21 @@
+import { CrouchCancelSection } from '@/components/moves/crouch-cancel-section';
+import { HitboxSection } from '@/components/moves/hitbox-section';
+import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
+import { InterpolatedMoveWarning } from '@/components/moves/interpolated-move-warning';
+import MoveAnimationDisplay from '@/components/moves/move-animation-display';
+import MoveAttributeTable from '@/components/moves/move-attribute-table';
+import { MoveHead } from '@/components/moves/move-head';
+import { RelevantMoves } from '@/components/moves/relevant-moves';
+import SourceSection from '@/components/moves/source-section';
 import { characters } from '@/config/framedata/framedata';
 import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
-import { InferGetStaticPropsType } from 'next';
-import { promises as fs } from 'fs';
-import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/breadcrumbs';
-import React from 'react';
-import MoveAttributeTable from '@/components/moves/move-attribute-table';
-import { MoveHead } from '@/components/moves/move-head';
-import { characterRoute } from '@/utilities/routes';
-import { CrouchCancelSection } from '@/components/moves/crouch-cancel-section';
-import { HitboxSection } from '@/components/moves/hitbox-section';
-import SourceSection from '@/components/moves/source-section';
-import { InterpolatedMoveWarning } from '@/components/moves/interpolated-move-warning';
-import slugify from 'slugify';
 import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
-import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
-import MoveAnimationDisplay from '@/components/moves/move-animation-display';
 import { createRelevantMoves } from '@/utilities/relevant-moves-creator';
-import { RelevantMoves } from '@/components/moves/relevant-moves';
+import { characterRoute } from '@/utilities/routes';
+import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/breadcrumbs';
+import { promises as fs } from 'fs';
+import { InferGetStaticPropsType } from 'next';
 
 export type MovePage = {
   character: CharacterBase;
@@ -75,6 +73,7 @@ function shouldDisplayFrameTimeline(move: Move): boolean {
   return true;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getStaticProps = async (context: any) => {
   const characterBase = characters.find(
     (baseCharacter) => baseCharacter.fightCoreId.toString() === context?.params?.characterId,
@@ -116,6 +115,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
   return (
     <>
       <MoveHead move={data.move} character={data.character} />
+      {/* eslint-disable-next-line max-len */}
       <div className="mb-2 flex min-h-16 w-full items-center justify-center rounded-b-md border-b border-l border-r border-gray-700 bg-red-700 p-1 text-white">
         <p className="text-center text-4xl font-extrabold">
           {data.move.name} - {data.character.name}

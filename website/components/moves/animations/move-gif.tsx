@@ -1,8 +1,8 @@
 import { Move } from '@/models/move';
 import { Button } from '@nextui-org/button';
 import { Image } from '@nextui-org/image';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Kbd } from '@nextui-org/kbd';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import AnimationLegend from './animation-legend';
 
 interface MoveGifParams {
@@ -12,6 +12,9 @@ interface MoveGifParams {
 
 export const MoveGif = (params: MoveGifParams) => {
   const imageRef = useRef<HTMLImageElement>(null);
+
+  // Using any here due to the dynamic import.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [gifPlayer, setGifPlayer] = useState<any>();
   const initialized = useRef(false);
   const [frameCounter, setFrameCounter] = useState(1);

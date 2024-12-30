@@ -1,13 +1,11 @@
+import { CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
+import { moveRoute } from '@/utilities/routes';
 import { Button } from '@nextui-org/button';
+import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
 import { Link } from '@nextui-org/link';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
-import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/modal';
 import React from 'react';
-import { CharacterBase } from '@/models/character';
-import { moveRoute } from '@/utilities/routes';
-import ApngMove from './animations/apng-move-gif';
 import { PreviewVideo } from './animations/preview-video';
 
 interface MoveCardParams {
@@ -72,7 +70,7 @@ export const MoveCard = (params: MoveCardParams) => {
             </TableHeader>
             <TableBody>
               {stats
-                .filter(([_, key]) => params.move[key])
+                .filter(([, key]) => params.move[key])
                 .map(([name, key]) => (
                   <TableRow key={name}>
                     <TableCell>{name}</TableCell>

@@ -21,6 +21,7 @@ const nextConfig = {
   productionBrowserSourceMaps: true,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
+    quietDeps: true
   },
   /** @type {(config: import('webpack').Configuration, context: import('next/dist/server/config-shared').WebpackConfigContext) => import('webpack').Configuration} */
   webpack: (config, { isServer }) => {
@@ -33,14 +34,14 @@ const nextConfig = {
 
 module.exports = process.env.USE_SENTRY
   ? withSentryConfig(withBundleAnalyzer(nextConfig), {
-      org: 'fightcore',
-      project: 'javascript-nextjs',
+    org: 'fightcore',
+    project: 'javascript-nextjs',
 
-      // An auth token is required for uploading source maps.
-      authToken: process.env.SENTRY_AUTH_TOKEN,
+    // An auth token is required for uploading source maps.
+    authToken: process.env.SENTRY_AUTH_TOKEN,
 
-      tunnelRoute: '/monitoring-tunnel',
+    tunnelRoute: '/monitoring-tunnel',
 
-      silent: false, // Can be used to suppress logs
-    })
+    silent: false, // Can be used to suppress logs
+  })
   : withBundleAnalyzer(nextConfig);
