@@ -1,9 +1,9 @@
 {
-  "name": "next-app-template",
+  "name": "fightcore-next",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=--inspect next dev --turbopack",
+    "dev": "cross-env NODE_OPTIONS=--inspect next dev",
     "analyze": "cross-env ANALYZE=true npm run build",
     "build": "next build",
     "postbuild": "next-sitemap",
