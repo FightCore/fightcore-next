@@ -8,10 +8,6 @@ import { characterRoute } from '@/utilities/routes';
 import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/breadcrumbs';
 import { promises as fs } from 'fs';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { promises as fs } from 'fs';
-import { Breadcrumbs, BreadcrumbItem } from '@nextui-org/breadcrumbs';
-import { characterRoute } from '@/utilities/routes';
-import { CharacterHead } from '@/components/characters/character-head';
 
 export type CharacterPage = {
   character: Character | null;
