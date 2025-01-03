@@ -1,6 +1,5 @@
 import { CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
-import { moves } from './framedata/moves';
 
 export const metaConfig = {
   tags: [
