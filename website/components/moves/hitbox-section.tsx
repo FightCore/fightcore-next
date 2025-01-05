@@ -8,7 +8,7 @@ export interface HitboxSectionParams {
 export function HitboxSection(params: Readonly<HitboxSectionParams>) {
   return (
     <div>
-      <h2 className="text-xl font-bold">Hitboxes</h2>
+      <h2 className="my-3 text-xl font-bold">Hitboxes</h2>
       <HitboxTable hits={params.hits}></HitboxTable>
     </div>
   );

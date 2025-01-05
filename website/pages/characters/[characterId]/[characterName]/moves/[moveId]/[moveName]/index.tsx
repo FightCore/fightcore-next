@@ -7,6 +7,7 @@ import MoveAttributeTable from '@/components/moves/move-attribute-table';
 import { MoveHead } from '@/components/moves/move-head';
 import { RelevantMoves } from '@/components/moves/relevant-moves';
 import SourceSection from '@/components/moves/source-section';
+import { PageTitle } from '@/components/page-title';
 import { characters } from '@/config/framedata/framedata';
 import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
@@ -115,12 +116,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
   return (
     <>
       <MoveHead move={data.move} character={data.character} />
-      {/* eslint-disable-next-line max-len */}
-      <div className="mb-2 flex min-h-16 w-full items-center justify-center rounded-b-md border-b border-l border-r border-gray-700 bg-red-700 p-1 text-white">
-        <p className="text-center text-4xl font-extrabold">
-          {data.move.name} - {data.character.name}
-        </p>
-      </div>
+      <PageTitle title={data.character.name + ' - ' + data.move.name} />
       <div>
         <Breadcrumbs>
           <BreadcrumbItem href="/">Home</BreadcrumbItem>
@@ -132,7 +128,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         <div className="w-full p-2 md:w-1/2">
           <MoveAnimationDisplay move={data.move} characterName={data.character.name}></MoveAnimationDisplay>
         </div>
-        <div className="w-full p-2 md:w-1/2">
+        <div className="hidden w-full p-2 md:block md:w-1/2">
           <div className="w-full px-2">
             <RelevantMoves relevantMoves={data.relevantMoves} />
           </div>
@@ -165,13 +161,11 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
       </div>
       <div>{shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline move={data.move} /> : <></>}</div>
 
-      <div className="my-3">
-        <h2 className="text-xl font-bold">Attributes</h2>
-        <MoveAttributeTable move={data.move} />
-      </div>
-      <div className="my-3">
-        {data.move.hits && data.move.hits.length > 0 ? <HitboxSection hits={data.move.hits} /> : <></>}
-      </div>
+      <h2 className="my-3 text-xl font-bold">Attributes</h2>
+      <MoveAttributeTable move={data.move} />
+
+      {data.move.hits && data.move.hits.length > 0 ? <HitboxSection hits={data.move.hits} /> : <></>}
+
       <div>{canBeCrouchCanceled(data.move) ? <CrouchCancelSection hits={data.move.hits!} /> : <></>}</div>
       <div>
         {data.move.sources && data.move.sources.length > 0 ? <SourceSection sources={data.move.sources} /> : <></>}

@@ -74,7 +74,9 @@ export const MoveCard = (params: MoveCardParams) => {
                 .map(([name, key]) => (
                   <TableRow key={name}>
                     <TableCell>{name}</TableCell>
-                    <TableCell>{params.move[key]?.toString()}</TableCell>
+                    <TableCell>
+                      <p className="text-right">{params.move[key]?.toString()}</p>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -84,7 +86,7 @@ export const MoveCard = (params: MoveCardParams) => {
           <Button
             href={moveRoute(params.character, params.move)}
             as={Link}
-            className="w-full hover:bg-red-600 hover:text-white"
+            className="w-full bg-red-700 text-medium font-bold text-white hover:bg-red-500"
           >
             View
           </Button>

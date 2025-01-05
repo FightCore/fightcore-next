@@ -189,10 +189,13 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
   return (
     <>
       <div className="mb-2 grid grid-cols-1 rounded-md border border-gray-700 p-2 md:grid-cols-3">
-        <RadioGroup label="Sorting" orientation="horizontal" value={selected} onValueChange={setSelection}>
-          <Radio value={CrouchCancelSort.ALPHABETICAL}>Alphametical</Radio>
-          <Radio value={CrouchCancelSort.WEIGHT}>Weight</Radio>
-        </RadioGroup>
+        <div className="px-1 pb-2">
+          <div className="text-medium font-bold">Sorting</div>
+          <RadioGroup orientation="horizontal" value={selected} onValueChange={setSelection}>
+            <Radio value={CrouchCancelSort.ALPHABETICAL}>Alphametical</Radio>
+            <Radio value={CrouchCancelSort.WEIGHT}>Weight</Radio>
+          </RadioGroup>
+        </div>
 
         <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
           <div className="text-medium font-bold">Floor percentages</div>
