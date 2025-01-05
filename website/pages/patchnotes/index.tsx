@@ -9,6 +9,13 @@ const patchNotes = [
     changes: [
       "Fixed an issue where Dr Mario's down air had an incorrect frame at 32-33 (thank you skullbro)",
       'Fixed an issue where Peach down smash had an incorrect last 2 frames (thank you Vlerk)',
+      'Added tech roll and neutral tech GIFs by Lab @ 999, Created by Renzo and Maximus',
+      "Added the timing for Sheik's bair hitboxes (Thank you smoked_em)",
+      'Restyled the mobile UI to be more clean and grid based (thank you rubenb994)',
+      'Restyled the desktop UI to be more focussed on the data with a cleaner look (thank you rubenb994)',
+      'Updated the meta data of pages to now show data about a move on Discord and other sites.',
+      'Used a different Sentry package to improve load times',
+      'Updated all dependencies to the latest version',
     ],
   },
   {
