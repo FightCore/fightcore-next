@@ -114,7 +114,7 @@ export const NavBar = () => {
           <div className="w-full self-end">
             <Socials />
             <Link className="mt-2" href="/patchnotes">
-              Version 1.0.1
+              Version 1.0.2
             </Link>
           </div>
         </div>
