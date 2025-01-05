@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <CharactersHead />
       <PageTitle title="Characters" />
-      <div className="grid grid-cols-1 gap-4 pb-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 pb-2 pt-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {characters.map((character) => (
           <CharacterCard key={character.normalizedName} character={character} />
         ))}

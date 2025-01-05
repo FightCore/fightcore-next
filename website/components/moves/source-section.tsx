@@ -8,13 +8,13 @@ export interface SourceSectionParams {
 export default function SourceSection(params: SourceSectionParams) {
   return (
     <div>
-      <h2 className="text-xl font-bold">Sources & Credits</h2>
+      <h2 className="my-3 text-xl font-bold">Sources & Credits</h2>
       <ul>
         {params.sources.map((source) => (
           <li key={source.id}>
             <Link href={source.url} isExternal>
               {source.name}
-            </Link>{' '}
+            </Link>
           </li>
         ))}
       </ul>

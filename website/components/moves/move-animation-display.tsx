@@ -1,10 +1,10 @@
 import { Move } from '@/models/move';
-import ApngMove from './animations/apng-move-gif';
-import { useState } from 'react';
-import { Pagination } from '@nextui-org/pagination';
 import { Button } from '@nextui-org/button';
-import { useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/modal';
+import { Pagination } from '@nextui-org/pagination';
+import { useState } from 'react';
 import { FaExpand } from 'react-icons/fa6';
+import ApngMove from './animations/apng-move-gif';
 import { MoveGif } from './animations/move-gif';
 
 export interface MoveAnimationDisplayParams {
@@ -26,7 +26,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
   if ((!params.move.alternativeAnimations || params.move.alternativeAnimations.length === 0) && params.move.pngUrl) {
     return (
       <div>
-        <Button isIconOnly aria-label="fullscreen" onClick={onOpen}>
+        <Button className="hidden md:inline-flex" isIconOnly aria-label="fullscreen" onPress={onOpen}>
           <FaExpand />
         </Button>
         <ApngMove url={params.move.pngUrl} />
@@ -68,7 +68,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         onChange={setCurrentPage}
         className="inline-flex w-2/3"
       />
-      <Button isIconOnly aria-label="fullscreen" onClick={onOpen} className="float-right">
+      <Button isIconOnly aria-label="fullscreen" onPress={onOpen} className="float-right hidden md:inline-flex">
         <FaExpand />
       </Button>
       <ApngMove key={'gif' + currentPage} url={urlArray[currentPage]!} />
