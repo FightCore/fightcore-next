@@ -1,4 +1,3 @@
-import React from 'react';
 import NextHead from 'next/head';
 import Script from 'next/script';
 
@@ -18,7 +17,12 @@ export const Head = () => {
         <link href="/favicon.ico" rel="icon" />
       </NextHead>
       {process.env.DO_TRACKING ? (
-        <Script defer src="/script.js" data-website-id="aa894a1c-5553-438e-986e-bd9bf0e67afd"></Script>
+        <Script
+          defer
+          src="https://umami.fightcore.gg/script.js"
+          data-host-url="https://umami.fightcore.gg"
+          data-website-id="53802f8e-49ec-4242-b4dd-d553573906c4"
+        ></Script>
       ) : (
         <NextHead>
           <meta name="debug:tracking" content="no-tracking" />
