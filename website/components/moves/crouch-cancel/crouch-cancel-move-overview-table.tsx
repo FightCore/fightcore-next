@@ -8,8 +8,8 @@ import {
 } from '@/utilities/crouch-cancel-calculator';
 import { processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
 import { moveRoute } from '@/utilities/routes';
-import { Link } from '@nextui-org/link';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
+import { Link } from "@heroui/link";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
 import { flattenData } from '../hitboxes/hitbox-table-columns';
 
 export interface CrouchCancelMoveOverviewTableParams {

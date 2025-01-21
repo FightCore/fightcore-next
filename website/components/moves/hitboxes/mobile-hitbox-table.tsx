@@ -1,7 +1,7 @@
 import { Hitbox } from '@/models/hitbox';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
 import { FlattenedHitbox } from './hitbox-table-columns';
-import { Tabs, Tab } from '@nextui-org/tabs';
+import { Tabs, Tab } from "@heroui/tabs";
 import { getMappedUnique } from '@/utilities/utils';
 
 function MobileHitboxHeader(hitboxes: Readonly<Hitbox[]>) {

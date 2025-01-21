@@ -13,11 +13,11 @@ import {
   isCrouchCancelPossible,
 } from '@/utilities/crouch-cancel-calculator';
 import { areAllHitboxesEqual, areHitboxesEqual } from '@/utilities/hitbox-utils';
-import { Card, CardBody, CardHeader } from '@nextui-org/card';
-import { Checkbox } from '@nextui-org/checkbox';
-import { Image } from '@nextui-org/image';
-import { Radio, RadioGroup } from '@nextui-org/radio';
-import { Tab, Tabs } from '@nextui-org/tabs';
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Checkbox } from "@heroui/checkbox";
+import { Image } from "@heroui/image";
+import { Radio, RadioGroup } from "@heroui/radio";
+import { Tab, Tabs } from "@heroui/tabs";
 import React, { useEffect } from 'react';
 
 export interface CrouchCancelTableParams {

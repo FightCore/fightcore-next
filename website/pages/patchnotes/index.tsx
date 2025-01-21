@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { PageTitle } from '@/components/page-title';
-import { Card, CardBody, CardHeader } from '@nextui-org/card';
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import NextHead from 'next/head';
 
 const patchNotes = [

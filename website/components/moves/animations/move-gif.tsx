@@ -1,7 +1,7 @@
 import { Move } from '@/models/move';
-import { Button } from '@nextui-org/button';
-import { Image } from '@nextui-org/image';
-import { Kbd } from '@nextui-org/kbd';
+import { Button } from "@heroui/button";
+import { Image } from "@heroui/image";
+import { Kbd } from "@heroui/kbd";
 import { useCallback, useEffect, useRef, useState } from 'react';
 import AnimationLegend from './animation-legend';
 
@@ -126,11 +126,11 @@ export const MoveGif = (params: MoveGifParams) => {
 
       <div className="grid grid-cols-2 gap-2">
         {running ? (
-          <Button onClick={pause} aria-label="Pause gif" startContent={<Kbd keys={['space']} />}>
+          <Button onPress={pause} aria-label="Pause gif" startContent={<Kbd keys={['space']} />}>
             Pause
           </Button>
         ) : (
-          <Button onClick={play} aria-label="Play gif" startContent={<Kbd keys={['space']} />}>
+          <Button onPress={play} aria-label="Play gif" startContent={<Kbd keys={['space']} />}>
             Play
           </Button>
         )}
@@ -138,10 +138,10 @@ export const MoveGif = (params: MoveGifParams) => {
           Frame: {frameCounter}
         </Button>
 
-        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
+        <Button onPress={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
           Previous Frame
         </Button>
-        <Button onClick={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
+        <Button onPress={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
           Next Frame
         </Button>
       </div>

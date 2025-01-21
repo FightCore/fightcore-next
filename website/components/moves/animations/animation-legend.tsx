@@ -1,5 +1,5 @@
-import { Accordion, AccordionItem } from '@nextui-org/accordion';
-import { Chip } from '@nextui-org/chip';
+import { Accordion, AccordionItem } from "@heroui/accordion";
+import { Chip } from "@heroui/chip";
 import { FaCircleQuestion } from 'react-icons/fa6';
 
 export default function AnimationLegend() {

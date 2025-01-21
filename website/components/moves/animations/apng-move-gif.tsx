@@ -1,6 +1,6 @@
 import eventEmitter from '@/events/event-emitter';
-import { Button } from '@nextui-org/button';
-import { Kbd } from '@nextui-org/kbd';
+import { Button } from "@heroui/button";
+import { Kbd } from "@heroui/kbd";
 import parseAPNG from 'apng-js';
 import Player from 'apng-js/types/library/player';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -192,11 +192,11 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
 
       <div className="grid grid-cols-2 gap-2">
         {playing ? (
-          <Button onClick={pause} aria-label="Pause gif" startContent={<Kbd keys={['space']} />}>
+          <Button onPress={pause} aria-label="Pause gif" startContent={<Kbd keys={['space']} />}>
             Pause
           </Button>
         ) : (
-          <Button onClick={play} aria-label="Play gif" startContent={<Kbd keys={['space']} />}>
+          <Button onPress={play} aria-label="Play gif" startContent={<Kbd keys={['space']} />}>
             Play
           </Button>
         )}
@@ -204,10 +204,10 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
           Frame: {frameCounter}
         </Button>
 
-        <Button onClick={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
+        <Button onPress={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
           Previous Frame
         </Button>
-        <Button onClick={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
+        <Button onPress={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
           Next Frame
         </Button>
       </div>

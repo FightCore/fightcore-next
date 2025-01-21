@@ -1,7 +1,7 @@
 import { Move } from '@/models/move';
-import { Button } from '@nextui-org/button';
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/modal';
-import { Pagination } from '@nextui-org/pagination';
+import { Button } from "@heroui/button";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@heroui/modal";
+import { Pagination } from "@heroui/pagination";
 import { useState } from 'react';
 import { FaExpand } from 'react-icons/fa6';
 import ApngMove from './animations/apng-move-gif';
