@@ -1,5 +1,5 @@
 import { Move } from '@/models/move';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@heroui/table";
 import React from 'react';
 
 export interface MoveTableParams {

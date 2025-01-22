@@ -1,13 +1,13 @@
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/modal';
-import { Button } from '@nextui-org/button';
-import { Kbd } from '@nextui-org/kbd';
-import { Input } from '@nextui-org/input';
-import { SearchIcon } from '../components/icons';
-import { useEffect, useState } from 'react';
 import { MoveCard } from '@/components/moves/move-card';
 import { characters } from '@/config/framedata/framedata';
 import { ExportedMove } from '@/models/exported-moves';
 import { search } from '@/utilities/search/search';
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+import { Kbd } from "@heroui/kbd";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@heroui/modal";
+import { useEffect, useState } from 'react';
+import { SearchIcon } from '../components/icons';
 
 function getCharacter(move: ExportedMove) {
   return characters.find((character) => character.fightCoreId === move.characterId);

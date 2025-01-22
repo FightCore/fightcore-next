@@ -1,5 +1,5 @@
 import { Source } from '@/models/source';
-import { Link } from '@nextui-org/link';
+import { Link } from "@heroui/link";
 
 export interface SourceSectionParams {
   sources: Source[];

@@ -1,10 +1,10 @@
 import { CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
 import { moveRoute } from '@/utilities/routes';
-import { Button } from '@nextui-org/button';
-import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
-import { Link } from '@nextui-org/link';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
+import { Button } from "@heroui/button";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Link } from "@heroui/link";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
 import React from 'react';
 import { PreviewVideo } from './animations/preview-video';
 

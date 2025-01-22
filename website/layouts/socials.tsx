@@ -1,5 +1,5 @@
 import { siteConfig } from '@/config/site';
-import { Link } from '@nextui-org/link';
+import { Link } from "@heroui/link";
 import { FaDiscord, FaGithub } from 'react-icons/fa6';
 import { ThemeSwitch } from '../components/theme-switch';
 

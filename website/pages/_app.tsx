@@ -1,6 +1,6 @@
 import { fontMono, fontSans } from '@/config/fonts';
 import '@/styles/globals.scss';
-import { NextUIProvider } from '@nextui-org/system';
+import { HeroUIProvider } from "@heroui/system";
 import * as Sentry from '@sentry/browser';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
@@ -25,13 +25,13 @@ export default function App({ Component, pageProps }: AppProps) {
     });
   }, []);
   return (
-    <NextUIProvider>
+    <HeroUIProvider>
       <NextThemesProvider attribute="class" defaultTheme="dark">
         <DefaultLayout>
           <Component {...pageProps} />
         </DefaultLayout>
       </NextThemesProvider>
-    </NextUIProvider>
+    </HeroUIProvider>
   );
 }
 

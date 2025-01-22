@@ -1,10 +1,10 @@
 import { characters } from '@/config/framedata/framedata';
 import { characterRoute } from '@/utilities/routes';
-import { Divider } from '@nextui-org/divider';
-import { Image } from '@nextui-org/image';
-import { Link } from '@nextui-org/link';
-import { Navbar, NavbarBrand, NavbarContent, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@nextui-org/navbar';
-import { Tooltip } from '@nextui-org/tooltip';
+import { Divider } from "@heroui/divider";
+import { Image } from "@heroui/image";
+import { Link } from "@heroui/link";
+import { Navbar, NavbarBrand, NavbarContent, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@heroui/navbar";
+import { Tooltip } from "@heroui/tooltip";
 import React from 'react';
 import { FaAward, FaCalculator, FaCircleUser, FaGoogleDrive, FaMugHot, FaRobot } from 'react-icons/fa6';
 import { Logo } from '../components/icons';

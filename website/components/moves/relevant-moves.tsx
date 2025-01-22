@@ -1,5 +1,5 @@
 import { RelevantMove } from '@/utilities/relevant-moves-creator';
-import { Link } from '@nextui-org/link';
+import { Link } from "@heroui/link";
 
 export interface RelevantMovesParams {
   relevantMoves: RelevantMove[];

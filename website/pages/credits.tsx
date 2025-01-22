@@ -1,5 +1,5 @@
 import { PageTitle } from '@/components/page-title';
-import { Link } from '@nextui-org/link';
+import { Link } from "@heroui/link";
 
 export default function Credits() {
   return (

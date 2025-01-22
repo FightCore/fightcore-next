@@ -1,9 +1,9 @@
 'use client';
 
 import { Move } from '@/models/move';
-import { Button } from '@nextui-org/button';
-import { Image } from '@nextui-org/image';
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/modal';
+import { Button } from "@heroui/button";
+import { Image } from "@heroui/image";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@heroui/modal";
 import ApngMove from './apng-move-gif';
 import { MoveGif } from './move-gif';
 

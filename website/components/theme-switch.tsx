@@ -1,4 +1,4 @@
-import { SwitchProps, useSwitch } from '@nextui-org/switch';
+import { SwitchProps, useSwitch } from "@heroui/switch";
 import { VisuallyHidden } from '@react-aria/visually-hidden';
 import clsx from 'clsx';
 import { useTheme } from 'next-themes';

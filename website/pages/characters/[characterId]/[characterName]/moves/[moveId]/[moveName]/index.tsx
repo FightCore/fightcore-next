@@ -14,7 +14,7 @@ import { Move } from '@/models/move';
 import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
 import { createRelevantMoves } from '@/utilities/relevant-moves-creator';
 import { characterRoute } from '@/utilities/routes';
-import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/breadcrumbs';
+import { BreadcrumbItem, Breadcrumbs } from "@heroui/breadcrumbs";
 import { promises as fs } from 'fs';
 import { InferGetStaticPropsType } from 'next';
 
