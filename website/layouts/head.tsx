@@ -16,6 +16,13 @@ export const Head = () => {
         <meta property="og:locale" content="en_US" />
         <link href="/favicon.ico" rel="icon" />
       </NextHead>
+      {process.env.IS_BETA ? (
+        <NextHead>
+          <meta name="robots" content="noindex"></meta>
+        </NextHead>
+      ) : (
+        <></>
+      )}
       {process.env.DO_TRACKING ? (
         <Script
           defer
