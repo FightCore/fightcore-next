@@ -62,7 +62,11 @@ export function calculateCrouchCancelPercentage(
 
   if (percentage > 0) {
     if (floor) {
-      return Math.floor(percentage) + '%';
+      // Melee uses floored percentages within its calculation for the knockback.
+      // Because of that, we need to do the reverse and grab the ceiling of the percentage.
+      // In Fox's Jab 1 vs Falcon the percentage is 243.71%.
+      // This means that 243 is not enough to break crouch cancel but 244% is.
+      return Math.ceil(percentage) + '%';
     }
 
     return percentage.toFixed(2) + '%';
