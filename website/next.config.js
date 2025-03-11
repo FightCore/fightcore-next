@@ -17,6 +17,12 @@ const nextConfig = {
     IS_BETA: process.env.IS_BETA,
     DO_TRACKING: process.env.DO_TRACKING,
   },
+  compiler: {
+    reactRemoveProperties: true,
+  },
+  experimental: {
+    optimizePackageImports: ['@heroui', '@sentry/browser', 'framer-motion', 'ka-table', 'd3']
+  },
   productionBrowserSourceMaps: true,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],

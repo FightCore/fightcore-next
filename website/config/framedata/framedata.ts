@@ -2,12 +2,6 @@ import { CharacterBase } from '@/models/character';
 
 export const rawCharacters: CharacterBase[] = [
   {
-    characterInfo: {
-      id: 1,
-      discord: 'https://discord.com/invite/DEY5p65',
-      meleeFrameData: 'http://meleeframedata.com/captain_falcon',
-      ssbWiki: 'https://www.ssbwiki.com/Captain_Falcon_(SSBM)',
-    },
     characterStatistics: {
       id: 27,
       weight: 104,
@@ -28,12 +22,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 227,
   },
   {
-    characterInfo: {
-      id: 2,
-      discord: 'https://discord.com/invite/0qT5OfmhEdgeH20c',
-      meleeFrameData: 'http://meleeframedata.com/roy',
-      ssbWiki: 'https://www.ssbwiki.com/Roy_(SSBM)',
-    },
     characterStatistics: {
       id: 28,
       weight: 85,
@@ -54,12 +42,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 223,
   },
   {
-    characterInfo: {
-      id: 3,
-      discord: 'https://discord.com/invite/bzD5Pfc',
-      meleeFrameData: 'http://meleeframedata.com/pichu',
-      ssbWiki: 'https://www.ssbwiki.com/Pichu_(SSBM)',
-    },
     characterStatistics: {
       id: 29,
       weight: 55,
@@ -80,12 +62,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 221,
   },
   {
-    characterInfo: {
-      id: 4,
-      discord: 'https://discord.com/invite/011MSaTVv85q69DV5',
-      meleeFrameData: 'http://meleeframedata.com/ness',
-      ssbWiki: 'https://www.ssbwiki.com/Ness_(SSBM)',
-    },
     characterStatistics: {
       id: 30,
       weight: 94,
@@ -106,12 +82,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 243,
   },
   {
-    characterInfo: {
-      id: 5,
-      discord: 'https://discord.com/invite/011LmbPc0LSeiNS0V',
-      meleeFrameData: 'http://meleeframedata.com/mr._game_&_watch',
-      ssbWiki: 'https://www.ssbwiki.com/Mr._Game_%26_Watch_(SSBM)',
-    },
     characterStatistics: {
       id: 31,
       weight: 60,
@@ -132,12 +102,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 219,
   },
   {
-    characterInfo: {
-      id: 6,
-      discord: 'https://discord.com/invite/5cS8eeT',
-      meleeFrameData: 'http://meleeframedata.com/mewtwo',
-      ssbWiki: 'https://www.ssbwiki.com/Mewtwo_(SSBM)',
-    },
     characterStatistics: {
       id: 32,
       weight: 85,
@@ -158,12 +122,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 217,
   },
   {
-    characterInfo: {
-      id: 8,
-      discord: 'https://discord.com/invite/0zC5RdmtMzsdCMDj',
-      meleeFrameData: 'http://meleeframedata.com/link',
-      ssbWiki: 'https://www.ssbwiki.com/Link_(SSBM)',
-    },
     characterStatistics: {
       id: 33,
       weight: 104,
@@ -184,12 +142,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 238,
   },
   {
-    characterInfo: {
-      id: 7,
-      discord: 'https://discord.com/invite/4jpjZkB',
-      meleeFrameData: 'http://meleeframedata.com/bowser',
-      ssbWiki: 'https://www.ssbwiki.com/Bowser_(SSBM)',
-    },
     characterStatistics: {
       id: 34,
       weight: 117,
@@ -210,12 +162,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 241,
   },
   {
-    characterInfo: {
-      id: 9,
-      discord: 'https://discord.com/invite/0iihTeNw0FN9vBSo',
-      meleeFrameData: 'http://meleeframedata.com/kirby',
-      ssbWiki: 'https://www.ssbwiki.com/Kirby_(SSBM)',
-    },
     characterStatistics: {
       id: 35,
       weight: 70,
@@ -236,12 +182,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 210,
   },
   {
-    characterInfo: {
-      id: 10,
-      discord: 'https://discord.com/invite/0ylqBnK8H2MJ4NlY',
-      meleeFrameData: 'http://meleeframedata.com/ganondorf',
-      ssbWiki: 'https://www.ssbwiki.com/Ganondorf_(SSBM)',
-    },
     characterStatistics: {
       id: 36,
       weight: 109,
@@ -262,12 +202,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 216,
   },
   {
-    characterInfo: {
-      id: 11,
-      discord: 'https://discord.com/invite/VaF5sUd',
-      meleeFrameData: 'http://meleeframedata.com/donkey_kong',
-      ssbWiki: 'https://www.ssbwiki.com/Donkey_Kong_(SSBM)',
-    },
     characterStatistics: {
       id: 37,
       weight: 114,
@@ -288,12 +222,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 242,
   },
   {
-    characterInfo: {
-      id: 12,
-      discord: 'https://discord.com/invite/011DBAILLCrymRCgS',
-      meleeFrameData: 'http://meleeframedata.com/mario',
-      ssbWiki: 'https://www.ssbwiki.com/Mario_(SSBM)',
-    },
     characterStatistics: {
       id: 38,
       weight: 100,
@@ -314,12 +242,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 236,
   },
   {
-    characterInfo: {
-      id: 13,
-      discord: 'https://discord.com/invite/0w4Z5Y1vxgiJt6sd',
-      meleeFrameData: 'http://meleeframedata.com/dr._mario',
-      ssbWiki: 'https://www.ssbwiki.com/Dr._Mario_(SSBM)',
-    },
     characterStatistics: {
       id: 39,
       weight: 100,
@@ -340,12 +262,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 215,
   },
   {
-    characterInfo: {
-      id: 14,
-      discord: 'https://discord.com/invite/0xLggx3U7EICyMm5',
-      meleeFrameData: 'http://meleeframedata.com/luigi',
-      ssbWiki: 'https://www.ssbwiki.com/Luigi_(SSBM)',
-    },
     characterStatistics: {
       id: 40,
       weight: 100,
@@ -366,12 +282,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 213,
   },
   {
-    characterInfo: {
-      id: 15,
-      discord: 'https://discord.com/invite/0vWHh31xabrT8h7H',
-      meleeFrameData: 'http://meleeframedata.com/yoshi',
-      ssbWiki: 'https://www.ssbwiki.com/Yoshi_(SSBM)',
-    },
     characterStatistics: {
       id: 41,
       weight: 108,
@@ -392,12 +302,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 211,
   },
   {
-    characterInfo: {
-      id: 16,
-      discord: 'https://discord.com/invite/0uiUkioTeExTGw9f',
-      meleeFrameData: 'http://meleeframedata.com/ice_climbers',
-      ssbWiki: 'https://www.ssbwiki.com/Ice_Climbers_(SSBM)',
-    },
     characterStatistics: {
       id: 42,
       weight: 88,
@@ -418,12 +322,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 209,
   },
   {
-    characterInfo: {
-      id: 17,
-      discord: 'https://discord.com/invite/011MkPNW8vetImT1W',
-      meleeFrameData: 'http://meleeframedata.com/pikachu',
-      ssbWiki: 'https://www.ssbwiki.com/Pikachu_(SSBM)',
-    },
     characterStatistics: {
       id: 43,
       weight: 80,
@@ -444,12 +342,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 237,
   },
   {
-    characterInfo: {
-      id: 18,
-      discord: 'https://discord.com/invite/aKkhbcr',
-      meleeFrameData: 'http://meleeframedata.com/peach',
-      ssbWiki: 'https://www.ssbwiki.com/Peach_(SSBM)',
-    },
     characterStatistics: {
       id: 44,
       weight: 90,
@@ -470,12 +362,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 240,
   },
   {
-    characterInfo: {
-      id: 19,
-      discord: 'https://discord.com/invite/tkwQs8v',
-      meleeFrameData: 'http://meleeframedata.com/samus',
-      ssbWiki: 'https://www.ssbwiki.com/Sheik_(SSBM)',
-    },
     characterStatistics: {
       id: 45,
       weight: 90,
@@ -496,12 +382,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 260,
   },
   {
-    characterInfo: {
-      id: 20,
-      discord: 'https://discord.com/invite/M3nS3kR',
-      meleeFrameData: 'http://meleeframedata.com/samus',
-      ssbWiki: 'https://www.ssbwiki.com/Samus_(SSBM)',
-    },
     characterStatistics: {
       id: 46,
       weight: 110,
@@ -522,12 +402,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 212,
   },
   {
-    characterInfo: {
-      id: 21,
-      discord: 'https://discord.com/invite/0x4uq2ABzu6gnICT',
-      meleeFrameData: 'http://meleeframedata.com/jigglypuff',
-      ssbWiki: 'https://www.ssbwiki.com/Jigglypuff_(SSBM)',
-    },
     characterStatistics: {
       id: 47,
       weight: 60,
@@ -548,12 +422,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 214,
   },
   {
-    characterInfo: {
-      id: 22,
-      discord: 'https://discord.com/invite/01352PHCHms6PyCv9',
-      meleeFrameData: 'http://meleeframedata.com/marth',
-      ssbWiki: 'https://www.ssbwiki.com/Marth_(SSBM)',
-    },
     characterStatistics: {
       id: 48,
       weight: 87,
@@ -574,12 +442,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 222,
   },
   {
-    characterInfo: {
-      id: 23,
-      discord: 'https://discord.com/invite/9rp6qNR',
-      meleeFrameData: 'http://meleeframedata.com/fox',
-      ssbWiki: 'https://www.ssbwiki.com/Fox_(SSBM)',
-    },
     characterStatistics: {
       id: 49,
       weight: 75,
@@ -600,12 +462,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 224,
   },
   {
-    characterInfo: {
-      id: 24,
-      discord: 'https://discord.com/invite/HUxvTdy',
-      meleeFrameData: 'http://meleeframedata.com/falco',
-      ssbWiki: 'https://www.ssbwiki.com/Falco_(SSBM)',
-    },
     characterStatistics: {
       id: 50,
       weight: 80,
@@ -626,12 +482,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 218,
   },
   {
-    characterInfo: {
-      id: 25,
-      discord: 'https://discord.com/invite/0uRZflcDyAOMeAPK',
-      meleeFrameData: 'http://meleeframedata.com/young_link',
-      ssbWiki: 'https://www.ssbwiki.com/Young_Link_(SSBM)',
-    },
     characterStatistics: {
       id: 51,
       weight: 85,
@@ -652,12 +502,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 220,
   },
   {
-    characterInfo: {
-      id: 26,
-      discord: 'https://discord.com/invite/0cfhZQyx53mAuwty',
-      meleeFrameData: 'http://meleeframedata.com/zelda',
-      ssbWiki: 'https://www.ssbwiki.com/Zelda_(SSBM)',
-    },
     characterStatistics: {
       id: 52,
       weight: 90,
@@ -678,12 +522,6 @@ export const rawCharacters: CharacterBase[] = [
     fightCoreId: 239,
   },
   {
-    characterInfo: {
-      id: 27,
-      discord: 'https://discord.gg/VT3H5PN',
-      meleeFrameData: null,
-      ssbWiki: null,
-    },
     characterStatistics: {
       id: 53,
       weight: 0,

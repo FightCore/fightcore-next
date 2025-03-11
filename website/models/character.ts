@@ -1,6 +1,5 @@
-import { Move } from './move';
 import { CharacterStatistics } from './character-statistics';
-import { CharacterInfo } from './character-info';
+import { Move } from './move';
 
 export interface Character extends CharacterBase {
   moves: Move[];
@@ -11,5 +10,4 @@ export interface CharacterBase {
   normalizedName: string;
   fightCoreId: number;
   characterStatistics: CharacterStatistics;
-  characterInfo: CharacterInfo;
 }
