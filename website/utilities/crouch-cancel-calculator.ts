@@ -49,12 +49,12 @@ export function calculateCrouchCancelPercentage(
   }
 
   const staleDamageReduction = staleness * hitbox.damage;
-  const stateDamage = hitbox.damage - staleDamageReduction;
+  const staleDamage = hitbox.damage - staleDamageReduction;
 
   const percentage =
     ((100 + target.characterStatistics.weight) / 14) *
       (((100 / hitbox.knockbackGrowth) * (knockbackTarget - hitbox.baseKnockback) - 18) / (hitbox.damage + 2)) -
-    stateDamage;
+    staleDamage;
 
   if (Infinity === percentage) {
     Sentry.captureMessage(
