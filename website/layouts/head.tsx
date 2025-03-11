@@ -25,7 +25,7 @@ export const Head = () => {
       )}
       {process.env.DO_TRACKING ? (
         <Script
-          defer
+          strategy="lazyOnload"
           src="https://umami.fightcore.gg/script.js"
           data-host-url="https://umami.fightcore.gg"
           data-website-id="53802f8e-49ec-4242-b4dd-d553573906c4"
