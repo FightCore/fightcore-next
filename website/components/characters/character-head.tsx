@@ -1,9 +1,8 @@
-import React from 'react';
-import NextHead from 'next/head';
+import { characterMetaDescription, metaConfig } from '@/config/meta';
 import { siteConfig } from '@/config/site';
 import { CharacterBase } from '@/models/character';
 import { characterRoute } from '@/utilities/routes';
-import { characterMetaDescription, metaConfig } from '@/config/meta';
+import NextHead from 'next/head';
 
 export interface CharacterHeadParams {
   character: CharacterBase;
@@ -33,10 +32,12 @@ export const CharacterHead = (params: CharacterHeadParams) => {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
+      <meta property="og:image" content="https://i.fightcore.gg/Wordmark.png" />
 
       {/* Twitter Card tags */}
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content="https://i.fightcore.gg/Wordmark.png" />
     </NextHead>
   );
 };
