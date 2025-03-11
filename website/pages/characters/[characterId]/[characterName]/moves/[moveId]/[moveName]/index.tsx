@@ -14,7 +14,7 @@ import { Move } from '@/models/move';
 import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
 import { createRelevantMoves } from '@/utilities/relevant-moves-creator';
 import { characterRoute } from '@/utilities/routes';
-import { BreadcrumbItem, Breadcrumbs } from "@heroui/breadcrumbs";
+import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs';
 import { promises as fs } from 'fs';
 import { InferGetStaticPropsType } from 'next';
 
@@ -24,7 +24,7 @@ export type MovePage = {
 };
 
 async function getCharacter(name: string): Promise<Character> {
-  const fileName = process.cwd() + `/config/framedata/${name.replace('%26', '&')}.json`;
+  const fileName = process.cwd() + `/public/framedata/${name.replace('%26', '&')}.json`;
   const file = await fs.readFile(fileName, 'utf8');
   const character = JSON.parse(file) as Character;
   return character;
@@ -84,7 +84,7 @@ export const getStaticProps = async (context: any) => {
     return { notFound: true };
   }
 
-  const fileName = process.cwd() + `/config/framedata/${characterBase.normalizedName.replace('%26', '&')}.json`;
+  const fileName = process.cwd() + `/public/framedata/${characterBase.normalizedName.replace('%26', '&')}.json`;
   const file = await fs.readFile(fileName, 'utf8');
   const character = JSON.parse(file) as Character;
 

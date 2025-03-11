@@ -38,6 +38,7 @@ export function calculateCrouchCancelPercentage(
   knockbackTarget: number,
   floor: boolean,
   display99PercentForNeverBreaks: boolean,
+  staleness: number,
 ): string {
   if (hitbox.setKnockback) {
     return setKnockbackCalculation(hitbox, target, knockbackTarget, display99PercentForNeverBreaks);
@@ -47,10 +48,13 @@ export function calculateCrouchCancelPercentage(
     return display99PercentForNeverBreaks ? '99%' : 'Never breaks';
   }
 
+  const staleDamageReduction = staleness * hitbox.damage;
+  const staleDamage = hitbox.damage - staleDamageReduction;
+
   const percentage =
     ((100 + target.characterStatistics.weight) / 14) *
       (((100 / hitbox.knockbackGrowth) * (knockbackTarget - hitbox.baseKnockback) - 18) / (hitbox.damage + 2)) -
-    hitbox.damage;
+    staleDamage;
 
   if (Infinity === percentage) {
     Sentry.captureMessage(
@@ -62,7 +66,11 @@ export function calculateCrouchCancelPercentage(
 
   if (percentage > 0) {
     if (floor) {
-      return Math.floor(percentage) + '%';
+      // Melee uses floored percentages within its calculation for the knockback.
+      // Because of that, we need to do the reverse and grab the ceiling of the percentage.
+      // In Fox's Jab 1 vs Falcon the percentage is 243.71%.
+      // This means that 243 is not enough to break crouch cancel but 244% is.
+      return Math.ceil(percentage) + '%';
     }
 
     return percentage.toFixed(2) + '%';

@@ -1,14 +1,15 @@
-import { CharacterBase, Character } from '@/models/character';
-import { MoveType } from '@/models/move-type';
-import { CrouchCancelMoveOverviewTable } from './crouch-cancel-move-overview-table';
+import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
+import { MoveType } from '@/models/move-type';
 import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
+import { CrouchCancelMoveOverviewTable } from './crouch-cancel-move-overview-table';
 
 export interface CrouchCancelMoveListParams {
   target: CharacterBase;
   character: Character;
   floorPercentage: boolean;
   knockbackTarget: number;
+  staleness: number;
 }
 
 function sortMoves(moveA: Move, moveB: Move): number {
@@ -47,7 +48,7 @@ export function CrouchCancelMoveList(data: Readonly<CrouchCancelMoveListParams>)
           .sort(sortMoves);
 
         return (
-          <div key={type.type}>
+          <div key={type.type + '-' + data.staleness}>
             <h2 className="text-bold text-xl">{type.name}</h2>
             {CrouchCancelMoveOverviewTable({
               target: data.target,
@@ -55,6 +56,7 @@ export function CrouchCancelMoveList(data: Readonly<CrouchCancelMoveListParams>)
               floorPercentage: data.floorPercentage,
               knockbackTarget: data.knockbackTarget,
               character: data.character,
+              staleness: data.staleness,
             })}
           </div>
         );
