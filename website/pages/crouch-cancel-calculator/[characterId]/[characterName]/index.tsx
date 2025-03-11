@@ -75,8 +75,8 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
       if (!character) {
         return;
       }
-      setSelectedTarget(character!.fightCoreId);
-      setTarget(character!);
+      setSelectedTarget(character.fightCoreId);
+      setTarget(character);
     }
   }, [searchParams]);
 

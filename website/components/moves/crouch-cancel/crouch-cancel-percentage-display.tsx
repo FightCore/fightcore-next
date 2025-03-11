@@ -15,7 +15,7 @@ export interface CrouchCancelPercentageDisplayData {
   staleness: number;
 }
 
-export default function CrouchCancelPercentageDisplay(params: CrouchCancelPercentageDisplayData) {
+export default function CrouchCancelPercentageDisplay(params: Readonly<CrouchCancelPercentageDisplayData>) {
   function generateHitboxPercentage(
     hitbox: Hitbox,
     target: CharacterBase,

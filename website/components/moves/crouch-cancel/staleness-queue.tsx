@@ -5,7 +5,7 @@ export interface StalenessQueueData {
   onStalenessChange: (staleness: number) => void;
 }
 
-export default function StalenessQueue(data: StalenessQueueData) {
+export default function StalenessQueue(data: Readonly<StalenessQueueData>) {
   const [staleness, setStaleness] = useState<number>(0);
 
   function calculateStaleness(value: boolean, multiplier: number): void {
