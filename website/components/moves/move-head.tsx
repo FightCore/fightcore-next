@@ -1,10 +1,9 @@
-import React from 'react';
-import NextHead from 'next/head';
-import { siteConfig } from '@/config/site';
-import { Move } from '@/models/move';
-import { CharacterBase } from '@/models/character';
-import { moveRoute } from '@/utilities/routes';
 import { metaConfig, moveMetaDescription } from '@/config/meta';
+import { siteConfig } from '@/config/site';
+import { CharacterBase } from '@/models/character';
+import { Move } from '@/models/move';
+import { moveRoute } from '@/utilities/routes';
+import NextHead from 'next/head';
 
 export interface MoveHeadParams {
   move: Move;
@@ -38,14 +37,22 @@ export const MoveHead = (params: MoveHeadParams) => {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
-      {params.move.gifUrl ? <meta property="og:image" content={params.move.gifUrl} /> : <></>}
+      {params.move.gifUrl ? (
+        <meta property="og:image" content={params.move.gifUrl} />
+      ) : (
+        <meta property="og:image" content="https://i.fightcore.gg/Wordmark.png" />
+      )}
       {params.move.gifUrl ? <meta property="og:image:alt" content={imageAlt} /> : <></>}
 
       {/* Twitter Card tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      {params.move.gifUrl ? <meta name="twitter:image" content={params.move.gifUrl} /> : <></>}
+      {params.move.gifUrl ? (
+        <meta name="twitter:image" content={params.move.gifUrl} />
+      ) : (
+        <meta name="og:image" content="https://i.fightcore.gg/Wordmark.png" />
+      )}
       {params.move.gifUrl ? <meta name="twitter:image:alt" content={imageAlt} /> : <></>}
     </NextHead>
   );

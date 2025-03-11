@@ -12,28 +12,48 @@ export const metaConfig = {
     'FightCore',
     'frame data',
     'crouch cancel percentages',
+    'asdi down percentages',
+    'hitboxes',
+    'damage',
+    'visualizations',
     'hitlag',
     'hitstun',
     'shieldstun',
   ],
-  baseDescription: (middleSection: string) =>
-    `Modern mobile-friendly frame data for ${middleSection} in Super Smash Bros Melee`,
 };
 
+export function indexMetaDescription(): string {
+  return (
+    'FightCore.gg is the ultimate resource for Super Smash Bros. Melee frame data, hitboxes, and visualization.' +
+    ' Explore detailed character animations with our interactive hitbox viewer and crouch cancel calculator.'
+  );
+}
+
 export function characterMetaDescription(character: CharacterBase): string {
-  return metaConfig.baseDescription(`${character.name}`);
+  return (
+    `Explore ${character.name}\’s complete frame data in Super Smash Bros. Melee on FightCore.gg. ` +
+    "Discover every move's properties and view the most detailed hitbox information available. " +
+    'FightCore.gg is the ultimate resource for Melee frame data and hitbox analysis.'
+  );
 }
 
 export function moveMetaDescription(character: CharacterBase, move: Move): string {
   const moveSummary = createMoveSummary(move);
-  const pageName = `${character.name} ${move.name}`;
-  const siteDescription = metaConfig.baseDescription(pageName);
+  const siteDescription =
+    `Break down ${character.name}\’s ${move.name} frame data in Super Smash Bros. Melee on FightCore.gg. ` +
+    'Analyze its startup, active, and end frames, plus hitbox placement. ' +
+    'See detailed animations and hitbox visualizations to understand its power and potential.';
 
   return `${moveSummary} | ${siteDescription}`;
 }
 
 export function crouchCancelMetaDescription(character: CharacterBase): string {
-  return metaConfig.baseDescription(`${character.name} crouch cancel information`);
+  return (
+    `Calculate ${character.name}\’s crouch cancel effectiveness in Super Smash Bros. Melee ' ` +
+    'with FightCore.gg\’s Crouch Cancel Calculator. ' +
+    'See how much knockback reduction you get against different moves, analyze survivability, ' +
+    'and optimize counterplay with detailed frame data'
+  );
 }
 
 function createMoveSummary(move: Move): string {
