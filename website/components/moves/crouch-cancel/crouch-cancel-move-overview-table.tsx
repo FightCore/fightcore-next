@@ -1,15 +1,10 @@
+import CrouchCancelPercentageDisplay from '@/components/moves/crouch-cancel/crouch-cancel-percentage-display';
 import { CharacterBase } from '@/models/character';
-import { Hitbox } from '@/models/hitbox';
 import { Move } from '@/models/move';
-import {
-  calculateCrouchCancelPercentage,
-  getCrouchCancelImpossibleReason,
-  isCrouchCancelPossible,
-} from '@/utilities/crouch-cancel-calculator';
 import { processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
 import { moveRoute } from '@/utilities/routes';
-import { Link } from "@heroui/link";
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
+import { Link } from '@heroui/link';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
 import { flattenData } from '../hitboxes/hitbox-table-columns';
 
 export interface CrouchCancelMoveOverviewTableParams {
@@ -18,14 +13,7 @@ export interface CrouchCancelMoveOverviewTableParams {
   moves: Move[];
   knockbackTarget: number;
   floorPercentage: boolean;
-}
-
-function generateHitboxPercentage(hitbox: Hitbox, target: CharacterBase, knockbackTarget: number, floor: boolean) {
-  if (!isCrouchCancelPossible(hitbox)) {
-    return getCrouchCancelImpossibleReason(hitbox);
-  }
-
-  return calculateCrouchCancelPercentage(hitbox, target, knockbackTarget, floor, false);
+  staleness: number;
 }
 
 export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveOverviewTableParams>) {
@@ -61,7 +49,7 @@ export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveO
       <TableBody>
         {flattenedHits.map((hitbox) => {
           const html = (
-            <TableRow key={hitbox.id.toString()}>
+            <TableRow key={hitbox.id.toString() + '-' + params.staleness}>
               <TableCell>
                 {previousName === hitbox.move.name ? (
                   ''
@@ -73,8 +61,14 @@ export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveO
                 {hitbox.hit}
               </TableCell>
               <TableCell>{hitbox.name}</TableCell>
-              <TableCell className="md:text-center">
-                {generateHitboxPercentage(hitbox, params.target, params.knockbackTarget, params.floorPercentage)}
+              <TableCell className="md:text-center" key={params.staleness}>
+                <CrouchCancelPercentageDisplay
+                  hitbox={hitbox}
+                  floor={params.floorPercentage}
+                  knockbackTarget={params.knockbackTarget}
+                  staleness={params.staleness}
+                  target={params.target}
+                ></CrouchCancelPercentageDisplay>
               </TableCell>
             </TableRow>
           );

@@ -13,11 +13,11 @@ import {
   isCrouchCancelPossible,
 } from '@/utilities/crouch-cancel-calculator';
 import { areAllHitboxesEqual, areHitboxesEqual } from '@/utilities/hitbox-utils';
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Checkbox } from "@heroui/checkbox";
-import { Image } from "@heroui/image";
-import { Radio, RadioGroup } from "@heroui/radio";
-import { Tab, Tabs } from "@heroui/tabs";
+import { Card, CardBody, CardHeader } from '@heroui/card';
+import { Checkbox } from '@heroui/checkbox';
+import { Image } from '@heroui/image';
+import { Radio, RadioGroup } from '@heroui/radio';
+import { Tab, Tabs } from '@heroui/tabs';
 import React, { useEffect } from 'react';
 
 export interface CrouchCancelTableParams {
@@ -50,6 +50,8 @@ function generateCard(
                 knockbackTarget,
                 floorPercentages,
                 use99Percent,
+                // Staleness is not included in the table
+                0,
               );
               return (
                 <div key={knockbackTarget + character.fightCoreId}>
@@ -200,8 +202,10 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
           <div className="text-medium font-bold">Floor percentages</div>
           <div className="text-small">
-            Melee uses floored percentages for its calculations, un-floored percentages can be viewed but should not be
-            used.
+            Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it breaks at 12%.
+          </div>
+          <div className="text-small">
+            <em>More information on this coming soon.</em>
           </div>
         </Checkbox>
 

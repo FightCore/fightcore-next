@@ -1,10 +1,10 @@
 'use client';
 import { characters } from '@/config/framedata/framedata';
 import { characterRoute } from '@/utilities/routes';
-import { Divider } from "@heroui/divider";
-import { Image } from "@heroui/image";
-import { Link } from "@heroui/link";
-import { Tooltip } from "@heroui/tooltip";
+import { Divider } from '@heroui/divider';
+import { Image } from '@heroui/image';
+import { Link } from '@heroui/link';
+import { Tooltip } from '@heroui/tooltip';
 import { FaAward, FaCalculator, FaCircleUser, FaGoogleDrive, FaMugHot, FaRobot } from 'react-icons/fa6';
 import { Logo } from '../components/icons';
 import { Socials } from './socials';
@@ -111,7 +111,7 @@ export function SideNav() {
       <div className="mb-5 px-4">
         <Socials />
         <Link className="mt-2" href="/patchnotes">
-          Version 1.0.2
+          Version 1.0.3
         </Link>
       </div>
     </div>

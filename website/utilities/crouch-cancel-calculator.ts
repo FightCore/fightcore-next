@@ -38,6 +38,7 @@ export function calculateCrouchCancelPercentage(
   knockbackTarget: number,
   floor: boolean,
   display99PercentForNeverBreaks: boolean,
+  staleness: number,
 ): string {
   if (hitbox.setKnockback) {
     return setKnockbackCalculation(hitbox, target, knockbackTarget, display99PercentForNeverBreaks);
@@ -47,10 +48,13 @@ export function calculateCrouchCancelPercentage(
     return display99PercentForNeverBreaks ? '99%' : 'Never breaks';
   }
 
+  const staleDamageReduction = staleness * hitbox.damage;
+  const stateDamage = hitbox.damage - staleDamageReduction;
+
   const percentage =
     ((100 + target.characterStatistics.weight) / 14) *
       (((100 / hitbox.knockbackGrowth) * (knockbackTarget - hitbox.baseKnockback) - 18) / (hitbox.damage + 2)) -
-    hitbox.damage;
+    stateDamage;
 
   if (Infinity === percentage) {
     Sentry.captureMessage(

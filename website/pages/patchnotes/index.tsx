@@ -1,9 +1,16 @@
 /* eslint-disable max-len */
 import { PageTitle } from '@/components/page-title';
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card, CardBody, CardHeader } from '@heroui/card';
 import NextHead from 'next/head';
 
 const patchNotes = [
+  {
+    version: '1.0.3',
+    changes: [
+      'Fixed an issue where the crouch cancel percentage was nearly always off by 1% (thank you Emi, Faust, skullbro, beachcow and others)',
+      'Added staleness to the crouch cancel calculator (thank you for the suggestion Faust)',
+    ],
+  },
   {
     version: '1.0.2',
     changes: [
