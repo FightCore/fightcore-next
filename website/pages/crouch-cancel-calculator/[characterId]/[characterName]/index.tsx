@@ -39,7 +39,7 @@ export const getStaticProps = (async (context) => {
     return { notFound: true };
   }
 
-  const fileName = process.cwd() + `/config/framedata/${characterBase.normalizedName.replace('%26', '&')}.json`;
+  const fileName = process.cwd() + `/public/framedata/${characterBase.normalizedName.replace('%26', '&')}.json`;
   const file = await fs.readFile(fileName, 'utf8');
   const character = JSON.parse(file) as Character;
   return {
