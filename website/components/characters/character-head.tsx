@@ -1,6 +1,7 @@
 import { characterMetaDescription, metaConfig } from '@/config/meta';
 import { siteConfig } from '@/config/site';
 import { CharacterBase } from '@/models/character';
+import { cloneObject } from '@/utilities/clone';
 import { characterRoute } from '@/utilities/routes';
 import NextHead from 'next/head';
 
@@ -12,7 +13,7 @@ export const CharacterHead = (params: CharacterHeadParams) => {
   const title = `${params.character.name} - ${siteConfig.name}`;
   const description = characterMetaDescription(params.character);
 
-  const baseTags = structuredClone(metaConfig.tags);
+  const baseTags = cloneObject(metaConfig.tags);
 
   baseTags.push(params.character.name);
   baseTags.push(params.character.normalizedName);

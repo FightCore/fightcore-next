@@ -1,6 +1,7 @@
 import { FlattenedHitbox } from '@/components/moves/hitboxes/hitbox-table-columns';
 import { Hit } from '@/models/hit';
 import { Hitbox } from '@/models/hitbox';
+import { cloneObject } from '@/utilities/clone';
 import { getMappedUnique } from './utils';
 
 export function areHitboxesOfHitEqual(hit: Hit): boolean {
@@ -52,11 +53,11 @@ export function getHitboxColor(hits: HitboxColor[], frame: number): string | nul
 
 export function processDuplicateHitboxes(hits: Hit[]): Hit[] {
   const newData = [];
-  for (let hit of hits) {
+  for (const hit of hits) {
     if (areAllHitboxesEqual(hit.hitboxes)) {
-      const newHitbox = structuredClone(hit.hitboxes[0]);
+      const newHitbox = cloneObject(hit.hitboxes[0]);
       newHitbox.name = 'All Hitboxes';
-      const newHit = structuredClone(hit);
+      const newHit = cloneObject(hit);
       newHit.hitboxes = [newHitbox];
       newData.push(newHit);
     } else {
@@ -67,7 +68,7 @@ export function processDuplicateHitboxes(hits: Hit[]): Hit[] {
 }
 
 export function processDuplicateHits(hits: FlattenedHitbox[]): FlattenedHitbox[] {
-  let newHits = structuredClone(hits);
+  const newHits = cloneObject(hits);
   // Javascript moment. Gets the unique items in an array that I can then iterate over.
   let uniqueHitTexts = getMappedUnique(newHits, (hit) => hit.hit);
   for (let i = uniqueHitTexts.length - 1; i > 0; i--) {

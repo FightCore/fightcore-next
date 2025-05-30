@@ -1,10 +1,10 @@
 import { characters } from '@/config/framedata/framedata';
 import { characterRoute } from '@/utilities/routes';
-import { Divider } from "@heroui/divider";
-import { Image } from "@heroui/image";
-import { Link } from "@heroui/link";
-import { Navbar, NavbarBrand, NavbarContent, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@heroui/navbar";
-import { Tooltip } from "@heroui/tooltip";
+import { Divider } from '@heroui/divider';
+import { Image } from '@heroui/image';
+import { Link } from '@heroui/link';
+import { Navbar, NavbarBrand, NavbarContent, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@heroui/navbar';
+import { Tooltip } from '@heroui/tooltip';
 import React from 'react';
 import { FaAward, FaCalculator, FaCircleUser, FaGoogleDrive, FaMugHot, FaRobot } from 'react-icons/fa6';
 import { Logo } from '../components/icons';
@@ -114,7 +114,7 @@ export const NavBar = () => {
           <div className="w-full self-end">
             <Socials />
             <Link className="mt-2" href="/patchnotes">
-              Version 1.0.2
+              Version 1.1.0
             </Link>
           </div>
         </div>

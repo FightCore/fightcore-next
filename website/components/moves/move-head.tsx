@@ -2,6 +2,7 @@ import { metaConfig, moveMetaDescription } from '@/config/meta';
 import { siteConfig } from '@/config/site';
 import { CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
+import { cloneObject } from '@/utilities/clone';
 import { moveRoute } from '@/utilities/routes';
 import NextHead from 'next/head';
 
@@ -13,7 +14,7 @@ export interface MoveHeadParams {
 export const MoveHead = (params: MoveHeadParams) => {
   const title = `${params.character.name} ${params.move.name} - ${siteConfig.name}`;
   const description = moveMetaDescription(params.character, params.move);
-  const baseTags = structuredClone(metaConfig.tags);
+  const baseTags = cloneObject(metaConfig.tags);
 
   baseTags.push(params.character.name);
   baseTags.push(params.character.normalizedName);

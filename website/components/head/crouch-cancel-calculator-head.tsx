@@ -1,6 +1,7 @@
 import { crouchCancelMetaDescription, metaConfig } from '@/config/meta';
 import { siteConfig } from '@/config/site';
 import { CharacterBase } from '@/models/character';
+import { cloneObject } from '@/utilities/clone';
 import { crouchCancelCharacterRoute } from '@/utilities/routes';
 import NextHead from 'next/head';
 
@@ -11,7 +12,7 @@ export interface CrouchCancelCalculatorHeadParams {
 export function CrouchCancelCalculatorHead(params: Readonly<CrouchCancelCalculatorHeadParams>) {
   const title = `${params.character.name} Crouch Cancel Calculator - ${siteConfig.name}`;
   const description = crouchCancelMetaDescription(params.character);
-  const baseTags = structuredClone(metaConfig.tags);
+  const baseTags = cloneObject(metaConfig.tags);
 
   baseTags.push(params.character.name);
   baseTags.push(params.character.normalizedName);

@@ -1,5 +1,6 @@
 const CompressionPlugin = require('compression-webpack-plugin');
 const path = require('path');
+const { withSentryConfig } = require('@sentry/nextjs');
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
@@ -16,6 +17,7 @@ const nextConfig = {
   env: {
     IS_BETA: process.env.IS_BETA,
     DO_TRACKING: process.env.DO_TRACKING,
+    USE_SENTRY: process.env.USE_SENTRY
   },
   compiler: {
     reactRemoveProperties: true,
@@ -37,4 +39,14 @@ const nextConfig = {
   },
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports =  withSentryConfig(withBundleAnalyzer(nextConfig), {
+    org: 'fightcore',
+    project: 'fightcore-next',
+
+    silent: !process.env.CI, // Can be used to suppress logs
+
+    // Automatically tree-shake Sentry logger statements to reduce bundle size
+    disableLogger: true,
+
+    tunnelRoute: "/monitoring",
+  })

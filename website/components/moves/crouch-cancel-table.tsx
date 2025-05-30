@@ -7,6 +7,7 @@ import {
 import { CharacterBase } from '@/models/character';
 import { Hit } from '@/models/hit';
 import { Hitbox } from '@/models/hitbox';
+import { cloneObject } from '@/utilities/clone';
 import {
   calculateCrouchCancelPercentage,
   getCrouchCancelImpossibleReason,
@@ -97,13 +98,13 @@ function preprocessHits(hits: Hit[]): Hit[] {
   const newHits: Hit[] = [];
   for (const hit of hits) {
     if (areAllHitboxesEqual(hit.hitboxes)) {
-      const newHitbox = structuredClone(hit.hitboxes[0]);
+      const newHitbox = cloneObject(hit.hitboxes[0]);
       newHitbox.name = 'All Hitboxes';
-      const newHit = structuredClone(hit);
+      const newHit = cloneObject(hit);
       newHit.hitboxes = [newHitbox];
       newHits.push(newHit);
     } else {
-      newHits.push(structuredClone(hit));
+      newHits.push(cloneObject(hit));
     }
   }
 
@@ -157,7 +158,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
   };
 
   useEffect(() => {
-    const localCharacters = structuredClone(characters)
+    const localCharacters = cloneObject(characters)
       .filter((character) => character.characterStatistics.weight > 0)
       .sort((a, b) => sortCharacters(a, b, selected));
     setSortedCharacters(localCharacters);
@@ -200,7 +201,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         </div>
 
         <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
-          <div className="text-medium font-bold">Floor percentages</div>
+          <div className="text-medium font-bold">Ceiling percentages</div>
           <div className="text-small">
             Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it breaks at 12%.
           </div>

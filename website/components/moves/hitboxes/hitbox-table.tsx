@@ -1,4 +1,5 @@
 import { Hit } from '@/models/hit';
+import { cloneObject } from '@/utilities/clone';
 import {
   generateColors,
   getHitboxColor,
@@ -62,7 +63,7 @@ function getColumns(hits: FlattenedHitbox[]): Column<FlattenedHitbox>[] {
 export default function HitboxTable(params: Readonly<HitboxTableParams>) {
   const processedHits = processDuplicateHitboxes(params.hits);
   const data = processDuplicateHits(flattenData(processedHits));
-  const mobileData = structuredClone(data);
+  const mobileData = cloneObject(data);
   const colors = generateColors(data);
 
   const colorCache = new Map<string, string>();

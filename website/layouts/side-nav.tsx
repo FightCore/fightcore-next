@@ -18,7 +18,6 @@ export function SideNav() {
         </Link>
         {process.env.IS_BETA ? <p>Beta</p> : <></>}
       </div>
-
       <div className="px-2">
         <div className="grid grid-cols-4 gap-2 p-2">
           {characters.map((character) => (
@@ -105,13 +104,11 @@ export function SideNav() {
           </li>
         </ul>
       </div>
-
       <div className="grow" />
-
       <div className="mb-5 px-4">
         <Socials />
         <Link className="mt-2" href="/patchnotes">
-          Version 1.0.3
+          Version 1.1.0
         </Link>
       </div>
     </div>
