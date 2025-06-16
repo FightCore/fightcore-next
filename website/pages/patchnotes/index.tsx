@@ -5,6 +5,12 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '1.1.1',
+    changes: [
+      "Fixed Peach's down smash being listed as ending on frame 24 instead of ending on frame 22. (thank you to lynnpetals)",
+    ],
+  },
+  {
     version: '1.1.0',
     changes: [
       'Added a search bar to the character page, allowing you to search for moves by name. It is currently in beta, big improvements will come down the line.',
