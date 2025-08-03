@@ -1,8 +1,8 @@
 import { Hitbox } from '@/models/hitbox';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
-import { FlattenedHitbox } from './hitbox-table-columns';
-import { Tabs, Tab } from "@heroui/tabs";
 import { getMappedUnique } from '@/utilities/utils';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
+import { Tab, Tabs } from '@heroui/tabs';
+import { FlattenedHitbox } from './hitbox-table-columns';
 
 function MobileHitboxHeader(hitboxes: Readonly<Hitbox[]>) {
   const cells = [<TableColumn key="name-key">Name</TableColumn>];
@@ -71,7 +71,7 @@ export default function MobileHitboxTable(params: MobileHitboxTableParams) {
           }
 
           return (
-            <Tab key={hit} title={title}>
+            <Tab key={'hit' + hit} title={title}>
               <Table classNames={classNames} aria-label="Table of hitbox statistics">
                 {MobileHitboxHeader(hitboxes)}
                 <TableBody>{tableRows.map((row) => MobileHitboxRow(hitboxes, row.key, row.title))}</TableBody>

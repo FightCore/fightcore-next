@@ -13,8 +13,8 @@ export function SideNav() {
   return (
     <div className="flex h-full flex-col overflow-y-auto">
       <div className="bg-red-700 p-2 text-white dark:bg-transparent">
-        <Link href="/" className="w-100 align-content-center flex">
-          <Logo className="flex-1" height={50} width={100} />
+        <Link href="/" className="align-content-center flex">
+          <Logo className="flex-1" height={50} width={50} />
         </Link>
         {process.env.IS_BETA ? <p>Beta</p> : <></>}
       </div>
