@@ -1,14 +1,6 @@
-import { heroui } from "@heroui/theme";
-import type { Config } from 'tailwindcss';
+import { heroui } from '@heroui/theme';
 
-export default {
-  content: [
-    './layouts/**/*.{js,ts,jsx,tsx,mdx}',
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './utilities/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
-  ],
+const tailwindConfig = {
   theme: {
     extend: {},
   },
@@ -31,4 +23,6 @@ export default {
       },
     }),
   ],
-} satisfies Config;
+};
+
+export default tailwindConfig;
