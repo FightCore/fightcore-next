@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@use 'tailwindcss';
+@config "../tailwind.config.ts";
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 
 .super-gif > canvas {
   max-width: 100%;

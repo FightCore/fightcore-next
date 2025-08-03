@@ -13,7 +13,7 @@ import { Socials } from './socials';
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
-    <Navbar className="bg-red-700 dark:bg-background" onMenuOpenChange={setIsMenuOpen}>
+    <Navbar className="dark:bg-background bg-red-700" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
         <NavbarBrand>
@@ -97,7 +97,6 @@ export const NavBar = () => {
               <Tooltip content={character.name} delay={1000}>
                 <Link href={characterRoute(character)}>
                   <Image
-                    loading="lazy"
                     className="grow text-white"
                     alt={character.name}
                     width={40}

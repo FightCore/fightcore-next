@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <HeroUIProvider>
       <NextThemesProvider attribute="class" defaultTheme="dark">
         {showBackToTop ? (
-          <div className="fixed bottom-0 right-0 z-10 mb-6 mr-6 hidden md:block">
+          <div className="fixed right-0 bottom-0 z-10 mr-6 mb-6 hidden md:block">
             <Button
               size="sm"
               onPress={() => {
