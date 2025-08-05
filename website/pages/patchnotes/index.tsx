@@ -7,7 +7,7 @@ const patchNotes = [
   {
     version: '1.1.1',
     changes: [
-      "Fixed Peach's down smash being listed as ending on frame 24 instead of ending on frame 22. (thank you to lynnpetals)",
+      "Fixed Peach's down smash being listed as ending on frame 24 instead of ending on frame 22. (thank you to CaitlynCherche and lynnpetals)",
     ],
   },
   {
