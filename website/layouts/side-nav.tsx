@@ -108,7 +108,7 @@ export function SideNav() {
       <div className="mb-5 px-4">
         <Socials />
         <Link className="mt-2" href="/patchnotes">
-          Version 1.1.1
+          Version 1.2.0
         </Link>
       </div>
     </div>
