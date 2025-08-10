@@ -5,6 +5,14 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '1.2.0',
+    changes: [
+      'Added a GIF download button to the GIF player, allowing you to download the GIF/WEBM/PNG of a move.',
+      'Upgraded the entire website to the most up to date version of Next.js, React and other libraries, (hopefully) increasing stability and performance.',
+      "Fixed an issue where Sheiks's grab and rapid jab were mixed up with data.",
+    ],
+  },
+  {
     version: '1.1.1',
     changes: [
       "Fixed Peach's down smash being listed as ending on frame 24 instead of ending on frame 22. (thank you to CaitlynCherche and lynnpetals)",
