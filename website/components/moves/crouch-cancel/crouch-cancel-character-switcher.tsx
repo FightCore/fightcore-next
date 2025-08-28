@@ -1,8 +1,8 @@
 import { characters } from '@/config/framedata/framedata';
 import { crouchCancelCharacterRoute } from '@/utilities/routes';
-import { Link } from "@heroui/link";
-import { Tooltip } from "@heroui/tooltip";
-import { Image } from "@heroui/image";
+import { Image } from '@heroui/image';
+import { Link } from '@heroui/link';
+import { Tooltip } from '@heroui/tooltip';
 
 export default function CrouchCancelCharacterSwitches() {
   return (

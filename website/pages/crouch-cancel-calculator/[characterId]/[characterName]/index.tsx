@@ -241,12 +241,12 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
           </RadioGroup>
         </div>
         <div>
-          <div className="mb-1 text-medium text-foreground-500">Staleness</div>
+          <div className="text-medium text-foreground-500 mb-1">Staleness</div>
           <StalenessQueue onStalenessChange={setStaleness}></StalenessQueue>
         </div>
 
         <div>
-          <div className="mb-1 text-medium text-foreground-500">Ceiling percentages</div>
+          <div className="text-medium text-foreground-500 mb-1">Ceiling percentages</div>
           <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
             <div className="text-small">
               Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it breaks at
