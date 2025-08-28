@@ -1,9 +1,9 @@
 import { CharacterBase } from '@/models/character';
-import { Button } from "@heroui/button";
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
-import { Image } from "@heroui/image";
-import { Link } from "@heroui/link";
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
+import { Button } from '@heroui/button';
+import { Card, CardBody, CardFooter, CardHeader } from '@heroui/card';
+import { Image } from '@heroui/image';
+import { Link } from '@heroui/link';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
 import React from 'react';
 
 interface CharacterCardInput {
@@ -21,9 +21,9 @@ export const CharacterCard = (input: CharacterCardInput) => {
     [],
   );
   return (
-    <Card key={character.normalizedName} className="w-full dark:bg-gray-800 md:max-w-[340px]">
+    <Card key={character.normalizedName} className="w-full md:max-w-[340px] dark:bg-gray-800">
       <CardHeader className="justify-between">
-        <div className="ml-3 mt-3 flex gap-3">
+        <div className="mt-3 ml-3 flex gap-3">
           <Image
             width={40}
             height={40}
@@ -32,11 +32,11 @@ export const CharacterCard = (input: CharacterCardInput) => {
             loading={'eager'}
           />
           <div className="flex flex-col items-start justify-center gap-1">
-            <h4 className="text-lg font-bold leading-none text-default-600">{character.name}</h4>
+            <h4 className="text-default-600 text-lg leading-none font-bold">{character.name}</h4>
           </div>
         </div>
       </CardHeader>
-      <CardBody className="px-3 py-0 text-small text-default-400">
+      <CardBody className="text-small text-default-400 px-3 py-0">
         <Table classNames={classNames} key={character.normalizedName} aria-label="Example static collection table">
           <TableHeader>
             <TableColumn key={'col1' + character.normalizedName}>NAME</TableColumn>
@@ -90,7 +90,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
         <Button
           href={'/characters/' + character.fightCoreId + '/' + character.normalizedName}
           as={Link}
-          className="w-full bg-red-700 text-medium font-bold text-white hover:bg-red-500"
+          className="text-medium w-full bg-red-700 font-bold text-white hover:bg-red-500"
         >
           View
         </Button>

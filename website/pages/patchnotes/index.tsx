@@ -5,6 +5,10 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '1.2.1',
+    changes: ['Fixed the Grab hits being off by 1 frame for most characters'],
+  },
+  {
     version: '1.2.0',
     changes: [
       'Added a GIF download button to the GIF player, allowing you to download the GIF/WEBM/PNG of a move.',
