@@ -5,6 +5,13 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '1.2.2',
+    changes: [
+      'Added Edge options to the navigational bar.',
+      'Added a bunch of missing Roy animations created by graizel on GitLab.',
+    ],
+  },
+  {
     version: '1.2.1',
     changes: ['Fixed the Grab hits being off by 1 frame for most characters'],
   },

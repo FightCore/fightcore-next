@@ -107,6 +107,21 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
       sorting: ['neutraltech', 'ftechroll', 'btechroll'],
       showInSidebar: true,
     },
+    {
+      type: MoveType.edgeAttack,
+      name: 'Edge',
+      showInSidebar: true,
+      sorting: [
+        'edge',
+        'edgeslow',
+        'edgeclimb',
+        'edgeclimbslow',
+        'edgeroll',
+        'edgerollslow',
+        'edgejump',
+        'edgejumpslow',
+      ],
+    },
     { type: MoveType.item, name: 'Item', showInSidebar: false },
     {
       type: MoveType.kirbySpecial,
