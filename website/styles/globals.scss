@@ -2,6 +2,9 @@
 @config "../tailwind.config.ts";
 @source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 
+// Import ka-table CSS (pre-compiled to avoid Sass issues)
+@import '../node_modules/ka-table/style.css';
+
 .super-gif > canvas {
   max-width: 100%;
 }
@@ -23,12 +26,10 @@
 
 .dark .ka-table {
   @import './custom-dark-ka-table.scss';
-  @import 'ka-table/style.scss';
 }
 
 .light .ka-table {
   @import './custom-light-ka-table.scss';
-  @import 'ka-table/style.scss';
 }
 
 .skeleton {
