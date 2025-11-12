@@ -27,8 +27,10 @@ const nextConfig = {
   },
   productionBrowserSourceMaps: true,
   sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-    quietDeps: true
+    includePaths: [
+      path.join(__dirname, 'styles'),
+      path.join(__dirname, 'node_modules', 'ka-table')
+    ]
   },
   /** @type {(config: import('webpack').Configuration, context: import('next/dist/server/config-shared').WebpackConfigContext) => import('webpack').Configuration} */
   webpack: (config, { isServer }) => {
