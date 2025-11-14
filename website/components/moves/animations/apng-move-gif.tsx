@@ -88,6 +88,17 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
     loadAPNG();
   }, [loaded, url, params.url, player]);
 
+  useEffect(() => {
+    return () => {
+      if (player && !player.paused) {
+        player.pause();
+      }
+      if (player) {
+        player.stop();
+      }
+    };
+  }, [player]);
+
   // Listen to player control events
   useEffect(() => {
     if (!player) return;

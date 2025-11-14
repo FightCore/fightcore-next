@@ -67,7 +67,16 @@ export const AnimationPlayer = ({
     eventEmitter.on('seek', (frameNumber: number) => {
       setIsPlaying(false);
     });
-  });
+
+    return () => {
+      eventEmitter.off('frameCounterUpdate', setFrameCounter);
+      eventEmitter.off('totalFramesUpdate', setTotalFrames);
+      eventEmitter.off('seek', (frameNumber: number) => {
+        setIsPlaying(false);
+      });
+      eventEmitter.emit('pause');
+    };
+  }, []);
 
   const handlePlay = useCallback(() => {
     eventEmitter.emit('play');

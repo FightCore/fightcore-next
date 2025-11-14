@@ -54,6 +54,14 @@ export const MoveGif = (params: MoveGifParams) => {
     }
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (gifPlayer && gifPlayer.isPlaying()) {
+        gifPlayer.pause();
+      }
+    };
+  }, [gifPlayer]);
+
   // Listen to player control events
   useEffect(() => {
     if (!gifPlayer) return;
