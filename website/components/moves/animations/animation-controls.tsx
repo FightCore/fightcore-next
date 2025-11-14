@@ -83,6 +83,16 @@ export const AnimationControls = ({
   onGoToFirstFrame,
   onGoToLastFrame,
 }: AnimationControlsProps) => {
+  const nextFrame = () => {
+    onPause();
+    onNextFrame();
+  };
+
+  const previousFrame = () => {
+    onPause();
+    onPreviousFrame();
+  };
+
   return (
     <div className="grid grid-cols-2 gap-2">
       {isPlaying ? (
@@ -99,29 +109,28 @@ export const AnimationControls = ({
         Frame: {frameCounter} {totalFrames > 0 && `of ${totalFrames}`}
       </Button>
 
-      <Button onPress={onPreviousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
+      <Button onPress={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
         Previous Frame
       </Button>
 
-      <Button onPress={onNextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
+      <Button onPress={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
         Next Frame
       </Button>
 
-      {showPlaybackSpeed && (
-        <Select
-          defaultSelectedKeys={['0.2']}
-          onSelectionChange={(value) => {
-            const speed = Number(value.currentKey);
-            onPlaybackSpeedChange?.(speed);
-          }}
-          aria-label="Playback speed"
-        >
-          <SelectItem key={'0.2'}>12 FPS (Default)</SelectItem>
-          <SelectItem key={'1'}>60 FPS (In-game speed)</SelectItem>
-        </Select>
-      )}
+      <Select
+        defaultSelectedKeys={['0.2']}
+        isDisabled={!showPlaybackSpeed}
+        onSelectionChange={(value) => {
+          const speed = Number(value.currentKey);
+          onPlaybackSpeedChange?.(speed);
+        }}
+        aria-label="Playback speed"
+      >
+        <SelectItem key={'0.2'}>12 FPS (Default)</SelectItem>
+        <SelectItem key={'1'}>60 FPS (In-game speed)</SelectItem>
+      </Select>
 
-      {showPlaybackSpeed && <Button>Report issue</Button>}
+      <Button>Report issue</Button>
 
       {showFirstLastButtons && (
         <Button onPress={onGoToFirstFrame} aria-label="First frame">

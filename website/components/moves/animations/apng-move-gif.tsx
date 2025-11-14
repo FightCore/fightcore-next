@@ -2,12 +2,12 @@ import eventEmitter from '@/events/event-emitter';
 import parseAPNG from 'apng-js';
 import Player from 'apng-js/types/library/player';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimationControls } from './animation-controls';
 import AnimationLegend from './animation-legend';
 
 export interface ApngMoveParams {
   url: string;
   showAdditionalControls?: boolean;
+  onError?: (error: Error) => void;
 }
 
 export default function ApngMove(params: Readonly<ApngMoveParams>) {
@@ -15,167 +15,116 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
   const [loaded, setLoaded] = useState(false);
   const [player, setPlayer] = useState<Player | null>(null);
   const [url, setUrl] = useState<string>(params.url);
-  const [frameCounter, setFrameCounter] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [totalFrames, setTotalFrames] = useState(0);
 
   // Handle URL changes and load APNG
   useEffect(() => {
     const loadAPNG = async () => {
-      if (url && url !== params.url) {
-        setUrl(params.url);
-        player?.removeAllListeners();
-        setPlayer(null);
-        canvasDivRef.current?.removeChild(canvasDivRef.current.firstChild as Node);
-        setLoaded(false);
-      } else if (!url) {
-        setUrl(params.url);
-      }
+      try {
+        if (url && url !== params.url) {
+          setUrl(params.url);
+          player?.removeAllListeners();
+          setPlayer(null);
+          canvasDivRef.current?.removeChild(canvasDivRef.current.firstChild as Node);
+          setLoaded(false);
+        } else if (!url) {
+          setUrl(params.url);
+        }
 
-      if (loaded) {
-        return;
-      }
-      setLoaded(true);
-      const response = await fetch(url);
-      const buffer = await response.arrayBuffer();
-      const apng = parseAPNG(buffer);
+        if (loaded) {
+          return;
+        }
+        setLoaded(true);
+        const response = await fetch(url);
+        const buffer = await response.arrayBuffer();
+        const apng = parseAPNG(buffer);
 
-      if (apng instanceof Error) {
-        console.error('Error parsing APNG:', apng);
-        return;
-      }
+        if (apng instanceof Error) {
+          console.error('Error parsing APNG:', apng);
+          return;
+        }
 
-      if (!canvasDivRef || !canvasDivRef.current) {
-        console.error('Canvas not found');
-        return;
-      }
-      if (canvasDivRef.current.children.length > 0) {
-        return;
-      }
+        if (!canvasDivRef || !canvasDivRef.current) {
+          console.error('Canvas not found');
+          return;
+        }
+        if (canvasDivRef.current.children.length > 0) {
+          return;
+        }
 
-      setTotalFrames(apng.frames.length);
-      const canvas = document.createElement('canvas');
-      canvas.width = apng.width;
-      canvas.height = apng.height;
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      canvasDivRef.current.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
+        setTotalFrames(apng.frames.length);
+        eventEmitter.emit('totalFramesUpdate', apng.frames.length);
+        const canvas = document.createElement('canvas');
+        canvas.width = apng.width;
+        canvas.height = apng.height;
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvasDivRef.current.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
 
-      const localPlayer = await apng.getPlayer(ctx!);
-      localPlayer.playbackRate = 0.2;
-      localPlayer.addListener('frame', (frameNumber: number) => {
-        setFrameCounter(frameNumber + 1);
-      });
-      localPlayer.addListener('play', () => {
-        setIsPlaying(true);
-      });
-      localPlayer.addListener('pause', () => {
-        setIsPlaying(false);
-      });
-      localPlayer.play();
-      setPlayer(localPlayer);
+        const localPlayer = await apng.getPlayer(ctx!);
+        localPlayer.playbackRate = 0.2;
+        localPlayer.addListener('frame', (frameNumber: number) => {
+          eventEmitter.emit('frameCounterUpdate', frameNumber + 1);
+        });
+        localPlayer.play();
+        setPlayer(localPlayer);
+      } catch (error) {
+        console.error('Error loading APNG:', error);
+
+        if (player) {
+          player.removeAllListeners();
+          player.stop();
+          setPlayer(null);
+          canvasDivRef.current?.remove();
+        }
+
+        if (params.onError && error instanceof Error) {
+          params.onError(error);
+        }
+      }
     };
 
     loadAPNG();
   }, [loaded, url, params.url, player]);
 
-  // Handle seek events from event emitter
+  // Listen to player control events
   useEffect(() => {
-    const handleSeek = (frame: number): void => {
-      if (!player) {
-        return;
-      }
+    if (!player) return;
 
-      const targetFrame = frame;
-      if (isPlaying) {
+    const handlePlay = () => {
+      if (player.paused) {
+        player.play();
+      }
+    };
+
+    const handlePause = () => {
+      if (!player.paused) {
         player.pause();
       }
-
-      let framesPassed = 0;
-      while (targetFrame - 1 !== player.currentFrameNumber) {
-        player.renderNextFrame();
-        framesPassed++;
-
-        // Safety measure to prevent infinite loops
-        if (framesPassed > 200) {
-          return;
-        }
-      }
     };
 
-    eventEmitter.on('seek', handleSeek);
-
-    return () => {
-      eventEmitter.off('seek', handleSeek);
-    };
-  }, [player, isPlaying]);
-
-  // Handle keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!player) {
-        return;
-      }
-
-      if (event.key === ' ') {
-        if (isPlaying) {
-          handlePause();
-        } else {
-          handlePlay();
-        }
-        event.preventDefault();
-      } else if (event.key === 'ArrowRight') {
-        handleNextFrame();
-      } else if (event.key === 'ArrowLeft') {
-        handlePreviousFrame();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [player, isPlaying]);
-
-  const handlePlay = useCallback(() => {
-    if (player?.paused) {
-      setIsPlaying(true);
-      player.play();
-    }
-  }, [player]);
-
-  const handlePause = useCallback(() => {
-    if (player && !player.paused) {
-      setIsPlaying(false);
-      player.pause();
-    }
-  }, [player]);
-
-  const handleNextFrame = useCallback(() => {
-    if (player) {
+    const handleNextFrame = () => {
       player.pause();
       player.renderNextFrame();
-    }
-  }, [player]);
+    };
 
-  const handlePreviousFrame = useCallback(() => {
-    if (player) {
+    const handlePreviousFrame = () => {
       player.pause();
       let targetFrame = player.currentFrameNumber;
       if (targetFrame <= 0) {
         targetFrame = totalFrames;
       }
       handleGoToFrame(targetFrame);
-    }
-  }, [player]);
+    };
 
-  const handleGoToFrame = useCallback(
-    (frameNumber: number) => {
+    const handleGoToFrame = (frameNumber: number) => {
       if (!player) {
         return;
       }
 
       const targetFrame = frameNumber;
-      if (isPlaying) {
+      if (!player.paused) {
         player.pause();
       }
 
@@ -189,9 +138,24 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
           return;
         }
       }
-    },
-    [player, isPlaying],
-  );
+    };
+
+    eventEmitter.on('play', handlePlay);
+    eventEmitter.on('pause', handlePause);
+    eventEmitter.on('nextFrame', handleNextFrame);
+    eventEmitter.on('previousFrame', handlePreviousFrame);
+    eventEmitter.on('seek', handleGoToFrame);
+    eventEmitter.on('setPlaybackSpeed', handlePlaybackSpeedChange);
+
+    return () => {
+      eventEmitter.off('play', handlePlay);
+      eventEmitter.off('pause', handlePause);
+      eventEmitter.off('nextFrame', handleNextFrame);
+      eventEmitter.off('previousFrame', handlePreviousFrame);
+      eventEmitter.off('seek', handleGoToFrame);
+      eventEmitter.off('setPlaybackSpeed', handlePlaybackSpeedChange);
+    };
+  }, [player, totalFrames]);
 
   const handlePlaybackSpeedChange = useCallback(
     (speed: number) => {
@@ -213,25 +177,6 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       )}
       <div ref={canvasDivRef} />
 
-      <AnimationControls
-        frameCounter={frameCounter}
-        totalFrames={totalFrames}
-        isPlaying={isPlaying}
-        onPlay={handlePlay}
-        onPause={handlePause}
-        onNextFrame={handleNextFrame}
-        onPreviousFrame={handlePreviousFrame}
-        onGoToFrame={handleGoToFrame}
-        showPlaybackSpeed={true}
-        onPlaybackSpeedChange={handlePlaybackSpeedChange}
-        showFirstLastButtons={params.showAdditionalControls}
-        onGoToFirstFrame={() => handleGoToFrame(1)}
-        onGoToLastFrame={() => {
-          if (player) {
-            handleGoToFrame(totalFrames);
-          }
-        }}
-      />
       <AnimationLegend />
     </>
   );

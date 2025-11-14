@@ -1,3 +1,4 @@
+import { AnimationPlayer } from '@/components/moves/animations/animation-player';
 import { Move } from '@/models/move';
 import { Button, ButtonGroup } from '@heroui/button';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/dropdown';
@@ -6,7 +7,6 @@ import { Pagination } from '@heroui/pagination';
 import { Progress } from '@heroui/progress';
 import { useState } from 'react';
 import { FaAngleDown, FaExpand } from 'react-icons/fa6';
-import ApngMove from './animations/apng-move-gif';
 import { MoveGif } from './animations/move-gif';
 
 export interface MoveAnimationDisplayParams {
@@ -92,7 +92,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
       <div>
         {expandButton}
         <div className="float-right">{downloadDropdownButton}</div>
-        <ApngMove url={params.move.pngUrl} />
+        <AnimationPlayer move={params.move} characterName={params.characterName} apngUrl={params.move.pngUrl} />
         <FullScreenModal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
@@ -185,8 +185,12 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
       />
       {expandButton}
       <div className="float-right">{downloadCurrentGifDropdownButton}</div>
-
-      <ApngMove key={'gif' + currentPage} url={urlArray[currentPage]!} />
+      <AnimationPlayer
+        key={'gif' + currentPage}
+        move={params.move}
+        characterName={params.characterName}
+        apngUrl={urlArray[currentPage]}
+      />
       <FullScreenModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -212,9 +216,11 @@ function FullScreenModal(params: Readonly<MoveAnimationModalParams>) {
           <>
             <ModalHeader className="flex flex-col gap-1">{params.move.name}</ModalHeader>
             <ModalBody>
-              <ApngMove
+              <AnimationPlayer
+                move={params.move}
+                characterName={params.characterName}
+                apngUrl={params.specificUrl ? params.specificUrl : params.move.pngUrl!}
                 showAdditionalControls={true}
-                url={params.specificUrl ? params.specificUrl : params.move.pngUrl!}
               />
             </ModalBody>
             <ModalFooter>
