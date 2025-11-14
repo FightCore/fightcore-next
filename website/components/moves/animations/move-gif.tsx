@@ -1,7 +1,6 @@
+import eventEmitter from '@/events/event-emitter';
 import { Move } from '@/models/move';
-import { Button } from "@heroui/button";
-import { Image } from "@heroui/image";
-import { Kbd } from "@heroui/kbd";
+import { Image } from '@heroui/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import AnimationLegend from './animation-legend';
 
@@ -17,36 +16,6 @@ export const MoveGif = (params: MoveGifParams) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [gifPlayer, setGifPlayer] = useState<any>();
   const initialized = useRef(false);
-  const [frameCounter, setFrameCounter] = useState(1);
-  const [running, setRunning] = useState(true);
-
-  const escFunction = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === ' ') {
-        if (gifPlayer.isPlaying()) {
-          pause();
-        } else {
-          play();
-        }
-        event.preventDefault();
-      }
-      if (event.key === 'ArrowRight') {
-        nextFrame();
-      }
-      if (event.key === 'ArrowLeft') {
-        previousFrame();
-      }
-    },
-    [gifPlayer],
-  );
-
-  useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
-
-    return () => {
-      document.removeEventListener('keydown', escFunction, false);
-    };
-  }, [escFunction]);
 
   const initializeGifPlayer = useCallback(async () => {
     if (initialized.current) {
@@ -59,46 +28,64 @@ export const MoveGif = (params: MoveGifParams) => {
       const SuperGif = (await import('@wizpanda/super-gif')).SuperGif;
       const superGif = new SuperGif(imageRef.current, {});
       superGif.load(() => {
+        eventEmitter.emit('totalFramesUpdate', superGif.getLength());
         console.log('Initialized');
       });
+
       setGifPlayer(superGif);
     }
   }, []);
 
-  setInterval(() => {
-    setFrameCounter((gifPlayer?.getCurrentFrame() ?? 0) + 1);
-  }, 100);
+  // Update frame counter periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (gifPlayer) {
+        eventEmitter.emit('frameCounterUpdate', gifPlayer.getCurrentFrame() + 1);
+      }
+    }, 100);
 
+    return () => clearInterval(interval);
+  }, [gifPlayer]);
+
+  // Initialize player when image loads
   useEffect(() => {
     if (!initialized.current && imageRef.current?.complete && !gifPlayer) {
       initializeGifPlayer();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const pause = () => {
-    if (gifPlayer?.isPlaying()) {
-      setRunning(false);
-      gifPlayer.pause();
-    }
-  };
-  const play = () => {
-    if (gifPlayer && !gifPlayer.isPlaying()) {
-      setRunning(true);
-      gifPlayer.play();
-    }
-  };
-  const nextFrame = () => {
-    if (gifPlayer) {
+  useEffect(() => {
+    return () => {
+      if (gifPlayer && gifPlayer.isPlaying()) {
+        gifPlayer.pause();
+      }
+    };
+  }, [gifPlayer]);
+
+  // Listen to player control events
+  useEffect(() => {
+    if (!gifPlayer) return;
+
+    const handlePlay = () => {
+      if (!gifPlayer.isPlaying()) {
+        gifPlayer.play();
+      }
+    };
+
+    const handlePause = () => {
+      if (gifPlayer.isPlaying()) {
+        gifPlayer.pause();
+      }
+    };
+
+    const handleNextFrame = () => {
       if (gifPlayer.isPlaying()) {
         gifPlayer.pause();
       }
       gifPlayer.stepFrame(1);
-    }
-  };
+    };
 
-  const previousFrame = () => {
-    if (gifPlayer) {
+    const handlePreviousFrame = () => {
       if (gifPlayer.isPlaying()) {
         gifPlayer.pause();
       }
@@ -108,8 +95,37 @@ export const MoveGif = (params: MoveGifParams) => {
       } else {
         gifPlayer.stepFrame(-1);
       }
-    }
-  };
+    };
+
+    const handleGoToFrame = (frameNumber: number) => {
+      if (!gifPlayer) {
+        return;
+      }
+
+      if (gifPlayer.isPlaying()) {
+        gifPlayer.pause();
+      }
+
+      const zeroIndexed = frameNumber - 1;
+      if (zeroIndexed >= 0 && zeroIndexed < gifPlayer.getLength()) {
+        gifPlayer.moveTo(zeroIndexed);
+      }
+    };
+
+    eventEmitter.on('play', handlePlay);
+    eventEmitter.on('pause', handlePause);
+    eventEmitter.on('nextFrame', handleNextFrame);
+    eventEmitter.on('previousFrame', handlePreviousFrame);
+    eventEmitter.on('seek', handleGoToFrame);
+
+    return () => {
+      eventEmitter.off('play', handlePlay);
+      eventEmitter.off('pause', handlePause);
+      eventEmitter.off('nextFrame', handleNextFrame);
+      eventEmitter.off('previousFrame', handlePreviousFrame);
+      eventEmitter.off('seek', handleGoToFrame);
+    };
+  }, [gifPlayer]);
 
   return (
     <>
@@ -122,28 +138,6 @@ export const MoveGif = (params: MoveGifParams) => {
           onLoad={initializeGifPlayer}
           alt={params.move.name + ' - ' + params.move.character?.name}
         />
-      </div>
-
-      <div className="grid grid-cols-2 gap-2">
-        {running ? (
-          <Button onPress={pause} aria-label="Pause gif" startContent={<Kbd keys={['space']} />}>
-            Pause
-          </Button>
-        ) : (
-          <Button onPress={play} aria-label="Play gif" startContent={<Kbd keys={['space']} />}>
-            Play
-          </Button>
-        )}
-        <Button disableAnimation aria-label="Frame counter" disableRipple>
-          Frame: {frameCounter}
-        </Button>
-
-        <Button onPress={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
-          Previous Frame
-        </Button>
-        <Button onPress={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
-          Next Frame
-        </Button>
       </div>
       <AnimationLegend />
     </>
