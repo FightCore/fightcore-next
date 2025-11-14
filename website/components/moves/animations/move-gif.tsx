@@ -1,7 +1,7 @@
 import { Move } from '@/models/move';
-import { Button } from "@heroui/button";
-import { Image } from "@heroui/image";
-import { Kbd } from "@heroui/kbd";
+import { Button } from '@heroui/button';
+import { Image } from '@heroui/image';
+import { Kbd } from '@heroui/kbd';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import AnimationLegend from './animation-legend';
 

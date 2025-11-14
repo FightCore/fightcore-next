@@ -1,9 +1,9 @@
 'use client';
 
 import { Move } from '@/models/move';
-import { Button } from "@heroui/button";
-import { Image } from "@heroui/image";
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@heroui/modal";
+import { Button } from '@heroui/button';
+import { Image } from '@heroui/image';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/modal';
 import ApngMove from './apng-move-gif';
 import { MoveGif } from './move-gif';
 
@@ -64,7 +64,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
                 {isIOS() ? (
                   <MoveGif characterName={params.characterName} move={params.move} />
                 ) : (
-                  <ApngMove url={params.move.pngUrl!} />
+                  <ApngMove showAdditionalControls={true} url={params.move.pngUrl!} />
                 )}
               </ModalBody>
               <ModalFooter>

@@ -212,7 +212,10 @@ function FullScreenModal(params: Readonly<MoveAnimationModalParams>) {
           <>
             <ModalHeader className="flex flex-col gap-1">{params.move.name}</ModalHeader>
             <ModalBody>
-              <ApngMove url={params.specificUrl ? params.specificUrl : params.move.pngUrl!} />
+              <ApngMove
+                showAdditionalControls={true}
+                url={params.specificUrl ? params.specificUrl : params.move.pngUrl!}
+              />
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>

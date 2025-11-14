@@ -1,6 +1,7 @@
 import eventEmitter from '@/events/event-emitter';
-import { Button } from "@heroui/button";
-import { Kbd } from "@heroui/kbd";
+import { Button } from '@heroui/button';
+import { Kbd } from '@heroui/kbd';
+import { Select, SelectItem } from '@heroui/select';
 import parseAPNG from 'apng-js';
 import Player from 'apng-js/types/library/player';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -8,6 +9,7 @@ import AnimationLegend from './animation-legend';
 
 export interface ApngMoveParams {
   url: string;
+  showAdditionalControls?: boolean;
 }
 
 export default function ApngMove(params: Readonly<ApngMoveParams>) {
@@ -149,9 +151,7 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
     }
 
     const targetFrame = (player.currentFrameNumber + totalFrames - 1) % totalFrames;
-    while (targetFrame != player.currentFrameNumber) {
-      player.renderNextFrame();
-    }
+    goToFrame(targetFrame + 1);
   };
 
   const nextFrame = () => {
@@ -163,6 +163,28 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       player.pause();
     }
     player.renderNextFrame();
+  };
+
+  const goToFrame = (frame: number) => {
+    if (!player) {
+      return;
+    }
+
+    if (playing) {
+      player.pause();
+    }
+
+    const targetFrame = frame;
+    let framesPassed = 0;
+    while (targetFrame - 1 != player.currentFrameNumber) {
+      player.renderNextFrame();
+      framesPassed++;
+
+      // Safety measure to make sure we don't loop infinitely
+      if (framesPassed > 200) {
+        return;
+      }
+    }
   };
 
   const pause = () => {
@@ -183,7 +205,7 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
     <>
       {!loaded || !player ? (
         <div className="h-96 w-full p-3">
-          <div className="skeleton h-full w-full rounded-lg bg-default-300"></div>
+          <div className="skeleton bg-default-300 h-full w-full rounded-lg"></div>
         </div>
       ) : (
         <></>
@@ -201,15 +223,43 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
           </Button>
         )}
         <Button disableAnimation aria-label="Frame counter" disableRipple>
-          Frame: {frameCounter}
+          Frame: {frameCounter} of {totalFrames}
         </Button>
-
         <Button onPress={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
           Previous Frame
         </Button>
         <Button onPress={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
           Next Frame
         </Button>
+        <Select
+          // Keys are treated like strings even when inputting numbers.
+          // Set the default to a string and then convert it to a number.
+          defaultSelectedKeys={['0.2']}
+          onSelectionChange={(value) => {
+            if (player) {
+              player.playbackRate = Number(value.currentKey);
+            }
+          }}
+          aria-label="Playback speed"
+        >
+          <SelectItem key={'0.2'}>12 FPS (Default)</SelectItem>
+          <SelectItem key={'1'}>60 FPS (In-game speed)</SelectItem>
+        </Select>
+        <Button>Report issue</Button>
+        {params.showAdditionalControls ? (
+          <Button onPress={() => goToFrame(1)} aria-label="First frame">
+            First Frame
+          </Button>
+        ) : (
+          <></>
+        )}
+        {params.showAdditionalControls ? (
+          <Button onPress={() => goToFrame(totalFrames)} aria-label="Last frame">
+            Last Frame
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
       <AnimationLegend />
     </>
