@@ -130,7 +130,7 @@ export const AnimationControls = ({
         <SelectItem key={'1'}>60 FPS (In-game speed)</SelectItem>
       </Select>
 
-      <Button>Report issue</Button>
+      <Button variant="bordered">Report issue</Button>
 
       {showFirstLastButtons && (
         <Button onPress={onGoToFirstFrame} aria-label="First frame">

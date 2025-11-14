@@ -1,12 +1,11 @@
 import { AnimationPlayer } from '@/components/moves/animations/animation-player';
+import { DownloadButtonGroup } from '@/components/moves/download-button-group';
 import { Move } from '@/models/move';
-import { Button, ButtonGroup } from '@heroui/button';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/dropdown';
+import { Button } from '@heroui/button';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/modal';
-import { Pagination } from '@heroui/pagination';
-import { Progress } from '@heroui/progress';
+import { Select, SelectItem } from '@heroui/select';
 import { useState } from 'react';
-import { FaAngleDown, FaExpand } from 'react-icons/fa6';
+import { FaExpand } from 'react-icons/fa6';
 import { MoveGif } from './animations/move-gif';
 
 export interface MoveAnimationDisplayParams {
@@ -17,8 +16,8 @@ export interface MoveAnimationDisplayParams {
 export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDisplayParams>) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isDownloading, setIsDownloading] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
+
   if (!params.move.pngUrl && (!params.move.alternativeAnimations || params.move.alternativeAnimations.length === 0)) {
     if (params.move.gifUrl) {
       return <MoveGif move={params.move} characterName={params.characterName} />;
@@ -26,82 +25,26 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
     return <em>There is no GIF available</em>;
   }
 
-  const expandButton = (
-    <Button isIconOnly className="hidden md:inline-flex" aria-label="fullscreen" onPress={onOpen}>
-      <FaExpand />
-    </Button>
-  );
-
   const handleDownloadClick = async (image: string, format: string) => {
     setIsDownloading(true);
-    const response = await fetch(image);
+    try {
+      const response = await fetch(image);
 
-    if (response.status !== 200) {
+      if (response.status !== 200) {
+        console.error(response.status, response.statusText);
+        return;
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = params.move.normalizedName + '.' + format;
+      link.click();
+    } finally {
       setIsDownloading(false);
-      console.error(response.status, response.statusText);
     }
-
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = params.move.normalizedName + '.' + format;
-    link.click();
-    setIsDownloading(false);
   };
-
-  const downloadDropdownButton = (
-    <ButtonGroup variant="flat">
-      {isDownloading ? (
-        <Button isDisabled={isDownloading}>
-          <Progress isIndeterminate aria-label="Loading..." className="w-16" size="sm" />
-        </Button>
-      ) : (
-        <Button disabled={isDownloading} onPress={async () => await handleDownloadClick(params.move.gifUrl!, 'gif')}>
-          Download GIF
-        </Button>
-      )}
-      <Dropdown isDisabled={isDownloading} placement="bottom-end">
-        <DropdownTrigger>
-          <Button isIconOnly>
-            <FaAngleDown />
-          </Button>
-        </DropdownTrigger>
-        <DropdownMenu
-          disallowEmptySelection
-          aria-label="Merge options"
-          className="max-w-[300px]"
-          selectionMode="single"
-        >
-          <DropdownItem key="merge" onPress={async () => await handleDownloadClick(params.move.gifUrl!, 'gif')}>
-            GIF
-          </DropdownItem>
-          <DropdownItem key="squash" onPress={async () => await handleDownloadClick(params.move.pngUrl!, 'png')}>
-            PNG
-          </DropdownItem>
-          <DropdownItem key="rebase" onPress={async () => await handleDownloadClick(params.move.webmUrl!, 'webm')}>
-            WEBM
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-    </ButtonGroup>
-  );
-
-  if ((!params.move.alternativeAnimations || params.move.alternativeAnimations.length === 0) && params.move.pngUrl) {
-    return (
-      <div>
-        {expandButton}
-        <div className="float-right">{downloadDropdownButton}</div>
-        <AnimationPlayer move={params.move} characterName={params.characterName} apngUrl={params.move.pngUrl} />
-        <FullScreenModal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          move={params.move}
-          characterName={params.characterName}
-        />
-      </div>
-    );
-  }
 
   const urlArray = [
     'invalid',
@@ -122,81 +65,52 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
     animationArray.splice(1, 1);
   }
 
-  const downloadCurrentGifDropdownButton = (
-    <ButtonGroup variant="flat">
-      {isDownloading ? (
-        <Button isDisabled={isDownloading}>
-          <Progress isIndeterminate aria-label="Loading..." className="w-16" size="sm" />
-        </Button>
-      ) : (
-        <Button
-          disabled={isDownloading}
-          onPress={async () => await handleDownloadClick(animationArray[currentPage]!.gifUrl!, 'gif')}
-        >
-          Download GIF
-        </Button>
-      )}
-      <Dropdown isDisabled={isDownloading} placement="bottom-end">
-        <DropdownTrigger>
-          <Button isIconOnly>
-            <FaAngleDown />
-          </Button>
-        </DropdownTrigger>
-        <DropdownMenu
-          disallowEmptySelection
-          aria-label="Merge options"
-          className="max-w-[300px]"
-          selectionMode="single"
-        >
-          <DropdownItem
-            key="merge"
-            onPress={async () => await handleDownloadClick(animationArray[currentPage]!.gifUrl!, 'gif')}
-          >
-            GIF
-          </DropdownItem>
-          <DropdownItem
-            key="squash"
-            onPress={async () => await handleDownloadClick(animationArray[currentPage]!.pngUrl!, 'png')}
-          >
-            PNG
-          </DropdownItem>
-          <DropdownItem
-            key="rebase"
-            onPress={async () => await handleDownloadClick(animationArray[currentPage]!.webmUrl!, 'webm')}
-          >
-            WEBM
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-    </ButtonGroup>
-  );
+  const hasMultipleAnimations = params.move.alternativeAnimations && params.move.alternativeAnimations.length > 0;
+  const currentAnimation = animationArray[currentPage] ?? params.move;
+  const currentUrl = urlArray[currentPage] ?? params.move.pngUrl;
 
   return (
     <>
-      <span className="block" key={'url' + currentPage}>
-        {descriptionArray[currentPage]}
-      </span>
-      <Pagination
-        total={urlArray.length - 1}
-        color="secondary"
-        page={currentPage}
-        onChange={setCurrentPage}
-        className="inline-flex w-2/3"
-      />
-      {expandButton}
-      <div className="float-right">{downloadCurrentGifDropdownButton}</div>
+      <div className="flex items-end justify-between gap-2">
+        <Button isIconOnly className="hidden md:inline-flex" aria-label="fullscreen" onPress={onOpen}>
+          <FaExpand />
+        </Button>
+        {hasMultipleAnimations && (
+          <Select
+            selectedKeys={currentPage.toString()}
+            onSelectionChange={(keys) => {
+              console.log(keys);
+              if (keys instanceof Set && keys.size === 0) {
+                setCurrentPage(1);
+                return;
+              }
+              setCurrentPage(Number(Array.from(keys)[0]));
+            }}
+          >
+            {descriptionArray.slice(1).map((description, index) => (
+              <SelectItem key={(index + 1).toString()}>{description}</SelectItem>
+            ))}
+          </Select>
+        )}
+        <DownloadButtonGroup
+          isDownloading={isDownloading}
+          onDownloadGif={() => handleDownloadClick(currentAnimation.gifUrl!, 'gif')}
+          onDownloadPng={() => handleDownloadClick(currentAnimation.pngUrl!, 'png')}
+          onDownloadWebm={() => handleDownloadClick(currentAnimation.webmUrl!, 'webm')}
+        />
+      </div>
       <AnimationPlayer
         key={'gif' + currentPage}
         move={params.move}
         characterName={params.characterName}
-        apngUrl={urlArray[currentPage]}
+        apngUrl={currentUrl}
       />
       <FullScreenModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         move={params.move}
         characterName={params.characterName}
-        specificUrl={urlArray[currentPage]}
+        specificUrl={currentUrl}
       />
     </>
   );
