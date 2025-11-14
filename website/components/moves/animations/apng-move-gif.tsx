@@ -1,10 +1,8 @@
 import eventEmitter from '@/events/event-emitter';
-import { Button } from '@heroui/button';
-import { Kbd } from '@heroui/kbd';
-import { Select, SelectItem } from '@heroui/select';
 import parseAPNG from 'apng-js';
 import Player from 'apng-js/types/library/player';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { AnimationControls } from './animation-controls';
 import AnimationLegend from './animation-legend';
 
 export interface ApngMoveParams {
@@ -18,40 +16,10 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
   const [player, setPlayer] = useState<Player | null>(null);
   const [url, setUrl] = useState<string>(params.url);
   const [frameCounter, setFrameCounter] = useState(1);
-  const [playing, setPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [totalFrames, setTotalFrames] = useState(0);
 
-  const escFunction = useCallback(
-    (event: KeyboardEvent) => {
-      if (!player) {
-        return;
-      }
-      if (event.key === ' ') {
-        if (!playing) {
-          player.pause();
-        } else {
-          player.play();
-        }
-        event.preventDefault();
-      }
-      if (event.key === 'ArrowRight') {
-        nextFrame();
-      }
-      if (event.key === 'ArrowLeft') {
-        previousFrame();
-      }
-    },
-    [player],
-  );
-
-  useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
-
-    return () => {
-      document.removeEventListener('keydown', escFunction, false);
-    };
-  }, [escFunction]);
-
+  // Handle URL changes and load APNG
   useEffect(() => {
     const loadAPNG = async () => {
       if (url && url !== params.url) {
@@ -70,13 +38,13 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       setLoaded(true);
       const response = await fetch(url);
       const buffer = await response.arrayBuffer();
-      const apng = await parseAPNG(buffer);
+      const apng = parseAPNG(buffer);
 
       if (apng instanceof Error) {
         console.error('Error parsing APNG:', apng);
         return;
       }
-      setTotalFrames(apng.frames.length);
+
       if (!canvasDivRef || !canvasDivRef.current) {
         console.error('Canvas not found');
         return;
@@ -84,6 +52,8 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       if (canvasDivRef.current.children.length > 0) {
         return;
       }
+
+      setTotalFrames(apng.frames.length);
       const canvas = document.createElement('canvas');
       canvas.width = apng.width;
       canvas.height = apng.height;
@@ -98,18 +68,19 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
         setFrameCounter(frameNumber + 1);
       });
       localPlayer.addListener('play', () => {
-        setPlaying(true);
+        setIsPlaying(true);
       });
       localPlayer.addListener('pause', () => {
-        setPlaying(false);
+        setIsPlaying(false);
       });
       localPlayer.play();
       setPlayer(localPlayer);
     };
 
     loadAPNG();
-  }, [loaded]);
+  }, [loaded, url, params.url, player]);
 
+  // Handle seek events from event emitter
   useEffect(() => {
     const handleSeek = (frame: number): void => {
       if (!player) {
@@ -117,16 +88,16 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       }
 
       const targetFrame = frame;
-      if (playing) {
+      if (isPlaying) {
         player.pause();
       }
 
       let framesPassed = 0;
-      while (targetFrame - 1 != player.currentFrameNumber) {
+      while (targetFrame - 1 !== player.currentFrameNumber) {
         player.renderNextFrame();
         framesPassed++;
 
-        // Safety measure to make sure we don't loop infinitely
+        // Safety measure to prevent infinite loops
         if (framesPassed > 200) {
           return;
         }
@@ -135,71 +106,101 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
 
     eventEmitter.on('seek', handleSeek);
 
-    // Clean up the event listener on component unmount
     return () => {
       eventEmitter.off('seek', handleSeek);
     };
-  }, [player]);
+  }, [player, isPlaying]);
 
-  const previousFrame = () => {
-    if (!player) {
-      return;
-    }
-
-    if (playing) {
-      player.pause();
-    }
-
-    const targetFrame = (player.currentFrameNumber + totalFrames - 1) % totalFrames;
-    goToFrame(targetFrame + 1);
-  };
-
-  const nextFrame = () => {
-    if (!player) {
-      return;
-    }
-
-    if (playing) {
-      player.pause();
-    }
-    player.renderNextFrame();
-  };
-
-  const goToFrame = (frame: number) => {
-    if (!player) {
-      return;
-    }
-
-    if (playing) {
-      player.pause();
-    }
-
-    const targetFrame = frame;
-    let framesPassed = 0;
-    while (targetFrame - 1 != player.currentFrameNumber) {
-      player.renderNextFrame();
-      framesPassed++;
-
-      // Safety measure to make sure we don't loop infinitely
-      if (framesPassed > 200) {
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!player) {
         return;
       }
-    }
-  };
 
-  const pause = () => {
-    if (!player) {
-      return;
-    }
-    player.pause();
-  };
+      if (event.key === ' ') {
+        if (isPlaying) {
+          handlePause();
+        } else {
+          handlePlay();
+        }
+        event.preventDefault();
+      } else if (event.key === 'ArrowRight') {
+        handleNextFrame();
+      } else if (event.key === 'ArrowLeft') {
+        handlePreviousFrame();
+      }
+    };
 
-  const play = () => {
-    if (!player) {
-      return;
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [player, isPlaying]);
+
+  const handlePlay = useCallback(() => {
+    if (player?.paused) {
+      setIsPlaying(true);
+      player.play();
     }
-    player.play();
-  };
+  }, [player]);
+
+  const handlePause = useCallback(() => {
+    if (player && !player.paused) {
+      setIsPlaying(false);
+      player.pause();
+    }
+  }, [player]);
+
+  const handleNextFrame = useCallback(() => {
+    if (player) {
+      player.pause();
+      player.renderNextFrame();
+    }
+  }, [player]);
+
+  const handlePreviousFrame = useCallback(() => {
+    if (player) {
+      player.pause();
+      let targetFrame = player.currentFrameNumber;
+      if (targetFrame <= 0) {
+        targetFrame = totalFrames;
+      }
+      handleGoToFrame(targetFrame);
+    }
+  }, [player]);
+
+  const handleGoToFrame = useCallback(
+    (frameNumber: number) => {
+      if (!player) {
+        return;
+      }
+
+      const targetFrame = frameNumber;
+      if (isPlaying) {
+        player.pause();
+      }
+
+      let framesPassed = 0;
+      while (targetFrame - 1 !== player.currentFrameNumber) {
+        player.renderNextFrame();
+        framesPassed++;
+
+        // Safety measure to prevent infinite loops
+        if (framesPassed > 200) {
+          return;
+        }
+      }
+    },
+    [player, isPlaying],
+  );
+
+  const handlePlaybackSpeedChange = useCallback(
+    (speed: number) => {
+      if (player) {
+        player.playbackRate = speed;
+      }
+    },
+    [player],
+  );
 
   return (
     <>
@@ -212,55 +213,25 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       )}
       <div ref={canvasDivRef} />
 
-      <div className="grid grid-cols-2 gap-2">
-        {playing ? (
-          <Button onPress={pause} aria-label="Pause gif" startContent={<Kbd keys={['space']} />}>
-            Pause
-          </Button>
-        ) : (
-          <Button onPress={play} aria-label="Play gif" startContent={<Kbd keys={['space']} />}>
-            Play
-          </Button>
-        )}
-        <Button disableAnimation aria-label="Frame counter" disableRipple>
-          Frame: {frameCounter} of {totalFrames}
-        </Button>
-        <Button onPress={previousFrame} aria-label="Previous frame" startContent={<Kbd keys={['left']} />}>
-          Previous Frame
-        </Button>
-        <Button onPress={nextFrame} aria-label="Next frame" startContent={<Kbd keys={['right']} />}>
-          Next Frame
-        </Button>
-        <Select
-          // Keys are treated like strings even when inputting numbers.
-          // Set the default to a string and then convert it to a number.
-          defaultSelectedKeys={['0.2']}
-          onSelectionChange={(value) => {
-            if (player) {
-              player.playbackRate = Number(value.currentKey);
-            }
-          }}
-          aria-label="Playback speed"
-        >
-          <SelectItem key={'0.2'}>12 FPS (Default)</SelectItem>
-          <SelectItem key={'1'}>60 FPS (In-game speed)</SelectItem>
-        </Select>
-        <Button>Report issue</Button>
-        {params.showAdditionalControls ? (
-          <Button onPress={() => goToFrame(1)} aria-label="First frame">
-            First Frame
-          </Button>
-        ) : (
-          <></>
-        )}
-        {params.showAdditionalControls ? (
-          <Button onPress={() => goToFrame(totalFrames)} aria-label="Last frame">
-            Last Frame
-          </Button>
-        ) : (
-          <></>
-        )}
-      </div>
+      <AnimationControls
+        frameCounter={frameCounter}
+        totalFrames={totalFrames}
+        isPlaying={isPlaying}
+        onPlay={handlePlay}
+        onPause={handlePause}
+        onNextFrame={handleNextFrame}
+        onPreviousFrame={handlePreviousFrame}
+        onGoToFrame={handleGoToFrame}
+        showPlaybackSpeed={true}
+        onPlaybackSpeedChange={handlePlaybackSpeedChange}
+        showFirstLastButtons={params.showAdditionalControls}
+        onGoToFirstFrame={() => handleGoToFrame(1)}
+        onGoToLastFrame={() => {
+          if (player) {
+            handleGoToFrame(totalFrames);
+          }
+        }}
+      />
       <AnimationLegend />
     </>
   );
