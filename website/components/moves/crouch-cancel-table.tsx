@@ -14,6 +14,7 @@ import {
   isCrouchCancelPossible,
 } from '@/utilities/crouch-cancel-calculator';
 import { areAllHitboxesEqual, areHitboxesEqual } from '@/utilities/hitbox-utils';
+import { Alert } from '@heroui/alert';
 import { Card, CardBody, CardHeader } from '@heroui/card';
 import { Checkbox } from '@heroui/checkbox';
 import { Image } from '@heroui/image';
@@ -37,30 +38,40 @@ function generateCard(
   sortedCharacters: CharacterBase[],
   floorPercentages: boolean,
   use99Percent: boolean,
+  onlyShowYoshi: boolean = false,
 ) {
   return (
     <div className="w-full p-2 md:w-1/2">
       <Card className="dark:bg-gray-800">
         <CardHeader>{title}</CardHeader>
         <CardBody>
-          <div className="grid grid-cols-3 md:grid-cols-5">
-            {sortedCharacters.map((character) => {
-              const percentage = calculateCrouchCancelPercentage(
-                hitbox,
-                character,
-                knockbackTarget,
-                floorPercentages,
-                use99Percent,
-                // Staleness is not included in the table
-                0,
-              );
-              return (
-                <div key={knockbackTarget + character.fightCoreId}>
-                  <Image alt={character.name} width={40} height={40} src={'/newicons/' + character.name + '.webp'} />
-                  <span className="d-inline">{percentage}</span>
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-3 gap-1 md:grid-cols-5">
+            {sortedCharacters
+              .filter((character) => !onlyShowYoshi || character.normalizedName === 'yoshi')
+              .map((character) => {
+                const percentage = calculateCrouchCancelPercentage(
+                  hitbox,
+                  character,
+                  knockbackTarget,
+                  floorPercentages,
+                  use99Percent,
+                  // Staleness is not included in the table
+                  0,
+                );
+                return (
+                  <div key={knockbackTarget + character.fightCoreId}>
+                    <Image
+                      alt={character.name}
+                      width={30}
+                      height={30}
+                      src={'/newicons/' + character.name + '.webp'}
+                      className="mr-2 inline-block"
+                      removeWrapper={true}
+                    />
+                    <span className="inline">{percentage}</span>
+                  </div>
+                );
+              })}
           </div>
         </CardBody>
       </Card>
@@ -191,7 +202,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
 
   return (
     <>
-      <div className="mb-2 grid grid-cols-1 rounded-md border border-gray-700 p-2 md:grid-cols-3">
+      <div className="mb-2 grid grid-cols-1 gap-2 rounded-md border border-gray-700 p-2 md:grid-cols-3">
         <div className="px-1 pb-2">
           <div className="text-medium font-bold">Sorting</div>
           <RadioGroup orientation="horizontal" value={selected} onValueChange={setSelection}>
@@ -204,9 +215,6 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
           <div className="text-medium font-bold">Ceiling percentages</div>
           <div className="text-small">
             Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it breaks at 12%.
-          </div>
-          <div className="text-small">
-            <em>More information on this coming soon.</em>
           </div>
         </Checkbox>
 
@@ -233,22 +241,34 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
               className="mb-2 grid grid-cols-1 md:grid-cols-2"
             >
               {hit.hitboxes.map((hitbox) => {
-                if (isCrouchCancelPossible(hitbox)) {
-                  return (
-                    <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
-                      {generateCard(80, 'ASDI Down', hitbox, sortedCharacters, floorPercentages, numericalPercentage)}
-                      {generateCard(
-                        120,
-                        'Crouch Cancel',
-                        hitbox,
-                        sortedCharacters,
-                        floorPercentages,
-                        numericalPercentage,
-                      )}
-                    </Tab>
-                  );
-                }
-                return generateUnableToCCTab(hitbox);
+                return (
+                  <Tab key={hitbox.id} title={hitbox.name} className="md:flex md:flex-wrap">
+                    {isCrouchCancelPossible(hitbox) === false && (
+                      <Alert
+                        color={'warning'}
+                        title={getCrouchCancelImpossibleReason(hitbox)}
+                        description={"The following values are only for knockdown and Yoshi's double jump armor."}
+                      />
+                    )}
+                    {generateCard(
+                      80,
+                      getCrouchCancelImpossibleReason(hitbox) ? 'Knockdown' : 'ASDI Down',
+                      hitbox,
+                      sortedCharacters,
+                      floorPercentages,
+                      numericalPercentage,
+                    )}
+                    {generateCard(
+                      120,
+                      getCrouchCancelImpossibleReason(hitbox) ? 'Yoshi double jump armor break' : 'Crouch Cancel',
+                      hitbox,
+                      sortedCharacters,
+                      floorPercentages,
+                      numericalPercentage,
+                      getCrouchCancelImpossibleReason(hitbox) ? true : false,
+                    )}
+                  </Tab>
+                );
               })}
             </Tabs>
           </Tab>
