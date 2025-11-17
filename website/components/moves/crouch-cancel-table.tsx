@@ -38,40 +38,42 @@ function generateCard(
   sortedCharacters: CharacterBase[],
   floorPercentages: boolean,
   use99Percent: boolean,
-  onlyShowYoshi: boolean = false,
 ) {
   return (
     <div className="w-full p-2 md:w-1/2">
       <Card className="dark:bg-gray-800">
-        <CardHeader>{title}</CardHeader>
+        <CardHeader>
+          <div className="flex flex-col">
+            <div className="text-md">{title}</div>
+            <div className="text-small text-default-500">{knockbackTarget} units of knockback</div>
+          </div>
+        </CardHeader>
         <CardBody>
           <div className="grid grid-cols-3 gap-1 md:grid-cols-5">
-            {sortedCharacters
-              .filter((character) => !onlyShowYoshi || character.normalizedName === 'yoshi')
-              .map((character) => {
-                const percentage = calculateCrouchCancelPercentage(
-                  hitbox,
-                  character,
-                  knockbackTarget,
-                  floorPercentages,
-                  use99Percent,
-                  // Staleness is not included in the table
-                  0,
-                );
-                return (
-                  <div key={knockbackTarget + character.fightCoreId}>
-                    <Image
-                      alt={character.name}
-                      width={30}
-                      height={30}
-                      src={'/newicons/' + character.name + '.webp'}
-                      className="mr-2 inline-block"
-                      removeWrapper={true}
-                    />
-                    <span className="inline">{percentage}</span>
-                  </div>
-                );
-              })}
+            {sortedCharacters.map((character) => {
+              const percentage = calculateCrouchCancelPercentage(
+                hitbox,
+                character,
+                knockbackTarget,
+                floorPercentages,
+                use99Percent,
+                // Staleness is not included in the table
+                0,
+              );
+              return (
+                <div key={knockbackTarget + character.fightCoreId}>
+                  <Image
+                    alt={character.name}
+                    width={30}
+                    height={30}
+                    src={'/newicons/' + character.name + '.webp'}
+                    className="mr-2 inline-block"
+                    removeWrapper={true}
+                  />
+                  <span className="inline">{percentage}</span>
+                </div>
+              );
+            })}
           </div>
         </CardBody>
       </Card>
@@ -265,7 +267,6 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                       sortedCharacters,
                       floorPercentages,
                       numericalPercentage,
-                      getCrouchCancelImpossibleReason(hitbox) ? true : false,
                     )}
                   </Tab>
                 );
