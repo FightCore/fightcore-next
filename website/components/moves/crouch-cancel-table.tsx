@@ -254,7 +254,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                     )}
                     {generateCard(
                       80,
-                      getCrouchCancelImpossibleReason(hitbox) ? 'Knockdown' : 'ASDI Down',
+                      isCrouchCancelPossible(hitbox) ? 'ASDI Down' : 'Knockdown',
                       hitbox,
                       sortedCharacters,
                       floorPercentages,
@@ -262,7 +262,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                     )}
                     {generateCard(
                       120,
-                      getCrouchCancelImpossibleReason(hitbox) ? 'Yoshi double jump armor break' : 'Crouch Cancel',
+                      isCrouchCancelPossible(hitbox) ? 'Crouch Cancel' : 'Yoshi double jump armor break',
                       hitbox,
                       sortedCharacters,
                       floorPercentages,
