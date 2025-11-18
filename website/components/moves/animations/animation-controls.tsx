@@ -118,6 +118,7 @@ export const AnimationControls = ({
       </Button>
 
       <Select
+        variant="bordered"
         defaultSelectedKeys={['0.2']}
         isDisabled={!showPlaybackSpeed}
         onSelectionChange={(value) => {
