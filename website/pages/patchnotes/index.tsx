@@ -5,6 +5,17 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '1.3.0',
+    changes: [
+      'Added an FPS toggle to the GIF player, allowing you to switch to real-time speed (thanks nyx for the suggestion)',
+      'Added a First and Last frame button to the GIF player, allowing you to quickly jump to the start or end of the animation (thanks nyx for the suggestion)',
+      'The GIF player should now be more stable on iOS devices.',
+      'The Crouch Cancel table now shows the values for non-crouch cancelable moves. (thank you to the Toronto Melee community for the help)',
+      'Added the knockback units to the Crouch Cancel table.',
+      'Upgraded dependencies to their latest compatible versions.',
+    ],
+  },
+  {
     version: '1.2.2',
     changes: [
       'Added Edge options to the navigational bar.',
