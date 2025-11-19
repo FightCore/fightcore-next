@@ -71,7 +71,7 @@ function generateCard(
                 removeWrapper={true}
               />
               const percentagePart = <span className="inline">{percentage}</span>
-              const yoshiDjaInfoPart = knockbackTarget == 120 && character.name == "Yoshi" ? <Tooltip content="Threshold for breaking Yoshi DJA" delay={250}><FaCircleExclamation /></Tooltip> : <></>
+              const yoshiDjaInfoPart = knockbackTarget == 120 && character.name == "Yoshi" ? <Tooltip content="Same threshold for breaking Yoshi's DJA!" delay={250}><FaCircleExclamation /></Tooltip> : <></>
               return (
                 <div key={knockbackTarget + character.fightCoreId}>
                   {imagePart}{percentagePart}{yoshiDjaInfoPart}
@@ -82,16 +82,6 @@ function generateCard(
         </CardBody>
       </Card>
     </div>
-  );
-}
-
-function generateUnableToCCTab(hitbox: Hitbox) {
-  return (
-    <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
-      <Card className="dark:bg-gray-800">
-        <CardBody>{getCrouchCancelImpossibleReason(hitbox)}</CardBody>
-      </Card>
-    </Tab>
   );
 }
 
@@ -253,12 +243,12 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                       <Alert
                         color={'warning'}
                         title={getCrouchCancelImpossibleReason(hitbox)}
-                        description={"The following values are only for knockdown and Yoshi's double jump armor."}
+                        description={"This hitbox does not send upwards, and thus it will put the opponent into their grounded flinch state before it knocks down"}
                       />
                     )}
                     {generateCard(
                       80,
-                      isCrouchCancelPossible(hitbox) ? 'ASDI Down' : 'Knockdown',
+                      "ASDI Down",
                       hitbox,
                       sortedCharacters,
                       floorPercentages,
@@ -266,7 +256,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                     )}
                     {generateCard(
                       120,
-                      isCrouchCancelPossible(hitbox) ? 'Crouch Cancel' : 'Yoshi double jump armor break',
+                      "Crouch-Cancel",
                       hitbox,
                       sortedCharacters,
                       floorPercentages,
