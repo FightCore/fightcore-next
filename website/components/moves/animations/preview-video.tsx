@@ -26,7 +26,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
     if (isIOS() && params.move.gifUrl) {
       return (
         <Image
-          className="cursor-pointer"
+          className="cursor-pointer bg-zinc-300 dark:bg-transparent"
           onClick={onOpen}
           src={params.move.gifUrl}
           alt={params.characterName + ' ' + params.move.name}
@@ -39,7 +39,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
 
     return (
       <video
-        className="cursor-pointer"
+        className="cursor-pointer bg-zinc-300 dark:bg-transparent"
         onClick={onOpen}
         muted
         playsInline
