@@ -19,7 +19,7 @@ export function canBeCrouchCanceled(move: Move): boolean {
 }
 
 export function isCrouchCancelPossible(hitbox: Hitbox): boolean {
-  return hitbox.angle > 0 && hitbox.angle < 180
+  return (hitbox.angle > 0 && hitbox.angle < 180) || hitbox.angle == 361
 }
 
 export function getCrouchCancelImpossibleReason(hitbox: Hitbox): string {

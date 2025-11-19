@@ -239,11 +239,25 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
               {hit.hitboxes.map((hitbox) => {
                 return (
                   <Tab key={hitbox.id} title={hitbox.name} className="md:flex md:flex-wrap">
-                    {isCrouchCancelPossible(hitbox) === false && (
+                    {!isCrouchCancelPossible(hitbox) && (
                       <Alert
                         color={'warning'}
                         title={getCrouchCancelImpossibleReason(hitbox)}
                         description={"This hitbox does not send upwards, and thus it will put the opponent into their grounded flinch state before it knocks down"}
+                      />
+                    )}
+                    {hitbox.hitlagDefender > 10 && (
+                      <Alert
+                        color={'warning'}
+                        title={`This move has more than 10 frames of hitlag ${hitbox.hitlagDefenderCrouched > 10 ? "(even when CC'd)" : ""}, making it difficult/sometimes impossible to ASDI down`}
+                        description={"When a character is airborne for more than 10 frames, their ECB lock expires. This pulls up their ECB, creating distance between them and the ground, which makes ASDI Down break earlier/require specific SDI inputs first"}
+                      />
+                    )}
+                    {(hit.id >= 2646 && hit.id <= 2650) && (
+                      <Alert
+                        color={'warning'}
+                        title={`Do NOT ASDI-Down/CC Peach Downsmash.`}
+                        description={"You have been warned."}
                       />
                     )}
                     {generateCard(
