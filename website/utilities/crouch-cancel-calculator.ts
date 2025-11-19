@@ -24,8 +24,8 @@ export function isCrouchCancelPossible(hitbox: Hitbox): boolean {
 
 export function getCrouchCancelImpossibleReason(hitbox: Hitbox): string {
   return hitbox.angle > 179 && hitbox.angle != 361 
-    ? `Can not be Crouch Cancelled or ASDI downed due to the angle being 180 or higher: (${hitbox.angle})`
-    : "Can not be crouch canceled or ASDI down-ed due to angle being 0"
+    ? `Can not be ASDI down-ed due to the angle being 180 or higher: (${hitbox.angle})`
+    : "Can not be ASDI down-ed due to angle being 0"
 }
 
 export function calculateCrouchCancelPercentage(
