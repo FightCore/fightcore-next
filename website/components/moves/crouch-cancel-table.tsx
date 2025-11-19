@@ -20,7 +20,9 @@ import { Checkbox } from '@heroui/checkbox';
 import { Image } from '@heroui/image';
 import { Radio, RadioGroup } from '@heroui/radio';
 import { Tab, Tabs } from '@heroui/tabs';
+import { Tooltip } from '@heroui/tooltip';
 import React, { useEffect } from 'react';
+import { FaCircleExclamation } from 'react-icons/fa6';
 
 export interface CrouchCancelTableParams {
   hits: Hit[];
@@ -60,17 +62,19 @@ function generateCard(
                 // Staleness is not included in the table
                 0,
               );
+              const imagePart = <Image
+                alt={character.name}
+                width={30}
+                height={30}
+                src={'/newicons/' + character.name + '.webp'}
+                className="mr-2 inline-block"
+                removeWrapper={true}
+              />
+              const percentagePart = <span className="inline">{percentage}</span>
+              const yoshiDjaInfoPart = knockbackTarget == 120 && character.name == "Yoshi" ? <Tooltip content="Threshold for breaking Yoshi DJA" delay={250}><FaCircleExclamation /></Tooltip> : <></>
               return (
                 <div key={knockbackTarget + character.fightCoreId}>
-                  <Image
-                    alt={character.name}
-                    width={30}
-                    height={30}
-                    src={'/newicons/' + character.name + '.webp'}
-                    className="mr-2 inline-block"
-                    removeWrapper={true}
-                  />
-                  <span className="inline">{percentage}</span>
+                  {imagePart}{percentagePart}{yoshiDjaInfoPart}
                 </div>
               );
             })}
