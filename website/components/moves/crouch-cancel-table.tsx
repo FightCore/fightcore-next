@@ -20,7 +20,9 @@ import { Checkbox } from '@heroui/checkbox';
 import { Image } from '@heroui/image';
 import { Radio, RadioGroup } from '@heroui/radio';
 import { Tab, Tabs } from '@heroui/tabs';
+import { Tooltip } from '@heroui/tooltip';
 import React, { useEffect } from 'react';
+import { FaCircleExclamation } from 'react-icons/fa6';
 
 export interface CrouchCancelTableParams {
   hits: Hit[];
@@ -60,17 +62,19 @@ function generateCard(
                 // Staleness is not included in the table
                 0,
               );
+              const imagePart = <Image
+                alt={character.name}
+                width={30}
+                height={30}
+                src={'/newicons/' + character.name + '.webp'}
+                className="mr-2 inline-block"
+                removeWrapper={true}
+              />
+              const percentagePart = <span className="inline">{percentage}</span>
+              const yoshiDjaInfoPart = knockbackTarget == 120 && character.name == "Yoshi" ? <Tooltip content="Same threshold for breaking Yoshi's DJA!" delay={250}><FaCircleExclamation /></Tooltip> : <></>
               return (
                 <div key={knockbackTarget + character.fightCoreId}>
-                  <Image
-                    alt={character.name}
-                    width={30}
-                    height={30}
-                    src={'/newicons/' + character.name + '.webp'}
-                    className="mr-2 inline-block"
-                    removeWrapper={true}
-                  />
-                  <span className="inline">{percentage}</span>
+                  {imagePart}{percentagePart}{yoshiDjaInfoPart}
                 </div>
               );
             })}
@@ -78,16 +82,6 @@ function generateCard(
         </CardBody>
       </Card>
     </div>
-  );
-}
-
-function generateUnableToCCTab(hitbox: Hitbox) {
-  return (
-    <Tab key={hitbox.id} title={hitbox.name} className="md:flex">
-      <Card className="dark:bg-gray-800">
-        <CardBody>{getCrouchCancelImpossibleReason(hitbox)}</CardBody>
-      </Card>
-    </Tab>
   );
 }
 
@@ -245,16 +239,37 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
               {hit.hitboxes.map((hitbox) => {
                 return (
                   <Tab key={hitbox.id} title={hitbox.name} className="md:flex md:flex-wrap">
-                    {isCrouchCancelPossible(hitbox) === false && (
+                    {!isCrouchCancelPossible(hitbox) && (
                       <Alert
                         color={'warning'}
                         title={getCrouchCancelImpossibleReason(hitbox)}
-                        description={"The following values are only for knockdown and Yoshi's double jump armor."}
+                        description={"This hitbox does not send upwards, and thus it will put the opponent into their grounded flinch state before it knocks down"}
+                      />
+                    )}
+                    {hitbox.hitlagDefender > 10 && (
+                      <Alert
+                        color={'warning'}
+                        title={`This move has more than 10 frames of hitlag ${hitbox.hitlagDefenderCrouched > 10 ? "(even when CC'd)" : ""}, making it difficult/sometimes impossible to ASDI down`}
+                        description={"When a character is airborne for more than 10 frames, their ECB lock expires. This pulls up their ECB, creating distance between them and the ground, which makes ASDI Down break earlier/require specific SDI inputs first"}
+                      />
+                    )}
+                    {(hit.id >= 2646 && hit.id <= 2650) && (
+                      <Alert
+                        color={'warning'}
+                        title={`Do NOT ASDI-Down/CC Peach Downsmash.`}
+                        description={"You have been warned."}
+                      />
+                    )}
+                    {(hitbox.angle == 361) && (
+                      <Alert
+                        color={'warning'}
+                        title={"This move sends at the Sakurai Angle (361 degrees)."}
+                        description={"While grounded and below 32 units of knockback, this move sends at 0 degrees, and thus cannot be ASDI downed"}
                       />
                     )}
                     {generateCard(
                       80,
-                      isCrouchCancelPossible(hitbox) ? 'ASDI Down' : 'Knockdown',
+                      "ASDI Down",
                       hitbox,
                       sortedCharacters,
                       floorPercentages,
@@ -262,7 +277,23 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                     )}
                     {generateCard(
                       120,
-                      isCrouchCancelPossible(hitbox) ? 'Crouch Cancel' : 'Yoshi double jump armor break',
+                      "Crouch-Cancel",
+                      hitbox,
+                      sortedCharacters,
+                      floorPercentages,
+                      numericalPercentage,
+                    )}
+                    {(hitbox.angle == 361) && generateCard(
+                      32,
+                      "Sakurai Angle starts being ASDI-Downable",
+                      hitbox,
+                      sortedCharacters,
+                      floorPercentages,
+                      numericalPercentage,
+                    )}
+                    {(hitbox.angle == 361) && generateCard(
+                      48,
+                      "Sakurai Angle starts being Crouch-Cancellable",
                       hitbox,
                       sortedCharacters,
                       floorPercentages,
