@@ -283,7 +283,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                       floorPercentages,
                       numericalPercentage,
                     )}
-                    {generateCard(
+                    {(hitbox.angle == 361) && generateCard(
                       32,
                       "Sakurai Angle starts being ASDI-Downable",
                       hitbox,
@@ -291,7 +291,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                       floorPercentages,
                       numericalPercentage,
                     )}
-                    {generateCard(
+                    {(hitbox.angle == 361) && generateCard(
                       48,
                       "Sakurai Angle starts being Crouch-Cancellable",
                       hitbox,
