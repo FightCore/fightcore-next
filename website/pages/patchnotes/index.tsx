@@ -13,6 +13,11 @@ const patchNotes = [
       'The Crouch Cancel table now shows the values for non-crouch cancelable moves. (thank you to the Toronto Melee community for the help)',
       'Added the knockback units to the Crouch Cancel table.',
       'Upgraded dependencies to their latest compatible versions.',
+      'Change the title and description to better reflect the content (thank you to Graapefruit for the Pull Request)',
+      "Added a icon to indicate that the crouch cancel also breaks Yoshi's  double jump armor (thank you to Graapefruit for the Pull Request)",
+      'Added a warning about Sakurai angles and added the 32 unit table (thank you to Graapefruit for the Pull Request)',
+      'A small easter egg was added to (thank you to Graapefruit for the Pull Request)',
+      'Added a light gray background to the GIFs to improve visibility on light mode',
     ],
   },
   {
