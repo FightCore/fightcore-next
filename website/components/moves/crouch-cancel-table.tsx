@@ -260,6 +260,13 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                         description={"You have been warned."}
                       />
                     )}
+                    {(hitbox.angle == 361) && (
+                      <Alert
+                        color={'warning'}
+                        title={"This move sends at the Sakurai Angle (361 degrees)."}
+                        description={"While grounded and below 32 units of knockback, this move sends at 0 degrees, and thus cannot be ASDI downed"}
+                      />
+                    )}
                     {generateCard(
                       80,
                       "ASDI Down",
@@ -271,6 +278,22 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                     {generateCard(
                       120,
                       "Crouch-Cancel",
+                      hitbox,
+                      sortedCharacters,
+                      floorPercentages,
+                      numericalPercentage,
+                    )}
+                    {generateCard(
+                      32,
+                      "Sakurai Angle starts being ASDI-Downable",
+                      hitbox,
+                      sortedCharacters,
+                      floorPercentages,
+                      numericalPercentage,
+                    )}
+                    {generateCard(
+                      48,
+                      "Sakurai Angle starts being Crouch-Cancellable",
                       hitbox,
                       sortedCharacters,
                       floorPercentages,
