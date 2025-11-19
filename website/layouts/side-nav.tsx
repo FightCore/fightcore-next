@@ -1,5 +1,6 @@
 'use client';
 import { characters } from '@/config/framedata/framedata';
+import { VERSION_NUMBER } from '@/layouts/version-number';
 import { characterRoute } from '@/utilities/routes';
 import { Divider } from '@heroui/divider';
 import { Image } from '@heroui/image';
@@ -108,7 +109,7 @@ export function SideNav() {
       <div className="mb-5 px-4">
         <Socials />
         <Link className="mt-2" href="/patchnotes">
-          Version 1.2.2
+          Version {VERSION_NUMBER}
         </Link>
       </div>
     </div>

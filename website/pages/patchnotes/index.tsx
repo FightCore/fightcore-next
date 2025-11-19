@@ -18,6 +18,10 @@ const patchNotes = [
       'Added a warning about Sakurai angles and added the 32 unit table (thank you to Graapefruit for the Pull Request)',
       'A small easter egg was added to (thank you to Graapefruit for the Pull Request)',
       'Added a light gray background to the GIFs to improve visibility on light mode',
+      'Fixed an issue where the section buttons clipped outside of their container on smaller screens',
+      'Removed the Uncategorized table within the Crouch Cancel Calculator',
+      'Changed the Crouch Cancel Calculator to show 2 columns instead of 3, improving readability',
+      'Fixed an issue where the light mode background did not stretch to the full height of the page on some pages',
     ],
   },
   {
