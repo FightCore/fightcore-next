@@ -139,7 +139,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       .attr('y', (d, i) => 30 + i * 40)
       .attr('font-family', 'sans-serif')
       .attr('font-size', '14px')
-      .attr('fill', 'white')
+      .attr('fill', () => (theme === 'dark' ? 'white' : 'black'))
       .attr('alignment-baseline', 'middle');
 
     svg

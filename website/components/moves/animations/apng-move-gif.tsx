@@ -186,7 +186,7 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       ) : (
         <></>
       )}
-      <div ref={canvasDivRef} />
+      <div className="bg-zinc-300 dark:bg-transparent" ref={canvasDivRef} />
 
       <AnimationLegend />
     </>

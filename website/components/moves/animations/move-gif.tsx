@@ -131,6 +131,7 @@ export const MoveGif = (params: MoveGifParams) => {
     <>
       <div className="gif-wrapper">
         <Image
+          className="bg-zinc-300 dark:bg-transparent"
           height={400}
           width={500}
           ref={imageRef}

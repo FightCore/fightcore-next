@@ -10,6 +10,7 @@ import { Checkbox } from '@heroui/checkbox';
 import { Image } from '@heroui/image';
 import { Radio, RadioGroup } from '@heroui/radio';
 import { Select, SelectItem } from '@heroui/select';
+import { cn } from '@heroui/theme';
 import { promises as fs } from 'fs';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useSearchParams } from 'next/navigation';
@@ -247,7 +248,13 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
 
         <div>
           <div className="text-medium text-foreground-500 mb-1">Ceiling percentages</div>
-          <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
+          <Checkbox
+            classNames={{
+              base: cn('text-white'),
+            }}
+            isSelected={floorPercentages}
+            onValueChange={setFlooringChange}
+          >
             <div className="text-small">
               Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it breaks at
               12%.

@@ -20,6 +20,7 @@ import { Checkbox } from '@heroui/checkbox';
 import { Image } from '@heroui/image';
 import { Radio, RadioGroup } from '@heroui/radio';
 import { Tab, Tabs } from '@heroui/tabs';
+import { cn } from '@heroui/theme';
 import { Tooltip } from '@heroui/tooltip';
 import React, { useEffect } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
@@ -62,19 +63,30 @@ function generateCard(
                 // Staleness is not included in the table
                 0,
               );
-              const imagePart = <Image
-                alt={character.name}
-                width={30}
-                height={30}
-                src={'/newicons/' + character.name + '.webp'}
-                className="mr-2 inline-block"
-                removeWrapper={true}
-              />
-              const percentagePart = <span className="inline">{percentage}</span>
-              const yoshiDjaInfoPart = knockbackTarget == 120 && character.name == "Yoshi" ? <Tooltip content="Same threshold for breaking Yoshi's DJA!" delay={250}><FaCircleExclamation /></Tooltip> : <></>
+              const imagePart = (
+                <Image
+                  alt={character.name}
+                  width={30}
+                  height={30}
+                  src={'/newicons/' + character.name + '.webp'}
+                  className="mr-2 inline-block"
+                  removeWrapper={true}
+                />
+              );
+              const percentagePart = <span className="inline">{percentage}</span>;
+              const yoshiDjaInfoPart =
+                knockbackTarget == 120 && character.name == 'Yoshi' ? (
+                  <Tooltip content="Same threshold for breaking Yoshi's DJA!" delay={250}>
+                    <FaCircleExclamation />
+                  </Tooltip>
+                ) : (
+                  <></>
+                );
               return (
                 <div key={knockbackTarget + character.fightCoreId}>
-                  {imagePart}{percentagePart}{yoshiDjaInfoPart}
+                  {imagePart}
+                  {percentagePart}
+                  {yoshiDjaInfoPart}
                 </div>
               );
             })}
@@ -207,14 +219,26 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
           </RadioGroup>
         </div>
 
-        <Checkbox isSelected={floorPercentages} onValueChange={setFlooringChange}>
+        <Checkbox
+          classNames={{
+            base: cn('text-white'),
+          }}
+          isSelected={floorPercentages}
+          onValueChange={setFlooringChange}
+        >
           <div className="text-medium font-bold">Ceiling percentages</div>
           <div className="text-small">
             Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it breaks at 12%.
           </div>
         </Checkbox>
 
-        <Checkbox isSelected={numericalPercentage} onValueChange={setNumericalChange}>
+        <Checkbox
+          classNames={{
+            base: cn('text-white'),
+          }}
+          isSelected={numericalPercentage}
+          onValueChange={setNumericalChange}
+        >
           <div className="text-medium font-bold">Use 99% for moves that never break</div>
           <div className="text-small">
             Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;99%&quot; rather than
@@ -243,62 +267,63 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                       <Alert
                         color={'warning'}
                         title={getCrouchCancelImpossibleReason(hitbox)}
-                        description={"This hitbox does not send upwards, and thus it will put the opponent into their grounded flinch state before it knocks down"}
+                        description={
+                          'This hitbox does not send upwards, and thus it will put the opponent into their grounded flinch state before it knocks down'
+                        }
                       />
                     )}
                     {hitbox.hitlagDefender > 10 && (
                       <Alert
                         color={'warning'}
-                        title={`This move has more than 10 frames of hitlag ${hitbox.hitlagDefenderCrouched > 10 ? "(even when CC'd)" : ""}, making it difficult/sometimes impossible to ASDI down`}
-                        description={"When a character is airborne for more than 10 frames, their ECB lock expires. This pulls up their ECB, creating distance between them and the ground, which makes ASDI Down break earlier/require specific SDI inputs first"}
+                        title={`This move has more than 10 frames of hitlag ${hitbox.hitlagDefenderCrouched > 10 ? "(even when CC'd)" : ''}, making it difficult/sometimes impossible to ASDI down`}
+                        description={
+                          'When a character is airborne for more than 10 frames, their ECB lock expires. This pulls up their ECB, creating distance between them and the ground, which makes ASDI Down break earlier/require specific SDI inputs first'
+                        }
                       />
                     )}
-                    {(hit.id >= 2646 && hit.id <= 2650) && (
+                    {hit.id >= 2646 && hit.id <= 2650 && (
                       <Alert
                         color={'warning'}
                         title={`Do NOT ASDI-Down/CC Peach Downsmash.`}
-                        description={"You have been warned."}
+                        description={'You have been warned.'}
                       />
                     )}
-                    {(hitbox.angle == 361) && (
+                    {hitbox.angle == 361 && (
                       <Alert
                         color={'warning'}
-                        title={"This move sends at the Sakurai Angle (361 degrees)."}
-                        description={"While grounded and below 32 units of knockback, this move sends at 0 degrees, and thus cannot be ASDI downed"}
+                        title={'This move sends at the Sakurai Angle (361 degrees).'}
+                        description={
+                          'While grounded and below 32 units of knockback, this move sends at 0 degrees, and thus cannot be ASDI downed'
+                        }
                       />
                     )}
-                    {generateCard(
-                      80,
-                      "ASDI Down",
-                      hitbox,
-                      sortedCharacters,
-                      floorPercentages,
-                      numericalPercentage,
-                    )}
+                    {generateCard(80, 'ASDI Down', hitbox, sortedCharacters, floorPercentages, numericalPercentage)}
                     {generateCard(
                       120,
-                      "Crouch-Cancel",
+                      'Crouch-Cancel',
                       hitbox,
                       sortedCharacters,
                       floorPercentages,
                       numericalPercentage,
                     )}
-                    {(hitbox.angle == 361) && generateCard(
-                      32,
-                      "Sakurai Angle starts being ASDI-Downable",
-                      hitbox,
-                      sortedCharacters,
-                      floorPercentages,
-                      numericalPercentage,
-                    )}
-                    {(hitbox.angle == 361) && generateCard(
-                      48,
-                      "Sakurai Angle starts being Crouch-Cancellable",
-                      hitbox,
-                      sortedCharacters,
-                      floorPercentages,
-                      numericalPercentage,
-                    )}
+                    {hitbox.angle == 361 &&
+                      generateCard(
+                        32,
+                        'Sakurai Angle starts being ASDI-Downable',
+                        hitbox,
+                        sortedCharacters,
+                        floorPercentages,
+                        numericalPercentage,
+                      )}
+                    {hitbox.angle == 361 &&
+                      generateCard(
+                        48,
+                        'Sakurai Angle starts being Crouch-Cancellable',
+                        hitbox,
+                        sortedCharacters,
+                        floorPercentages,
+                        numericalPercentage,
+                      )}
                   </Tab>
                 );
               })}

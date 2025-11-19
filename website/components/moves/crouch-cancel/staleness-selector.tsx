@@ -14,7 +14,7 @@ export default function StalenessSelector(props: any) {
       isSelected: {
         true: {
           base: 'border-primary bg-primary hover:bg-primary-500 hover:border-primary-500',
-          content: 'text-primary-foreground pl-1',
+          content: 'text-white pl-1',
         },
       },
       isFocusVisible: {
