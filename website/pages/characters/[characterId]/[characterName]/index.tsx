@@ -192,9 +192,10 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
     <>
       <CharacterHead character={data.character} />
       <PageTitle title={data.character.name} />
-      <div className="row columns-1 pt-2 xl:columns-2">
+      <div className="flex justify-between pt-2">
         <div>
           <Input
+            variant="bordered"
             isClearable
             type="text"
             placeholder="Search moves..."
