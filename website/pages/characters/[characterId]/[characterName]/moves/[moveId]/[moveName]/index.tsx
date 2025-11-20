@@ -1,10 +1,10 @@
 import { CrouchCancelSection } from '@/components/moves/crouch-cancel-section';
 import { HitboxSection } from '@/components/moves/hitbox-section';
 import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
-import { InterpolatedMoveWarning } from '@/components/moves/interpolated-move-warning';
 import MoveAnimationDisplay from '@/components/moves/move-animation-display';
 import MoveAttributeTable from '@/components/moves/move-attribute-table';
 import { MoveHead } from '@/components/moves/move-head';
+import { MoveSummaryTable } from '@/components/moves/move-summary-table';
 import { RelevantMoves } from '@/components/moves/relevant-moves';
 import SourceSection from '@/components/moves/source-section';
 import { PageTitle } from '@/components/page-title';
@@ -12,6 +12,7 @@ import { characters } from '@/config/framedata/framedata';
 import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
 import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
+import { getMoveSummary } from '@/utilities/move-summary';
 import { createRelevantMoves } from '@/utilities/relevant-moves-creator';
 import { characterRoute } from '@/utilities/routes';
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs';
@@ -113,6 +114,8 @@ export const getStaticProps = async (context: any) => {
 };
 
 export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType<typeof getStaticProps>>) {
+  const moveSummary = getMoveSummary(data.move);
+
   return (
     <>
       <MoveHead move={data.move} character={data.character} />
@@ -128,42 +131,19 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         <div className="w-full p-2 md:w-1/2">
           <MoveAnimationDisplay move={data.move} characterName={data.character.name}></MoveAnimationDisplay>
         </div>
-        <div className="hidden w-full p-2 md:block md:w-1/2">
-          <div className="w-full px-2">
-            <RelevantMoves relevantMoves={data.relevantMoves} />
-          </div>
+        <div className="w-full pb-2 md:w-1/2 md:px-2">
           <div className="w-full">
-            <div className="mt-2 grid grid-cols-1 gap-2">
-              {data.move.isInterpolated ? <InterpolatedMoveWarning /> : <></>}
-              <div className="rounded-lg bg-red-700 p-2 text-center text-white">
-                <h2 className="text-xl font-semibold">Start</h2>
-                <p>{data.move.start}</p>
-              </div>
-              <div className="rounded-lg bg-red-700 p-2 text-center text-white">
-                <h2 className="text-xl font-semibold">End</h2>
-                <p>{data.move.end}</p>
-              </div>
-              <div className="rounded-lg bg-red-700 p-2 text-center text-white">
-                <h2 className="text-xl font-semibold">Total</h2>
-                <p>{data.move.totalFrames} frames</p>
-              </div>
-              <div className="rounded-lg bg-red-700 p-2 text-center text-white">
-                <h2 className="text-xl font-semibold">IASA</h2>
-                <p>{data.move.iasa ? data.move.iasa : '-'}</p>
-              </div>
-              <div className="rounded-lg bg-red-700 p-2 text-center text-white">
-                <h2 className="text-xl font-semibold">Notes</h2>
-                <p>{data.move.notes ? data.move.notes : '-'}</p>
-              </div>
-            </div>
+            <h2 className="text-lg font-semibold">Summary</h2>
+            <MoveSummaryTable moveSummary={moveSummary} />
+          </div>
+          <div className="hidden w-full md:block">
+            <RelevantMoves relevantMoves={data.relevantMoves} />
           </div>
         </div>
       </div>
       <div>{shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline move={data.move} /> : <></>}</div>
-
       <h2 className="my-3 text-xl font-bold">Attributes</h2>
       <MoveAttributeTable move={data.move} />
-
       {data.move.hits && data.move.hits.length > 0 ? <HitboxSection hits={data.move.hits} /> : <></>}
 
       <div>{canBeCrouchCanceled(data.move) ? <CrouchCancelSection hits={data.move.hits!} /> : <></>}</div>
