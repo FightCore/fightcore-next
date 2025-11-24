@@ -15,7 +15,6 @@ export interface HitboxTimingParams {
 }
 
 export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
-  console.log(params.move.hits);
   const processedHits = processDuplicateHitboxes(params.move.hits!);
   const data = processDuplicateHits(flattenData(processedHits));
   const colors = generateColors(data);
