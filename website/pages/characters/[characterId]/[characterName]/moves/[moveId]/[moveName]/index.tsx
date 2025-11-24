@@ -141,7 +141,9 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
           </div>
         </div>
       </div>
-      <div>{shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline move={data.move} /> : <></>}</div>
+      <div>
+        {shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline displayLegend interactive move={data.move} /> : <></>}
+      </div>
       <h2 className="my-3 text-xl font-bold">Attributes</h2>
       <MoveAttributeTable move={data.move} />
       {data.move.hits && data.move.hits.length > 0 ? <HitboxSection hits={data.move.hits} /> : <></>}

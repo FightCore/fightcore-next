@@ -39,14 +39,12 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
 
     return (
       <video
-        className="cursor-pointer bg-zinc-300 dark:bg-transparent"
+        className="w-72 max-w-72 cursor-pointer bg-zinc-300 dark:bg-transparent"
         onClick={onOpen}
         muted
         playsInline
         autoPlay
         loop
-        width={600}
-        height={400}
         src={params.move.webmUrl}
       />
     );
