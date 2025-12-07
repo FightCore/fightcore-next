@@ -44,15 +44,15 @@ export const MoveCard = (params: MoveCardParams) => {
       <Card key={params.move.normalizedName} className="w-full p-2 dark:bg-gray-800">
         <CardBody className="text-small text-default-400 px-3 py-0">
           <div className="flex flex-col gap-2 md:flex-row">
-            <div className="w-72 max-w-72 border-zinc-600 md:border-r">
+            <div className="w-72 max-w-full min-w-64 border-zinc-600 md:border-r">
               <h4 className="text-default-600 text-lg leading-none font-semibold">{params.move.name}</h4>
               <PreviewVideo move={params.move} characterName={params.character.name} lazy={params.move.type !== 2} />
             </div>
             <div className="grow">
-              <div className="grid h-full grid-cols-1 gap-2 md:grid-cols-7 md:justify-evenly">
+              <div className="grid h-full grid-flow-row auto-rows-max gap-2 md:auto-rows-min md:justify-evenly">
                 {fullMoveSummaries.map((summary) => {
                   return (
-                    <div className="p-3">
+                    <div className={'p-3 ' + (summary.value === '-' ? 'hidden lg:block' : '')}>
                       <div className="text-default-700 font-bold">{summary.name}</div>
                       <div className="text-default-600">{summary.value}</div>
                     </div>
