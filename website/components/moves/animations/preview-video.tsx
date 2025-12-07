@@ -4,6 +4,7 @@ import { Move } from '@/models/move';
 import { Button } from '@heroui/button';
 import { Image } from '@heroui/image';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/modal';
+import { useEffect, useState } from 'react';
 import ApngMove from './apng-move-gif';
 import { MoveGif } from './move-gif';
 
@@ -15,23 +16,23 @@ export interface PreviewVideoParams {
 
 export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const isIOS = () => {
-    return navigator && /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  };
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    setIsIOS(/iPhone|iPad|iPod/i.test(navigator.userAgent));
+  }, []);
   const getPlayer = () => {
-    if (!params.move.webmUrl || (isIOS() && !params.move.gifUrl)) {
+    if (!params.move.webmUrl || (isIOS && !params.move.gifUrl)) {
       return <em>There is no GIF available</em>;
     }
 
-    if (isIOS() && params.move.gifUrl) {
+    if (isIOS && params.move.gifUrl) {
       return (
         <Image
-          className="cursor-pointer bg-zinc-300 dark:bg-transparent"
+          className="w-72 max-w-full min-w-64 cursor-pointer bg-zinc-300 dark:bg-transparent"
           onClick={onOpen}
           src={params.move.gifUrl}
           alt={params.characterName + ' ' + params.move.name}
-          width={600}
-          height={300}
           loading={params.lazy ? undefined : 'eager'}
         />
       );
@@ -39,7 +40,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
 
     return (
       <video
-        className="w-72 max-w-72 cursor-pointer bg-zinc-300 dark:bg-transparent"
+        className="w-72 max-w-full min-w-64 cursor-pointer bg-zinc-300 dark:bg-transparent"
         onClick={onOpen}
         muted
         playsInline
@@ -59,7 +60,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
             <>
               <ModalHeader className="flex flex-col gap-1">{params.move.name}</ModalHeader>
               <ModalBody>
-                {isIOS() ? (
+                {isIOS ? (
                   <MoveGif characterName={params.characterName} move={params.move} />
                 ) : (
                   <ApngMove showAdditionalControls={true} url={params.move.pngUrl!} />
