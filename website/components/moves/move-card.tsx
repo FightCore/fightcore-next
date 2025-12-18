@@ -59,7 +59,14 @@ export const MoveCard = (params: MoveCardParams) => {
                   );
                 })}
               </div>
-              <div className="w-full py-3">
+              <div
+                className={
+                  'w-full' +
+                  (params.move.totalFrames > 80 || params.move.hits?.some((hit) => !!hit.start) == false
+                    ? ' hidden'
+                    : '')
+                }
+              >
                 <HitboxTimeline compact move={params.move}></HitboxTimeline>
               </div>
               <Button
