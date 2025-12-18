@@ -49,7 +49,7 @@ export const MoveCard = (params: MoveCardParams) => {
               <PreviewVideo move={params.move} characterName={params.character.name} lazy={params.move.type !== 2} />
             </div>
             <div className="h-full grow">
-              <div className="grid h-full grid-cols-2 gap-2 min-[64rem]:max-[70rem]:grid-cols-4 min-[70rem]:grid-cols-6 min-[70rem]:justify-evenly">
+              <div className="grid h-full grid-cols-2 gap-2 pb-3 min-[64rem]:max-[70rem]:grid-cols-4 min-[70rem]:grid-cols-6 min-[70rem]:justify-evenly">
                 {fullMoveSummaries.map((summary) => {
                   return (
                     <div className={summary.value === '-' ? 'hidden lg:block' : ''}>
