@@ -12,7 +12,7 @@ import { characters } from '@/config/framedata/framedata';
 import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
 import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
-import { getMoveSummary } from '@/utilities/move-summary';
+import { getSmallMoveSummary } from '@/utilities/move-summary';
 import { createRelevantMoves } from '@/utilities/relevant-moves-creator';
 import { characterRoute } from '@/utilities/routes';
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs';
@@ -114,7 +114,7 @@ export const getStaticProps = async (context: any) => {
 };
 
 export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType<typeof getStaticProps>>) {
-  const moveSummary = getMoveSummary(data.move);
+  const moveSummary = getSmallMoveSummary(data.move, data.move.hits?.flatMap((hit) => hit.hitboxes) ?? []);
 
   return (
     <>

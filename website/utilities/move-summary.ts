@@ -1,5 +1,6 @@
 import { Hitbox } from '@/models/hitbox';
 import { Move } from '@/models/move';
+import { MoveSummaryFormatter } from '@/utilities/move-summary-formatter';
 import { getUnique } from '@/utilities/utils';
 
 export interface MovePropertySummary {
@@ -10,36 +11,18 @@ export interface MovePropertySummary {
 }
 
 export function getMoveSummary(move: Move): MovePropertySummary[] {
-  const summary: MovePropertySummary[] = [];
+  const formatter = new MoveSummaryFormatter();
 
-  const addIfNotNull = (
-    name: string,
-    value: string | number | null | undefined,
-    formatter?: (value: string | number) => string,
-    level?: 'warning',
-    variant?: 'note' | 'knockback',
-  ) => {
-    if (value != null && value !== '' && value !== undefined && value !== 0) {
-      if (formatter) {
-        summary.push({ name, value: formatter(value), level, variant });
-      } else {
-        summary.push({ name, value: value.toString(), level, variant });
-      }
-    } else {
-      summary.push({ name, value: '-', level, variant });
-    }
-  };
-
-  // Standard properties section
-  addIfNotNull('First Active', move.start);
-  addIfNotNull('Last Active', move.end);
-  addIfNotNull('Total', move.totalFrames, (value) => `${value} frames`);
-  addIfNotNull('IASA', move.iasa);
+  formatter.addIfNotNull('First Active', move.start);
+  formatter.addIfNotNull('Last Active', move.end);
+  formatter.addIfNotNull('Total', move.totalFrames, (value) => `${value} frames`);
+  formatter.addIfNotNull('IASA', move.iasa);
   if (move.landLag && move.lCanceledLandLag) {
-    addIfNotNull('Landing lag', `${move.landLag} (${move.lCanceledLandLag} L-Cancelled)`);
+    formatter.addIfNotNull('Landing lag', `${move.landLag} (${move.lCanceledLandLag} L-Cancelled)`);
   } else {
-    addIfNotNull('Landing lag', move.landLag);
+    formatter.addIfNotNull('Landing lag', move.landLag);
   }
+  formatter.addIfNotNull('Landing fall special lag', move.landingFallSpecialLag);
 
   let autoCancelText = '';
   if (move.autoCancelBefore) {
@@ -48,60 +31,71 @@ export function getMoveSummary(move: Move): MovePropertySummary[] {
   if (move.autoCancelAfter) {
     autoCancelText += `${move.autoCancelAfter}> `;
   }
-  addIfNotNull('Autocancel', autoCancelText);
-  addIfNotNull('Notes', move.notes, undefined, undefined, 'note');
-  addIfNotNull('Landing fall special lag', move.landingFallSpecialLag);
+  formatter.addIfNotNull('Autocancel', autoCancelText);
+  formatter.addIfNotNull('Notes', move.notes, undefined, undefined, 'note');
 
   if (move.isInterpolated) {
-    summary.push({
-      name: 'Interpolated',
-      value:
-        'Move is interpolated: This move is based off its grounded variant, the data has not been fact checked yet and may be incorrect.',
-      level: 'warning',
-      variant: 'note',
-    });
+    formatter.addInterpolationWarning();
   }
 
-  return summary;
+  return formatter.Summary;
 }
 
 export function getHitboxesSummary(hitboxes: Hitbox[]): MovePropertySummary[] {
-  const summary: MovePropertySummary[] = [];
+  const formatter = new MoveSummaryFormatter();
 
-  const addIfNotNull = (
-    name: string,
-    value: string | number | null | undefined,
-    formatter?: (value: string | number) => string,
-    level?: 'warning',
-    variant?: 'note' | 'knockback',
-  ) => {
-    if (value != null && value !== '' && value !== undefined && value !== 0) {
-      if (formatter) {
-        summary.push({ name, value: formatter(value), level, variant });
-      } else {
-        summary.push({ name, value: value.toString(), level, variant });
-      }
-    } else {
-      summary.push({ name, value: '-', level, variant });
-    }
-  };
-
-  addIfNotNull('Damage', getUniqueValues(hitboxes.map((hitbox) => hitbox.damage)), (value) => `${value}%`);
-  addIfNotNull(
+  formatter.addIfNotNull('Damage', getUniqueValues(hitboxes.map((hitbox) => hitbox.damage)), (value) => `${value}%`);
+  formatter.addIfNotNull(
     'Base Knockback',
     getUniqueValues(hitboxes.map((hitbox) => hitbox.baseKnockback)),
     (value) => `${value}`,
   );
-  addIfNotNull(
+  formatter.addIfNotNull(
     'Knockback Growth',
     getUniqueValues(hitboxes.map((hitbox) => hitbox.knockbackGrowth)),
     (value) => `${value}`,
   );
-  addIfNotNull('Set Knockback', getUniqueValues(hitboxes.map((hitbox) => hitbox.setKnockback)), (value) => `${value}`);
-  addIfNotNull('Angle', getUniqueValues(hitboxes.map((hitbox) => hitbox.angle)), (value) => `${value}`);
-  addIfNotNull('Effect', getUniqueValues(hitboxes.map((hitbox) => hitbox.effect)), (value) => `${value}`);
+  formatter.addIfNotNull(
+    'Set Knockback',
+    getUniqueValues(hitboxes.map((hitbox) => hitbox.setKnockback)),
+    (value) => `${value}`,
+  );
+  formatter.addIfNotNull('Angle', getUniqueValues(hitboxes.map((hitbox) => hitbox.angle)), (value) => `${value}`);
+  formatter.addIfNotNull('Effect', getUniqueValues(hitboxes.map((hitbox) => hitbox.effect)), (value) => `${value}`);
 
-  return summary;
+  return formatter.Summary;
+}
+
+export function getSmallMoveSummary(move: Move, hitboxes: Hitbox[]): MovePropertySummary[] {
+  const includeEmpty = false;
+
+  const formatter = new MoveSummaryFormatter(includeEmpty);
+  formatter.addIfNotNull('First Active', move.start);
+  formatter.addIfNotNull('Last Active', move.end);
+  formatter.addIfNotNull('Total', move.totalFrames, (value) => `${value} frames`);
+  formatter.addIfNotNull('Damage', getUniqueValues(hitboxes.map((hitbox) => hitbox.damage)), (value) => `${value}%`);
+  formatter.addIfNotNull('IASA', move.iasa);
+  if (move.landLag && move.lCanceledLandLag) {
+    formatter.addIfNotNull('Landing lag', `${move.landLag} (${move.lCanceledLandLag} L-Cancelled)`);
+  } else {
+    formatter.addIfNotNull('Landing lag', move.landLag);
+  }
+  formatter.addIfNotNull('Landing fall special lag', move.landingFallSpecialLag);
+
+  let autoCancelText = '';
+  if (move.autoCancelBefore) {
+    autoCancelText += `<${move.autoCancelBefore} `;
+  }
+  if (move.autoCancelAfter) {
+    autoCancelText += `${move.autoCancelAfter}> `;
+  }
+  formatter.addIfNotNull('Autocancel', autoCancelText);
+  formatter.addIfNotNull('Notes', move.notes, undefined, undefined, 'note');
+
+  if (move.isInterpolated) {
+    formatter.addInterpolationWarning();
+  }
+  return formatter.Summary;
 }
 
 function getUniqueValues(values: any[], formattingFunction?: (value: any) => string): string {
