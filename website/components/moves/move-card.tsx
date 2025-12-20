@@ -50,9 +50,12 @@ export const MoveCard = (params: MoveCardParams) => {
             </div>
             <div className="h-full grow">
               <div className="grid h-full grid-cols-2 gap-2 pb-3 min-[64rem]:max-[70rem]:grid-cols-4 min-[70rem]:grid-cols-6 min-[70rem]:justify-evenly">
-                {fullMoveSummaries.map((summary) => {
+                {fullMoveSummaries.map((summary, index) => {
                   return (
-                    <div className={summary.value === '-' ? 'hidden lg:block' : ''}>
+                    <div
+                      key={`${params.move.id}-${summary.name}-${index}`}
+                      className={summary.value === '-' ? 'hidden lg:block' : ''}
+                    >
                       <div className="text-default-700 font-bold">{summary.name}</div>
                       <div className="text-default-600">{summary.value}</div>
                     </div>
