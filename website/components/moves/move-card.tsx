@@ -48,8 +48,8 @@ export const MoveCard = (params: MoveCardParams) => {
               <h4 className="text-default-600 text-lg leading-none font-semibold">{params.move.name}</h4>
               <PreviewVideo move={params.move} characterName={params.character.name} lazy={params.move.type !== 2} />
             </div>
-            <div className="h-full grow">
-              <div className="grid h-full grid-cols-2 gap-2 pb-3 min-[64rem]:max-[70rem]:grid-cols-4 min-[70rem]:grid-cols-6 min-[70rem]:justify-evenly">
+            <div className="flex h-full grow flex-col gap-2">
+              <div className="grid grid-cols-2 gap-2 pb-3 min-[64rem]:max-[70rem]:grid-cols-4 min-[70rem]:grid-cols-6 min-[70rem]:justify-evenly">
                 {fullMoveSummaries.map((summary, index) => {
                   return (
                     <div
@@ -75,7 +75,7 @@ export const MoveCard = (params: MoveCardParams) => {
               <Button
                 href={moveRoute(params.character, params.move)}
                 as={Link}
-                className="h-full min-h-6 w-full bg-red-700 text-center font-bold text-white hover:bg-red-500 lg:hidden"
+                className="min-h-6 w-full bg-red-700 text-center font-bold text-white hover:bg-red-500 lg:hidden"
               >
                 View
               </Button>
