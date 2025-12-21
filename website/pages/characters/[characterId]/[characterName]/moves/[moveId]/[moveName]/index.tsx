@@ -12,7 +12,7 @@ import { characters } from '@/config/framedata/framedata';
 import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
 import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
-import { getMoveSummary } from '@/utilities/move-summary';
+import { getSmallMoveSummary } from '@/utilities/move-summary';
 import { createRelevantMoves } from '@/utilities/relevant-moves-creator';
 import { characterRoute } from '@/utilities/routes';
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs';
@@ -114,7 +114,7 @@ export const getStaticProps = async (context: any) => {
 };
 
 export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType<typeof getStaticProps>>) {
-  const moveSummary = getMoveSummary(data.move);
+  const moveSummary = getSmallMoveSummary(data.move, data.move.hits?.flatMap((hit) => hit.hitboxes) ?? []);
 
   return (
     <>
@@ -141,7 +141,9 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
           </div>
         </div>
       </div>
-      <div>{shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline move={data.move} /> : <></>}</div>
+      <div>
+        {shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline displayLegend interactive move={data.move} /> : <></>}
+      </div>
       <h2 className="my-3 text-xl font-bold">Attributes</h2>
       <MoveAttributeTable move={data.move} />
       {data.move.hits && data.move.hits.length > 0 ? <HitboxSection hits={data.move.hits} /> : <></>}

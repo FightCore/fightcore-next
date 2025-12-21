@@ -228,7 +228,7 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
       {filteredCategories.map((moveType) => (
         <div key={moveType.type} id={`category-${moveType.type}`}>
           <h2 className="py-5 text-left text-xl font-semibold">{moveType.name}</h2>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2">
             {movesByCategory.get(moveType.type)!.map((move: Move, index: number) => (
               <div className="flex flex-grow" key={move.normalizedName}>
                 <MoveCard character={data.character} move={move} lazy={index > 5} />

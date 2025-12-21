@@ -79,7 +79,6 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
           <Select
             selectedKeys={currentPage.toString()}
             onSelectionChange={(keys) => {
-              console.log(keys);
               if (keys instanceof Set && keys.size === 0) {
                 setCurrentPage(1);
                 return;

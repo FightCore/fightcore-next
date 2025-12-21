@@ -114,7 +114,7 @@ export const AnimationPlayer = ({
         <MoveGif move={move} characterName={characterName} />
       ) : (
         <ApngMove
-          url={apngUrl || move.gifUrl}
+          url={apngUrl || move.pngUrl!}
           showAdditionalControls={showAdditionalControls}
           onError={handleApngError}
         />
