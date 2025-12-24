@@ -40,7 +40,7 @@ function generateCard(
   hitbox: Hitbox,
   sortedCharacters: CharacterBase[],
   floorPercentages: boolean,
-  use99Percent: boolean,
+  use999Percent: boolean,
 ) {
   return (
     <div className="w-full p-2 md:w-1/2">
@@ -59,7 +59,7 @@ function generateCard(
                 character,
                 knockbackTarget,
                 floorPercentages,
-                use99Percent,
+                use999Percent,
                 // Staleness is not included in the table
                 0,
               );
@@ -239,9 +239,9 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
           isSelected={numericalPercentage}
           onValueChange={setNumericalChange}
         >
-          <div className="text-medium font-bold">Use 99% for moves that never break</div>
+          <div className="text-medium font-bold">Use 999% for moves that never break</div>
           <div className="text-small">
-            Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;99%&quot; rather than
+            Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;999%&quot; rather than
             &quot;Never breaks&quot;
           </div>
         </Checkbox>

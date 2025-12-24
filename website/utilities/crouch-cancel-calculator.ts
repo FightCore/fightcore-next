@@ -19,13 +19,13 @@ export function canBeCrouchCanceled(move: Move): boolean {
 }
 
 export function isCrouchCancelPossible(hitbox: Hitbox): boolean {
-  return (hitbox.angle > 0 && hitbox.angle < 180) || hitbox.angle == 361
+  return (hitbox.angle > 0 && hitbox.angle < 180) || hitbox.angle == 361;
 }
 
 export function getCrouchCancelImpossibleReason(hitbox: Hitbox): string {
-  return hitbox.angle > 179 && hitbox.angle != 361 
+  return hitbox.angle > 179 && hitbox.angle != 361
     ? `Can not be ASDI down-ed due to the angle being 180 or higher: (${hitbox.angle})`
-    : "Can not be ASDI down-ed due to angle being 0"
+    : 'Can not be ASDI down-ed due to angle being 0';
 }
 
 export function calculateCrouchCancelPercentage(
@@ -33,15 +33,15 @@ export function calculateCrouchCancelPercentage(
   target: CharacterBase,
   knockbackTarget: number,
   floor: boolean,
-  display99PercentForNeverBreaks: boolean,
+  display999PercentForNeverBreaks: boolean,
   staleness: number,
 ): string {
   if (hitbox.setKnockback) {
-    return setKnockbackCalculation(hitbox, target, knockbackTarget, display99PercentForNeverBreaks);
+    return setKnockbackCalculation(hitbox, target, knockbackTarget, display999PercentForNeverBreaks);
   }
 
   if (hitbox.knockbackGrowth === 0) {
-    return display99PercentForNeverBreaks ? '99%' : 'Never breaks';
+    return display999PercentForNeverBreaks ? '999%' : 'Never breaks';
   }
 
   const staleDamageReduction = staleness * hitbox.damage;
@@ -57,7 +57,7 @@ export function calculateCrouchCancelPercentage(
       `Crouch cancel calculation resulted in Infinity for ${hitbox.id} for target ${target.fightCoreId}`,
     );
 
-    return display99PercentForNeverBreaks ? '99%' : 'Never breaks';
+    return display999PercentForNeverBreaks ? '999%' : 'Never breaks';
   }
 
   if (percentage > 0) {
@@ -93,11 +93,11 @@ function setKnockbackCalculation(
   hitbox: Hitbox,
   target: CharacterBase,
   knockbackTarget: number,
-  display99PercentForNeverBreaks: boolean,
+  display999PercentForNeverBreaks: boolean,
 ): string {
   if (meetsKnockbackTarget(hitbox, target, knockbackTarget)) {
     return '0%';
   } else {
-    return display99PercentForNeverBreaks ? '99%' : 'Never breaks';
+    return display999PercentForNeverBreaks ? '999%' : 'Never breaks';
   }
 }
