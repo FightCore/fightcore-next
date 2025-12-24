@@ -33,15 +33,15 @@ export function calculateCrouchCancelPercentage(
   target: CharacterBase,
   knockbackTarget: number,
   floor: boolean,
-  display99PercentForNeverBreaks: boolean,
+  display999PercentForNeverBreaks: boolean,
   staleness: number,
 ): string {
   if (hitbox.setKnockback) {
-    return setKnockbackCalculation(hitbox, target, knockbackTarget, display99PercentForNeverBreaks);
+    return setKnockbackCalculation(hitbox, target, knockbackTarget, display999PercentForNeverBreaks);
   }
 
   if (hitbox.knockbackGrowth === 0) {
-    return display99PercentForNeverBreaks ? '999%' : 'Never breaks';
+    return display999PercentForNeverBreaks ? '999%' : 'Never breaks';
   }
 
   const staleDamageReduction = staleness * hitbox.damage;
@@ -57,7 +57,7 @@ export function calculateCrouchCancelPercentage(
       `Crouch cancel calculation resulted in Infinity for ${hitbox.id} for target ${target.fightCoreId}`,
     );
 
-    return display99PercentForNeverBreaks ? '999%' : 'Never breaks';
+    return display999PercentForNeverBreaks ? '999%' : 'Never breaks';
   }
 
   if (percentage > 0) {
@@ -93,11 +93,11 @@ function setKnockbackCalculation(
   hitbox: Hitbox,
   target: CharacterBase,
   knockbackTarget: number,
-  display99PercentForNeverBreaks: boolean,
+  display999PercentForNeverBreaks: boolean,
 ): string {
   if (meetsKnockbackTarget(hitbox, target, knockbackTarget)) {
     return '0%';
   } else {
-    return display99PercentForNeverBreaks ? '999%' : 'Never breaks';
+    return display999PercentForNeverBreaks ? '999%' : 'Never breaks';
   }
 }
