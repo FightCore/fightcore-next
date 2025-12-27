@@ -1,6 +1,7 @@
 import { Button } from '@heroui/button';
 import { Kbd } from '@heroui/kbd';
 import { Select, SelectItem } from '@heroui/select';
+import { Tooltip } from '@heroui/tooltip';
 
 export interface AnimationControlsProps {
   /**
@@ -131,7 +132,13 @@ export const AnimationControls = ({
         <SelectItem key={'1'}>60 FPS (In-game speed)</SelectItem>
       </Select>
 
-      <Button variant="bordered">Report issue</Button>
+      <Tooltip content="Feature coming soon">
+        <div className="w-full">
+          <Button className="w-full" isDisabled variant="bordered">
+            Report issue
+          </Button>
+        </div>
+      </Tooltip>
 
       {showFirstLastButtons && (
         <Button onPress={onGoToFirstFrame} aria-label="First frame">

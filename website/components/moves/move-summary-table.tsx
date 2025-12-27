@@ -9,7 +9,7 @@ export function MoveSummaryTable({ moveSummary }: MoveSummaryTableProps) {
   const normalSummaries = moveSummary.filter((summary) => !summary.variant);
 
   return (
-    <div className="mt-2 rounded-lg bg-slate-800 p-4 dark:bg-slate-900">
+    <div className="mt-2 rounded-lg bg-slate-200 p-4 dark:bg-slate-900">
       {normalSummaries.map((property, index) => (
         <div
           key={property.name}
@@ -20,7 +20,9 @@ export function MoveSummaryTable({ moveSummary }: MoveSummaryTableProps) {
           <span className="font-bold">{property.name}</span>
           <span
             className={`font rounded px-2 py-0.5 ${
-              property.level === 'warning' ? 'bg-orange-600 text-white' : 'bg-red-900 text-white'
+              property.level === 'warning'
+                ? 'bg-orange-500 text-white dark:bg-orange-600'
+                : 'bg-red-500 text-white dark:bg-red-900'
             }`}
           >
             {property.value}
@@ -34,7 +36,7 @@ export function MoveSummaryTable({ moveSummary }: MoveSummaryTableProps) {
           {notes.map((property) => (
             <span
               className={`rounded px-2 py-0.5 ${
-                property.level === 'warning' ? 'bg-orange-600 text-white' : 'text-white'
+                property.level === 'warning' ? 'bg-orange-500 text-white dark:bg-orange-600' : 'text-white'
               }`}
             >
               {property.value}
