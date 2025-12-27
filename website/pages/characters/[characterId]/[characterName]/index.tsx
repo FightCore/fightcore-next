@@ -1,5 +1,5 @@
 import { CharacterHead } from '@/components/characters/character-head';
-import { MoveCard } from '@/components/moves/move-card';
+import MoveList from '@/components/moves/move-list';
 import { PageTitle } from '@/components/page-title';
 import { characters } from '@/config/framedata/framedata';
 import { Character } from '@/models/character';
@@ -54,6 +54,12 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
 
   const moveTypes = [
     {
+      type: MoveType.air,
+      name: 'Air',
+      sorting: ['nair', 'uair', 'bair', 'fair', 'dair'],
+      showInSidebar: true,
+    },
+    {
       type: MoveType.grounded,
       name: 'Grounded',
       sorting: ['jab1', 'jab2', 'jab3', 'rjab', 'dattack', 'usmash', 'fsmash', 'fsmash2', 'dsmash'],
@@ -63,12 +69,6 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
       type: MoveType.tilt,
       name: 'Tilt',
       sorting: ['ftilt', 'uaft', 'daft', 'utilt', 'dtilt'],
-      showInSidebar: true,
-    },
-    {
-      type: MoveType.air,
-      name: 'Air',
-      sorting: ['nair', 'uair', 'bair', 'fair', 'dair'],
       showInSidebar: true,
     },
     {
@@ -225,17 +225,16 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
         </div>
       </div>
 
-      {filteredCategories.map((moveType) => (
-        <div key={moveType.type} id={`category-${moveType.type}`}>
-          <h2 className="py-5 text-left text-xl font-semibold">{moveType.name}</h2>
-          <div className="grid grid-cols-1 gap-2">
-            {movesByCategory.get(moveType.type)!.map((move: Move, index: number) => (
-              <div className="flex flex-grow" key={move.normalizedName}>
-                <MoveCard character={data.character} move={move} lazy={index > 5} />
-              </div>
-            ))}
-          </div>
-        </div>
+      {filteredCategories.map((moveType, index) => (
+        <MoveList
+          key={moveType.type}
+          id={`category-${moveType.type}`}
+          character={data.character}
+          moves={movesByCategory.get(moveType.type)!}
+          type={moveType.type}
+          name={moveType.name}
+          lazy={index > 1}
+        ></MoveList>
       ))}
     </>
   );
