@@ -22,6 +22,10 @@ const patchNotes = [
       'Removed the Uncategorized table within the Crouch Cancel Calculator',
       'Changed the Crouch Cancel Calculator to show 2 columns instead of 3, improving readability',
       'Fixed an issue where the light mode background did not stretch to the full height of the page on some pages',
+      "Fixed Zelda's side b note saying din's fuire instead of din's fire (thanks Alarmed-Struggle5928 for the suggestion)",
+      'Moved the aerial move section to the first in the move list (thanks smoked-em for the suggestion)',
+      'Changed the 99% to 999% for the CC Never breaks numerical option (thanks GeometryFan100 for the suggestion)',
+      'Made the different sections in the move list closable (thank you KomanndoA for the suggestion)',
     ],
   },
   {
