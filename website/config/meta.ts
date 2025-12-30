@@ -23,42 +23,33 @@ export const metaConfig = {
 };
 
 export function indexMetaDescription(): string {
-  return (
-    'FightCore.gg is the ultimate resource for Super Smash Bros. Melee frame data, hitboxes, and visualization.' +
-    ' Explore detailed character animations with our interactive hitbox viewer and crouch cancel calculator.'
-  );
+  return 'Complete Super Smash Bros. Melee frame data with interactive hitbox visualizations, crouch cancel calculator, and detailed move analysis for every character.';
 }
 
 export function characterMetaDescription(character: CharacterBase): string {
-  return (
-    `Explore ${character.name}\’s complete frame data in Super Smash Bros. Melee on FightCore.gg. ` +
-    "Discover every move's properties and view the most detailed hitbox information available. " +
-    'FightCore.gg is the ultimate resource for Melee frame data and hitbox analysis.'
-  );
+  return `Complete ${character.name} frame data for Super Smash Bros. Melee. View hitboxes, knockback, move stats, and crouch cancel percentages with interactive visualizations.`;
 }
 
 export function moveMetaDescription(character: CharacterBase, move: Move): string {
-  const moveSummary = createMoveSummary(move);
-  const siteDescription =
-    `Break down ${character.name}\’s ${move.name} frame data in Super Smash Bros. Melee on FightCore.gg. ` +
-    'Analyze its startup, active, and end frames, plus hitbox placement. ' +
-    'See detailed animations and hitbox visualizations to understand its power and potential.';
-
-  return `${moveSummary} | ${siteDescription}`;
+  return `${character.name} ${move.name} frame data for Melee: startup frames, hitboxes, knockback values, and interactive animations. Master every detail of this move.`;
 }
 
 export function crouchCancelMetaDescription(character: CharacterBase): string {
-  return (
-    `Calculate ${character.name}\’s crouch cancel effectiveness in Super Smash Bros. Melee ' ` +
-    'with FightCore.gg\’s Crouch Cancel Calculator. ' +
-    'See how much knockback reduction you get against different moves, analyze survivability, ' +
-    'and optimize counterplay with detailed frame data'
-  );
+  return `${character.name} Crouch Cancel Calculator for Melee. Calculate knockdown percentages, ASDI Down thresholds, and optimize your defensive game with precise data.`;
+}
+
+export function moveSocialDescription(character: CharacterBase, move: Move): string {
+  const moveSummary = createMoveSummary(move);
+  const siteDescription =
+    `${character.name}'s ${move.name} frame data in Super Smash Bros. Melee. ` +
+    'Analyze startup, active, and end frames, plus hitbox placement with interactive visualizations.';
+
+  return moveSummary ? `${moveSummary} | ${siteDescription}` : siteDescription;
 }
 
 function createMoveSummary(move: Move): string {
   if (!move.start && !move.end) {
-    return `Total Frames: ${move.totalFrames} ${move.notes}`;
+    return move.totalFrames ? `Total Frames: ${move.totalFrames}` : '';
   }
 
   let summary = '';
@@ -72,11 +63,8 @@ function createMoveSummary(move: Move): string {
     summary += `IASA: ${move.iasa} `;
   }
   if (move.totalFrames && move.totalFrames > 0) {
-    summary += `Total Frames: ${move.totalFrames} `;
-  }
-  if (move.notes) {
-    summary += move.notes;
+    summary += `Total Frames: ${move.totalFrames}`;
   }
 
-  return summary;
+  return summary.trim();
 }

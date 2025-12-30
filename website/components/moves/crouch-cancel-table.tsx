@@ -214,7 +214,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         <div className="px-1 pb-2">
           <div className="text-medium font-bold">Sorting</div>
           <RadioGroup orientation="horizontal" value={selected} onValueChange={setSelection}>
-            <Radio value={CrouchCancelSort.ALPHABETICAL}>Alphametical</Radio>
+            <Radio value={CrouchCancelSort.ALPHABETICAL}>Alphabetical</Radio>
             <Radio value={CrouchCancelSort.WEIGHT}>Weight</Radio>
           </RadioGroup>
         </div>
@@ -228,7 +228,8 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         >
           <div className="text-medium font-bold">Ceiling percentages</div>
           <div className="text-small">
-            Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it breaks at 12%.
+            Melee uses floored percentages for its calculations. If a move breaks at 11.10%, enabling this will display
+            it as breaking at 12%.
           </div>
         </Checkbox>
 
@@ -241,8 +242,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         >
           <div className="text-medium font-bold">Use 999% for moves that never break</div>
           <div className="text-small">
-            Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;999%&quot; rather than
-            &quot;Never breaks&quot;
+            Some moves can never break crouch cancel/ASDI Down, note these moves as "999%" rather than "Never breaks"
           </div>
         </Checkbox>
       </div>
@@ -268,23 +268,23 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                         color={'warning'}
                         title={getCrouchCancelImpossibleReason(hitbox)}
                         description={
-                          'This hitbox does not send upwards, and thus it will put the opponent into their grounded flinch state before it knocks down'
+                          'This hitbox does not send upwards, so it will put the opponent into their grounded flinch state before it would knock them down'
                         }
                       />
                     )}
                     {hitbox.hitlagDefender > 10 && (
                       <Alert
                         color={'warning'}
-                        title={`This move has more than 10 frames of hitlag ${hitbox.hitlagDefenderCrouched > 10 ? "(even when CC'd)" : ''}, making it difficult/sometimes impossible to ASDI down`}
+                        title={`This move has more than 10 frames of hitlag ${hitbox.hitlagDefenderCrouched > 10 ? "(even when CC'd)" : ''}, making it difficult or sometimes impossible to ASDI Down`}
                         description={
-                          'When a character is airborne for more than 10 frames, their ECB lock expires. This pulls up their ECB, creating distance between them and the ground, which makes ASDI Down break earlier/require specific SDI inputs first'
+                          'When a character is airborne for more than 10 frames, their ECB lock expires. This pulls up their ECB, creating distance between them and the ground, which makes ASDI Down break earlier or require specific SDI inputs first'
                         }
                       />
                     )}
                     {hit.id >= 2646 && hit.id <= 2650 && (
                       <Alert
                         color={'warning'}
-                        title={`Do NOT ASDI-Down/CC Peach Downsmash.`}
+                        title={`Do NOT ASDI Down/CC Peach Downsmash.`}
                         description={'You have been warned.'}
                       />
                     )}
@@ -293,7 +293,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                         color={'warning'}
                         title={'This move sends at the Sakurai Angle (361 degrees).'}
                         description={
-                          'While grounded and below 32 units of knockback, this move sends at 0 degrees, and thus cannot be ASDI downed'
+                          'While grounded and below 32 units of knockback, this move sends at 0 degrees, and thus cannot be ASDI Downed'
                         }
                       />
                     )}
