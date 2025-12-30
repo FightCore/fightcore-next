@@ -8,7 +8,7 @@ export default function Credits() {
 
       <section className="mb-5">
         <h2 className="text-bold mt-3 mb-3 text-xl">Credits</h2>
-        <p>A more detailed list of people that have been vital to this project.</p>
+        <p>A more detailed list of people who have been vital to this project.</p>
         <ul className="ml-7 list-disc">
           <li>
             <strong>Bort</strong>, main developer of the website.
@@ -27,13 +27,13 @@ export default function Credits() {
             <Link href="https://github.com/neilharbin0" isExternal>
               NeilHarbin0
             </Link>
-            , creating frame data software allowing for background-less recording and easy editing.
+            , who created frame data software allowing for background-less recording and easy editing.
           </li>
           <li>
             <Link href="https://bsky.app/profile/skullbrossbm.bsky.social" isExternal>
               skullbro
             </Link>
-            , providing insights in how to improve the crouch cancel and ASDI Down calculations.
+            , who provided insights into how to improve the crouch cancel and ASDI Down calculations.
           </li>
           <li>
             <strong>Dutch Melee Community</strong>, for their continued support and feedback.

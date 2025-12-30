@@ -1,4 +1,4 @@
-import { metaConfig, moveMetaDescription } from '@/config/meta';
+import { metaConfig, moveMetaDescription, moveSocialDescription } from '@/config/meta';
 import { siteConfig } from '@/config/site';
 import { CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
@@ -14,6 +14,7 @@ export interface MoveHeadParams {
 export const MoveHead = (params: MoveHeadParams) => {
   const title = `${params.character.name} ${params.move.name} - ${siteConfig.name}`;
   const description = moveMetaDescription(params.character, params.move);
+  const socialDescription = moveSocialDescription(params.character, params.move);
   const baseTags = cloneObject(metaConfig.tags);
 
   baseTags.push(params.character.name);
@@ -34,9 +35,9 @@ export const MoveHead = (params: MoveHeadParams) => {
       <meta name="keywords" content={tags} />
       <link rel="canonical" href={url} />
 
-      {/* Open Graph tags for Facebook and LinkedIn */}
+      {/* Open Graph tags for Facebook, Discord, and LinkedIn */}
       <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
+      <meta property="og:description" content={socialDescription} />
       <meta property="og:url" content={url} />
       {params.move.gifUrl ? (
         <meta property="og:image" content={params.move.gifUrl} />
@@ -48,7 +49,7 @@ export const MoveHead = (params: MoveHeadParams) => {
       {/* Twitter Card tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:description" content={socialDescription} />
       {params.move.gifUrl ? (
         <meta name="twitter:image" content={params.move.gifUrl} />
       ) : (
