@@ -10,7 +10,6 @@ import {
 } from '@/utilities/hitbox-utils';
 import React from 'react';
 import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
-import MobileHitboxTable from './mobile-hitbox-table';
 
 export interface HitboxTableParams {
   hits: Hit[];
@@ -113,10 +112,7 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
           );
         },
       }}
-      responsive={{
-        strategy: 'custom',
-        customMobileRender: (data) => <MobileHitboxTable hitboxes={mobileData} />,
-      }}
+      responsive={{ strategy: 'transpose' }}
       classNames={{}}
     />
   );

@@ -10,14 +10,14 @@ export function getRowKey<T>(row: T, index: number, keyField?: string): string {
   return `row-${index}`;
 }
 
-export function groupData<T>(data: T[], keyColumn: string): GroupedData<T>[] {
+export function groupData<T>(data: T[], keyColumn?: string, accessor?: (row: T) => any): GroupedData<T>[] {
   const groups = new Map<string, T[]>();
 
   // Go over all items based on the provided keyColumn.
   // If value of the keyColumn is in the dictionary, add it to the array.
   // Otherwise we create a new entry with those values.
   for (const item of data) {
-    const groupKey = String((item as any)[keyColumn]);
+    const groupKey = accessor ? accessor(item) : String((item as any)[keyColumn!]);
     if (groups.has(groupKey)) {
       groups.get(groupKey)!.push(item);
       continue;
@@ -25,7 +25,7 @@ export function groupData<T>(data: T[], keyColumn: string): GroupedData<T>[] {
 
     groups.set(groupKey, [item]);
   }
-
+  console.log(groups);
   // Convert the map to an array.
   return Array.from(groups.entries()).map(([groupKey, items]) => ({
     groupKey,

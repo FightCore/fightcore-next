@@ -10,7 +10,6 @@ export interface DataTableColumn<T = any> {
 
   cellClassName?: string;
   headerClassName?: string;
-  hideOnMobile?: boolean;
   align?: 'left' | 'center' | 'right';
 
   monospace?: boolean;

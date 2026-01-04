@@ -53,7 +53,10 @@ export function DataTableGrouped<T>(props: DataTableProps<T> & { groupBy: DataTa
   } = props;
 
   // Group the data by the specified column
-  const initialGroups = useMemo(() => groupData(data, groupBy.columnKey), [data, groupBy.columnKey]);
+  const initialGroups = useMemo(
+    () => groupData(data, groupBy.columnKey, groupBy.accessor),
+    [data, groupBy.columnKey, groupBy.accessor],
+  );
 
   // State to track which groups are expanded
   const [groups, setGroups] = useState<GroupedData<T>[]>(() =>
@@ -66,7 +69,7 @@ export function DataTableGrouped<T>(props: DataTableProps<T> & { groupBy: DataTa
   // Update groups when data changes
   React.useEffect(() => {
     setGroups((prevGroups) => {
-      const newGroups = groupData(data, groupBy.columnKey);
+      const newGroups = groupData(data, groupBy.columnKey, groupBy.accessor);
       // Preserve expansion state for existing groups
       return newGroups.map((newGroup) => {
         const existingGroup = prevGroups.find((g) => g.groupKey === newGroup.groupKey);

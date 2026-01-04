@@ -46,12 +46,6 @@ export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveO
   });
 
   const columns: DataTableColumn<(typeof processedData)[0]>[] = [
-    {
-      key: 'name',
-      title: 'Name',
-      render: (_, row) =>
-        row.showName ? <Link href={moveRoute(params.character, row.move)}>{row.move.name}</Link> : '',
-    },
     { key: 'hit', title: 'Hit', width: 100, align: 'center' },
     { key: 'name', title: 'Hitbox' },
     {
@@ -70,5 +64,20 @@ export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveO
     },
   ];
 
-  return <DataTable data={processedData} columns={columns} rowKeyField="id" striped={true} classNames={classNames} />;
+  return (
+    <DataTable
+      data={processedData}
+      columns={columns}
+      rowKeyField="id"
+      striped={true}
+      classNames={classNames}
+      groupBy={{
+        accessor: (row) => row.move.name,
+        renderGroupHeader: (groupKey, groupItems) => {
+          return <Link href={moveRoute(params.character, groupItems[0].move)}>{groupKey}</Link>;
+        },
+      }}
+      responsive={{ strategy: 'transpose' }}
+    />
+  );
 }
