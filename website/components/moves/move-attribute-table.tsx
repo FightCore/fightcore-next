@@ -28,7 +28,6 @@ export default function MoveAttributeTable(params: Readonly<MoveTableParams>) {
       data={[params.move]}
       columns={columns}
       rowKeyField="id"
-      responsive={{ strategy: 'transpose' }}
       ariaLabel="Table of move statistics"
     />
   );

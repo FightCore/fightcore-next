@@ -92,6 +92,7 @@ export function DataTableGrouped<T>(props: DataTableProps<T> & { groupBy: DataTa
   const theadClass = clsx(defaultClassNames.thead, classNames.thead);
   const tbodyClass = clsx(defaultClassNames.tbody, classNames.tbody);
   const thClass = clsx(defaultClassNames.th, classNames.th);
+  const trClass = clsx(defaultClassNames.tr, classNames.tr);
   const tdClass = clsx(defaultClassNames.td, classNames.td);
   const groupRowClass = clsx(defaultClassNames.groupRow, classNames.groupRow);
 
@@ -144,7 +145,7 @@ export function DataTableGrouped<T>(props: DataTableProps<T> & { groupBy: DataTa
                   <tr
                     key={getRowKey(item, itemIndex, rowKeyField)}
                     className={clsx(
-                      classNames.tr,
+                      trClass,
                       striped && 'group',
                       striped && itemIndex % 2 === 1 && 'data-[odd=true]:true',
                     )}

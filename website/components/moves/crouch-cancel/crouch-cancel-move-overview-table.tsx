@@ -77,7 +77,6 @@ export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveO
           return <Link href={moveRoute(params.character, groupItems[0].move)}>{groupKey}</Link>;
         },
       }}
-      responsive={{ strategy: 'transpose' }}
     />
   );
 }

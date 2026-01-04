@@ -35,7 +35,7 @@ function renderCellValue<T>(column: DataTableColumn<T>, row: T, rowIndex: number
  * Converts horizontal columns into vertical key-value rows
  */
 export function DataTableMobile<T>(props: Readonly<DataTableProps<T>>) {
-  const { data, columns, rowKeyField, hideHeader = false, ariaLabel, classNames = {}, styles = {} } = props;
+  const { data, columns, rowKeyField, striped = false, hideHeader = false, ariaLabel, classNames = {}, styles = {} } = props;
 
   // For transpose strategy, we show each data item as a separate table
   // with columns transposed to rows (name/value pairs)
@@ -44,6 +44,7 @@ export function DataTableMobile<T>(props: Readonly<DataTableProps<T>>) {
   const theadClass = clsx(defaultClassNames.thead, classNames.thead);
   const tbodyClass = clsx(defaultClassNames.tbody, classNames.tbody);
   const thClass = clsx(defaultClassNames.th, classNames.th);
+  const trClass = clsx(defaultClassNames.tr, classNames.tr);
   const tdClass = clsx(defaultClassNames.td, classNames.td);
 
   return (
@@ -70,7 +71,16 @@ export function DataTableMobile<T>(props: Readonly<DataTableProps<T>>) {
           )}
           <tbody className={tbodyClass}>
             {columns.map((column, colIndex) => (
-              <tr key={column.key} role="row">
+              <tr
+                key={column.key}
+                className={clsx(
+                  trClass,
+                  striped && 'group',
+                  striped && colIndex % 2 === 1 && 'data-[odd=true]:true',
+                )}
+                data-odd={striped && colIndex % 2 === 1}
+                role="row"
+              >
                 <td className={tdClass}>{column.title || column.key}</td>
                 <td className={tdClass}>{renderCellValue(column, dataItem, dataIndex)}</td>
               </tr>

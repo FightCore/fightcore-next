@@ -38,7 +38,7 @@ function renderCellValue<T>(column: DataTableColumn<T>, row: T, rowIndex: number
  * Shows each group with items in transposed name/value format
  */
 export function DataTableMobileGrouped<T>(props: DataTableProps<T> & { groupBy: DataTableGroupConfig<T> }) {
-  const { data, columns, rowKeyField, groupBy, hideHeader = false, ariaLabel, classNames = {}, styles = {} } = props;
+  const { data, columns, rowKeyField, groupBy, striped = false, hideHeader = false, ariaLabel, classNames = {}, styles = {} } = props;
 
   // Group the data
   const initialGroups = useMemo(() => groupData(data, groupBy.columnKey, groupBy.accessor), [data, groupBy.columnKey]);
@@ -77,6 +77,7 @@ export function DataTableMobileGrouped<T>(props: DataTableProps<T> & { groupBy: 
   const theadClass = clsx(defaultClassNames.thead, classNames.thead);
   const tbodyClass = clsx(defaultClassNames.tbody, classNames.tbody);
   const thClass = clsx(defaultClassNames.th, classNames.th);
+  const trClass = clsx(defaultClassNames.tr, classNames.tr);
   const tdClass = clsx(defaultClassNames.td, classNames.td);
   const groupRowClass = clsx(defaultClassNames.groupRow, classNames.groupRow);
 
@@ -126,9 +127,18 @@ export function DataTableMobileGrouped<T>(props: DataTableProps<T> & { groupBy: 
                   </thead>
                 )}
                 <tbody className={tbodyClass}>
-                  {columns.map((column) => {
+                  {columns.map((column, colIndex) => {
                     return (
-                      <tr key={column.key} role="row">
+                      <tr
+                        key={column.key}
+                        className={clsx(
+                          trClass,
+                          striped && 'group',
+                          striped && colIndex % 2 === 1 && 'data-[odd=true]:true',
+                        )}
+                        data-odd={striped && colIndex % 2 === 1}
+                        role="row"
+                      >
                         <td className={tdClass}>{column.title || column.key}</td>
                         <td className={tdClass}>{renderCellValue(column, dataItem, dataIndex)}</td>
                       </tr>

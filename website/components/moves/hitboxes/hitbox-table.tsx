@@ -112,7 +112,6 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
           );
         },
       }}
-      responsive={{ strategy: 'transpose' }}
       classNames={{}}
     />
   );

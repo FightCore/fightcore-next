@@ -51,7 +51,8 @@ export const defaultClassNames = {
   table: 'w-full',
   th: 'bg-transparent text-default-500 text-xs text-left px-3 py-2',
   td: 'px-3 py-1 text-md',
-  groupRow: 'dark:bg-gray-700 bg-gray-100 py-2',
+  tr: 'data-[odd=true]:bg-gray-100 dark:data-[odd=true]:bg-gray-700',
+  groupRow: 'border border-gray-300 dark:border-gray-700 py-2',
   thead: '',
   tbody: '',
 };

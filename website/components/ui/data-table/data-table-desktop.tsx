@@ -48,15 +48,13 @@ export function DataTableDesktop<T>(props: Readonly<DataTableProps<T>>) {
     styles = {},
   } = props;
 
-  // Filter out columns that should be hidden on mobile (not applicable for desktop)
-  const visibleColumns = columns.filter((col) => !col.hideOnMobile);
-
   // Merge custom classNames with defaults
   const wrapperClass = clsx(defaultClassNames.wrapper, classNames.wrapper);
   const tableClass = clsx(defaultClassNames.table, classNames.table);
   const theadClass = clsx(defaultClassNames.thead, classNames.thead);
   const tbodyClass = clsx(defaultClassNames.tbody, classNames.tbody);
   const thClass = clsx(defaultClassNames.th, classNames.th);
+  const trClass = clsx(defaultClassNames.tr, classNames.tr);
   const tdClass = clsx(defaultClassNames.td, classNames.td);
 
   return (
@@ -65,7 +63,7 @@ export function DataTableDesktop<T>(props: Readonly<DataTableProps<T>>) {
         {!hideHeader && (
           <thead className={theadClass}>
             <tr role="row">
-              {visibleColumns.map((column) => (
+              {columns.map((column) => (
                 <th
                   key={column.key}
                   className={clsx(thClass, column.headerClassName)}
@@ -84,14 +82,14 @@ export function DataTableDesktop<T>(props: Readonly<DataTableProps<T>>) {
             <tr
               key={getRowKey(row, rowIndex, rowKeyField)}
               className={clsx(
-                classNames.tr,
+                trClass,
                 striped && 'group',
                 striped && rowIndex % 2 === 1 && 'data-[odd=true]:true',
               )}
               data-odd={striped && rowIndex % 2 === 1}
               role="row"
             >
-              {visibleColumns.map((column) => (
+              {columns.map((column) => (
                 <td
                   key={column.key}
                   className={clsx(
