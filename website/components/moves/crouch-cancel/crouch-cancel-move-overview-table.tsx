@@ -1,10 +1,11 @@
 import CrouchCancelPercentageDisplay from '@/components/moves/crouch-cancel/crouch-cancel-percentage-display';
+import { DataTable } from '@/components/ui/data-table/data-table';
 import { CharacterBase } from '@/models/character';
+import { DataTableColumn } from '@/models/data-table/data-table-column';
 import { Move } from '@/models/move';
 import { processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
 import { moveRoute } from '@/utilities/routes';
 import { Link } from '@heroui/link';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
 import { flattenData } from '../hitboxes/hitbox-table-columns';
 
 export interface CrouchCancelMoveOverviewTableParams {
@@ -36,47 +37,46 @@ export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveO
     }));
   });
 
+  // Pre-process data to add showName flag for conditional rendering
   let previousName = '';
+  const processedData = flattenedHits.map((hitbox) => {
+    const showName = previousName !== hitbox.move.name;
+    previousName = hitbox.move.name;
+    return { ...hitbox, showName };
+  });
+
+  const columns: DataTableColumn<(typeof processedData)[0]>[] = [
+    { key: 'hit', title: 'Hit', width: 100, align: 'center' },
+    { key: 'name', title: 'Hitbox' },
+    {
+      key: 'percentage',
+      title: 'Breaks at percentage',
+      align: 'center',
+      render: (_, row) => (
+        <CrouchCancelPercentageDisplay
+          hitbox={row}
+          floor={params.floorPercentage}
+          knockbackTarget={params.knockbackTarget}
+          staleness={params.staleness}
+          target={params.target}
+        />
+      ),
+    },
+  ];
 
   return (
-    <Table classNames={classNames} isStriped>
-      <TableHeader>
-        <TableColumn>Name</TableColumn>
-        <TableColumn>Hit</TableColumn>
-        <TableColumn>Hitbox</TableColumn>
-        <TableColumn>Breaks at percentage</TableColumn>
-      </TableHeader>
-      <TableBody>
-        {flattenedHits.map((hitbox) => {
-          const html = (
-            <TableRow key={hitbox.id.toString() + '-' + params.staleness}>
-              <TableCell>
-                {previousName === hitbox.move.name ? (
-                  ''
-                ) : (
-                  <Link href={moveRoute(params.character, hitbox.move)}>{hitbox.move.name}</Link>
-                )}
-              </TableCell>
-              <TableCell width={100} className="md:text-center">
-                {hitbox.hit}
-              </TableCell>
-              <TableCell>{hitbox.name}</TableCell>
-              <TableCell className="md:text-center" key={params.staleness}>
-                <CrouchCancelPercentageDisplay
-                  hitbox={hitbox}
-                  floor={params.floorPercentage}
-                  knockbackTarget={params.knockbackTarget}
-                  staleness={params.staleness}
-                  target={params.target}
-                ></CrouchCancelPercentageDisplay>
-              </TableCell>
-            </TableRow>
-          );
-
-          previousName = hitbox.move.name;
-          return html;
-        })}
-      </TableBody>
-    </Table>
+    <DataTable
+      data={processedData}
+      columns={columns}
+      rowKeyField="id"
+      striped={true}
+      classNames={classNames}
+      groupBy={{
+        accessor: (row) => row.move.name,
+        renderGroupHeader: (groupKey, groupItems) => {
+          return <Link href={moveRoute(params.character, groupItems[0].move)}>{groupKey}</Link>;
+        },
+      }}
+    />
   );
 }
