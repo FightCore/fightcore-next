@@ -10,17 +10,23 @@ export function getRowKey<T>(row: T, index: number, keyField?: string): string {
   return `row-${index}`;
 }
 
-export function groupData<T>(data: T[], columnKey: string): GroupedData<T>[] {
+export function groupData<T>(data: T[], keyColumn: string): GroupedData<T>[] {
   const groups = new Map<string, T[]>();
 
+  // Go over all items based on the provided keyColumn.
+  // If value of the keyColumn is in the dictionary, add it to the array.
+  // Otherwise we create a new entry with those values.
   for (const item of data) {
-    const groupKey = String((item as any)[columnKey]);
-    if (!groups.has(groupKey)) {
-      groups.set(groupKey, []);
+    const groupKey = String((item as any)[keyColumn]);
+    if (groups.has(groupKey)) {
+      groups.get(groupKey)!.push(item);
+      continue;
     }
-    groups.get(groupKey)!.push(item);
+
+    groups.set(groupKey, [item]);
   }
 
+  // Convert the map to an array.
   return Array.from(groups.entries()).map(([groupKey, items]) => ({
     groupKey,
     items,
@@ -38,7 +44,7 @@ export function getColumnStyle(column: DataTableColumn): React.CSSProperties {
 }
 
 /**
- * Default class names for table parts (matching existing HeroUI/ka-table styles)
+ * Default class names for table parts
  */
 export const defaultClassNames = {
   wrapper: 'bg-white dark:bg-gray-800 shadow-none rounded-md p-3',

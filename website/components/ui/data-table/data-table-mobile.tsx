@@ -1,16 +1,13 @@
-import React from 'react';
+import { DataTableColumn } from '@/models/data-table/data-table-column';
+import { DataTableProps } from '@/models/data-table/data-table-props';
 import clsx from 'clsx';
-import { DataTableProps, DataTableColumn } from './types';
-import { getRowKey, defaultClassNames } from './utils';
+import React from 'react';
+import { defaultClassNames, getRowKey } from './utils';
 
 /**
  * Renders a table cell value with appropriate formatting
  */
-function renderCellValue<T>(
-  column: DataTableColumn<T>,
-  row: T,
-  rowIndex: number
-): React.ReactNode {
+function renderCellValue<T>(column: DataTableColumn<T>, row: T, rowIndex: number): React.ReactNode {
   const value = column.accessor ? column.accessor(row) : (row as any)[column.key];
 
   if (column.render) {
@@ -20,7 +17,7 @@ function renderCellValue<T>(
   const className = clsx(
     column.monospace && 'font-mono',
     column.align === 'right' && 'text-right',
-    column.align === 'center' && 'text-center'
+    column.align === 'center' && 'text-center',
   );
 
   switch (column.dataType) {
@@ -38,15 +35,7 @@ function renderCellValue<T>(
  * Converts horizontal columns into vertical key-value rows
  */
 function TransposedMobileTable<T>(props: DataTableProps<T>) {
-  const {
-    data,
-    columns,
-    rowKeyField,
-    hideHeader = false,
-    ariaLabel,
-    classNames = {},
-    styles = {},
-  } = props;
+  const { data, columns, rowKeyField, hideHeader = false, ariaLabel, classNames = {}, styles = {} } = props;
 
   // For transpose strategy, we show each data item as a separate table
   // with columns transposed to rows (name/value pairs)
@@ -68,7 +57,7 @@ function TransposedMobileTable<T>(props: DataTableProps<T>) {
           role="table"
         >
           {!hideHeader && (
-            <thead className={theadClass} role="rowgroup">
+            <thead className={theadClass}>
               <tr role="row">
                 <th className={thClass} role="columnheader" scope="col">
                   Name
@@ -79,15 +68,11 @@ function TransposedMobileTable<T>(props: DataTableProps<T>) {
               </tr>
             </thead>
           )}
-          <tbody className={tbodyClass} role="rowgroup">
+          <tbody className={tbodyClass}>
             {columns.map((column, colIndex) => (
               <tr key={column.key} role="row">
-                <td className={clsx(tdClass)} role="cell">
-                  {column.title || column.key}
-                </td>
-                <td className={clsx(tdClass)} role="cell">
-                  {renderCellValue(column, dataItem, dataIndex)}
-                </td>
+                <td className={tdClass}>{column.title || column.key}</td>
+                <td className={tdClass}>{renderCellValue(column, dataItem, dataIndex)}</td>
               </tr>
             ))}
           </tbody>
@@ -101,7 +86,7 @@ function TransposedMobileTable<T>(props: DataTableProps<T>) {
  * Mobile table component with hide-columns strategy
  * Shows only columns that are not marked as hideOnMobile
  */
-function HideColumnsMobileTable<T>(props: DataTableProps<T>) {
+function HideColumnsMobileTable<T>(props: Readonly<DataTableProps<T>>) {
   const {
     data,
     columns,
@@ -125,38 +110,26 @@ function HideColumnsMobileTable<T>(props: DataTableProps<T>) {
 
   return (
     <div className={wrapperClass} style={styles.wrapper}>
-      <table
-        className={tableClass}
-        style={styles.table}
-        aria-label={ariaLabel || 'Data table'}
-        role="table"
-      >
+      <table className={tableClass} style={styles.table} aria-label={ariaLabel || 'Data table'} role="table">
         {!hideHeader && (
-          <thead className={theadClass} role="rowgroup">
+          <thead className={theadClass}>
             <tr role="row">
               {visibleColumns.map((column) => (
-                <th
-                  key={column.key}
-                  className={clsx(thClass, column.headerClassName)}
-                  role="columnheader"
-                  scope="col"
-                >
-                  {column.renderHeader
-                    ? column.renderHeader(column)
-                    : column.title || column.key}
+                <th key={column.key} className={clsx(thClass, column.headerClassName)} role="columnheader" scope="col">
+                  {column.renderHeader ? column.renderHeader(column) : column.title || column.key}
                 </th>
               ))}
             </tr>
           </thead>
         )}
-        <tbody className={tbodyClass} role="rowgroup">
+        <tbody className={tbodyClass}>
           {data.map((row, rowIndex) => (
             <tr
               key={getRowKey(row, rowIndex, rowKeyField)}
               className={clsx(
                 classNames.tr,
                 striped && 'group',
-                striped && rowIndex % 2 === 1 && 'data-[odd=true]:true'
+                striped && rowIndex % 2 === 1 && 'data-[odd=true]:true',
               )}
               data-odd={striped && rowIndex % 2 === 1}
               role="row"
@@ -168,7 +141,7 @@ function HideColumnsMobileTable<T>(props: DataTableProps<T>) {
                     tdClass,
                     column.cellClassName,
                     column.align === 'right' && 'text-right',
-                    column.align === 'center' && 'text-center'
+                    column.align === 'center' && 'text-center',
                   )}
                   role="cell"
                 >
