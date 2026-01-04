@@ -1,3 +1,5 @@
+import { DataTable } from '@/components/ui/data-table/data-table';
+import { DataTableColumn } from '@/models/data-table/data-table-column';
 import { Hit } from '@/models/hit';
 import { cloneObject } from '@/utilities/clone';
 import {
@@ -6,8 +8,7 @@ import {
   processDuplicateHitboxes,
   processDuplicateHits,
 } from '@/utilities/hitbox-utils';
-import { DataType, Table } from 'ka-table';
-import { Column } from 'ka-table/models';
+import React from 'react';
 import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
 import MobileHitboxTable from './mobile-hitbox-table';
 
@@ -33,33 +34,6 @@ function getColorForHitbox(name: string): string | null {
   return null;
 }
 
-function getColumns(hits: FlattenedHitbox[]): Column<FlattenedHitbox>[] {
-  const useCrouchedHitlag = hits.some((hit) => hit.hitlagDefender !== hit.hitlagDefenderCrouched);
-  return [
-    { key: 'hit', title: 'Hit', dataType: DataType.String, width: 100 },
-    { key: 'name', title: 'Name', dataType: DataType.String, width: 100 },
-    { key: 'damage', title: 'Damage', dataType: DataType.Number, width: 100 },
-    { key: 'angle', title: 'Angle', dataType: DataType.Number, width: 100 },
-    { key: 'baseKnockback', title: 'Base Knockback', dataType: DataType.Number, width: 100 },
-    { key: 'knockbackGrowth', title: 'Knockback Growth', dataType: DataType.Number, width: 100 },
-    { key: 'setKnockback', title: 'Set Knockback', dataType: DataType.Number, width: 100 },
-    { key: 'effect', title: 'Effect', dataType: DataType.String, width: 100 },
-    {
-      key: 'hitlagAttacker',
-      title: 'Hitlag Attacker',
-      dataType: DataType.Number,
-      width: 100,
-    },
-    {
-      key: 'hitlagDefender',
-      title: 'Hitlag Defender',
-      dataType: DataType.Number,
-      width: useCrouchedHitlag ? 150 : 100,
-    },
-    { key: 'shieldstun', title: 'Shieldstun', dataType: DataType.Number, width: 100 },
-  ];
-}
-
 export default function HitboxTable(params: Readonly<HitboxTableParams>) {
   const processedHits = processDuplicateHitboxes(params.hits);
   const data = processDuplicateHits(flattenData(processedHits));
@@ -68,69 +42,82 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
 
   const colorCache = new Map<string, string>();
 
-  return (
-    <>
-      <div className="light:ka-table-light dark:ka-table-dark ka-table hidden overflow-x-auto md:block">
-        <Table
-          columns={getColumns(data)}
-          data={data}
-          groups={[{ columnKey: 'hit' }]}
-          groupPanel={{
-            enabled: false,
-          }}
-          rowKeyField={'id'}
-          childComponents={{
-            groupCell: {
-              content: (props) => {
-                switch (props.column.key) {
-                  case 'hit': {
-                    if (props.groupItems && props.groupItems[0] && !colorCache.has(props.groupKey[0])) {
-                      const color = getHitboxColor(colors, props.groupItems[0].hitObjects[0].start);
-                      colorCache.set(props.groupKey[0], color!);
-                    }
-                    const color = colorCache.get(props.groupKey[0]);
-                    if (color === null) {
-                      return props.groupKey;
-                    }
-                    return (
-                      <>
-                        <div className={'mr-1 h-5 w-5 border-1 border-black ' + color}></div> {props.groupKey}
-                      </>
-                    );
-                  }
-                }
-              },
-            },
-            cellText: {
-              content: (props) => {
-                switch (props.column.key) {
-                  case 'name': {
-                    const color = getColorForHitbox(props.value);
-                    if (!color) {
-                      return props.value;
-                    }
-                    return (
-                      <>
-                        <div className={'mr-1 inline-block h-3 w-3 border-1 border-black ' + color}></div> {props.value}
-                      </>
-                    );
-                  }
-                  case 'hitlagDefender': {
-                    if (props.value !== props.rowData.hitlagDefenderCrouched) {
-                      return `${props.value} (${props.rowData.hitlagDefenderCrouched} Crouched)`;
-                    }
+  const columns: DataTableColumn<FlattenedHitbox>[] = React.useMemo(() => {
+    const useCrouchedHitlag = data.some((hit) => hit.hitlagDefender !== hit.hitlagDefenderCrouched);
 
-                    return props.value;
-                  }
-                }
-              },
-            },
-          }}
-        />
-      </div>
-      <div className="block md:hidden">
-        <MobileHitboxTable hitboxes={mobileData}></MobileHitboxTable>
-      </div>
-    </>
+    return [
+      { key: 'hit', title: 'Hit', dataType: 'string', width: 100 },
+      {
+        key: 'name',
+        title: 'Name',
+        dataType: 'string',
+        width: 100,
+        render: (value) => {
+          const color = getColorForHitbox(value);
+          if (!color) return value;
+          return (
+            <>
+              <div className={`mr-1 inline-block h-3 w-3 border-1 border-black ${color}`} />
+              {value}
+            </>
+          );
+        },
+      },
+      { key: 'damage', title: 'Damage', dataType: 'number', width: 100 },
+      { key: 'angle', title: 'Angle', dataType: 'number', width: 100 },
+      { key: 'baseKnockback', title: 'Base Knockback', dataType: 'number', width: 100 },
+      { key: 'knockbackGrowth', title: 'Knockback Growth', dataType: 'number', width: 100 },
+      { key: 'setKnockback', title: 'Set Knockback', dataType: 'number', width: 100 },
+      { key: 'effect', title: 'Effect', dataType: 'string', width: 100 },
+      {
+        key: 'hitlagAttacker',
+        title: 'Hitlag Attacker',
+        dataType: 'number',
+        width: 100,
+      },
+      {
+        key: 'hitlagDefender',
+        title: 'Hitlag Defender',
+        dataType: 'number',
+        width: useCrouchedHitlag ? 150 : 100,
+        render: (value, row) => {
+          if (value !== row.hitlagDefenderCrouched) {
+            return `${value} (${row.hitlagDefenderCrouched} Crouched)`;
+          }
+          return value;
+        },
+      },
+      { key: 'shieldstun', title: 'Shieldstun', dataType: 'number', width: 100 },
+    ];
+  }, [data]);
+
+  return (
+    <DataTable
+      data={data}
+      columns={columns}
+      rowKeyField="id"
+      groupBy={{
+        columnKey: 'hit',
+        renderGroupHeader: (groupKey, groupItems) => {
+          if (!colorCache.has(groupKey)) {
+            const color = getHitboxColor(colors, groupItems[0].hitObjects[0].start);
+            colorCache.set(groupKey, color!);
+          }
+          const color = colorCache.get(groupKey);
+          if (!color) return groupKey;
+          return (
+            <>
+              <div className={`mr-1 inline-block h-3 w-3 border-1 border-black ${color}`} />
+              {groupKey}
+            </>
+          );
+        },
+      }}
+      responsive={{
+        strategy: 'custom',
+        customMobileRender: (data) => <MobileHitboxTable hitboxes={mobileData} />,
+      }}
+      classNames={{}}
+    />
   );
 }

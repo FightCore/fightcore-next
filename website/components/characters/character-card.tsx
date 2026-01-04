@@ -1,9 +1,9 @@
+import { DataTable } from '@/components/ui/data-table/data-table';
 import { CharacterBase } from '@/models/character';
 import { Button } from '@heroui/button';
 import { Card, CardBody, CardFooter, CardHeader } from '@heroui/card';
 import { Image } from '@heroui/image';
 import { Link } from '@heroui/link';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
 import React from 'react';
 
 interface CharacterCardInput {
@@ -15,7 +15,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
   const classNames = React.useMemo(
     () => ({
       wrapper: ['dark:bg-gray-800', 'border-0', 'shadow-none', 'p-0'],
-      th: ['bg-transparent', 'text-default-500', 'border-b', 'border-divider'],
+      th: ['bg-transparent!', 'text-default-500', 'border-b', 'border-divider'],
       td: ['text-default-600', 'py-1'],
     }),
     [],
@@ -37,54 +37,26 @@ export const CharacterCard = (input: CharacterCardInput) => {
         </div>
       </CardHeader>
       <CardBody className="text-small text-default-400 px-3 py-0">
-        <Table classNames={classNames} key={character.normalizedName} aria-label="Example static collection table">
-          <TableHeader>
-            <TableColumn key={'col1' + character.normalizedName}>NAME</TableColumn>
-            <TableColumn className="text-right font-mono" key={'col2' + character.normalizedName}>
-              VALUE
-            </TableColumn>
-          </TableHeader>
-          <TableBody>
-            <TableRow key={'1' + character.normalizedName}>
-              <TableCell>Weight</TableCell>
-              <TableCell className="text-right font-mono">{character.characterStatistics.weight}</TableCell>
-            </TableRow>
-            <TableRow key={'2' + character.normalizedName}>
-              <TableCell>Gravity</TableCell>
-              <TableCell className="text-right font-mono">{character.characterStatistics.gravity}</TableCell>
-            </TableRow>
-            <TableRow key={'3' + character.normalizedName}>
-              <TableCell>Walk Speed</TableCell>
-              <TableCell className="text-right font-mono">{character.characterStatistics.walkSpeed}</TableCell>
-            </TableRow>
-            <TableRow key={'4' + character.normalizedName}>
-              <TableCell>Run Speed</TableCell>
-              <TableCell className="text-right font-mono">{character.characterStatistics.runSpeed}</TableCell>
-            </TableRow>
-            <TableRow key={'5' + character.normalizedName}>
-              <TableCell>Wave Dash Length Rank</TableCell>
-              <TableCell className="text-right font-mono">{character.characterStatistics.waveDashLengthRank}</TableCell>
-            </TableRow>
-            <TableRow key={'6' + character.normalizedName}>
-              <TableCell>Initial Dash</TableCell>
-              <TableCell className="text-right font-mono">{character.characterStatistics.initialDash}</TableCell>
-            </TableRow>
-            <TableRow key={'7' + character.normalizedName}>
-              <TableCell>Dash frames</TableCell>
-              <TableCell className="text-right font-mono">{character.characterStatistics.dashFrames}</TableCell>
-            </TableRow>
-            <TableRow key={'8' + character.normalizedName}>
-              <TableCell>Jump Squat</TableCell>
-              <TableCell className="text-right font-mono">{character.characterStatistics.jumpSquat}</TableCell>
-            </TableRow>
-            <TableRow key={'9' + character.normalizedName}>
-              <TableCell>Can Wall Jump</TableCell>
-              <TableCell className="text-right font-mono">
-                {character.characterStatistics.canWallJump ? 'Yes' : 'No'}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <DataTable
+          data={[
+            { name: 'Weight', value: character.characterStatistics.weight },
+            { name: 'Gravity', value: character.characterStatistics.gravity },
+            { name: 'Walk Speed', value: character.characterStatistics.walkSpeed },
+            { name: 'Run Speed', value: character.characterStatistics.runSpeed },
+            { name: 'Wave Dash Length Rank', value: character.characterStatistics.waveDashLengthRank },
+            { name: 'Initial Dash', value: character.characterStatistics.initialDash },
+            { name: 'Dash frames', value: character.characterStatistics.dashFrames },
+            { name: 'Jump Squat', value: character.characterStatistics.jumpSquat },
+            { name: 'Can Wall Jump', value: character.characterStatistics.canWallJump ? 'Yes' : 'No' },
+          ]}
+          columns={[
+            { key: 'name', title: 'NAME' },
+            { key: 'value', title: 'VALUE', align: 'right', monospace: true },
+          ]}
+          rowKeyField="name"
+          classNames={classNames}
+          ariaLabel="Character statistics"
+        />
       </CardBody>
       <CardFooter className="gap-3">
         <Button
