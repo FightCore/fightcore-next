@@ -45,10 +45,9 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
     const useCrouchedHitlag = data.some((hit) => hit.hitlagDefender !== hit.hitlagDefenderCrouched);
 
     return [
-      { key: 'hit', title: 'Hit', dataType: 'string', width: 100 },
       {
         key: 'name',
-        title: 'Name',
+        title: 'Hitbox',
         dataType: 'string',
         width: 100,
         render: (value) => {
@@ -98,6 +97,7 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
       groupBy={{
         columnKey: 'hit',
         renderGroupHeader: (groupKey, groupItems) => {
+          const displayFrames = !groupItems[0].hitObjects[0].name;
           if (!colorCache.has(groupKey)) {
             const color = getHitboxColor(colors, groupItems[0].hitObjects[0].start);
             colorCache.set(groupKey, color!);
@@ -107,7 +107,7 @@ export default function HitboxTable(params: Readonly<HitboxTableParams>) {
           return (
             <>
               <div className={`mr-1 inline-block h-3 w-3 border-1 border-black ${color}`} />
-              {groupKey}
+              {displayFrames ? 'Frames: ' + groupKey : groupKey}
             </>
           );
         },
