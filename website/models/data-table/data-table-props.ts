@@ -20,6 +20,8 @@ export interface DataTableProps<T = any> {
     groupRow?: string;
   };
 
+  ignoreMobileTable?: boolean;
+
   /** Custom styles for table parts */
   styles?: {
     wrapper?: React.CSSProperties;
