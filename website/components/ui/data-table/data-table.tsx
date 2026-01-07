@@ -19,6 +19,10 @@ export function DataTable<T = any>(props: Readonly<DataTableProps<T>>) {
     );
   }
 
+  if (props.ignoreMobileTable) {
+    return <DataTableDesktop {...props} />;
+  }
+
   // Default: responsive (both desktop and mobile)
   return (
     <>

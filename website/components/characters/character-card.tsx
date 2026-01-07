@@ -50,12 +50,13 @@ export const CharacterCard = (input: CharacterCardInput) => {
             { name: 'Can Wall Jump', value: character.characterStatistics.canWallJump ? 'Yes' : 'No' },
           ]}
           columns={[
-            { key: 'name', title: 'NAME' },
-            { key: 'value', title: 'VALUE', align: 'right', monospace: true },
+            { key: 'name', title: 'Name' },
+            { key: 'value', title: 'Value', align: 'right', monospace: true },
           ]}
           rowKeyField="name"
           classNames={classNames}
           ariaLabel="Character statistics"
+          ignoreMobileTable
         />
       </CardBody>
       <CardFooter className="gap-3">
