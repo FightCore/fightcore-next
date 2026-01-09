@@ -5,6 +5,15 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '1.3.1',
+    changes: [
+      'Swapped out the tables for custom made components',
+      "Fixed Yoshi's DJA tooltip to force Zelda's icon to displace (and worse results on mobile)",
+      'The Yoshi DJA tooltip now opens on clicking the question mark icon.',
+      'Improved various texts within the website',
+    ],
+  },
+  {
     version: '1.3.0',
     changes: [
       'Added an FPS toggle to the GIF player, allowing you to switch to real-time speed (thanks nyx for the suggestion)',

@@ -22,7 +22,7 @@ import { Radio, RadioGroup } from '@heroui/radio';
 import { Tab, Tabs } from '@heroui/tabs';
 import { cn } from '@heroui/theme';
 import { Tooltip } from '@heroui/tooltip';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
 
 export interface CrouchCancelTableParams {
@@ -42,6 +42,7 @@ function generateCard(
   floorPercentages: boolean,
   use999Percent: boolean,
 ) {
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   return (
     <div className="w-full p-2 md:w-1/2">
       <Card className="dark:bg-gray-800">
@@ -76,9 +77,17 @@ function generateCard(
               const percentagePart = <span className="inline">{percentage}</span>;
               const yoshiDjaInfoPart =
                 knockbackTarget == 120 && character.name == 'Yoshi' ? (
-                  <Tooltip content="Same threshold for breaking Yoshi's DJA!" delay={250}>
-                    <FaCircleExclamation />
-                  </Tooltip>
+                  <div className="absolute">
+                    <Tooltip
+                      isOpen={isTooltipOpen}
+                      onOpenChange={(open) => setIsTooltipOpen(!isTooltipOpen)}
+                      content="Same threshold for breaking Yoshi's DJA!"
+                      delay={250}
+                      closeDelay={2000}
+                    >
+                      <FaCircleExclamation onClick={() => setIsTooltipOpen(true)} />
+                    </Tooltip>
+                  </div>
                 ) : (
                   <></>
                 );
