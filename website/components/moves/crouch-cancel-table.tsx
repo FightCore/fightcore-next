@@ -80,7 +80,7 @@ function generateCard(
                   <div className="absolute">
                     <Tooltip
                       isOpen={isTooltipOpen}
-                      onOpenChange={(open) => setIsTooltipOpen(open)}
+                      onOpenChange={(open) => setIsTooltipOpen(!isTooltipOpen)}
                       content="Same threshold for breaking Yoshi's DJA!"
                       delay={250}
                       closeDelay={2000}
