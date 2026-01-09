@@ -116,7 +116,7 @@ export function DataTableGrouped<T>(props: DataTableProps<T> & { groupBy: DataTa
             </tr>
           </thead>
         )}
-        <tbody className={tbodyClass} role="rowgroup">
+        <tbody className={tbodyClass}>
           {groups.map((group) => (
             <React.Fragment key={group.groupKey}>
               {/* Group header row */}
