@@ -1,4 +1,5 @@
 'use client';
+import { GlobalSearch } from '@/components/global-search/global-search';
 import { characters } from '@/config/framedata/framedata';
 import { VERSION_NUMBER } from '@/layouts/version-number';
 import { characterRoute } from '@/utilities/routes';
@@ -20,6 +21,9 @@ export function SideNav() {
         {process.env.IS_BETA ? <p>Beta</p> : <></>}
       </div>
       <div className="px-2">
+        <div className="py-3">
+          <GlobalSearch />
+        </div>
         <div className="grid grid-cols-4 gap-2 p-2">
           {characters.map((character) => (
             <div key={character.normalizedName}>

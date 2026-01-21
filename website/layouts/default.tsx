@@ -1,4 +1,6 @@
 'use client';
+import { GlobalSearch } from '@/components/global-search/global-search';
+import { GlobalSearchProvider } from '@/components/global-search/global-search-context';
 import { NavBar } from '@/layouts/nav-bar';
 import { SideNav } from '@/layouts/side-nav';
 import { Head } from './head';
@@ -9,20 +11,23 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative flex min-h-screen flex-col bg-gray-100 dark:bg-gray-950">
-      {/* The NavBar that can only be seen on smaller displays*/}
-      <div className="fixed z-50 block h-16 w-full border-b border-gray-200 bg-white md:hidden dark:border-gray-700 dark:bg-gray-900">
-        <Head />
-        <NavBar />
+    <GlobalSearchProvider>
+      <div className="relative flex min-h-screen flex-col bg-gray-100 dark:bg-gray-950">
+        <GlobalSearch showTrigger={false} />
+        {/* The NavBar that can only be seen on smaller displays*/}
+        <div className="fixed z-50 block h-16 w-full border-b border-gray-200 bg-white md:hidden dark:border-gray-700 dark:bg-gray-900">
+          <Head />
+          <NavBar />
+        </div>
+        {/* The SideNav that only can be seen on bigger displays  */}
+        <aside className="top-09 fixed hidden h-screen w-64 border-r border-gray-200 bg-white sm:translate-x-0 md:block dark:border-gray-700 dark:bg-gray-900">
+          <SideNav />
+        </aside>
+        <div className="z-0 px-3 md:mt-0 md:ml-64">
+          <main className="container mx-auto max-w-7xl flex-grow px-6 pt-16 sm:translate-x-0 md:pt-0">{children}</main>
+        </div>
+        <footer className="flex w-full items-center justify-center py-3"></footer>
       </div>
-      {/* The SideNav that only can be seen on bigger displays  */}
-      <aside className="top-09 fixed hidden h-screen w-64 border-r border-gray-200 bg-white sm:translate-x-0 md:block dark:border-gray-700 dark:bg-gray-900">
-        <SideNav />
-      </aside>
-      <div className="z-0 px-3 md:mt-0 md:ml-64">
-        <main className="container mx-auto max-w-7xl flex-grow px-6 pt-16 sm:translate-x-0 md:pt-0">{children}</main>
-      </div>
-      <footer className="flex w-full items-center justify-center py-3"></footer>
-    </div>
+    </GlobalSearchProvider>
   );
 }
