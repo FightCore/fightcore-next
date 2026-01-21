@@ -1,3 +1,5 @@
+import { GlobalSearch } from '@/components/global-search/global-search';
+import { useGlobalSearch } from '@/components/global-search/global-search-context';
 import { characters } from '@/config/framedata/framedata';
 import { VERSION_NUMBER } from '@/layouts/version-number';
 import { characterRoute } from '@/utilities/routes';
@@ -6,19 +8,28 @@ import { Image } from '@heroui/image';
 import { Link } from '@heroui/link';
 import { Navbar, NavbarBrand, NavbarContent, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@heroui/navbar';
 import { Tooltip } from '@heroui/tooltip';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaAward, FaCalculator, FaCircleUser, FaGoogleDrive, FaMugHot, FaRobot } from 'react-icons/fa6';
 import { Logo } from '../components/icons';
 import { Socials } from './socials';
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { registerNavigateCallback } = useGlobalSearch();
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  // Close the nav menu when a search result is clicked
+  useEffect(() => {
+    return registerNavigateCallback(closeMenu);
+  }, [registerNavigateCallback]);
+
   return (
-    <Navbar className="dark:bg-background bg-red-700" onMenuOpenChange={setIsMenuOpen}>
+    <Navbar className="dark:bg-background bg-red-700" isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
         <NavbarBrand>
-          <Link href="/">
+          <Link href="/" onPress={closeMenu}>
             <Logo height={50} width={200} />
           </Link>
           {process.env.IS_BETA ? <p>Beta</p> : <></>}
@@ -26,10 +37,14 @@ export const NavBar = () => {
       </NavbarContent>
       <NavbarMenu className="mt-3 space-y-1 px-7">
         <NavbarMenuItem>
+          <GlobalSearch />
+        </NavbarMenuItem>
+        <NavbarMenuItem>
           <Link
             color="foreground"
             href="/"
             className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            onPress={closeMenu}
           >
             <FaCircleUser />
             <span className="ms-3">Characters</span>
@@ -40,6 +55,7 @@ export const NavBar = () => {
             color="foreground"
             href="/crouch-cancel-calculator"
             className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            onPress={closeMenu}
           >
             <FaCalculator />
             <span className="ms-3">Crouch Cancel Calculator</span>
@@ -51,6 +67,7 @@ export const NavBar = () => {
             href="https://bot.fightcore.gg"
             isExternal
             className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            onPress={closeMenu}
           >
             <FaRobot />
             <span className="ms-3">Discord Bot</span>
@@ -62,6 +79,7 @@ export const NavBar = () => {
             href="https://drive.fightcore.gg"
             isExternal
             className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            onPress={closeMenu}
           >
             <FaGoogleDrive />
             <span className="ms-3">Drive</span>
@@ -72,6 +90,7 @@ export const NavBar = () => {
             color="foreground"
             href="/credits"
             className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            onPress={closeMenu}
           >
             <FaAward />
             <span className="ms-3">Credits & Sources</span>
@@ -83,6 +102,7 @@ export const NavBar = () => {
             href="https://ko-fi.com/fc_bort"
             target="_blank"
             className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            onPress={closeMenu}
           >
             <FaMugHot />
             <span className="ms-3">Buy me a coffee</span>
@@ -96,7 +116,7 @@ export const NavBar = () => {
           {characters.map((character) => (
             <div key={character.normalizedName}>
               <Tooltip content={character.name} delay={1000}>
-                <Link href={characterRoute(character)}>
+                <Link href={characterRoute(character)} onPress={closeMenu}>
                   <Image
                     className="grow text-white"
                     alt={character.name}
@@ -113,7 +133,7 @@ export const NavBar = () => {
         <div className="flex h-full flex-row pb-7">
           <div className="w-full self-end">
             <Socials />
-            <Link className="mt-2" href="/patchnotes">
+            <Link className="mt-2" href="/patchnotes" onPress={closeMenu}>
               Version {VERSION_NUMBER}
             </Link>
           </div>

@@ -25,7 +25,7 @@ export function groupData<T>(data: T[], keyColumn?: string, accessor?: (row: T) 
 
     groups.set(groupKey, [item]);
   }
-  console.log(groups);
+
   // Convert the map to an array.
   return Array.from(groups.entries()).map(([groupKey, items]) => ({
     groupKey,

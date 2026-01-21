@@ -5,6 +5,14 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '1.3.2',
+    changes: [
+      'Added a search bar powered by MeleeSearch (thank you to nyx for the suggestion)',
+      'Note on MeleeSearch; This was created by the Fightcore team, it currently only features frame data but will contain more information soon. One of the upcoming things will be a glossary to explain terms used on Fightcore, this will be hosted on a new website called MeleeIndex which has been in development for around 6 months.',
+      'All of this is created by Bort and completely open source.',
+    ],
+  },
+  {
     version: '1.3.1',
     changes: [
       'Swapped out the tables for custom made components',
