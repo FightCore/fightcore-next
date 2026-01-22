@@ -49,6 +49,12 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
     const fetchResults = async () => {
       setIsLoading(true);
       try {
+        // @ts-ignore
+        umami.track('search', { query });
+      } catch {
+        // Ignored on purpose
+      }
+      try {
         const response = await fetch(`https://api.meleesearch.com/api/search?q=${encodeURIComponent(debouncedQuery)}`);
         const data = await response.json();
         setResults(data);
@@ -89,11 +95,7 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
         aria-label="Search"
         className="text-default-500 w-full justify-start"
         startContent={<SearchIcon className="text-default-400 pointer-events-none shrink-0 text-base" />}
-        endContent={
-          <Kbd className="ml-auto hidden lg:inline-block" keys={['ctrl']}>
-            K
-          </Kbd>
-        }
+        endContent={<Kbd className="ml-auto hidden lg:inline-block">Ctrl + K</Kbd>}
         onPress={onOpen}
       >
         Search...

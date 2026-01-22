@@ -1,6 +1,7 @@
 import { AnimationPlayer } from '@/components/moves/animations/animation-player';
 import { DownloadButtonGroup } from '@/components/moves/download-button-group';
 import { Move } from '@/models/move';
+import { createEvent } from '@/utilities/create-event';
 import { Button } from '@heroui/button';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/modal';
 import { Select, SelectItem } from '@heroui/select';
@@ -26,6 +27,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
   }
 
   const handleDownloadClick = async (image: string, format: string) => {
+    createEvent('download-image', { image, format });
     setIsDownloading(true);
     try {
       const response = await fetch(image);

@@ -1,5 +1,6 @@
 import eventEmitter from '@/events/event-emitter';
 import { Move } from '@/models/move';
+import { createEvent } from '@/utilities/create-event';
 import { useCallback, useEffect, useState } from 'react';
 import { AnimationControls } from './animation-controls';
 import ApngMove from './apng-move-gif';
@@ -84,6 +85,7 @@ export const AnimationPlayer = ({
   }, []);
 
   const handlePause = useCallback(() => {
+    createEvent('pause-gif', { apngUrl });
     eventEmitter.emit('pause');
     setIsPlaying(false);
   }, []);

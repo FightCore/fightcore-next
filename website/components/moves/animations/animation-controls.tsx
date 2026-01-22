@@ -1,3 +1,4 @@
+import { createEvent } from '@/utilities/create-event';
 import { Button } from '@heroui/button';
 import { Kbd } from '@heroui/kbd';
 import { Select, SelectItem } from '@heroui/select';
@@ -125,6 +126,9 @@ export const AnimationControls = ({
         onSelectionChange={(value) => {
           const speed = Number(value.currentKey);
           onPlaybackSpeedChange?.(speed);
+          createEvent('change_speed', {
+            speed,
+          });
         }}
         aria-label="Playback speed"
       >
