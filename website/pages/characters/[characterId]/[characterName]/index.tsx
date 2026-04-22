@@ -5,8 +5,7 @@ import { characters } from '@/config/framedata/framedata';
 import { Character } from '@/models/character';
 import { Move } from '@/models/move';
 import { MoveType } from '@/models/move-type';
-import { Button, ButtonGroup } from '@heroui/button';
-import { Input } from '@heroui/input';
+import { Button, ButtonGroup, Input } from '@heroui/react';
 import { promises as fs } from 'fs';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useMemo, useState } from 'react';
@@ -195,8 +194,6 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
       <div className="flex justify-between pt-2">
         <div>
           <Input
-            variant="bordered"
-            isClearable
             type="text"
             placeholder="Search moves..."
             value={searchQuery}
@@ -210,6 +207,7 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
               .filter((moveType) => moveType.showInSidebar)
               .map((moveType) => (
                 <Button
+                  variant="tertiary"
                   key={moveType.type}
                   onPress={() => {
                     const element = document.getElementById(`category-${moveType.type}`);

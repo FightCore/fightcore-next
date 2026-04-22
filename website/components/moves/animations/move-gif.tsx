@@ -1,6 +1,5 @@
 import eventEmitter from '@/events/event-emitter';
 import { Move } from '@/models/move';
-import { Image } from '@heroui/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import AnimationLegend from './animation-legend';
 
@@ -36,7 +35,6 @@ export const MoveGif = (params: MoveGifParams) => {
     }
   }, []);
 
-  // Update frame counter periodically
   useEffect(() => {
     const interval = setInterval(() => {
       if (gifPlayer) {
@@ -47,7 +45,6 @@ export const MoveGif = (params: MoveGifParams) => {
     return () => clearInterval(interval);
   }, [gifPlayer]);
 
-  // Initialize player when image loads
   useEffect(() => {
     if (!initialized.current && imageRef.current?.complete && !gifPlayer) {
       initializeGifPlayer();
@@ -62,7 +59,6 @@ export const MoveGif = (params: MoveGifParams) => {
     };
   }, [gifPlayer]);
 
-  // Listen to player control events
   useEffect(() => {
     if (!gifPlayer) return;
 
@@ -130,10 +126,9 @@ export const MoveGif = (params: MoveGifParams) => {
   return (
     <>
       <div className="gif-wrapper">
-        <Image
+        <img
           className="bg-zinc-300 dark:bg-transparent"
-          height={400}
-          width={500}
+          style={{ height: 400, width: 500, maxWidth: '100%' }}
           ref={imageRef}
           src={params.move.gifUrl}
           onLoad={initializeGifPlayer}

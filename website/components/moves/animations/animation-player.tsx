@@ -46,11 +46,7 @@ export const AnimationPlayer = ({
     const handleKeyDown = (event: KeyboardEvent) => {
       // Skip if user is typing in an input, textarea, or contenteditable element
       const target = event.target as HTMLElement;
-      if (
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.isContentEditable
-      ) {
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
         return;
       }
 
@@ -62,8 +58,10 @@ export const AnimationPlayer = ({
         }
         event.preventDefault();
       } else if (event.key === 'ArrowRight') {
+        createEvent('arrow-right-gif', { apngUrl });
         handleNextFrame();
       } else if (event.key === 'ArrowLeft') {
+        createEvent('arrow-left-gif', { apngUrl });
         handlePreviousFrame();
       }
     };
@@ -109,6 +107,7 @@ export const AnimationPlayer = ({
   }, []);
 
   const handleGoToFrame = useCallback((frameNumber: number) => {
+    createEvent('seek-gif', { frameNumber, apngUrl });
     eventEmitter.emit('seek', frameNumber);
   }, []);
 
@@ -117,6 +116,7 @@ export const AnimationPlayer = ({
   }, []);
 
   const handleApngError = useCallback(() => {
+    createEvent('failover-gif', { apngUrl });
     setUseGif(true);
   }, []);
 

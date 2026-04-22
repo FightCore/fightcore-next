@@ -1,6 +1,6 @@
-import { Card, CardBody } from '@heroui/card';
-import { Image } from '@heroui/image';
-import Link from 'next/link';
+import { Card } from '@heroui/react';
+import Image from 'next/image';
+import NextLink from 'next/link';
 
 export interface SearchResult {
   id: number;
@@ -38,9 +38,9 @@ export function SearchResultCard({ result, onNavigate }: SearchResultCardProps) 
   const moveUrl = `/characters/${result.characterId}/${encodeURIComponent(result.normalizedCharacterName)}/moves/${result.moveId}/${encodeURIComponent(result.normalizedMoveName)}/`;
 
   return (
-    <Link href={moveUrl} onClick={onNavigate}>
-      <Card className="w-full p-2 transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">
-        <CardBody className="p-2">
+    <NextLink href={moveUrl} onClick={onNavigate}>
+      <Card.Root className="w-full p-2 transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <Card.Content className="p-2">
           <div className="mb-2 flex gap-2">
             <Image alt={result.character} width={40} height={40} src={'/newicons/' + result.character + '.webp'} />
             <div>
@@ -49,7 +49,11 @@ export function SearchResultCard({ result, onNavigate }: SearchResultCardProps) 
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
-            <div>{result.image !== null && <Image src={result.image} height={200} />}</div>
+            <div>
+              {result.image !== null && (
+                <img src={result.image} height={200} alt={result.move} className="max-h-[200px]" />
+              )}
+            </div>
             <div className="">
               <div className="min-w-0 flex-1">
                 <div className="text-default-500 mt-1 flex flex-col flex-wrap">
@@ -93,8 +97,8 @@ export function SearchResultCard({ result, onNavigate }: SearchResultCardProps) 
               </div>
             </div>
           </div>
-        </CardBody>
-      </Card>
-    </Link>
+        </Card.Content>
+      </Card.Root>
+    </NextLink>
   );
 }

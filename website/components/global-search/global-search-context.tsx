@@ -1,13 +1,12 @@
 'use client';
 
-import { createContext, useCallback, useContext, useRef, ReactNode } from 'react';
-import { useDisclosure } from '@heroui/modal';
+import { createContext, useCallback, useContext, useRef, useState, ReactNode } from 'react';
 
 interface GlobalSearchContextType {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
-  onOpenChange: () => void;
+  onOpenChange: (open: boolean) => void;
   registerNavigateCallback: (callback: () => void) => () => void;
   triggerNavigate: () => void;
 }
@@ -15,8 +14,12 @@ interface GlobalSearchContextType {
 const GlobalSearchContext = createContext<GlobalSearchContextType | null>(null);
 
 export function GlobalSearchProvider({ children }: { children: ReactNode }) {
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const navigateCallbacks = useRef<Set<() => void>>(new Set());
+
+  const onOpen = useCallback(() => setIsOpen(true), []);
+  const onClose = useCallback(() => setIsOpen(false), []);
+  const onOpenChange = useCallback((open: boolean) => setIsOpen(open), []);
 
   const registerNavigateCallback = useCallback((callback: () => void) => {
     navigateCallbacks.current.add(callback);

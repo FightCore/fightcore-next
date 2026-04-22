@@ -1,7 +1,6 @@
 import { fontMono, fontSans } from '@/config/fonts';
-import '@/styles/globals.scss';
-import { Button } from '@heroui/button';
-import { HeroUIProvider } from '@heroui/system';
+import '@/styles/globals.css';
+import { Button } from '@heroui/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
@@ -18,27 +17,25 @@ export default function App({ Component, pageProps }: AppProps) {
     window.addEventListener('scroll', handleScroll);
   }, []);
   return (
-    <HeroUIProvider>
-      <NextThemesProvider attribute="class" defaultTheme="dark">
-        {showBackToTop ? (
-          <div className="fixed right-0 bottom-0 z-10 mr-6 mb-6 hidden md:block">
-            <Button
-              size="sm"
-              onPress={() => {
-                document.getElementById('top')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              ↑ Back to Top
-            </Button>
-          </div>
-        ) : (
-          <></>
-        )}
-        <DefaultLayout>
-          <Component {...pageProps} />
-        </DefaultLayout>
-      </NextThemesProvider>
-    </HeroUIProvider>
+    <NextThemesProvider attribute="class" defaultTheme="dark">
+      {showBackToTop ? (
+        <div className="fixed right-0 bottom-0 z-10 mr-6 mb-6 hidden md:block">
+          <Button
+            size="sm"
+            onPress={() => {
+              document.getElementById('top')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            ↑ Back to Top
+          </Button>
+        </div>
+      ) : (
+        <></>
+      )}
+      <DefaultLayout>
+        <Component {...pageProps} />
+      </DefaultLayout>
+    </NextThemesProvider>
   );
 }
 

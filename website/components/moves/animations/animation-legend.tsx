@@ -1,73 +1,110 @@
-import { Accordion, AccordionItem } from "@heroui/accordion";
-import { Chip } from "@heroui/chip";
+import { Accordion } from '@heroui/react';
 import { FaCircleQuestion } from 'react-icons/fa6';
+import Link from 'next/link';
+
+interface LegendEntry {
+  color: string;
+  label: string;
+  glossaryUrl?: string;
+}
+
+const hitboxEntries: LegendEntry[] = [
+  { color: '#FF0000', label: 'id0' },
+  { color: '#00FF00', label: 'id1' },
+  { color: '#0000FF', label: 'id2' },
+  { color: '#FF00FF', label: 'id3' },
+];
+
+const boneEntries: LegendEntry[] = [
+  { color: '#FFFF00', label: 'Normal', glossaryUrl: 'https://example.com/glossary/normal' },
+  { color: '#DAA520', label: 'Ungrabbable', glossaryUrl: 'https://example.com/glossary/ungrabbable' },
+  { color: '#0000C0', label: 'Intangible', glossaryUrl: 'https://example.com/glossary/intangible' },
+  { color: '#00FF00', label: 'Invincible', glossaryUrl: 'https://example.com/glossary/invincible' },
+];
+
+const characterEntries: LegendEntry[] = [
+  { color: '#FF8000', label: 'Auto Cancel', glossaryUrl: 'https://example.com/glossary/auto-cancel' },
+  { color: '#FF00C0', label: 'IASA', glossaryUrl: 'https://example.com/glossary/iasa' },
+];
+
+function LegendItem({ entry }: Readonly<{ entry: LegendEntry }>) {
+  return (
+    <div className="flex items-center gap-1.5">
+      <span
+        className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+        style={{ backgroundColor: entry.color }}
+      />
+      {entry.glossaryUrl ? (
+        <Link
+          href={entry.glossaryUrl}
+          className="text-sm text-default-600 underline decoration-default-300 underline-offset-2 transition-colors hover:text-default-900"
+        >
+          {entry.label}
+        </Link>
+      ) : (
+        <span className="text-sm text-default-600">{entry.label}</span>
+      )}
+    </div>
+  );
+}
+
+export function AnimationLegendContent() {
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      <div>
+        <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-default-500">Hitbox IDs</h3>
+        <div className="grid grid-cols-1 gap-0.5">
+          {hitboxEntries.map((entry) => (
+            <LegendItem key={entry.label} entry={entry} />
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-default-500">Bone colors</h3>
+        <div className="grid grid-cols-1 gap-0.5">
+          {boneEntries.map((entry) => (
+            <LegendItem key={entry.label} entry={entry} />
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-default-500">Character</h3>
+        <div className="grid grid-cols-1 gap-0.5">
+          {characterEntries.map((entry) => (
+            <LegendItem key={entry.label} entry={entry} />
+          ))}
+        </div>
+      </div>
+      <div className="col-span-3 border-t border-default-200 pt-2">
+        <h3 className="text-sm font-semibold text-default-500">Missing hitbox IDs</h3>
+        <p className="mt-0.5 text-xs text-default-400">
+          Sometimes hitbox colors and table data don&apos;t match. When this happens,{' '}
+          <strong className="text-default-500">all hitboxes share the same data.</strong>
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export default function AnimationLegend() {
   return (
     <Accordion>
-      <AccordionItem
-        startContent={<FaCircleQuestion />}
-        key="1"
-        aria-label="Hitbox GIF legend"
-        title="Hitbox GIF Legend"
-        subtitle="Open this to learn more about what the hitbox colors mean"
-      >
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-          <div>
-            <h2 className="text-xl">Hitbox IDs</h2>
-            <div className="mt-2 grid grid-cols-1">
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-red-500', base: 'w-full' }}>
-                id0
-              </Chip>
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-green-500', base: 'w-full' }}>
-                id1
-              </Chip>
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-blue-300', base: 'w-full' }}>
-                id2
-              </Chip>
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-purple-500', base: 'w-full' }}>
-                id3
-              </Chip>
-            </div>
-          </div>
-          <div>
-            <h2 className="text-xl">Bone colors</h2>
-            <div className="mt-2 grid grid-cols-1">
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-yellow-500', base: 'w-full' }}>
-                Normal
-              </Chip>
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-yellow-600', base: 'w-full' }}>
-                Ungrabbable
-              </Chip>
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-blue-700', base: 'w-full' }}>
-                Intangible
-              </Chip>
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-green-500', base: 'w-full' }}>
-                Invincible
-              </Chip>
-            </div>
-          </div>
-          <div>
-            <h2 className="text-xl">Character colors</h2>
-            <div className="mt-2 grid grid-cols-1">
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-orange-500', base: 'w-full' }}>
-                Auto Cancel Frame
-              </Chip>
-              <Chip variant="dot" radius="sm" classNames={{ dot: 'bg-pink-500', base: 'w-full' }}>
-                IASA
-              </Chip>
-            </div>
-          </div>
-        </div>
-        <div className="mt-1">
-          <div className="text-bold text-xl">Missing hitbox ids</div>
-          <div>
-            Sometimes it can appear that the move has multiple coloured hitboxes but is missing them in the table. The
-            code for the colouring and the data itself missmatch sometimes. When this is the case,{' '}
-            <strong>all hitboxes can be considered to have that data.</strong>
-          </div>
-        </div>
-      </AccordionItem>
+      <Accordion.Item id="1">
+        <Accordion.Heading>
+          <Accordion.Trigger>
+            <FaCircleQuestion className="mr-2" />
+            Hitbox GIF Legend
+            <span className="ml-2 text-sm font-normal text-default-500">
+              Open this to learn more about what the hitbox colors mean
+            </span>
+          </Accordion.Trigger>
+        </Accordion.Heading>
+        <Accordion.Panel>
+          <Accordion.Body>
+            <AnimationLegendContent />
+          </Accordion.Body>
+        </Accordion.Panel>
+      </Accordion.Item>
     </Accordion>
   );
 }

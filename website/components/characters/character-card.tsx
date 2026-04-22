@@ -1,9 +1,8 @@
 import { DataTable } from '@/components/ui/data-table/data-table';
 import { CharacterBase } from '@/models/character';
-import { Button } from '@heroui/button';
-import { Card, CardBody, CardFooter, CardHeader } from '@heroui/card';
-import { Image } from '@heroui/image';
-import { Link } from '@heroui/link';
+import { Card } from '@heroui/react';
+import Image from 'next/image';
+import NextLink from 'next/link';
 import React from 'react';
 
 interface CharacterCardInput {
@@ -14,15 +13,15 @@ export const CharacterCard = (input: CharacterCardInput) => {
   const character = input.character;
   const classNames = React.useMemo(
     () => ({
-      wrapper: ['dark:bg-gray-800', 'border-0', 'shadow-none', 'p-0'],
+      wrapper: ['border-0', 'shadow-none', 'p-0'],
       th: ['bg-transparent!', 'text-default-500', 'border-b', 'border-divider'],
       td: ['text-default-600', 'py-1'],
     }),
     [],
   );
   return (
-    <Card key={character.normalizedName} className="w-full md:max-w-[340px] dark:bg-gray-800">
-      <CardHeader className="justify-between">
+    <Card.Root key={character.normalizedName} className="w-full md:max-w-85 dark:bg-gray-800">
+      <Card.Header className="justify-between">
         <div className="mt-3 ml-3 flex gap-3">
           <Image
             width={40}
@@ -35,8 +34,8 @@ export const CharacterCard = (input: CharacterCardInput) => {
             <h4 className="text-default-600 text-lg leading-none font-bold">{character.name}</h4>
           </div>
         </div>
-      </CardHeader>
-      <CardBody className="text-small text-default-400 px-3 py-0">
+      </Card.Header>
+      <Card.Content className="text-small text-default-400 px-3 py-0">
         <DataTable
           data={[
             { name: 'Weight', value: character.characterStatistics.weight },
@@ -58,16 +57,15 @@ export const CharacterCard = (input: CharacterCardInput) => {
           ariaLabel="Character statistics"
           ignoreMobileTable
         />
-      </CardBody>
-      <CardFooter className="gap-3">
-        <Button
+      </Card.Content>
+      <Card.Footer className="gap-3">
+        <NextLink
           href={'/characters/' + character.fightCoreId + '/' + character.normalizedName}
-          as={Link}
-          className="text-medium w-full bg-red-700 font-bold text-white hover:bg-red-500"
+          className="text-medium inline-flex w-full items-center justify-center rounded-lg bg-red-700 px-4 py-2 font-bold text-white hover:bg-red-500"
         >
           View
-        </Button>
-      </CardFooter>
-    </Card>
+        </NextLink>
+      </Card.Footer>
+    </Card.Root>
   );
 };

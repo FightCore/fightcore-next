@@ -1,13 +1,12 @@
 import { Hitbox } from '@/models/hitbox';
 import { getMappedUnique } from '@/utilities/utils';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
-import { Tab, Tabs } from '@heroui/tabs';
+import { Table, Tabs } from '@heroui/react';
 import { FlattenedHitbox } from './hitbox-table-columns';
 
 function MobileHitboxHeader(hitboxes: Readonly<Hitbox[]>) {
-  const cells = [<TableColumn key="name-key">Name</TableColumn>];
-  cells.push(...hitboxes.map((hitbox) => <TableColumn key={'id' + hitbox.id}>{hitbox.name}</TableColumn>));
-  return <TableHeader>{cells}</TableHeader>;
+  const cells = [<Table.Column key="name-key">Name</Table.Column>];
+  cells.push(...hitboxes.map((hitbox) => <Table.Column key={'id' + hitbox.id}>{hitbox.name}</Table.Column>));
+  return <Table.Header>{cells}</Table.Header>;
 }
 
 function MobileHitboxRow(hitboxes: Hitbox[], accessor: keyof Hitbox, title: string) {
@@ -15,10 +14,9 @@ function MobileHitboxRow(hitboxes: Hitbox[], accessor: keyof Hitbox, title: stri
   // NextJs/React can't handle having a static element and some dynamic elements together
   // Because of this, we have to create an array with the static value and then push the other elements.
   // This is the best way I've found to do this, this is only a typing issue as the code compiles fine.
-
-  const cells = [<TableCell key={key}>{title}</TableCell>];
-  cells.push(...hitboxes.map((hitbox) => <TableCell key={key + hitbox.id}>{hitbox[accessor]}</TableCell>));
-  return <TableRow key={key}>{cells}</TableRow>;
+  const cells = [<Table.Cell key={key}>{title}</Table.Cell>];
+  cells.push(...hitboxes.map((hitbox) => <Table.Cell key={key + hitbox.id}>{hitbox[accessor]}</Table.Cell>));
+  return <Table.Row key={key}>{cells}</Table.Row>;
 }
 
 export interface MobileHitboxTableParams {
@@ -26,11 +24,6 @@ export interface MobileHitboxTableParams {
 }
 
 export default function MobileHitboxTable(params: MobileHitboxTableParams) {
-  const classNames = {
-    wrapper: ['dark:bg-gray-800', 'shadow-none'],
-    th: ['bg-transparent'],
-  };
-
   const hits = getMappedUnique(params.hitboxes, (hitbox) => hitbox.hit);
 
   const useCrouchedHitlag = params.hitboxes.some(
@@ -57,29 +50,39 @@ export default function MobileHitboxTable(params: MobileHitboxTableParams) {
 
   tableRows.push({ key: 'shieldstun', title: 'Shieldstun' });
 
+  const hitData = hits.map((hit) => {
+    const hitboxes = params.hitboxes.filter((hitbox) => hitbox.hit === hit);
+    const hitObjects = hitboxes[0].hitObjects;
+    const minStart = Math.min(...hitObjects.map((hitbox) => hitbox.start));
+    const maxEnd = Math.max(...hitObjects.map((hitbox) => hitbox.end));
+    let title = hit;
+    if (minStart !== 0 && maxEnd !== 0) {
+      title = minStart + ' - ' + maxEnd;
+    }
+    return { hit, hitboxes, title };
+  });
+
   return (
     <div>
-      <Tabs disableAnimation placement="top" className="w-max max-w-full overflow-x-scroll">
-        {hits.map((hit) => {
-          const hitboxes = params.hitboxes.filter((hitbox) => hitbox.hit === hit);
-          const hitObjects = hitboxes[0].hitObjects;
-          const minStart = Math.min(...hitObjects.map((hitbox) => hitbox.start));
-          const maxEnd = Math.max(...hitObjects.map((hitbox) => hitbox.end));
-          let title = hit;
-          if (minStart !== 0 && maxEnd !== 0) {
-            title = minStart + ' - ' + maxEnd;
-          }
-
-          return (
-            <Tab key={'hit' + hit} title={title}>
-              <Table classNames={classNames} aria-label="Table of hitbox statistics">
-                {MobileHitboxHeader(hitboxes)}
-                <TableBody>{tableRows.map((row) => MobileHitboxRow(hitboxes, row.key, row.title))}</TableBody>
-              </Table>
-            </Tab>
-          );
-        })}
-      </Tabs>
+      <Tabs.Root className="w-max max-w-full overflow-x-scroll">
+        <Tabs.ListContainer>
+          <Tabs.List>
+            {hitData.map(({ hit, title }) => (
+              <Tabs.Tab key={'hit' + hit} id={'hit' + hit}>
+                {title}
+              </Tabs.Tab>
+            ))}
+          </Tabs.List>
+        </Tabs.ListContainer>
+        {hitData.map(({ hit, hitboxes }) => (
+          <Tabs.Panel key={'hit' + hit} id={'hit' + hit}>
+            <Table.Root className="shadow-none dark:bg-gray-800" aria-label="Table of hitbox statistics">
+              {MobileHitboxHeader(hitboxes)}
+              <Table.Body>{tableRows.map((row) => MobileHitboxRow(hitboxes, row.key, row.title))}</Table.Body>
+            </Table.Root>
+          </Tabs.Panel>
+        ))}
+      </Tabs.Root>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { PageTitle } from '@/components/page-title';
-import { Link } from '@heroui/link';
 
 export default function Credits() {
   return (
@@ -14,25 +13,25 @@ export default function Credits() {
             <strong>Bort</strong>, main developer of the website.
           </li>
           <li>
-            <Link href="https://bsky.app/profile/hrtfiend.bsky.social" isExternal>
+            <a href="https://bsky.app/profile/hrtfiend.bsky.social" target="_blank" rel="noopener noreferrer" className="underline">
               Emilia
-            </Link>
+            </a>
             , recorder of all the GIFs and maintainer of{' '}
-            <Link href="https://drive.fightcore.gg" isExternal>
+            <a href="https://drive.fightcore.gg" target="_blank" rel="noopener noreferrer" className="underline">
               the Google Drive
-            </Link>
+            </a>
             .
           </li>
           <li>
-            <Link href="https://github.com/neilharbin0" isExternal>
+            <a href="https://github.com/neilharbin0" target="_blank" rel="noopener noreferrer" className="underline">
               NeilHarbin0
-            </Link>
+            </a>
             , who created frame data software allowing for background-less recording and easy editing.
           </li>
           <li>
-            <Link href="https://bsky.app/profile/skullbrossbm.bsky.social" isExternal>
+            <a href="https://bsky.app/profile/skullbrossbm.bsky.social" target="_blank" rel="noopener noreferrer" className="underline">
               skullbro
-            </Link>
+            </a>
             , who provided insights into how to improve the crouch cancel and ASDI Down calculations.
           </li>
           <li>
@@ -45,29 +44,29 @@ export default function Credits() {
         <p>The following is a list of sources used when building FightCore.</p>
         <ul className="mt-3 ml-7 list-disc">
           <li>
-            <Link href="http://meleeframedata.com" isExternal>
+            <a href="http://meleeframedata.com" target="_blank" rel="noopener noreferrer" className="underline">
               MeleeFrameData
-            </Link>
+            </a>
           </li>
           <li>
-            <Link href="https://ikneedata.com" isExternal>
+            <a href="https://ikneedata.com" target="_blank" rel="noopener noreferrer" className="underline">
               IKneeData
-            </Link>
+            </a>
           </li>
           <li>
-            <Link href="https://smashboards.com/threads/detailed-throws-techs-and-getups-frame-data.206469/" isExternal>
+            <a href="https://smashboards.com/threads/detailed-throws-techs-and-getups-frame-data.206469/" target="_blank" rel="noopener noreferrer" className="underline">
               Detailed Throws, Techs and Getup Frame Data by Magus420
-            </Link>
+            </a>
           </li>
           <li>
-            <Link href="https://www.npmjs.com/package/@wizpanda/super-gif" isExternal>
+            <a href="https://www.npmjs.com/package/@wizpanda/super-gif" target="_blank" rel="noopener noreferrer" className="underline">
               Wizpanda&apos;s fork of SuperGIF
-            </Link>
+            </a>
           </li>
           <li>
-            <Link href="https://melee-framedata.theshoemaker.de/" isExternal>
+            <a href="https://melee-framedata.theshoemaker.de/" target="_blank" rel="noopener noreferrer" className="underline">
               The Shoemaker&apos;s Melee Frame Data
-            </Link>
+            </a>
           </li>
         </ul>
       </section>

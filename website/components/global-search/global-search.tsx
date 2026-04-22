@@ -1,12 +1,5 @@
-'use client';
-
 import { useDebounce } from '@/hooks/use-debounce';
-import { Button } from '@heroui/button';
-import { Input } from '@heroui/input';
-import { Kbd } from '@heroui/kbd';
-import { Link } from '@heroui/link';
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/modal';
-import { Spinner } from '@heroui/spinner';
+import { Button, Input, Kbd, Modal, Spinner } from '@heroui/react';
 import { useCallback, useEffect, useState } from 'react';
 import { SearchIcon } from '../icons';
 import { useGlobalSearch } from './global-search-context';
@@ -24,7 +17,6 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
   const debouncedQuery = useDebounce(query, 300);
 
   useEffect(() => {
-    // Only register the keyboard shortcut for the instance that renders the modal
     if (showTrigger) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -38,7 +30,6 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
   }, [onOpen, showTrigger]);
 
   useEffect(() => {
-    // Only run search effects for the instance that renders the modal
     if (showTrigger) return;
 
     if (!debouncedQuery) {
@@ -78,7 +69,7 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
-      onOpenChange();
+      onOpenChange(open);
       if (!open) {
         setQuery('');
         setResults([]);
@@ -87,39 +78,31 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
     [onOpenChange],
   );
 
-  // Only render the trigger button
   if (showTrigger) {
     return (
-      <Button
-        variant="bordered"
-        aria-label="Search"
-        className="text-default-500 w-full justify-start"
-        startContent={<SearchIcon className="text-default-400 pointer-events-none shrink-0 text-base" />}
-        endContent={<Kbd className="ml-auto hidden lg:inline-block">Ctrl + K</Kbd>}
-        onPress={onOpen}
-      >
+      <Button variant="tertiary" aria-label="Search" className="text-default-500 w-full justify-start" onPress={onOpen}>
+        <SearchIcon className="text-default-400 pointer-events-none shrink-0 text-base" />
         Search...
+        <Kbd className="ml-auto hidden lg:inline-block">Ctrl + K</Kbd>
       </Button>
     );
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={handleOpenChange} size="3xl" scrollBehavior="inside">
-      <ModalContent>
-        {(onModalClose) => (
-          <>
-            <ModalHeader className="flex flex-col gap-1">Search Moves</ModalHeader>
-            <ModalBody>
-              <Input
-                variant="underlined"
-                autoFocus
-                color="primary"
-                size="lg"
-                placeholder="Search for a move..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                startContent={<SearchIcon className="text-default-400" />}
-              />
+    <Modal.Root isOpen={isOpen} onOpenChange={handleOpenChange}>
+      <Modal.Backdrop>
+        <Modal.Container size="lg" scroll="inside">
+          <Modal.Dialog>
+            <Modal.Header className="flex flex-col gap-1">Search Moves</Modal.Header>
+            <Modal.Body>
+              <div className="p-2">
+                <Input
+                  autoFocus
+                  placeholder="Search for a move..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+              </div>
               {isLoading && (
                 <div className="flex justify-center py-8">
                   <Spinner size="lg" />
@@ -135,18 +118,23 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
               {!isLoading && query && debouncedQuery && results.length === 0 && (
                 <div className="text-default-500 py-8 text-center">No results found for "{debouncedQuery}"</div>
               )}
-            </ModalBody>
-            <ModalFooter>
+            </Modal.Body>
+            <Modal.Footer>
               <span className="text-default-400 text-xs">
                 Powered by{' '}
-                <Link href="https://www.meleesearch.com" className="text-xs" target="_blank">
+                <a
+                  href="https://www.meleesearch.com"
+                  className="text-xs underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   MeleeSearch.com
-                </Link>
+                </a>
               </span>
-            </ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal.Root>
   );
 }

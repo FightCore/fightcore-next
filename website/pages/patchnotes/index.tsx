@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { PageTitle } from '@/components/page-title';
-import { Card, CardBody, CardHeader } from '@heroui/card';
+import { Card } from '@heroui/react';
 import NextHead from 'next/head';
 
 const patchNotes = [
@@ -61,7 +61,7 @@ const patchNotes = [
     changes: [
       'Added a GIF download button to the GIF player, allowing you to download the GIF/WEBM/PNG of a move.',
       'Upgraded the entire website to the most up to date version of Next.js, React and other libraries, (hopefully) increasing stability and performance.',
-      "Fixed an issue where Sheiks's grab and rapid jab were mixed up with data.",
+      "Fixed an issue where Sheik's grab and rapid jab were mixed up with data.",
     ],
   },
   {
@@ -281,17 +281,12 @@ export default function PatchNotesPage() {
   return (
     <>
       <NextHead>
-        {/* Standard SEO tags */}
         <title>Patch notes - FightCore</title>
         <meta name="description" content="Shows off the patch notes for the FightCore website" />
         <link rel="canonical" href="https://www.fightcore.gg/patchnotes" />
-
-        {/* Open Graph tags for Facebook and LinkedIn */}
         <meta property="og:title" content="Patch notes - FightCore" />
         <meta property="og:description" content="Shows off the patch notes for the FightCore website" />
         <meta property="og:url" content="https://www.fightcore.gg/patchnotes" />
-
-        {/* Twitter Card tags */}
         <meta name="twitter:title" content="Patch notes - FightCore" />
         <meta name="twitter:description" content="Shows off the patch notes for the FightCore website" />
       </NextHead>
@@ -299,11 +294,11 @@ export default function PatchNotesPage() {
 
       <div className="space-y-5">
         {patchNotes.map((patchNote) => (
-          <Card key={patchNote.version} className="dark:bg-gray-800">
-            <CardHeader>
+          <Card.Root key={patchNote.version} className="dark:bg-gray-800">
+            <Card.Header>
               <h2 className="ml-2 text-lg font-bold">Version {patchNote.version}</h2>
-            </CardHeader>
-            <CardBody>
+            </Card.Header>
+            <Card.Content>
               <div className="mb-3 px-6">
                 <ul className="list-disc">
                   {patchNote.changes.map((change) => (
@@ -311,8 +306,8 @@ export default function PatchNotesPage() {
                   ))}
                 </ul>
               </div>
-            </CardBody>
-          </Card>
+            </Card.Content>
+          </Card.Root>
         ))}
       </div>
     </>
