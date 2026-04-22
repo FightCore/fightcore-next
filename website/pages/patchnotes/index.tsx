@@ -5,6 +5,10 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '1.4.0',
+    changes: ['Upgraded from HeroUI V2 to V3', 'Added a new ? to the move overview, showing the animation legend'],
+  },
+  {
     version: '1.3.2',
     changes: [
       'Added a search bar powered by MeleeSearch (thank you to nyx for the suggestion)',
