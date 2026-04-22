@@ -5,7 +5,7 @@ import { DataTableColumn } from '@/models/data-table/data-table-column';
 import { Move } from '@/models/move';
 import { processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
 import { moveRoute } from '@/utilities/routes';
-import { Link } from '@heroui/link';
+import { Link } from '@heroui/react';
 import { flattenData } from '../hitboxes/hitbox-table-columns';
 
 export interface CrouchCancelMoveOverviewTableParams {

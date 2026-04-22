@@ -1,0 +1,44 @@
+@config "../tailwind.config.ts";
+@import '@heroui/styles';
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --accent: oklch(32% 0.12 9);
+  --accent-foreground: oklch(100% 0 0);
+}
+
+[data-theme='dark'],
+.dark {
+  --accent: oklch(57% 0.21 25);
+  --accent-foreground: oklch(100% 0 0);
+  --background: oklch(7% 0 0);
+}
+
+.super-gif > canvas {
+  max-width: 100%;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 11px;
+  background-color: #303030;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid #303030 !important;
+  background-color: #575757;
+}
+
+.skeleton {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.tabs__tab[data-selected='true'] {
+  background-color: var(--segment);
+  color: var(--segment-foreground);
+  border-radius: var(--radius-3xl);
+}

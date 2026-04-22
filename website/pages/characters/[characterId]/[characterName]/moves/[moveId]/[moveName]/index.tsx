@@ -15,9 +15,10 @@ import { canBeCrouchCanceled } from '@/utilities/crouch-cancel-calculator';
 import { getSmallMoveSummary } from '@/utilities/move-summary';
 import { createRelevantMoves } from '@/utilities/relevant-moves-creator';
 import { characterRoute } from '@/utilities/routes';
-import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs';
+import { Breadcrumbs } from '@heroui/react';
 import { promises as fs } from 'fs';
 import { InferGetStaticPropsType } from 'next';
+import NextLink from 'next/link';
 
 export type MovePage = {
   character: CharacterBase;
@@ -122,9 +123,13 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
       <PageTitle title={data.character.name + ' - ' + data.move.name} />
       <div>
         <Breadcrumbs>
-          <BreadcrumbItem href="/">Home</BreadcrumbItem>
-          <BreadcrumbItem href={characterRoute(data.character)}>{data.character.name}</BreadcrumbItem>
-          <BreadcrumbItem>{data.move.name}</BreadcrumbItem>
+          <Breadcrumbs.Item>
+            <NextLink href="/">Home</NextLink>
+          </Breadcrumbs.Item>
+          <Breadcrumbs.Item>
+            <NextLink href={characterRoute(data.character)}>{data.character.name}</NextLink>
+          </Breadcrumbs.Item>
+          <Breadcrumbs.Item>{data.move.name}</Breadcrumbs.Item>
         </Breadcrumbs>
       </div>
       <div className="w-full md:flex">

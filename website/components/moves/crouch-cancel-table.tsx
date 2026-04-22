@@ -14,14 +14,8 @@ import {
   isCrouchCancelPossible,
 } from '@/utilities/crouch-cancel-calculator';
 import { areAllHitboxesEqual, areHitboxesEqual } from '@/utilities/hitbox-utils';
-import { Alert } from '@heroui/alert';
-import { Card, CardBody, CardHeader } from '@heroui/card';
-import { Checkbox } from '@heroui/checkbox';
-import { Image } from '@heroui/image';
-import { Radio, RadioGroup } from '@heroui/radio';
-import { Tab, Tabs } from '@heroui/tabs';
-import { cn } from '@heroui/theme';
-import { Tooltip } from '@heroui/tooltip';
+import { Alert, Card, Checkbox, Radio, RadioGroup, Tabs, Tooltip } from '@heroui/react';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
 
@@ -45,14 +39,14 @@ function generateCard(
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   return (
     <div className="w-full p-2 md:w-1/2">
-      <Card className="dark:bg-gray-800">
-        <CardHeader>
+      <Card.Root className="dark:bg-gray-800">
+        <Card.Header>
           <div className="flex flex-col">
             <div className="text-md">{title}</div>
             <div className="text-small text-default-500">{knockbackTarget} units of knockback</div>
           </div>
-        </CardHeader>
-        <CardBody>
+        </Card.Header>
+        <Card.Content>
           <div className="grid grid-cols-3 gap-1 md:grid-cols-5">
             {sortedCharacters.map((character) => {
               const percentage = calculateCrouchCancelPercentage(
@@ -61,7 +55,6 @@ function generateCard(
                 knockbackTarget,
                 floorPercentages,
                 use999Percent,
-                // Staleness is not included in the table
                 0,
               );
               const imagePart = (
@@ -71,21 +64,17 @@ function generateCard(
                   height={30}
                   src={'/newicons/' + character.name + '.webp'}
                   className="mr-2 inline-block"
-                  removeWrapper={true}
                 />
               );
               const percentagePart = <span className="inline">{percentage}</span>;
               const yoshiDjaInfoPart =
                 knockbackTarget == 120 && character.name == 'Yoshi' ? (
                   <div className="absolute">
-                    <Tooltip
-                      isOpen={isTooltipOpen}
-                      onOpenChange={(open) => setIsTooltipOpen(!isTooltipOpen)}
-                      content="Same threshold for breaking Yoshi's DJA!"
-                      delay={250}
-                      closeDelay={2000}
-                    >
-                      <FaCircleExclamation onClick={() => setIsTooltipOpen(true)} />
+                    <Tooltip isOpen={isTooltipOpen} onOpenChange={(open) => setIsTooltipOpen(open)} delay={250}>
+                      <Tooltip.Trigger>
+                        <FaCircleExclamation onClick={() => setIsTooltipOpen(true)} />
+                      </Tooltip.Trigger>
+                      <Tooltip.Content>Same threshold for breaking Yoshi&apos;s DJA!</Tooltip.Content>
                     </Tooltip>
                   </div>
                 ) : (
@@ -100,8 +89,8 @@ function generateCard(
               );
             })}
           </div>
-        </CardBody>
-      </Card>
+        </Card.Content>
+      </Card.Root>
     </div>
   );
 }
@@ -136,7 +125,6 @@ function preprocessHits(hits: Hit[]): Hit[] {
     }
   }
 
-  // Merge hits together if the hitboxes are the same
   for (let i = 0; i < newHits.length; i++) {
     for (let j = i + 1; j < newHits.length; j++) {
       const areAllHitboxesEqual = newHits[i].hitboxes.every((hitA) => {
@@ -222,89 +210,121 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
       <div className="mb-2 grid grid-cols-1 gap-2 rounded-md border border-gray-700 p-2 md:grid-cols-3">
         <div className="px-1 pb-2">
           <div className="text-medium font-bold">Sorting</div>
-          <RadioGroup orientation="horizontal" value={selected} onValueChange={setSelection}>
-            <Radio value={CrouchCancelSort.ALPHABETICAL}>Alphabetical</Radio>
-            <Radio value={CrouchCancelSort.WEIGHT}>Weight</Radio>
+          <RadioGroup
+            value={selected}
+            onChange={setSelection}
+            aria-label="Sort order"
+            orientation="horizontal"
+            className="flex gap-3"
+          >
+            <Radio value={CrouchCancelSort.ALPHABETICAL}>
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>Alphabetical</Radio.Content>
+            </Radio>
+            <Radio value={CrouchCancelSort.WEIGHT}>
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>Weight</Radio.Content>
+            </Radio>
           </RadioGroup>
         </div>
 
-        <Checkbox
-          classNames={{
-            base: cn('text-white'),
-          }}
-          isSelected={floorPercentages}
-          onValueChange={setFlooringChange}
-        >
-          <div className="text-medium font-bold">Ceiling percentages</div>
-          <div className="text-small">
-            Melee uses floored percentages for its calculations. If a move breaks at 11.10%, enabling this will display
-            it as breaking at 12%.
-          </div>
+        <Checkbox className="dark:text-white" isSelected={floorPercentages} onChange={setFlooringChange}>
+          <Checkbox.Control>
+            <Checkbox.Indicator />
+          </Checkbox.Control>
+          <Checkbox.Content>
+            <div className="text-medium font-bold">Ceiling percentages</div>
+            <div className="text-small">
+              Melee uses floored percentages for its calculations. If a move breaks at 11.10%, enabling this will
+              display it as breaking at 12%.
+            </div>
+          </Checkbox.Content>
         </Checkbox>
 
-        <Checkbox
-          classNames={{
-            base: cn('text-white'),
-          }}
-          isSelected={numericalPercentage}
-          onValueChange={setNumericalChange}
-        >
-          <div className="text-medium font-bold">Use 999% for moves that never break</div>
-          <div className="text-small">
-            Some moves can never break crouch cancel/ASDI Down, note these moves as "999%" rather than "Never breaks"
-          </div>
+        <Checkbox className="dark:text-white" isSelected={numericalPercentage} onChange={setNumericalChange}>
+          <Checkbox.Control>
+            <Checkbox.Indicator />
+          </Checkbox.Control>
+          <Checkbox.Content>
+            <div className="text-medium font-bold">Use 999% for moves that never break</div>
+            <div className="text-small">
+              Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;999%&quot; rather than
+              &quot;Never breaks&quot;
+            </div>
+          </Checkbox.Content>
         </Checkbox>
       </div>
 
-      <Tabs
-        aria-label="Crouch Cancel and ASDI Tabs"
-        disableAnimation
-        placement="top"
-        className="w-max max-w-full overflow-x-scroll"
-      >
+      <Tabs.Root aria-label="Crouch Cancel and ASDI Tabs" className="w-full max-w-full overflow-x-scroll">
+        <Tabs.ListContainer>
+          <Tabs.List>
+            {data.map((hit) => (
+              <Tabs.Tab key={hit.id} id={String(hit.id)}>
+                {hitName(hit)}
+              </Tabs.Tab>
+            ))}
+          </Tabs.List>
+        </Tabs.ListContainer>
         {data.map((hit) => (
-          <Tab key={hit.id} title={hitName(hit)}>
-            <Tabs
-              aria-label="Crouch Cancel and ASDI Tabs"
-              disableAnimation
-              className="mb-2 grid grid-cols-1 md:grid-cols-2"
-            >
-              {hit.hitboxes.map((hitbox) => {
-                return (
-                  <Tab key={hitbox.id} title={hitbox.name} className="md:flex md:flex-wrap">
+          <Tabs.Panel key={hit.id} id={String(hit.id)}>
+            <Tabs.Root aria-label="Hitbox Tabs">
+              <Tabs.ListContainer>
+                <Tabs.List>
+                  {hit.hitboxes.map((hitbox) => (
+                    <Tabs.Tab key={hitbox.id} id={String(hitbox.id)}>
+                      {hitbox.name}
+                    </Tabs.Tab>
+                  ))}
+                </Tabs.List>
+              </Tabs.ListContainer>
+              <div className="mb-2 w-full">
+                {hit.hitboxes.map((hitbox) => (
+                  <Tabs.Panel key={hitbox.id} id={String(hitbox.id)} className="w-full md:flex md:flex-wrap">
                     {!isCrouchCancelPossible(hitbox) && (
-                      <Alert
-                        color={'warning'}
-                        title={getCrouchCancelImpossibleReason(hitbox)}
-                        description={
-                          'This hitbox does not send upwards, so it will put the opponent into their grounded flinch state before it would knock them down'
-                        }
-                      />
+                      <Alert status="warning">
+                        <Alert.Content>
+                          <Alert.Title>{getCrouchCancelImpossibleReason(hitbox)}</Alert.Title>
+                          <Alert.Description>
+                            This hitbox does not send upwards, so it will put the opponent into their grounded flinch
+                            state before it would knock them down
+                          </Alert.Description>
+                        </Alert.Content>
+                      </Alert>
                     )}
                     {hitbox.hitlagDefender > 10 && (
-                      <Alert
-                        color={'warning'}
-                        title={`This move has more than 10 frames of hitlag ${hitbox.hitlagDefenderCrouched > 10 ? "(even when CC'd)" : ''}, making it difficult or sometimes impossible to ASDI Down`}
-                        description={
-                          'When a character is airborne for more than 10 frames, their ECB lock expires. This pulls up their ECB, creating distance between them and the ground, which makes ASDI Down break earlier or require specific SDI inputs first'
-                        }
-                      />
+                      <Alert status="warning">
+                        <Alert.Content>
+                          <Alert.Title>{`This move has more than 10 frames of hitlag ${hitbox.hitlagDefenderCrouched > 10 ? "(even when CC'd)" : ''}, making it difficult or sometimes impossible to ASDI Down`}</Alert.Title>
+                          <Alert.Description>
+                            When a character is airborne for more than 10 frames, their ECB lock expires. This pulls up
+                            their ECB, creating distance between them and the ground, which makes ASDI Down break
+                            earlier or require specific SDI inputs first
+                          </Alert.Description>
+                        </Alert.Content>
+                      </Alert>
                     )}
                     {hit.id >= 2646 && hit.id <= 2650 && (
-                      <Alert
-                        color={'warning'}
-                        title={`Do NOT ASDI Down/CC Peach Downsmash.`}
-                        description={'You have been warned.'}
-                      />
+                      <Alert status="warning">
+                        <Alert.Content>
+                          <Alert.Title>Do NOT ASDI Down/CC Peach Downsmash.</Alert.Title>
+                          <Alert.Description>You have been warned.</Alert.Description>
+                        </Alert.Content>
+                      </Alert>
                     )}
                     {hitbox.angle == 361 && (
-                      <Alert
-                        color={'warning'}
-                        title={'This move sends at the Sakurai Angle (361 degrees).'}
-                        description={
-                          'While grounded and below 32 units of knockback, this move sends at 0 degrees, and thus cannot be ASDI Downed'
-                        }
-                      />
+                      <Alert status="warning">
+                        <Alert.Content>
+                          <Alert.Title>This move sends at the Sakurai Angle (361 degrees).</Alert.Title>
+                          <Alert.Description>
+                            While grounded and below 32 units of knockback, this move sends at 0 degrees, and thus
+                            cannot be ASDI Downed
+                          </Alert.Description>
+                        </Alert.Content>
+                      </Alert>
                     )}
                     {generateCard(80, 'ASDI Down', hitbox, sortedCharacters, floorPercentages, numericalPercentage)}
                     {generateCard(
@@ -333,13 +353,13 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                         floorPercentages,
                         numericalPercentage,
                       )}
-                  </Tab>
-                );
-              })}
-            </Tabs>
-          </Tab>
+                  </Tabs.Panel>
+                ))}
+              </div>
+            </Tabs.Root>
+          </Tabs.Panel>
         ))}
-      </Tabs>
+      </Tabs.Root>
     </>
   );
 }

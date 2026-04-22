@@ -1,5 +1,4 @@
 import { Source } from '@/models/source';
-import { Link } from "@heroui/link";
 
 export interface SourceSectionParams {
   sources: Source[];
@@ -12,9 +11,9 @@ export default function SourceSection(params: SourceSectionParams) {
       <ul>
         {params.sources.map((source) => (
           <li key={source.id}>
-            <Link href={source.url} isExternal>
+            <a href={source.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
               {source.name}
-            </Link>
+            </a>
           </li>
         ))}
       </ul>

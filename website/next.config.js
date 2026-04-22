@@ -10,6 +10,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next-sitemap').IConfig} */
 const nextConfig = {
   output: 'export',
+  images: { unoptimized: true },
   compress: true,
   reactStrictMode: true,
   trailingSlash: true,
@@ -23,7 +24,7 @@ const nextConfig = {
     reactRemoveProperties: true,
   },
   experimental: {
-    optimizePackageImports: ['@heroui', '@sentry/browser', 'framer-motion', 'ka-table', 'd3']
+    optimizePackageImports: ['@heroui/react', '@sentry/browser', 'ka-table', 'd3']
   },
   productionBrowserSourceMaps: true,
   sassOptions: {

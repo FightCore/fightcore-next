@@ -1,5 +1,5 @@
 import { RelevantMove } from '@/utilities/relevant-moves-creator';
-import { Link } from "@heroui/link";
+import { Link } from '@heroui/react';
 
 export interface RelevantMovesParams {
   relevantMoves: RelevantMove[];

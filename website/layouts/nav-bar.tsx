@@ -3,13 +3,20 @@ import { useGlobalSearch } from '@/components/global-search/global-search-contex
 import { characters } from '@/config/framedata/framedata';
 import { VERSION_NUMBER } from '@/layouts/version-number';
 import { characterRoute } from '@/utilities/routes';
-import { Divider } from '@heroui/divider';
-import { Image } from '@heroui/image';
-import { Link } from '@heroui/link';
-import { Navbar, NavbarBrand, NavbarContent, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@heroui/navbar';
-import { Tooltip } from '@heroui/tooltip';
+import { Tooltip } from '@heroui/react';
+import Image from 'next/image';
+import NextLink from 'next/link';
 import React, { useEffect } from 'react';
-import { FaAward, FaCalculator, FaCircleUser, FaGoogleDrive, FaMugHot, FaRobot } from 'react-icons/fa6';
+import {
+  FaAward,
+  FaBars,
+  FaCalculator,
+  FaCircleUser,
+  FaGoogleDrive,
+  FaMugHot,
+  FaRobot,
+  FaXmark,
+} from 'react-icons/fa6';
 import { Logo } from '../components/icons';
 import { Socials } from './socials';
 
@@ -25,120 +32,122 @@ export const NavBar = () => {
   }, [registerNavigateCallback]);
 
   return (
-    <Navbar className="dark:bg-background bg-red-700" isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
-      <NavbarContent>
-        <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
-        <NavbarBrand>
-          <Link href="/" onPress={closeMenu}>
-            <Logo height={50} width={200} />
-          </Link>
-          {process.env.IS_BETA ? <p>Beta</p> : <></>}
-        </NavbarBrand>
-      </NavbarContent>
-      <NavbarMenu className="mt-3 space-y-1 px-7">
-        <NavbarMenuItem>
-          <GlobalSearch />
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            color="foreground"
+    <>
+      <nav className="dark:bg-background flex h-16 w-full items-center bg-red-700 px-4">
+        <button
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          className="mr-3 text-white"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <FaXmark size={20} /> : <FaBars size={20} />}
+        </button>
+        <NextLink href="/" onClick={closeMenu}>
+          <Logo height={50} width={200} />
+        </NextLink>
+        {process.env.IS_BETA ? <p className="ml-2 text-white">Beta</p> : null}
+      </nav>
+
+      {isMenuOpen && (
+        <div className="fixed top-16 right-0 left-0 z-50 mt-0 max-h-[calc(100vh-4rem)] space-y-1 overflow-y-auto bg-white px-7 pb-7 shadow-lg dark:bg-gray-900">
+          <div className="pt-3">
+            <GlobalSearch />
+          </div>
+
+          <NextLink
             href="/"
-            className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            onPress={closeMenu}
+            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            onClick={closeMenu}
           >
             <FaCircleUser />
             <span className="ms-3">Characters</span>
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            color="foreground"
+          </NextLink>
+
+          <NextLink
             href="/crouch-cancel-calculator"
-            className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            onPress={closeMenu}
+            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            onClick={closeMenu}
           >
             <FaCalculator />
             <span className="ms-3">Crouch Cancel Calculator</span>
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            color="foreground"
+          </NextLink>
+
+          <a
             href="https://bot.fightcore.gg"
-            isExternal
-            className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            onPress={closeMenu}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            onClick={closeMenu}
           >
             <FaRobot />
             <span className="ms-3">Discord Bot</span>
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            color="foreground"
+          </a>
+
+          <a
             href="https://drive.fightcore.gg"
-            isExternal
-            className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            onPress={closeMenu}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            onClick={closeMenu}
           >
             <FaGoogleDrive />
             <span className="ms-3">Drive</span>
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            color="foreground"
+          </a>
+
+          <NextLink
             href="/credits"
-            className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            onPress={closeMenu}
+            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            onClick={closeMenu}
           >
             <FaAward />
             <span className="ms-3">Credits & Sources</span>
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            color="foreground"
+          </NextLink>
+
+          <a
             href="https://ko-fi.com/fc_bort"
             target="_blank"
-            className="group flex items-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            onPress={closeMenu}
+            rel="noopener noreferrer"
+            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            onClick={closeMenu}
           >
             <FaMugHot />
             <span className="ms-3">Buy me a coffee</span>
-          </Link>
-        </NavbarMenuItem>
+          </a>
 
-        <div className="py-2">
-          <Divider></Divider>
-        </div>
-        <div className="flex w-full flex-row flex-wrap justify-start gap-5">
-          {characters.map((character) => (
-            <div key={character.normalizedName}>
-              <Tooltip content={character.name} delay={1000}>
-                <Link href={characterRoute(character)} onPress={closeMenu}>
-                  <Image
-                    className="grow text-white"
-                    alt={character.name}
-                    width={40}
-                    height={40}
-                    src={'/newicons/' + character.name + '.webp'}
-                  />
-                </Link>
-              </Tooltip>
+          <div className="py-2">
+            <hr className="border-gray-200 dark:border-gray-700" />
+          </div>
+
+          <div className="flex w-full flex-row flex-wrap justify-start gap-5">
+            {characters.map((character) => (
+              <div key={character.normalizedName}>
+                <Tooltip delay={1000}>
+                  <Tooltip.Trigger>
+                    <NextLink href={characterRoute(character)} onClick={closeMenu}>
+                      <Image
+                        className="grow text-white"
+                        alt={character.name}
+                        width={40}
+                        height={40}
+                        src={'/newicons/' + character.name + '.webp'}
+                      />
+                    </NextLink>
+                  </Tooltip.Trigger>
+                  <Tooltip.Content>{character.name}</Tooltip.Content>
+                </Tooltip>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex h-full flex-row pb-7">
+            <div className="w-full self-end">
+              <Socials />
+              <NextLink className="mt-2" href="/patchnotes" onClick={closeMenu}>
+                Version {VERSION_NUMBER}
+              </NextLink>
             </div>
-          ))}
-        </div>
-
-        <div className="flex h-full flex-row pb-7">
-          <div className="w-full self-end">
-            <Socials />
-            <Link className="mt-2" href="/patchnotes" onPress={closeMenu}>
-              Version {VERSION_NUMBER}
-            </Link>
           </div>
         </div>
-      </NavbarMenu>
-    </Navbar>
+      )}
+    </>
   );
 };

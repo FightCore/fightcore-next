@@ -2,9 +2,7 @@ import { AnimationPlayer } from '@/components/moves/animations/animation-player'
 import { DownloadButtonGroup } from '@/components/moves/download-button-group';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button } from '@heroui/button';
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/modal';
-import { Select, SelectItem } from '@heroui/select';
+import { Button, ListBox, ListBoxItem, Modal, Select } from '@heroui/react';
 import { useState } from 'react';
 import { FaExpand } from 'react-icons/fa6';
 import { MoveGif } from './animations/move-gif';
@@ -15,7 +13,7 @@ export interface MoveAnimationDisplayParams {
 }
 
 export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDisplayParams>) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -74,23 +72,41 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
   return (
     <>
       <div className="flex items-end justify-between gap-2">
-        <Button isIconOnly className="hidden md:inline-flex" aria-label="fullscreen" onPress={onOpen}>
+        <Button
+          variant="tertiary"
+          className="hidden md:inline-flex"
+          isIconOnly
+          aria-label="fullscreen"
+          onPress={() => setIsOpen(true)}
+        >
           <FaExpand />
         </Button>
         {hasMultipleAnimations && (
           <Select
-            selectedKeys={currentPage.toString()}
-            onSelectionChange={(keys) => {
-              if (keys instanceof Set && keys.size === 0) {
+            selectedKey={currentPage.toString()}
+            onSelectionChange={(key) => {
+              const k = key as string;
+              if (!k) {
                 setCurrentPage(1);
                 return;
               }
-              setCurrentPage(Number(Array.from(keys)[0]));
+              setCurrentPage(Number(k));
             }}
+            aria-label="Animation selection"
           >
-            {descriptionArray.slice(1).map((description, index) => (
-              <SelectItem key={(index + 1).toString()}>{description}</SelectItem>
-            ))}
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Indicator />
+            </Select.Trigger>
+            <Select.Popover>
+              <ListBox>
+                {descriptionArray.slice(1).map((description, index) => (
+                  <ListBoxItem key={(index + 1).toString()} id={(index + 1).toString()} textValue={description ?? ''}>
+                    {description}
+                  </ListBoxItem>
+                ))}
+              </ListBox>
+            </Select.Popover>
           </Select>
         )}
         <DownloadButtonGroup
@@ -108,7 +124,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
       />
       <FullScreenModal
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={setIsOpen}
         move={params.move}
         characterName={params.characterName}
         specificUrl={currentUrl}
@@ -125,27 +141,25 @@ interface MoveAnimationModalParams extends MoveAnimationDisplayParams {
 
 function FullScreenModal(params: Readonly<MoveAnimationModalParams>) {
   return (
-    <Modal size="5xl" isOpen={params.isOpen} onOpenChange={params.onOpenChange}>
-      <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader className="flex flex-col gap-1">{params.move.name}</ModalHeader>
-            <ModalBody>
+    <Modal.Root isOpen={params.isOpen} onOpenChange={params.onOpenChange}>
+      <Modal.Backdrop>
+        <Modal.Container size="full">
+          <Modal.Dialog>
+            <Modal.Header className="flex flex-col gap-1">{params.move.name}</Modal.Header>
+            <Modal.Body>
               <AnimationPlayer
                 move={params.move}
                 characterName={params.characterName}
                 apngUrl={params.specificUrl ? params.specificUrl : params.move.pngUrl!}
                 showAdditionalControls={true}
               />
-            </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onPress={() => params.onOpenChange(false)}>Close</Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal.Root>
   );
 }
