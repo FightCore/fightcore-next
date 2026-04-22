@@ -1,6 +1,6 @@
 import { Accordion } from '@heroui/react';
-import { FaCircleQuestion } from 'react-icons/fa6';
 import Link from 'next/link';
+import { FaCircleQuestion } from 'react-icons/fa6';
 
 interface LegendEntry {
   color: string;
@@ -16,33 +16,30 @@ const hitboxEntries: LegendEntry[] = [
 ];
 
 const boneEntries: LegendEntry[] = [
-  { color: '#FFFF00', label: 'Normal', glossaryUrl: 'https://example.com/glossary/normal' },
-  { color: '#DAA520', label: 'Ungrabbable', glossaryUrl: 'https://example.com/glossary/ungrabbable' },
-  { color: '#0000C0', label: 'Intangible', glossaryUrl: 'https://example.com/glossary/intangible' },
-  { color: '#00FF00', label: 'Invincible', glossaryUrl: 'https://example.com/glossary/invincible' },
+  { color: '#FFFF00', label: 'Normal', glossaryUrl: undefined },
+  { color: '#DAA520', label: 'Ungrabbable', glossaryUrl: undefined },
+  { color: '#0000C0', label: 'Intangible', glossaryUrl: undefined },
+  { color: '#00FF00', label: 'Invincible', glossaryUrl: undefined },
 ];
 
 const characterEntries: LegendEntry[] = [
-  { color: '#FF8000', label: 'Auto Cancel', glossaryUrl: 'https://example.com/glossary/auto-cancel' },
-  { color: '#FF00C0', label: 'IASA', glossaryUrl: 'https://example.com/glossary/iasa' },
+  { color: '#FF8000', label: 'Auto Cancel', glossaryUrl: undefined },
+  { color: '#FF00C0', label: 'IASA', glossaryUrl: undefined },
 ];
 
 function LegendItem({ entry }: Readonly<{ entry: LegendEntry }>) {
   return (
     <div className="flex items-center gap-1.5">
-      <span
-        className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-        style={{ backgroundColor: entry.color }}
-      />
+      <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: entry.color }} />
       {entry.glossaryUrl ? (
         <Link
           href={entry.glossaryUrl}
-          className="text-sm text-default-600 underline decoration-default-300 underline-offset-2 transition-colors hover:text-default-900"
+          className="text-default-600 decoration-default-300 hover:text-default-900 text-sm underline underline-offset-2 transition-colors"
         >
           {entry.label}
         </Link>
       ) : (
-        <span className="text-sm text-default-600">{entry.label}</span>
+        <span className="text-default-600 text-sm">{entry.label}</span>
       )}
     </div>
   );
@@ -50,9 +47,9 @@ function LegendItem({ entry }: Readonly<{ entry: LegendEntry }>) {
 
 export function AnimationLegendContent() {
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
       <div>
-        <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-default-500">Hitbox IDs</h3>
+        <h3 className="text-default-500 mb-1 text-sm font-semibold tracking-wide">Hitbox IDs</h3>
         <div className="grid grid-cols-1 gap-0.5">
           {hitboxEntries.map((entry) => (
             <LegendItem key={entry.label} entry={entry} />
@@ -60,7 +57,7 @@ export function AnimationLegendContent() {
         </div>
       </div>
       <div>
-        <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-default-500">Bone colors</h3>
+        <h3 className="text-default-500 mb-1 text-sm font-semibold tracking-wide">Bone colors</h3>
         <div className="grid grid-cols-1 gap-0.5">
           {boneEntries.map((entry) => (
             <LegendItem key={entry.label} entry={entry} />
@@ -68,16 +65,16 @@ export function AnimationLegendContent() {
         </div>
       </div>
       <div>
-        <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-default-500">Character</h3>
+        <h3 className="text-default-500 mb-1 text-sm font-semibold tracking-wide">Character</h3>
         <div className="grid grid-cols-1 gap-0.5">
           {characterEntries.map((entry) => (
             <LegendItem key={entry.label} entry={entry} />
           ))}
         </div>
       </div>
-      <div className="col-span-3 border-t border-default-200 pt-2">
-        <h3 className="text-sm font-semibold text-default-500">Missing hitbox IDs</h3>
-        <p className="mt-0.5 text-xs text-default-400">
+      <div className="border-default-200 col-span-3 border-t pt-2">
+        <h3 className="text-default-500 text-sm font-semibold">Missing hitbox IDs</h3>
+        <p className="text-default-400 mt-0.5 text-xs">
           Sometimes hitbox colors and table data don&apos;t match. When this happens,{' '}
           <strong className="text-default-500">all hitboxes share the same data.</strong>
         </p>
@@ -94,7 +91,7 @@ export default function AnimationLegend() {
           <Accordion.Trigger>
             <FaCircleQuestion className="mr-2" />
             Hitbox GIF Legend
-            <span className="ml-2 text-sm font-normal text-default-500">
+            <span className="text-default-500 ml-2 text-sm font-normal">
               Open this to learn more about what the hitbox colors mean
             </span>
           </Accordion.Trigger>
