@@ -1,5 +1,8 @@
+import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
+import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, ListBox, ListBoxItem, Select, Tooltip } from '@heroui/react';
+import { Button, ToggleButton, ToggleButtonGroup, Tooltip } from '@heroui/react';
+import { FaBackward, FaBackwardStep, FaForward, FaForwardStep, FaPause, FaPlay } from 'react-icons/fa6';
 
 export interface AnimationControlsProps {
   frameCounter: number;
@@ -15,6 +18,7 @@ export interface AnimationControlsProps {
   showFirstLastButtons?: boolean;
   onGoToFirstFrame?: () => void;
   onGoToLastFrame?: () => void;
+  move: Move;
 }
 
 export const AnimationControls = ({
@@ -30,6 +34,7 @@ export const AnimationControls = ({
   showFirstLastButtons = false,
   onGoToFirstFrame,
   onGoToLastFrame,
+  move,
 }: AnimationControlsProps) => {
   const nextFrame = () => {
     onPause();
@@ -42,76 +47,66 @@ export const AnimationControls = ({
   };
 
   return (
-    <div className="grid grid-cols-2 gap-2">
-      {isPlaying ? (
-        <Button variant="tertiary" className="w-full" onPress={onPause} aria-label="Pause animation">
-          <kbd className="mr-1 text-xs opacity-60">Space</kbd> Pause
-        </Button>
-      ) : (
-        <Button variant="tertiary" className="w-full" onPress={onPlay} aria-label="Play animation">
-          <kbd className="mr-1 text-xs opacity-60">Space</kbd> Play
-        </Button>
-      )}
-
-      <Button variant="tertiary" className="w-full" aria-label="Frame counter">
-        Frame: {frameCounter} {totalFrames > 0 && `of ${totalFrames}`}
-      </Button>
-
-      <Button variant="tertiary" className="w-full" onPress={previousFrame} aria-label="Previous frame">
-        <kbd className="mr-1 text-xs opacity-60">←</kbd> Previous Frame
-      </Button>
-
-      <Button variant="tertiary" className="w-full" onPress={nextFrame} aria-label="Next frame">
-        <kbd className="mr-1 text-xs opacity-60">→</kbd> Next Frame
-      </Button>
-
-      <Select
-        className="w-full"
-        defaultSelectedKey="0.2"
-        isDisabled={!showPlaybackSpeed}
-        onSelectionChange={(key) => {
-          const speed = Number(key);
-          onPlaybackSpeedChange?.(speed);
-          createEvent('change_speed', { speed });
-        }}
-        aria-label="Playback speed"
-      >
-        <Select.Trigger>
-          <Select.Value />
-          <Select.Indicator />
-        </Select.Trigger>
-        <Select.Popover>
-          <ListBox>
-            <ListBoxItem id="0.2" textValue="12 FPS (Default)">
-              12 FPS (Default)
-            </ListBoxItem>
-            <ListBoxItem id="1" textValue="60 FPS (In-game speed)">
-              60 FPS (In-game speed)
-            </ListBoxItem>
-          </ListBox>
-        </Select.Popover>
-      </Select>
-
-      <Tooltip>
-        <Tooltip.Trigger>
-          <Button variant="tertiary" className="w-full" isDisabled>
-            Report issue
+    <div>
+      <div className="flex w-full justify-between">
+        {frameCounter} / {totalFrames > 0 && `of ${totalFrames}`}
+        <div className="flex gap-2">
+          FPS
+          <ToggleButtonGroup
+            isDetached
+            selectionMode="single"
+            size="sm"
+            defaultSelectedKeys={['0.2']}
+            isDisabled={!showPlaybackSpeed}
+            onSelectionChange={(key) => {
+              const first = [...key][0];
+              const speed = Number(first);
+              onPlaybackSpeedChange?.(speed);
+              createEvent('change_speed', { speed });
+            }}
+          >
+            <ToggleButton id="0.2"> 12 </ToggleButton>
+            <ToggleButton id="0.5"> 30</ToggleButton>
+            <ToggleButton id="1"> 60</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </div>
+      <HitboxTimeline interactive move={move}></HitboxTimeline>
+      <div className="flex w-full place-content-center">
+        <div className="flex gap-3">
+          <Button isIconOnly variant="tertiary" onPress={onGoToFirstFrame}>
+            <FaBackwardStep />
           </Button>
-        </Tooltip.Trigger>
-        <Tooltip.Content>Feature coming soon</Tooltip.Content>
-      </Tooltip>
-
-      {showFirstLastButtons && (
-        <Button variant="tertiary" className="w-full" onPress={onGoToFirstFrame} aria-label="First frame">
-          First Frame
-        </Button>
-      )}
-
-      {showFirstLastButtons && (
-        <Button variant="tertiary" className="w-full" onPress={onGoToLastFrame} aria-label="Last frame">
-          Last Frame
-        </Button>
-      )}
+          <Button isIconOnly variant="tertiary" onPress={previousFrame}>
+            <FaBackward />
+          </Button>
+          {isPlaying ? (
+            <Button size="lg" isIconOnly onPress={onPause}>
+              <FaPause />
+            </Button>
+          ) : (
+            <Button size="lg" isIconOnly onPress={onPlay}>
+              <FaPlay />
+            </Button>
+          )}
+          <Button isIconOnly variant="tertiary" onPress={nextFrame}>
+            <FaForward />
+          </Button>
+          <Button isIconOnly variant="tertiary" onPress={onGoToLastFrame}>
+            <FaForwardStep />
+          </Button>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <Tooltip>
+          <Tooltip.Trigger>
+            <Button variant="tertiary" className="w-full" isDisabled>
+              Report issue
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>Feature coming soon</Tooltip.Content>
+        </Tooltip>
+      </div>
     </div>
   );
 };

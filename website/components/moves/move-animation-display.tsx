@@ -1,10 +1,12 @@
+import { AnimationDisplay } from '@/components/moves/animations/animation-display';
 import { AnimationPlayer } from '@/components/moves/animations/animation-player';
+import { AnimationPlayerProvider } from '@/components/moves/animations/animation-player-context';
+import { AnimationPlayerControls } from '@/components/moves/animations/animation-player-controls';
 import { DownloadButtonGroup } from '@/components/moves/download-button-group';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, ListBox, ListBoxItem, Modal, Select } from '@heroui/react';
+import { Button, Card, Modal } from '@heroui/react';
 import { useState } from 'react';
-import { FaExpand } from 'react-icons/fa6';
 import { MoveGif } from './animations/move-gif';
 
 export interface MoveAnimationDisplayParams {
@@ -70,9 +72,27 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
   const currentUrl = urlArray[currentPage] ?? params.move.pngUrl;
 
   return (
-    <>
-      <div className="flex items-end justify-between gap-2">
-        <Button
+    <AnimationPlayerProvider
+      move={params.move}
+      characterName={params.characterName}
+      showAdditionalControls={false}
+      apngUrl={currentUrl}
+    >
+      <div className="flex flex-col gap-3">
+        <Card>
+          <Card.Header>
+            <div className="flex w-full justify-between">
+              <span>Hitbox viewer</span>
+              <DownloadButtonGroup
+                isDownloading={isDownloading}
+                onDownloadGif={() => handleDownloadClick(currentAnimation.gifUrl!, 'gif')}
+                onDownloadPng={() => handleDownloadClick(currentAnimation.pngUrl!, 'png')}
+                onDownloadWebm={() => handleDownloadClick(currentAnimation.webmUrl!, 'webm')}
+              />
+            </div>
+          </Card.Header>
+          <Card.Content>
+            {/* <Button
           variant="tertiary"
           className="hidden md:inline-flex"
           isIconOnly
@@ -108,28 +128,29 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
               </ListBox>
             </Select.Popover>
           </Select>
-        )}
-        <DownloadButtonGroup
-          isDownloading={isDownloading}
-          onDownloadGif={() => handleDownloadClick(currentAnimation.gifUrl!, 'gif')}
-          onDownloadPng={() => handleDownloadClick(currentAnimation.pngUrl!, 'png')}
-          onDownloadWebm={() => handleDownloadClick(currentAnimation.webmUrl!, 'webm')}
-        />
+        )} */}
+
+            <div className="px-40">
+              <AnimationDisplay />
+            </div>
+            <FullScreenModal
+              isOpen={isOpen}
+              onOpenChange={setIsOpen}
+              move={params.move}
+              characterName={params.characterName}
+              specificUrl={currentUrl}
+            />
+          </Card.Content>
+        </Card>
+        <Card>
+          <Card.Content>
+            <div>
+              <AnimationPlayerControls />
+            </div>
+          </Card.Content>
+        </Card>
       </div>
-      <AnimationPlayer
-        key={'gif' + currentPage}
-        move={params.move}
-        characterName={params.characterName}
-        apngUrl={currentUrl}
-      />
-      <FullScreenModal
-        isOpen={isOpen}
-        onOpenChange={setIsOpen}
-        move={params.move}
-        characterName={params.characterName}
-        specificUrl={currentUrl}
-      />
-    </>
+    </AnimationPlayerProvider>
   );
 }
 

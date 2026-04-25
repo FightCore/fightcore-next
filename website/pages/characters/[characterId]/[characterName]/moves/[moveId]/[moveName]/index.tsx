@@ -1,6 +1,5 @@
 import { CrouchCancelSection } from '@/components/moves/crouch-cancel-section';
 import { HitboxSection } from '@/components/moves/hitbox-section';
-import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
 import MoveAnimationDisplay from '@/components/moves/move-animation-display';
 import MoveAttributeTable from '@/components/moves/move-attribute-table';
 import { MoveHead } from '@/components/moves/move-head';
@@ -133,12 +132,11 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         </Breadcrumbs>
       </div>
       <div className="w-full md:flex">
-        <div className="w-full p-2 md:w-1/2">
+        <div className="w-full p-2 md:w-2/3">
           <MoveAnimationDisplay move={data.move} characterName={data.character.name}></MoveAnimationDisplay>
         </div>
-        <div className="w-full pb-2 md:w-1/2 md:px-2">
+        <div className="w-full pb-2 md:w-1/3 md:px-2">
           <div className="w-full">
-            <h2 className="text-lg font-semibold">Summary</h2>
             <MoveSummaryTable moveSummary={moveSummary} />
           </div>
           <div className="hidden w-full md:block">
@@ -147,7 +145,7 @@ export default function MoveIndexPage({ data }: Readonly<InferGetStaticPropsType
         </div>
       </div>
       <div>
-        {shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline displayLegend interactive move={data.move} /> : <></>}
+        {/* {shouldDisplayFrameTimeline(data.move) ? <HitboxTimeline displayLegend interactive move={data.move} /> : <></>} */}
       </div>
       <h2 className="my-3 text-xl font-bold">Attributes</h2>
       <MoveAttributeTable move={data.move} />
