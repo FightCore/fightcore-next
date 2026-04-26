@@ -2,10 +2,12 @@ import { AnimationDisplay } from '@/components/moves/animations/animation-displa
 import { AnimationPlayer } from '@/components/moves/animations/animation-player';
 import { AnimationPlayerProvider } from '@/components/moves/animations/animation-player-context';
 import { AnimationPlayerControls } from '@/components/moves/animations/animation-player-controls';
+import { AnimationCredit } from '@/components/moves/animations/controls/animation-credit';
+import { AnimationPicker } from '@/components/moves/animations/controls/animation-picker';
 import { DownloadButtonGroup } from '@/components/moves/download-button-group';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, Card, Modal } from '@heroui/react';
+import { Button, Card, Modal, Surface } from '@heroui/react';
 import { useState } from 'react';
 import { MoveGif } from './animations/move-gif';
 
@@ -79,10 +81,23 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
       apngUrl={currentUrl}
     >
       <div className="flex flex-col gap-3">
-        <Card>
-          <Card.Header>
+        <Surface className="rounded p-6">
+          <div>
             <div className="flex w-full justify-between">
-              <span>Hitbox viewer</span>
+              <div className="flex gap-2">
+                <span>Hitbox viewer</span>
+                <div>
+                  {hasMultipleAnimations && (
+                    <AnimationPicker
+                      descriptions={descriptionArray}
+                      onChange={function (key: number): void {
+                        setCurrentPage(key);
+                      }}
+                    ></AnimationPicker>
+                  )}
+                </div>
+              </div>
+
               <DownloadButtonGroup
                 isDownloading={isDownloading}
                 onDownloadGif={() => handleDownloadClick(currentAnimation.gifUrl!, 'gif')}
@@ -90,7 +105,14 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
                 onDownloadWebm={() => handleDownloadClick(currentAnimation.webmUrl!, 'webm')}
               />
             </div>
-          </Card.Header>
+            <div className="-mx-6 bg-mauve-900">
+              <hr className="border-divider my-1.5" />
+              <div className="px-6">
+                <AnimationCredit move={params.move}></AnimationCredit>
+              </div>
+              <hr className="border-divider my-1.5" />
+            </div>
+          </div>
           <Card.Content>
             {/* <Button
           variant="tertiary"
@@ -101,34 +123,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         >
           <FaExpand />
         </Button>
-        {hasMultipleAnimations && (
-          <Select
-            selectedKey={currentPage.toString()}
-            onSelectionChange={(key) => {
-              const k = key as string;
-              if (!k) {
-                setCurrentPage(1);
-                return;
-              }
-              setCurrentPage(Number(k));
-            }}
-            aria-label="Animation selection"
-          >
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {descriptionArray.slice(1).map((description, index) => (
-                  <ListBoxItem key={(index + 1).toString()} id={(index + 1).toString()} textValue={description ?? ''}>
-                    {description}
-                  </ListBoxItem>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-        )} */}
+         */}
 
             <div className="px-40">
               <AnimationDisplay />
@@ -141,7 +136,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
               specificUrl={currentUrl}
             />
           </Card.Content>
-        </Card>
+        </Surface>
         <Card>
           <Card.Content>
             <div>

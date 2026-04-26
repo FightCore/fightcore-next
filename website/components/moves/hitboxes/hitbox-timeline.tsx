@@ -2,7 +2,6 @@ import emitter from '@/events/event-emitter';
 import { Move } from '@/models/move';
 import { processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
 import { getMappedUnique } from '@/utilities/utils';
-import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
 
@@ -17,10 +16,12 @@ const COMPACT_LAYOUT = { barHeight: 12, activeBarHeight: 18 } as const;
 const NORMAL_LAYOUT = { barHeight: 22, activeBarHeight: 32 } as const;
 
 const SEMANTIC_COLORS = {
-  iasa: 'orange',
-  autoCancel: 'green',
-  darkBackground: '#1f2937',
-  lightBackground: '#dddde0',
+  iasa: '#f97316',
+  autoCancel: '#22c55e',
+  emptyBackground: 'var(--timeline-empty-bg)',
+  labelColor: 'var(--timeline-label-color)',
+  currentBorder: 'var(--timeline-current-border)',
+  currentLabel: 'var(--timeline-current-label)',
 } as const;
 
 export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
@@ -28,7 +29,6 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
   const data = processDuplicateHits(flattenData(processedHits));
   const hitColors = generateColors(data);
 
-  const { theme } = useTheme();
   const [currentFrame, setCurrentFrame] = useState(0);
   const dragging = useRef(false);
 
@@ -43,14 +43,17 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
 
   const frames = Array.from({ length: params.move.totalFrames }, (_, i) => i + 1);
 
-  const keyFrameNums = [
-    ...new Set([1, ...hitColors.flatMap((w) => [w.start, w.end]), params.move.totalFrames]),
-  ].sort((a, b) => a - b);
+  const keyFrameNums = [...new Set([1, ...hitColors.flatMap((w) => [w.start, w.end]), params.move.totalFrames])].sort(
+    (a, b) => a - b,
+  );
 
   const getCellBackground = (frame: number, isCurrent: boolean, windows: HitboxColor[]): string => {
     if (windows.length === 0) {
-      if (params.move.iasa === frame) return SEMANTIC_COLORS.iasa;
-      return theme === 'dark' ? SEMANTIC_COLORS.darkBackground : SEMANTIC_COLORS.lightBackground;
+      if (params.move.iasa === frame) {
+        return SEMANTIC_COLORS.iasa;
+      }
+
+      return SEMANTIC_COLORS.emptyBackground;
     }
     if (windows.length >= 2) {
       const stops = windows.map((w, i) => {
@@ -65,7 +68,6 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
   };
 
   const getCellBorderColor = (frame: number, isCurrent: boolean, windows: HitboxColor[]): string => {
-    if (isCurrent) return 'white';
     if (
       (params.move.autoCancelBefore && params.move.autoCancelBefore > frame) ||
       (params.move.autoCancelAfter && params.move.autoCancelAfter < frame)
@@ -84,7 +86,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
 
   const getLabelColor = (frame: number): string => {
     const windows = getWindowsForFrame(hitColors, frame);
-    return windows.length ? windows[0].color + 'cc' : (theme === 'dark' ? '#5a5a72' : '#9090aa');
+    return windows.length ? windows[0].color + 'cc' : SEMANTIC_COLORS.labelColor;
   };
 
   const legendData: { label: string; color: string; borderColor: string }[] = [
@@ -147,7 +149,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       </div>
 
       {!params.compact && (
-        <div className="relative h-5 mt-1 font-mono text-[10px]">
+        <div className="relative mt-1 h-5 font-mono text-[10px]">
           {keyFrameNums.map((f) => {
             const pct = ((f - 1) / (params.move.totalFrames - 1)) * 100;
             const anchor = getLabelAnchor(f);
@@ -161,11 +163,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
                   whiteSpace: 'nowrap',
                   color: getLabelColor(f),
                   transform:
-                    anchor === 'center'
-                      ? 'translateX(-50%)'
-                      : anchor === 'right'
-                        ? 'translateX(-100%)'
-                        : 'none',
+                    anchor === 'center' ? 'translateX(-50%)' : anchor === 'right' ? 'translateX(-100%)' : 'none',
                   cursor: params.interactive ? 'pointer' : 'default',
                 }}
                 onClick={() => {
@@ -183,7 +181,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
                 left: `${((currentFrame - 1) / (params.move.totalFrames - 1)) * 100}%`,
                 top: 0,
                 transform: 'translateX(-50%)',
-                color: 'white',
+                color: SEMANTIC_COLORS.currentLabel,
                 fontWeight: 700,
                 whiteSpace: 'nowrap',
                 pointerEvents: 'none',
@@ -196,7 +194,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       )}
 
       {params.displayLegend && (
-        <div className="flex flex-wrap gap-3 mt-3">
+        <div className="mt-3 flex flex-wrap gap-3">
           {legendData.map((item) => (
             <div key={item.label} className="flex items-center gap-1.5 text-xs">
               <span

@@ -1,3 +1,4 @@
+import { HitChips } from '@/components/moves/animations/controls/hit-chips';
 import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
@@ -70,6 +71,9 @@ export const AnimationControls = ({
             <ToggleButton id="1"> 60</ToggleButton>
           </ToggleButtonGroup>
         </div>
+      </div>
+      <div className="border-black-800 my-2 border-y py-2">
+        <HitChips move={move}></HitChips>
       </div>
       <HitboxTimeline interactive move={move}></HitboxTimeline>
       <div className="flex w-full place-content-center">

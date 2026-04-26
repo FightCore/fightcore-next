@@ -2,7 +2,6 @@ import eventEmitter from '@/events/event-emitter';
 import parseAPNG from 'apng-js';
 import Player from 'apng-js/types/library/player';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import AnimationLegend from './animation-legend';
 
 export interface ApngMoveParams {
   url: string;
@@ -188,7 +187,7 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       )}
       <div className="bg-zinc-300 dark:bg-transparent" ref={canvasDivRef} />
 
-      <AnimationLegend />
+      {/* <AnimationLegend /> */}
     </>
   );
 }

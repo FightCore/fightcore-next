@@ -33,7 +33,7 @@ export const NavBar = () => {
 
   return (
     <>
-      <nav className="dark:bg-background flex h-16 w-full items-center bg-red-700 px-4">
+      <nav className="dark:bg-background flex h-16 w-full items-center bg-brand px-4">
         <button
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className="mr-3 text-white"

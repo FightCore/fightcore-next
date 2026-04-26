@@ -21,7 +21,7 @@ export default function StalenessSelector({ slot, onValueChange }: StalenessSlot
       className={clsx(
         'cursor-pointer rounded border px-2 py-1 text-sm transition-colors',
         isSelected
-          ? 'border-red-700 bg-red-700 text-white'
+          ? 'border-brand bg-brand text-white'
           : 'border-gray-300 bg-transparent text-gray-500 hover:bg-gray-200 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700',
       )}
     >

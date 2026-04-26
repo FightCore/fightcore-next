@@ -13,7 +13,7 @@ import { Socials } from './socials';
 export function SideNav() {
   return (
     <div className="flex h-full flex-col overflow-y-auto">
-      <div className="bg-red-700 p-2 text-white dark:bg-transparent">
+      <div className="bg-brand p-2 text-white dark:bg-transparent">
         <NextLink href="/" className="align-content-center flex">
           <Logo className="flex-1" height={50} width={50} />
         </NextLink>

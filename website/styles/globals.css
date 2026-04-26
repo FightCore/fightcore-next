@@ -2,16 +2,52 @@
 @import '@heroui/styles';
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  /* Brand */
+  --color-brand: #b91c1c;
+  --color-brand-light: #ef4444;
+  --color-brand-muted: #7f1d1d;
+
+  /* Surfaces */
+  --color-card: #1f2937;
+
+  /* Semantic */
+  --color-warning: #f97316;
+  --color-danger: #ef4444;
+
+  /* Hitbox IDs */
+  --color-hitbox-0: #ef4444;
+  --color-hitbox-1: #22c55e;
+  --color-hitbox-2: #3b82f6;
+  --color-hitbox-3: #a855f7;
+
+  /* Animation frame states */
+  --color-state-invincible: #4ade80;
+  --color-state-bone: #facc15;
+  --color-state-bone-ungrab: #f59e0b;
+  --color-state-bone-intangible: #1d4ed8;
+  --color-state-autocancel: #f97316;
+  --color-state-iasa: #d946ef;
+}
+
 :root {
-  --accent: oklch(32% 0.12 9);
+  --accent: #b91c1c;
   --accent-foreground: oklch(100% 0 0);
+  --timeline-empty-bg: #dddde0;
+  --timeline-label-color: #9090aa;
+  --timeline-current-border: #111827;
+  --timeline-current-label: #111827;
 }
 
 [data-theme='dark'],
 .dark {
-  --accent: oklch(57% 0.21 25);
+  --accent: #dc2626;
   --accent-foreground: oklch(100% 0 0);
   --background: oklch(7% 0 0);
+  --timeline-empty-bg: #1f2937;
+  --timeline-label-color: #5a5a72;
+  --timeline-current-border: #ffffff;
+  --timeline-current-label: #ffffff;
 }
 
 .super-gif > canvas {
