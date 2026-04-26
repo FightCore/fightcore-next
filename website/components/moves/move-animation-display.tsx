@@ -7,7 +7,7 @@ import { AnimationPicker } from '@/components/moves/animations/controls/animatio
 import { DownloadButtonGroup } from '@/components/moves/download-button-group';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, Card, Modal, Surface } from '@heroui/react';
+import { Button, Modal } from '@heroui/react';
 import { useState } from 'react';
 import { MoveGif } from './animations/move-gif';
 
@@ -80,70 +80,49 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
       showAdditionalControls={false}
       apngUrl={currentUrl}
     >
-      <div className="flex flex-col gap-3">
-        <Surface className="rounded p-6">
-          <div>
-            <div className="flex w-full justify-between">
-              <div className="flex gap-2">
-                <span>Hitbox viewer</span>
-                <div>
-                  {hasMultipleAnimations && (
-                    <AnimationPicker
-                      descriptions={descriptionArray}
-                      onChange={function (key: number): void {
-                        setCurrentPage(key);
-                      }}
-                    ></AnimationPicker>
-                  )}
-                </div>
-              </div>
-
-              <DownloadButtonGroup
-                isDownloading={isDownloading}
-                onDownloadGif={() => handleDownloadClick(currentAnimation.gifUrl!, 'gif')}
-                onDownloadPng={() => handleDownloadClick(currentAnimation.pngUrl!, 'png')}
-                onDownloadWebm={() => handleDownloadClick(currentAnimation.webmUrl!, 'webm')}
+      <div className="overflow-hidden rounded-xl border border-border">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.07em] text-muted-foreground">
+              Hitbox Viewer
+            </span>
+            {hasMultipleAnimations && (
+              <AnimationPicker
+                descriptions={descriptionArray}
+                onChange={(key: number) => setCurrentPage(key)}
               />
-            </div>
-            <div className="-mx-6 bg-mauve-900">
-              <hr className="border-divider my-1.5" />
-              <div className="px-6">
-                <AnimationCredit move={params.move}></AnimationCredit>
-              </div>
-              <hr className="border-divider my-1.5" />
-            </div>
+            )}
           </div>
-          <Card.Content>
-            {/* <Button
-          variant="tertiary"
-          className="hidden md:inline-flex"
-          isIconOnly
-          aria-label="fullscreen"
-          onPress={() => setIsOpen(true)}
-        >
-          <FaExpand />
-        </Button>
-         */}
+          <DownloadButtonGroup
+            isDownloading={isDownloading}
+            onDownloadGif={() => handleDownloadClick(currentAnimation.gifUrl!, 'gif')}
+            onDownloadPng={() => handleDownloadClick(currentAnimation.pngUrl!, 'png')}
+            onDownloadWebm={() => handleDownloadClick(currentAnimation.webmUrl!, 'webm')}
+          />
+        </div>
 
-            <div className="px-40">
-              <AnimationDisplay />
-            </div>
-            <FullScreenModal
-              isOpen={isOpen}
-              onOpenChange={setIsOpen}
-              move={params.move}
-              characterName={params.characterName}
-              specificUrl={currentUrl}
-            />
-          </Card.Content>
-        </Surface>
-        <Card>
-          <Card.Content>
-            <div>
-              <AnimationPlayerControls />
-            </div>
-          </Card.Content>
-        </Card>
+        {/* Credit */}
+        <div className="border-b border-border px-4 py-2">
+          <AnimationCredit move={params.move} />
+        </div>
+
+        {/* Animation display */}
+        <div className="w-full px-40">
+          <AnimationDisplay />
+          <FullScreenModal
+            isOpen={isOpen}
+            onOpenChange={setIsOpen}
+            move={params.move}
+            characterName={params.characterName}
+            specificUrl={currentUrl}
+          />
+        </div>
+
+        {/* Controls */}
+        <div className="border-t border-border px-4 pb-4 pt-3">
+          <AnimationPlayerControls />
+        </div>
       </div>
     </AnimationPlayerProvider>
   );

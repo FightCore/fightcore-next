@@ -2,7 +2,7 @@ import { HitChips } from '@/components/moves/animations/controls/hit-chips';
 import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, ToggleButton, ToggleButtonGroup, Tooltip } from '@heroui/react';
+import { Button, ToggleButton, ToggleButtonGroup } from '@heroui/react';
 import { FaBackward, FaBackwardStep, FaForward, FaForwardStep, FaPause, FaPlay } from 'react-icons/fa6';
 
 export interface AnimationControlsProps {
@@ -48,11 +48,15 @@ export const AnimationControls = ({
   };
 
   return (
-    <div>
-      <div className="flex w-full justify-between">
-        {frameCounter} / {totalFrames > 0 && `of ${totalFrames}`}
-        <div className="flex gap-2">
-          FPS
+    <div className="flex flex-col">
+      {/* Frame counter + FPS */}
+      <div className="mb-3 flex items-center justify-between border-b border-border pb-3">
+        <div className="flex items-baseline gap-1.5">
+          <span className="font-mono text-[30px] font-semibold leading-none text-foreground">{frameCounter}</span>
+          <span className="font-mono text-xs text-muted-foreground">/ {totalFrames > 0 ? totalFrames : '—'}</span>
+        </div>
+        <div className="flex shrink-0 items-center gap-1">
+          <span className="mr-1.5 text-xs text-muted-foreground">FPS</span>
           <ToggleButtonGroup
             isDetached
             selectionMode="single"
@@ -66,50 +70,54 @@ export const AnimationControls = ({
               createEvent('change_speed', { speed });
             }}
           >
-            <ToggleButton id="0.2"> 12 </ToggleButton>
-            <ToggleButton id="0.5"> 30</ToggleButton>
-            <ToggleButton id="1"> 60</ToggleButton>
+            <ToggleButton id="0.2">12</ToggleButton>
+            <ToggleButton id="0.5">30</ToggleButton>
+            <ToggleButton id="1">60</ToggleButton>
           </ToggleButtonGroup>
         </div>
       </div>
-      <div className="border-black-800 my-2 border-y py-2">
-        <HitChips move={move}></HitChips>
+
+      {/* Hit chips legend */}
+      <div className="mb-2">
+        <HitChips move={move} />
       </div>
-      <HitboxTimeline interactive move={move}></HitboxTimeline>
-      <div className="flex w-full place-content-center">
-        <div className="flex gap-3">
-          <Button isIconOnly variant="tertiary" onPress={onGoToFirstFrame}>
-            <FaBackwardStep />
+
+      {/* Timeline */}
+      <HitboxTimeline interactive move={move} />
+
+      {/* Transport controls */}
+      <div className="flex w-full items-center justify-center gap-2 pt-3">
+        <Button isIconOnly variant="tertiary" onPress={onGoToFirstFrame}>
+          <FaBackwardStep />
+        </Button>
+        <Button isIconOnly variant="tertiary" onPress={previousFrame}>
+          <FaBackward />
+        </Button>
+        {isPlaying ? (
+          <Button
+            size="lg"
+            isIconOnly
+            className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]"
+            onPress={onPause}
+          >
+            <FaPause />
           </Button>
-          <Button isIconOnly variant="tertiary" onPress={previousFrame}>
-            <FaBackward />
+        ) : (
+          <Button
+            size="lg"
+            isIconOnly
+            className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]"
+            onPress={onPlay}
+          >
+            <FaPlay />
           </Button>
-          {isPlaying ? (
-            <Button size="lg" isIconOnly onPress={onPause}>
-              <FaPause />
-            </Button>
-          ) : (
-            <Button size="lg" isIconOnly onPress={onPlay}>
-              <FaPlay />
-            </Button>
-          )}
-          <Button isIconOnly variant="tertiary" onPress={nextFrame}>
-            <FaForward />
-          </Button>
-          <Button isIconOnly variant="tertiary" onPress={onGoToLastFrame}>
-            <FaForwardStep />
-          </Button>
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Tooltip>
-          <Tooltip.Trigger>
-            <Button variant="tertiary" className="w-full" isDisabled>
-              Report issue
-            </Button>
-          </Tooltip.Trigger>
-          <Tooltip.Content>Feature coming soon</Tooltip.Content>
-        </Tooltip>
+        )}
+        <Button isIconOnly variant="tertiary" onPress={nextFrame}>
+          <FaForward />
+        </Button>
+        <Button isIconOnly variant="tertiary" onPress={onGoToLastFrame}>
+          <FaForwardStep />
+        </Button>
       </div>
     </div>
   );

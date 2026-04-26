@@ -179,15 +179,11 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
   return (
     <>
       {!loaded || !player ? (
-        <div className="h-96 w-full p-3">
-          <div className="skeleton bg-default-300 h-full w-full rounded-lg"></div>
+        <div className="h-64 w-full p-3">
+          <div className="skeleton h-full w-full rounded-lg opacity-20" style={{ background: '#26263a' }} />
         </div>
-      ) : (
-        <></>
-      )}
-      <div className="bg-zinc-300 dark:bg-transparent" ref={canvasDivRef} />
-
-      {/* <AnimationLegend /> */}
+      ) : null}
+      <div className="w-full" ref={canvasDivRef} />
     </>
   );
 }

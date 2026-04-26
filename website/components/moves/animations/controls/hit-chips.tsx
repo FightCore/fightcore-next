@@ -1,6 +1,6 @@
 import { flattenData } from '@/components/moves/hitboxes/hitbox-table-columns';
 import { Move } from '@/models/move';
-import { generateColors, processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
+import { generateHexColors, processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
 
 export interface HitChipProps {
   move: Move;
@@ -12,16 +12,25 @@ export const HitChips = ({ move }: HitChipProps) => {
   }
   const processedHits = processDuplicateHitboxes(move.hits);
   const data = processDuplicateHits(flattenData(processedHits));
-  const colors = generateColors(data);
+  const colors = generateHexColors(data);
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row flex-wrap gap-1.5">
       {processedHits.map((hit) => {
-        const color = colors.find((color) => color.start === hit.start && color.end === hit.end);
+        const colorObj = colors.find((c) => c.start === hit.start && c.end === hit.end);
+        const colorHex = colorObj?.color ?? '#888888';
         return (
-          <div key={hit.id}>
-            <div className={'mr-1 inline-block h-3 w-3 border border-black ' + color?.color}></div>
-            <div className="inline">{hit.name ?? 'f-' + hit.start + ' - f-' + hit.end}</div>
+          <div
+            key={hit.id}
+            className="flex items-center gap-1.5 rounded px-2 py-0.5 font-mono text-[11px] font-semibold whitespace-nowrap"
+            style={{
+              background: colorHex + '1a',
+              border: `1px solid ${colorHex}4d`,
+              color: colorHex,
+            }}
+          >
+            <span className="h-2 w-2 shrink-0 rounded-sm" style={{ background: colorHex }} />
+            {hit.name ?? `f${hit.start}–${hit.end}`}
           </div>
         );
       })}
