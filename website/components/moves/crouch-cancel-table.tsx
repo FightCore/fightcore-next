@@ -18,6 +18,7 @@ import { Alert, Card, Checkbox, Label, Radio, RadioGroup, Tabs, Tooltip } from '
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
+import StalenessQueue from './crouch-cancel/staleness-queue';
 
 export interface CrouchCancelTableParams {
   hits: Hit[];
@@ -35,6 +36,7 @@ function GenerateCard({
   sortedCharacters,
   floorPercentages,
   use999Percent,
+  staleness,
 }: {
   knockbackTarget: number;
   title: string;
@@ -42,6 +44,7 @@ function GenerateCard({
   sortedCharacters: CharacterBase[];
   floorPercentages: boolean;
   use999Percent: boolean;
+  staleness: number;
 }) {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   return (
@@ -62,7 +65,7 @@ function GenerateCard({
                 knockbackTarget,
                 floorPercentages,
                 use999Percent,
-                0,
+                staleness,
               );
               const imagePart = (
                 <Image
@@ -160,6 +163,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
   const [selected, setSelected] = React.useState(CrouchCancelSort.ALPHABETICAL);
   const [floorPercentages, setFloorPercentages] = React.useState(true);
   const [numericalPercentage, setNumericalBreak] = React.useState(false);
+  const [staleness, setStaleness] = React.useState(0);
   const localCharacters = characters
     .filter((character) => character.characterStatistics.weight > 0)
     .sort((a, b) => sortCharacters(a, b, selected));
@@ -214,7 +218,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
 
   return (
     <>
-      <div className="mb-2 grid grid-cols-1 gap-2 rounded-md border border-gray-700 p-2 md:grid-cols-3">
+      <div className="mb-2 grid grid-cols-1 gap-2 rounded-md border border-gray-700 p-2 md:grid-cols-4">
         <div className="flex flex-col gap-4">
           <Label>Sorting</Label>
           <RadioGroup
@@ -268,6 +272,11 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
             &quot;Never breaks&quot;
           </Tooltip.Content>
         </Tooltip>
+
+        <div className="flex flex-col gap-2">
+          <Label>Staleness</Label>
+          <StalenessQueue onStalenessChange={setStaleness} />
+        </div>
       </div>
 
       <Tabs
@@ -350,6 +359,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                       sortedCharacters={sortedCharacters}
                       floorPercentages={floorPercentages}
                       use999Percent={numericalPercentage}
+                      staleness={staleness}
                     />
                     <GenerateCard
                       knockbackTarget={120}
@@ -358,6 +368,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                       sortedCharacters={sortedCharacters}
                       floorPercentages={floorPercentages}
                       use999Percent={numericalPercentage}
+                      staleness={staleness}
                     />
                     {hitbox.angle == 361 && (
                       <GenerateCard
