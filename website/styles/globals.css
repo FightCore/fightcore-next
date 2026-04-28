@@ -132,9 +132,3 @@
 .skeleton {
   animation: pulse 1.5s ease-in-out infinite;
 }
-
-.tabs__tab[data-selected='true'] {
-  background-color: var(--segment);
-  color: var(--segment-foreground);
-  border-radius: var(--radius-3xl);
-}

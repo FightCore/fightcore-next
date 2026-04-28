@@ -14,7 +14,7 @@ import {
   isCrouchCancelPossible,
 } from '@/utilities/crouch-cancel-calculator';
 import { areAllHitboxesEqual, areHitboxesEqual } from '@/utilities/hitbox-utils';
-import { Alert, Card, Checkbox, Radio, RadioGroup, Tabs, Tooltip } from '@heroui/react';
+import { Alert, Card, Checkbox, Label, Radio, RadioGroup, Tabs, Tooltip } from '@heroui/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
@@ -28,14 +28,21 @@ export enum CrouchCancelSort {
   WEIGHT = 'weight',
 }
 
-function generateCard(
-  knockbackTarget: number,
-  title: string,
-  hitbox: Hitbox,
-  sortedCharacters: CharacterBase[],
-  floorPercentages: boolean,
-  use999Percent: boolean,
-) {
+function GenerateCard({
+  knockbackTarget,
+  title,
+  hitbox,
+  sortedCharacters,
+  floorPercentages,
+  use999Percent,
+}: {
+  knockbackTarget: number;
+  title: string;
+  hitbox: Hitbox;
+  sortedCharacters: CharacterBase[];
+  floorPercentages: boolean;
+  use999Percent: boolean;
+}) {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   return (
     <div className="w-full p-2 md:w-1/2">
@@ -208,8 +215,8 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
   return (
     <>
       <div className="mb-2 grid grid-cols-1 gap-2 rounded-md border border-gray-700 p-2 md:grid-cols-3">
-        <div className="px-1 pb-2">
-          <div className="text-medium font-bold">Sorting</div>
+        <div className="flex flex-col gap-4">
+          <Label>Sorting</Label>
           <RadioGroup
             value={selected}
             onChange={setSelection}
@@ -232,51 +239,61 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
           </RadioGroup>
         </div>
 
-        <Checkbox className="dark:text-white" isSelected={floorPercentages} onChange={setFlooringChange}>
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          <Checkbox.Content>
-            <div className="text-medium font-bold">Ceiling percentages</div>
-            <div className="text-small">
-              Melee uses floored percentages for its calculations. If a move breaks at 11.10%, enabling this will
-              display it as breaking at 12%.
-            </div>
-          </Checkbox.Content>
-        </Checkbox>
+        <Tooltip delay={0}>
+          <Tooltip.Trigger>
+            <Checkbox className="dark:text-white" isSelected={floorPercentages} onChange={setFlooringChange}>
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+              <Checkbox.Content>Ceiling percentages</Checkbox.Content>
+            </Checkbox>
+          </Tooltip.Trigger>
+          <Tooltip.Content>
+            Melee uses floored percentages for its calculations. If a move breaks at 11.10%, enabling this will display
+            it as breaking at 12%.
+          </Tooltip.Content>
+        </Tooltip>
 
-        <Checkbox className="dark:text-white" isSelected={numericalPercentage} onChange={setNumericalChange}>
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          <Checkbox.Content>
-            <div className="text-medium font-bold">Use 999% for moves that never break</div>
-            <div className="text-small">
-              Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;999%&quot; rather than
-              &quot;Never breaks&quot;
-            </div>
-          </Checkbox.Content>
-        </Checkbox>
+        <Tooltip>
+          <Tooltip.Trigger>
+            <Checkbox className="dark:text-white" isSelected={numericalPercentage} onChange={setNumericalChange}>
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+              <Checkbox.Content>Use 999% for moves that never break</Checkbox.Content>
+            </Checkbox>
+          </Tooltip.Trigger>
+          <Tooltip.Content>
+            Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;999%&quot; rather than
+            &quot;Never breaks&quot;
+          </Tooltip.Content>
+        </Tooltip>
       </div>
 
-      <Tabs.Root aria-label="Crouch Cancel and ASDI Tabs" className="w-full max-w-full overflow-x-scroll">
+      <Tabs
+        aria-label="Crouch Cancel and ASDI Tabs"
+        className="w-full max-w-full overflow-x-scroll"
+        variant="secondary"
+      >
         <Tabs.ListContainer>
           <Tabs.List>
             {data.map((hit) => (
               <Tabs.Tab key={hit.id} id={String(hit.id)}>
                 {hitName(hit)}
+                <Tabs.Indicator />
               </Tabs.Tab>
             ))}
           </Tabs.List>
         </Tabs.ListContainer>
         {data.map((hit) => (
           <Tabs.Panel key={hit.id} id={String(hit.id)}>
-            <Tabs.Root aria-label="Hitbox Tabs">
+            <Tabs aria-label="Hitbox Tabs" variant="secondary">
               <Tabs.ListContainer>
                 <Tabs.List>
                   {hit.hitboxes.map((hitbox) => (
                     <Tabs.Tab key={hitbox.id} id={String(hitbox.id)}>
                       {hitbox.name}
+                      <Tabs.Indicator />
                     </Tabs.Tab>
                   ))}
                 </Tabs.List>
@@ -326,40 +343,49 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                         </Alert.Content>
                       </Alert>
                     )}
-                    {generateCard(80, 'ASDI Down', hitbox, sortedCharacters, floorPercentages, numericalPercentage)}
-                    {generateCard(
-                      120,
-                      'Crouch-Cancel',
-                      hitbox,
-                      sortedCharacters,
-                      floorPercentages,
-                      numericalPercentage,
+                    <GenerateCard
+                      knockbackTarget={80}
+                      title="ASDI Down"
+                      hitbox={hitbox}
+                      sortedCharacters={sortedCharacters}
+                      floorPercentages={floorPercentages}
+                      use999Percent={numericalPercentage}
+                    />
+                    <GenerateCard
+                      knockbackTarget={120}
+                      title="Crouch-Cancel"
+                      hitbox={hitbox}
+                      sortedCharacters={sortedCharacters}
+                      floorPercentages={floorPercentages}
+                      use999Percent={numericalPercentage}
+                    />
+                    {hitbox.angle == 361 && (
+                      <GenerateCard
+                        knockbackTarget={32}
+                        title="Sakurai Angle starts being ASDI-Downable"
+                        hitbox={hitbox}
+                        sortedCharacters={sortedCharacters}
+                        floorPercentages={floorPercentages}
+                        use999Percent={numericalPercentage}
+                      />
                     )}
-                    {hitbox.angle == 361 &&
-                      generateCard(
-                        32,
-                        'Sakurai Angle starts being ASDI-Downable',
-                        hitbox,
-                        sortedCharacters,
-                        floorPercentages,
-                        numericalPercentage,
-                      )}
-                    {hitbox.angle == 361 &&
-                      generateCard(
-                        48,
-                        'Sakurai Angle starts being Crouch-Cancellable',
-                        hitbox,
-                        sortedCharacters,
-                        floorPercentages,
-                        numericalPercentage,
-                      )}
+                    {hitbox.angle == 361 && (
+                      <GenerateCard
+                        knockbackTarget={48}
+                        title="Sakurai Angle starts being Crouch-Cancellable"
+                        hitbox={hitbox}
+                        sortedCharacters={sortedCharacters}
+                        floorPercentages={floorPercentages}
+                        use999Percent={numericalPercentage}
+                      />
+                    )}
                   </Tabs.Panel>
                 ))}
               </div>
-            </Tabs.Root>
+            </Tabs>
           </Tabs.Panel>
         ))}
-      </Tabs.Root>
+      </Tabs>
     </>
   );
 }

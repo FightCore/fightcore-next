@@ -84,9 +84,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         {/* Header */}
         <div className="border-border flex items-center justify-between border-b px-4 py-3">
           <div className="flex items-center gap-2">
-            <span className="text-muted-foreground text-[11px] font-semibold tracking-[0.07em] uppercase">
-              Hitbox Viewer
-            </span>
+            <span className="text-muted-foreground font-semibold">Hitbox Viewer</span>
             {hasMultipleAnimations && (
               <AnimationPicker descriptions={descriptionArray} onChange={(key: number) => setCurrentPage(key)} />
             )}
