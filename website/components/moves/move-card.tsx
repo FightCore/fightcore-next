@@ -22,7 +22,7 @@ export const MoveCard = (params: MoveCardParams) => {
   }
 
   return (
-    <Card.Root key={params.move.normalizedName} className="w-full p-2 dark:bg-card">
+    <Card.Root key={params.move.normalizedName} className="w-full p-2">
       <Card.Content className="text-small text-default-400 px-3 py-0">
         <div className="flex flex-col gap-2 lg:flex-row">
           <div className="w-72 max-w-full min-w-64 border-zinc-600 lg:border-r">
@@ -53,7 +53,7 @@ export const MoveCard = (params: MoveCardParams) => {
             </div>
             <NextLink
               href={moveRoute(params.character, params.move)}
-              className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-brand px-4 text-center font-bold text-white hover:bg-brand-light lg:hidden"
+              className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-accent px-4 text-center font-bold text-accent-foreground hover:bg-accent-hover lg:hidden"
             >
               View
             </NextLink>
@@ -61,7 +61,7 @@ export const MoveCard = (params: MoveCardParams) => {
           <div className="flex items-stretch">
             <NextLink
               href={moveRoute(params.character, params.move)}
-              className="inline-flex min-h-full items-center justify-center rounded-lg bg-brand px-4 font-bold text-white hover:bg-brand-light max-lg:hidden"
+              className="inline-flex min-h-full items-center justify-center rounded-lg bg-accent px-4 font-bold text-accent-foreground hover:bg-accent-hover max-lg:hidden"
             >
               View
             </NextLink>

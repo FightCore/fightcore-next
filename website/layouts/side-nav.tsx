@@ -13,7 +13,7 @@ import { Socials } from './socials';
 export function SideNav() {
   return (
     <div className="flex h-full flex-col overflow-y-auto">
-      <div className="bg-brand p-2 text-white dark:bg-transparent">
+      <div className="bg-accent text-accent-foreground p-2 dark:bg-transparent">
         <NextLink href="/" className="align-content-center flex">
           <Logo className="flex-1" height={50} width={50} />
         </NextLink>
@@ -43,13 +43,12 @@ export function SideNav() {
             </div>
           ))}
         </div>
-        <hr className="my-1 border-gray-200 dark:border-gray-700" />
-
+        <hr className="my-1 border" />
         <ul className="space-y-1 font-medium">
           <li>
             <NextLink
               href="/"
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+              className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             >
               <FaCircleUser />
               <span className="ms-3">Characters</span>
@@ -58,7 +57,7 @@ export function SideNav() {
           <li>
             <NextLink
               href="/crouch-cancel-calculator"
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+              className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             >
               <FaCalculator />
               <span className="ms-3">Crouch Cancel Calculator</span>
@@ -69,7 +68,7 @@ export function SideNav() {
               href="https://bot.fightcore.gg"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+              className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             >
               <FaRobot />
               <span className="ms-3">Discord Bot</span>
@@ -80,7 +79,7 @@ export function SideNav() {
               href="https://drive.fightcore.gg"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+              className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             >
               <FaGoogleDrive />
               <span className="ms-3">Drive</span>
@@ -89,7 +88,7 @@ export function SideNav() {
           <li>
             <NextLink
               href="/credits"
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+              className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             >
               <FaAward />
               <span className="ms-3">Credits & Sources</span>
@@ -100,7 +99,7 @@ export function SideNav() {
               href="https://ko-fi.com/fc_bort"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+              className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             >
               <FaMugHot />
               <span className="ms-3">Buy me a coffee</span>

@@ -76,7 +76,7 @@ export default function MobileHitboxTable(params: MobileHitboxTableParams) {
         </Tabs.ListContainer>
         {hitData.map(({ hit, hitboxes }) => (
           <Tabs.Panel key={'hit' + hit} id={'hit' + hit}>
-            <Table.Root className="shadow-none dark:bg-gray-800" aria-label="Table of hitbox statistics">
+            <Table.Root className="shadow-none" aria-label="Table of hitbox statistics">
               {MobileHitboxHeader(hitboxes)}
               <Table.Body>{tableRows.map((row) => MobileHitboxRow(hitboxes, row.key, row.title))}</Table.Body>
             </Table.Root>

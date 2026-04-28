@@ -30,7 +30,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
     if (isIOS && params.move.gifUrl) {
       return (
         <img
-          className="w-full cursor-pointer bg-zinc-300 dark:bg-transparent"
+          className="w-full cursor-pointer"
           onClick={() => setIsOpen(true)}
           src={params.move.gifUrl}
           alt={params.characterName + ' ' + params.move.name}
@@ -41,7 +41,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
 
     return (
       <video
-        className="w-full cursor-pointer bg-zinc-300 dark:bg-transparent"
+        className="w-full cursor-pointer"
         onClick={() => setIsOpen(true)}
         muted
         playsInline
@@ -83,9 +83,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
                 )}
               </Modal.Body>
               <Modal.Footer>
-                <Button onPress={() => setIsOpen(false)}>
-                  Close
-                </Button>
+                <Button onPress={() => setIsOpen(false)}>Close</Button>
               </Modal.Footer>
             </Modal.Dialog>
           </Modal.Container>

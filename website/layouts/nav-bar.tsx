@@ -33,7 +33,7 @@ export const NavBar = () => {
 
   return (
     <>
-      <nav className="dark:bg-background flex h-16 w-full items-center bg-brand px-4">
+      <nav className="flex h-16 w-full items-center bg-accent px-4 dark:bg-background">
         <button
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className="mr-3 text-white"
@@ -48,14 +48,14 @@ export const NavBar = () => {
       </nav>
 
       {isMenuOpen && (
-        <div className="fixed top-16 right-0 left-0 z-50 mt-0 max-h-[calc(100vh-4rem)] space-y-1 overflow-y-auto bg-white px-7 pb-7 shadow-lg dark:bg-gray-900">
+        <div className="fixed top-16 right-0 left-0 z-50 mt-0 max-h-[calc(100vh-4rem)] space-y-1 overflow-y-auto bg-surface px-7 pb-7 shadow-lg">
           <div className="pt-3">
             <GlobalSearch />
           </div>
 
           <NextLink
             href="/"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group flex items-center rounded-lg p-2 text-foreground hover:bg-surface-secondary"
             onClick={closeMenu}
           >
             <FaCircleUser />
@@ -64,7 +64,7 @@ export const NavBar = () => {
 
           <NextLink
             href="/crouch-cancel-calculator"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group flex items-center rounded-lg p-2 text-foreground hover:bg-surface-secondary"
             onClick={closeMenu}
           >
             <FaCalculator />
@@ -75,7 +75,7 @@ export const NavBar = () => {
             href="https://bot.fightcore.gg"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group flex items-center rounded-lg p-2 text-foreground hover:bg-surface-secondary"
             onClick={closeMenu}
           >
             <FaRobot />
@@ -86,7 +86,7 @@ export const NavBar = () => {
             href="https://drive.fightcore.gg"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group flex items-center rounded-lg p-2 text-foreground hover:bg-surface-secondary"
             onClick={closeMenu}
           >
             <FaGoogleDrive />
@@ -95,7 +95,7 @@ export const NavBar = () => {
 
           <NextLink
             href="/credits"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group flex items-center rounded-lg p-2 text-foreground hover:bg-surface-secondary"
             onClick={closeMenu}
           >
             <FaAward />
@@ -106,7 +106,7 @@ export const NavBar = () => {
             href="https://ko-fi.com/fc_bort"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group flex items-center rounded-lg p-2 text-foreground hover:bg-surface-secondary"
             onClick={closeMenu}
           >
             <FaMugHot />
@@ -114,7 +114,7 @@ export const NavBar = () => {
           </a>
 
           <div className="py-2">
-            <hr className="border-gray-200 dark:border-gray-700" />
+            <hr className="border-border" />
           </div>
 
           <div className="flex w-full flex-row flex-wrap justify-start gap-5">

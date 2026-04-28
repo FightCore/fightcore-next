@@ -298,7 +298,7 @@ export default function PatchNotesPage() {
 
       <div className="space-y-5">
         {patchNotes.map((patchNote) => (
-          <Card.Root key={patchNote.version} className="dark:bg-gray-800">
+          <Card.Root key={patchNote.version}>
             <Card.Header>
               <h2 className="ml-2 text-lg font-bold">Version {patchNote.version}</h2>
             </Card.Header>

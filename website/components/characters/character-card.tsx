@@ -20,7 +20,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
     [],
   );
   return (
-    <Card.Root key={character.normalizedName} className="w-full md:max-w-85 dark:bg-card">
+    <Card.Root key={character.normalizedName} className="w-full md:max-w-85">
       <Card.Header className="justify-between">
         <div className="mt-3 ml-3 flex gap-3">
           <Image
@@ -61,7 +61,7 @@ export const CharacterCard = (input: CharacterCardInput) => {
       <Card.Footer className="gap-3">
         <NextLink
           href={'/characters/' + character.fightCoreId + '/' + character.normalizedName}
-          className="text-medium inline-flex w-full items-center justify-center rounded-lg bg-brand px-4 py-2 font-bold text-white hover:bg-brand-light"
+          className="text-medium bg-accent text-accent-foreground hover:bg-accent-hover inline-flex w-full items-center justify-center rounded-lg px-4 py-2 font-bold"
         >
           View
         </NextLink>

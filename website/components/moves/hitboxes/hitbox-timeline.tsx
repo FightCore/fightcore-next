@@ -74,8 +74,11 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
     ) {
       return SEMANTIC_COLORS.autoCancel;
     }
-    if (windows.length) return windows[0].color + '55';
-    return 'transparent';
+    if (windows.length) {
+      return windows[0].color + '55';
+    }
+
+    return '#525252';
   };
 
   const getLabelAnchor = (frame: number): 'left' | 'center' | 'right' => {

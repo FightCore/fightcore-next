@@ -12,15 +12,15 @@ export default function DefaultLayout({
 }>) {
   return (
     <GlobalSearchProvider>
-      <div className="relative flex min-h-screen flex-col bg-gray-100 dark:bg-gray-950">
+      <div className="relative flex min-h-screen flex-col bg-background">
         <GlobalSearch showTrigger={false} />
         {/* The NavBar that can only be seen on smaller displays*/}
-        <div className="fixed z-50 block h-16 w-full border-b border-gray-200 bg-white md:hidden dark:border-gray-700 dark:bg-gray-900">
+        <div className="fixed z-50 block h-16 w-full border-b border-border bg-surface md:hidden">
           <Head />
           <NavBar />
         </div>
         {/* The SideNav that only can be seen on bigger displays  */}
-        <aside className="top-09 fixed hidden h-screen w-64 border-r border-gray-200 bg-white sm:translate-x-0 md:block dark:border-gray-700 dark:bg-gray-900">
+        <aside className="top-09 fixed hidden h-screen w-64 border-r border-border bg-surface sm:translate-x-0 md:block">
           <SideNav />
         </aside>
         <div className="z-0 px-3 md:mt-0 md:ml-64">

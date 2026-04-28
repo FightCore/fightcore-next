@@ -173,18 +173,18 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
             defaultSelectedKey={characterData.fightCoreId.toString()}
             onSelectionChange={setSelectedAttacker}
           >
-            <Select.Trigger className="dark:bg-gray-800">
+            <Select.Trigger>
               <Select.Value />
               <Select.Indicator />
             </Select.Trigger>
-            <Select.Popover className="dark:bg-gray-900">
+            <Select.Popover>
               <ListBox>
                 {characters.map((character) => (
                   <ListBoxItem
                     key={character.fightCoreId.toString()}
                     id={character.fightCoreId.toString()}
                     textValue={character.name}
-                    className="dark:bg-gray-800"
+                    className=""
                   >
                     <div className="flex items-center gap-2">
                       <Image
@@ -210,18 +210,18 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
             selectedKey={selectedTarget ? selectedTarget.toString() : ''}
             onSelectionChange={setSelectedChangeTarget}
           >
-            <Select.Trigger className="dark:bg-gray-800">
+            <Select.Trigger>
               <Select.Value />
               <Select.Indicator />
             </Select.Trigger>
-            <Select.Popover className="dark:bg-gray-900">
+            <Select.Popover>
               <ListBox>
                 {characters.map((character) => (
                   <ListBoxItem
                     key={character.fightCoreId.toString()}
                     id={character.fightCoreId.toString()}
                     textValue={character.name}
-                    className="dark:bg-gray-800"
+                    className=""
                   >
                     <div className="flex items-center gap-2">
                       <Image

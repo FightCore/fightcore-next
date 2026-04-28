@@ -2,18 +2,96 @@
 @import '@heroui/styles';
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * HeroUI Pro Theme
+ * Add this to your global.css after importing @heroui/styles
+ * @see https://heroui.com/docs/react/getting-started/theming
+ */
+
+/*
+ * Font: DM Sans
+ * Load this font in your app:
+ * <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&display=swap" rel="stylesheet" />
+ */
+
+:root,
+.light,
+.default,
+[data-theme='light'],
+[data-theme='default'] {
+  /* Theme Colors */
+  --background: oklch(97.02% 0 235.76);
+  --muted: oklch(55.17% 0 235.76);
+  --scrollbar: oklch(87.1% 0 235.76);
+  --surface-secondary: oklch(95.24% 0 235.76);
+  --surface-tertiary: oklch(93.73% 0 235.76);
+  --default: oklch(94% 0 235.76);
+  --accent: oklch(83.55% 0.0703 235.76);
+  --accent-foreground: var(--eclipse);
+  --success: oklch(73.12% 0.0541 263.58);
+  --warning: oklch(80.3% 0.1657 97.66);
+  --danger: oklch(60.58% 0.0761 232.5);
+  --field-border: oklch(90% 0 235.76);
+  --border: oklch(90% 0 235.76);
+  --separator: oklch(92% 0 235.76);
+
+  /* Border Radius */
+  --radius: 0.75rem;
+  --field-radius: 0.25rem;
+
+  /* Border Width */
+  --field-border-width: 1px;
+
+  /* Shadows */
+  --overlay-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.04), 0 -2px 6px 0 rgba(0, 0, 0, 0.02), 0 6px 14px 0 rgba(0, 0, 0, 0.05);
+
+  /* Font */
+  --font-sans: var(--font-dm-sans);
+
+  /* Letter Spacing */
+  --theme-letter-spacing: -0.01em;
+
+  /* Misc */
+  --skeleton-animation: shimmer;
+}
+
+.dark,
+[data-theme='dark'] {
+  color-scheme: dark;
+  /* Theme Colors */
+  --background: oklch(12% 0 235.76);
+  --muted: oklch(70.5% 0 235.76);
+  --scrollbar: oklch(70.5% 0 235.76);
+  --surface: oklch(21.03% 0 235.76);
+  --surface-secondary: oklch(25.7% 0 235.76);
+  --surface-secondary-foreground: oklch(100% 0.00011 271.152);
+  --surface-tertiary: oklch(27.21% 0 235.76);
+  --surface-tertiary-foreground: oklch(100% 0.00011 271.152);
+  --overlay: oklch(21.03% 0 235.76);
+  --default: oklch(27.4% 0 235.76);
+  --accent: oklch(83.55% 0.0703 235.76);
+  --accent-foreground: var(--eclipse);
+  --success: oklch(73.12% 0.0541 263.58);
+  --warning: oklch(80.3% 0.1657 97.66);
+  --danger: oklch(60.58% 0.0761 232.5);
+  --field-background: oklch(21.03% 0 235.76);
+  --field-placeholder: oklch(70.5% 0 235.76);
+  --field-border: oklch(28% 0 235.76);
+  --segment: oklch(39.64% 0 235.76);
+  --border: oklch(28% 0 235.76);
+  --separator: oklch(25% 0 235.76);
+
+  /* Shadows */
+  --overlay-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+}
+/* ── Extra design-system tokens not covered by HeroUI ─────────────────────── */
 @theme {
-  /* Brand */
-  --color-brand: #b91c1c;
-  --color-brand-light: #ef4444;
-  --color-brand-muted: #7f1d1d;
+  /* Divider — readable alias for HeroUI's --border token */
+  --color-divider: var(--border);
 
-  /* Surfaces */
-  --color-card: #1f2937;
-
-  /* Semantic */
-  --color-warning: #f97316;
-  --color-danger: #ef4444;
+  /* Secondary palette */
+  --color-teal: oklch(65% 0.14 195);
+  --color-gold: oklch(78% 0.16 80);
 
   /* Hitbox IDs */
   --color-hitbox-0: #ef4444;
@@ -22,6 +100,9 @@
   --color-hitbox-3: #a855f7;
 
   /* Animation frame states */
+  --color-state-startup: oklch(78% 0.16 80);
+  --color-state-active: oklch(63% 0.19 22);
+  --color-state-recovery: #333348;
   --color-state-invincible: #4ade80;
   --color-state-bone: #facc15;
   --color-state-bone-ungrab: #f59e0b;
@@ -30,43 +111,22 @@
   --color-state-iasa: #d946ef;
 }
 
-:root {
-  --accent: #b91c1c;
-  --accent-foreground: oklch(100% 0 0);
-  --timeline-empty-bg: #dddde0;
-  --timeline-label-color: #9090aa;
-  --timeline-current-border: #111827;
-  --timeline-current-label: #111827;
-}
-
-[data-theme='dark'],
-.dark {
-  --accent: #dc2626;
-  --accent-foreground: oklch(100% 0 0);
-  --background: oklch(7% 0 0);
-  --timeline-empty-bg: #1f2937;
-  --timeline-label-color: #5a5a72;
-  --timeline-current-border: #ffffff;
-  --timeline-current-label: #ffffff;
-}
-
 .super-gif > canvas {
   max-width: 100%;
 }
 
 ::-webkit-scrollbar {
-  -webkit-appearance: none;
+  width: 6px;
+  height: 6px;
 }
 
-::-webkit-scrollbar:vertical {
-  width: 11px;
-  background-color: #303030;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  border: 2px solid #303030 !important;
-  background-color: #575757;
+  background: var(--scrollbar);
+  border-radius: 3px;
 }
 
 .skeleton {

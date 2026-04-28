@@ -39,7 +39,7 @@ function generateCard(
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   return (
     <div className="w-full p-2 md:w-1/2">
-      <Card.Root className="dark:bg-gray-800">
+      <Card.Root>
         <Card.Header>
           <div className="flex flex-col">
             <div className="text-md">{title}</div>

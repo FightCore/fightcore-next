@@ -7,7 +7,7 @@ import { AnimationPicker } from '@/components/moves/animations/controls/animatio
 import { DownloadButtonGroup } from '@/components/moves/download-button-group';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, Modal } from '@heroui/react';
+import { Button, Modal, Surface } from '@heroui/react';
 import { useState } from 'react';
 import { MoveGif } from './animations/move-gif';
 
@@ -80,18 +80,15 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
       showAdditionalControls={false}
       apngUrl={currentUrl}
     >
-      <div className="overflow-hidden rounded-xl border border-border">
+      <Surface className="border-border overflow-hidden rounded-xl border" variant="secondary">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+        <div className="border-border flex items-center justify-between border-b px-4 py-3">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.07em] text-muted-foreground">
+            <span className="text-muted-foreground text-[11px] font-semibold tracking-[0.07em] uppercase">
               Hitbox Viewer
             </span>
             {hasMultipleAnimations && (
-              <AnimationPicker
-                descriptions={descriptionArray}
-                onChange={(key: number) => setCurrentPage(key)}
-              />
+              <AnimationPicker descriptions={descriptionArray} onChange={(key: number) => setCurrentPage(key)} />
             )}
           </div>
           <DownloadButtonGroup
@@ -103,9 +100,9 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         </div>
 
         {/* Credit */}
-        <div className="border-b border-border px-4 py-2">
+        <Surface className="border-border border-b px-4 py-2">
           <AnimationCredit move={params.move} />
-        </div>
+        </Surface>
 
         {/* Animation display */}
         <div className="w-full px-40">
@@ -120,10 +117,10 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         </div>
 
         {/* Controls */}
-        <div className="border-t border-border px-4 pb-4 pt-3">
+        <div className="border-border border-t px-4 pt-3 pb-4">
           <AnimationPlayerControls />
         </div>
-      </div>
+      </Surface>
     </AnimationPlayerProvider>
   );
 }

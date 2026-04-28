@@ -39,7 +39,7 @@ export function SearchResultCard({ result, onNavigate }: SearchResultCardProps) 
 
   return (
     <NextLink href={moveUrl} onClick={onNavigate}>
-      <Card.Root className="w-full p-2 transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">
+      <Card.Root className="w-full p-2 transition-colors">
         <Card.Content className="p-2">
           <div className="mb-2 flex gap-2">
             <Image alt={result.character} width={40} height={40} src={'/newicons/' + result.character + '.webp'} />
