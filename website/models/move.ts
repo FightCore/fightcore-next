@@ -1,3 +1,4 @@
+import { AnimationCredit } from '@/models/animation-credit';
 import { AlternativeAnimation } from './alternative-animation';
 import { Character } from './character';
 import { Hit } from './hit';
@@ -29,4 +30,5 @@ export interface Move {
   sources?: Source[];
   isInterpolated: boolean;
   alternativeAnimations?: AlternativeAnimation[];
+  animationCredit?: AnimationCredit;
 }

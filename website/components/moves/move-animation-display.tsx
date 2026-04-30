@@ -98,9 +98,11 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         </div>
 
         {/* Credit */}
-        <Surface className="border-border border-b px-4 py-2">
-          <AnimationCredit move={params.move} />
-        </Surface>
+        {params.move.animationCredit && (
+          <Surface className="border-border border-b px-4 py-2">
+            <AnimationCredit credit={params.move.animationCredit} />
+          </Surface>
+        )}
 
         {/* Animation display */}
         <div className="w-full px-40">
