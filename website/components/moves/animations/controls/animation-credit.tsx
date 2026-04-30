@@ -5,7 +5,6 @@ export interface AnimationCreditProps {
 }
 
 export const AnimationCredit = ({ credit }: AnimationCreditProps) => {
-  // TODO: Implement animation credit on the data side.
   return (
     <div>
       <span className="text-muted text-sm">
