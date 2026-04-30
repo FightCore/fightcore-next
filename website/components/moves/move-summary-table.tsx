@@ -6,16 +6,7 @@ interface MoveSummaryTableProps {
 }
 
 export function MoveSummaryTable({ moveSummary }: MoveSummaryTableProps) {
-  let notes = moveSummary.filter((summary) => summary.variant === 'note');
-  if (notes.length === 0) {
-    notes = [
-      {
-        name: 'Notes',
-        variant: 'note',
-        value: 'This is a simple test note to show how notes would look within this example layout',
-      },
-    ];
-  }
+  const notes = moveSummary.filter((summary) => summary.variant === 'note');
   const normalSummaries = moveSummary.filter((summary) => !summary.variant);
 
   return (

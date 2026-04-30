@@ -218,8 +218,8 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
 
   return (
     <>
-      <div className="mb-2 grid grid-cols-1 gap-2 rounded-md border border-gray-700 p-2 md:grid-cols-4">
-        <div className="flex flex-col gap-4">
+      <div className="mb-2 grid grid-cols-1 gap-4 rounded-md border border-default-200 p-4 md:grid-cols-3">
+        <div className="flex flex-col gap-2">
           <Label>Sorting</Label>
           <RadioGroup
             value={selected}
@@ -243,35 +243,37 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
           </RadioGroup>
         </div>
 
-        <Tooltip delay={0}>
-          <Tooltip.Trigger>
-            <Checkbox className="dark:text-white" isSelected={floorPercentages} onChange={setFlooringChange}>
-              <Checkbox.Control>
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-              <Checkbox.Content>Ceiling percentages</Checkbox.Content>
-            </Checkbox>
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            Melee uses floored percentages for its calculations. If a move breaks at 11.10%, enabling this will display
-            it as breaking at 12%.
-          </Tooltip.Content>
-        </Tooltip>
-
-        <Tooltip>
-          <Tooltip.Trigger>
-            <Checkbox className="dark:text-white" isSelected={numericalPercentage} onChange={setNumericalChange}>
-              <Checkbox.Control>
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-              <Checkbox.Content>Use 999% for moves that never break</Checkbox.Content>
-            </Checkbox>
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;999%&quot; rather than
-            &quot;Never breaks&quot;
-          </Tooltip.Content>
-        </Tooltip>
+        <div className="flex flex-col gap-2">
+          <Label>Display</Label>
+          <Tooltip delay={0}>
+            <Tooltip.Trigger>
+              <Checkbox className="dark:text-white" isSelected={floorPercentages} onChange={setFlooringChange}>
+                <Checkbox.Control>
+                  <Checkbox.Indicator />
+                </Checkbox.Control>
+                <Checkbox.Content>Ceiling percentages</Checkbox.Content>
+              </Checkbox>
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              Melee uses floored percentages for its calculations. If a move breaks at 11.10%, enabling this will
+              display it as breaking at 12%.
+            </Tooltip.Content>
+          </Tooltip>
+          <Tooltip>
+            <Tooltip.Trigger>
+              <Checkbox className="dark:text-white" isSelected={numericalPercentage} onChange={setNumericalChange}>
+                <Checkbox.Control>
+                  <Checkbox.Indicator />
+                </Checkbox.Control>
+                <Checkbox.Content>Use 999% for moves that never break</Checkbox.Content>
+              </Checkbox>
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              Some moves can never break crouch cancel/ASDI Down, note these moves as &quot;999%&quot; rather than
+              &quot;Never breaks&quot;
+            </Tooltip.Content>
+          </Tooltip>
+        </div>
 
         <div className="flex flex-col gap-2">
           <Label>Staleness</Label>
