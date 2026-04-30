@@ -21,6 +21,7 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
     const loadAPNG = async () => {
       try {
         if (url && url !== params.url) {
+          player?.play();
           setUrl(params.url);
           player?.removeAllListeners();
           setPlayer(null);

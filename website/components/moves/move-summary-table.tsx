@@ -5,7 +5,7 @@ interface MoveSummaryTableProps {
   moveSummary: MovePropertySummary[];
 }
 
-export function MoveSummaryTable({ moveSummary }: MoveSummaryTableProps) {
+export function MoveSummaryTable({ moveSummary }: Readonly<MoveSummaryTableProps>) {
   const notes = moveSummary.filter((summary) => summary.variant === 'note');
   const normalSummaries = moveSummary.filter((summary) => !summary.variant);
 
@@ -30,25 +30,17 @@ export function MoveSummaryTable({ moveSummary }: MoveSummaryTableProps) {
           ))}
         </FightcoreCard.Body>
       </FightcoreCard>
-      {notes.length > 0 && (
-        <FightcoreCard>
-          <FightcoreCard.Header>
-            <FightcoreCard.Title>Notes</FightcoreCard.Title>
-          </FightcoreCard.Header>
-          <FightcoreCard.Body>
-            {notes.map((property) => (
-              <span
-                key={property.name}
-                className={`rounded px-2 py-0.5 text-sm ${
-                  property.level === 'warning' ? 'bg-warning text-white' : 'text-foreground'
-                }`}
-              >
-                {property.value}
-              </span>
-            ))}
-          </FightcoreCard.Body>
-        </FightcoreCard>
-      )}
+      {notes.length > 0 &&
+        notes.map((note) => (
+          <FightcoreCard key={note.name}>
+            <FightcoreCard.Header>
+              <FightcoreCard.Title>{note.name}</FightcoreCard.Title>
+            </FightcoreCard.Header>
+            <FightcoreCard.Body>
+              <span className={`rounded text-sm`}>{note.value}</span>
+            </FightcoreCard.Body>
+          </FightcoreCard>
+        ))}
     </div>
   );
 }

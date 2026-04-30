@@ -7,6 +7,7 @@ interface AnimationPlayerContextValue {
   frameCounter: number;
   isPlaying: boolean;
   totalFrames: number;
+  playbackSpeed: number;
   useGif: boolean;
   move: Move;
   characterName: string;
@@ -49,7 +50,15 @@ export const AnimationPlayerProvider = ({
   const [frameCounter, setFrameCounter] = useState(1);
   const [isPlaying, setIsPlaying] = useState(true);
   const [totalFrames, setTotalFrames] = useState(0);
+  const [playbackSpeed, setPlaybackSpeed] = useState(0.2);
   const [useGif, setUseGif] = useState(preferGif);
+
+  useEffect(() => {
+    setIsPlaying(true);
+    setFrameCounter(1);
+    setPlaybackSpeed(0.2);
+    eventEmitter.emit('play');
+  }, [apngUrl]);
 
   useEffect(() => {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -86,6 +95,7 @@ export const AnimationPlayerProvider = ({
   );
 
   const handlePlaybackSpeedChange = useCallback((speed: number) => {
+    setPlaybackSpeed(speed);
     eventEmitter.emit('setPlaybackSpeed', speed);
   }, []);
 
@@ -144,6 +154,7 @@ export const AnimationPlayerProvider = ({
         frameCounter,
         isPlaying,
         totalFrames,
+        playbackSpeed,
         useGif,
         move,
         characterName,

@@ -9,6 +9,7 @@ export interface AnimationControlsProps {
   frameCounter: number;
   totalFrames: number;
   isPlaying: boolean;
+  playbackSpeed?: number;
   onPlay: () => void;
   onPause: () => void;
   onNextFrame: () => void;
@@ -26,6 +27,7 @@ export const AnimationControls = ({
   frameCounter,
   totalFrames,
   isPlaying,
+  playbackSpeed = 0.2,
   onPlay,
   onPause,
   onNextFrame,
@@ -61,7 +63,7 @@ export const AnimationControls = ({
             isDetached
             selectionMode="single"
             size="sm"
-            defaultSelectedKeys={['0.2']}
+            selectedKeys={[String(playbackSpeed)]}
             isDisabled={!showPlaybackSpeed}
             onSelectionChange={(key) => {
               const first = [...key][0];
