@@ -46,14 +46,16 @@ export const MoveCard = (params: MoveCardParams) => {
             <div
               className={
                 'w-full' +
-                (params.move.totalFrames > 80 || params.move.hits?.some((hit) => !!hit.start) == false ? ' hidden' : '')
+                (params.move.totalFrames > 80 || params.move.hits?.some((hit) => !!hit.start) == false
+                  ? ' hidden'
+                  : ' hidden md:block')
               }
             >
               <HitboxTimeline compact move={params.move}></HitboxTimeline>
             </div>
             <NextLink
               href={moveRoute(params.character, params.move)}
-              className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-accent px-4 text-center font-bold text-accent-foreground hover:bg-accent-hover lg:hidden"
+              className="bg-accent text-accent-foreground hover:bg-accent-hover inline-flex h-10 w-full items-center justify-center rounded-lg px-4 text-center font-bold lg:hidden"
             >
               View
             </NextLink>
@@ -61,7 +63,7 @@ export const MoveCard = (params: MoveCardParams) => {
           <div className="flex items-stretch">
             <NextLink
               href={moveRoute(params.character, params.move)}
-              className="inline-flex min-h-full items-center justify-center rounded-lg bg-accent px-4 font-bold text-accent-foreground hover:bg-accent-hover max-lg:hidden"
+              className="bg-accent text-accent-foreground hover:bg-accent-hover inline-flex min-h-full items-center justify-center rounded-lg px-4 font-bold max-lg:hidden"
             >
               View
             </NextLink>

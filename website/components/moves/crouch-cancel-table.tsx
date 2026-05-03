@@ -218,7 +218,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
 
   return (
     <>
-      <div className="mb-2 grid grid-cols-1 gap-4 rounded-md border border-default-200 p-4 md:grid-cols-3">
+      <div className="border-default-200 mb-2 grid grid-cols-1 gap-4 rounded-md border p-4 md:grid-cols-3">
         <div className="flex flex-col gap-2">
           <Label>Sorting</Label>
           <RadioGroup
