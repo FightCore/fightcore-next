@@ -105,7 +105,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         )}
 
         {/* Animation display */}
-        <div className="w-full px-40">
+        <div className="w-full sm:px-40">
           <AnimationDisplay />
           <FullScreenModal
             isOpen={isOpen}
