@@ -281,11 +281,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         </div>
       </div>
 
-      <Tabs
-        aria-label="Crouch Cancel and ASDI Tabs"
-        className="w-full max-w-full overflow-x-scroll"
-        variant="secondary"
-      >
+      <Tabs aria-label="Crouch Cancel and ASDI Tabs" className="w-full max-w-full overflow-x-scroll">
         <Tabs.ListContainer>
           <Tabs.List>
             {data.map((hit) => (
@@ -298,7 +294,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
         </Tabs.ListContainer>
         {data.map((hit) => (
           <Tabs.Panel key={hit.id} id={String(hit.id)}>
-            <Tabs aria-label="Hitbox Tabs" variant="secondary">
+            <Tabs aria-label="Hitbox Tabs">
               <Tabs.ListContainer>
                 <Tabs.List>
                   {hit.hitboxes.map((hitbox) => (
