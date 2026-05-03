@@ -29,11 +29,7 @@ function Header({ children, className }: Readonly<SlotProps>) {
 }
 
 function Title({ children, className }: Readonly<SlotProps>) {
-  return (
-    <span className={cn('text-foreground-400 text-xs font-semibold tracking-wider uppercase', className)}>
-      {children}
-    </span>
-  );
+  return <span className={cn('text-foreground-400 text-sm font-semibold', className)}>{children}</span>;
 }
 
 function Subtitle({ children, className }: Readonly<SlotProps>) {
