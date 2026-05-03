@@ -15,6 +15,10 @@ export interface HitboxTimingParams {
 const COMPACT_LAYOUT = { barHeight: 12, activeBarHeight: 18 } as const;
 const NORMAL_LAYOUT = { barHeight: 22, activeBarHeight: 32 } as const;
 
+// Minimum touch target height per Apple/Material guidelines.
+const MIN_TOUCH_TARGET_PX = 44;
+const MIN_LABEL_GAP_PX = 20;
+
 const SEMANTIC_COLORS = {
   iasa: '#f97316',
   autoCancel: '#22c55e',
@@ -30,9 +34,17 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
   const hitColors = generateColors(data);
 
   const [currentFrame, setCurrentFrame] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
   const dragging = useRef(false);
+  const barsRef = useRef<HTMLDivElement>(null);
 
   const layout = params.compact ? COMPACT_LAYOUT : NORMAL_LAYOUT;
+
+  // Interactive timelines use a taller container so the whole region is a
+  // thumb-friendly touch target. Bars align to the bottom via alignItems: flex-end.
+  const containerHeight = params.interactive
+    ? Math.max(layout.activeBarHeight, MIN_TOUCH_TARGET_PX)
+    : layout.activeBarHeight;
 
   useEffect(() => {
     if (!params.interactive) return;
@@ -41,11 +53,42 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
     return () => emitter.off('frameCounterUpdate', handler);
   }, [params.interactive]);
 
+  useEffect(() => {
+    const el = barsRef.current;
+    if (!el) return;
+    const obs = new ResizeObserver(([entry]) => setContainerWidth(entry.contentRect.width));
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const getFrameFromX = (clientX: number): number => {
+    if (!barsRef.current) return 1;
+    const rect = barsRef.current.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    return Math.round(ratio * (params.move.totalFrames - 1)) + 1;
+  };
+
   const frames = Array.from({ length: params.move.totalFrames }, (_, i) => i + 1);
 
   const keyFrameNums = [...new Set([1, ...hitColors.flatMap((w) => [w.start, w.end]), params.move.totalFrames])].sort(
     (a, b) => a - b,
   );
+
+  const visibleKeyFrames = (() => {
+    if (containerWidth === 0 || params.move.totalFrames <= 1) return keyFrameNums;
+    const pxOf = (f: number) => ((f - 1) / (params.move.totalFrames - 1)) * containerWidth;
+    const result: number[] = [keyFrameNums[0]];
+    let lastPx = pxOf(keyFrameNums[0]);
+    for (let i = 1; i < keyFrameNums.length - 1; i++) {
+      const px = pxOf(keyFrameNums[i]);
+      if (px - lastPx >= MIN_LABEL_GAP_PX) {
+        result.push(keyFrameNums[i]);
+        lastPx = px;
+      }
+    }
+    if (keyFrameNums.length > 1) result.push(keyFrameNums[keyFrameNums.length - 1]);
+    return result;
+  })();
 
   const getCellBackground = (frame: number, isCurrent: boolean, windows: HitboxColor[]): string => {
     if (windows.length === 0) {
@@ -110,16 +153,22 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
   return (
     <div className="w-full">
       <div
+        ref={barsRef}
         className="flex gap-px select-none"
-        style={{ alignItems: 'flex-end', height: layout.activeBarHeight }}
-        onMouseDown={() => {
-          dragging.current = true;
+        style={{
+          alignItems: 'flex-end',
+          height: containerHeight,
+          touchAction: params.interactive ? 'none' : 'auto',
+          cursor: params.interactive ? 'pointer' : 'default',
         }}
-        onMouseUp={() => {
-          dragging.current = false;
+        onMouseDown={() => { dragging.current = true; }}
+        onMouseUp={() => { dragging.current = false; }}
+        onMouseLeave={() => { dragging.current = false; }}
+        onTouchStart={(e) => {
+          if (params.interactive) emitter.emit('seek', getFrameFromX(e.touches[0].clientX));
         }}
-        onMouseLeave={() => {
-          dragging.current = false;
+        onTouchMove={(e) => {
+          if (params.interactive) emitter.emit('seek', getFrameFromX(e.touches[0].clientX));
         }}
       >
         {frames.map((f) => {
@@ -153,7 +202,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
 
       {!params.compact && (
         <div className="relative mt-1 h-5 font-mono text-[10px]">
-          {keyFrameNums.map((f) => {
+          {visibleKeyFrames.map((f) => {
             const pct = ((f - 1) / (params.move.totalFrames - 1)) * 100;
             const anchor = getLabelAnchor(f);
             return (
@@ -177,7 +226,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
               </div>
             );
           })}
-          {!keyFrameNums.includes(currentFrame) && currentFrame > 0 && (
+          {!visibleKeyFrames.includes(currentFrame) && currentFrame > 0 && (
             <div
               style={{
                 position: 'absolute',
