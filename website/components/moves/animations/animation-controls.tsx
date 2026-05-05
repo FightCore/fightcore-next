@@ -3,6 +3,7 @@ import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
 import { Button, ToggleButton, ToggleButtonGroup } from '@heroui/react';
+import { useEffect, useRef } from 'react';
 import { FaBackward, FaBackwardStep, FaForward, FaForwardStep, FaPause, FaPlay } from 'react-icons/fa6';
 
 export interface AnimationControlsProps {
@@ -39,6 +40,10 @@ export const AnimationControls = ({
   onGoToLastFrame,
   move,
 }: AnimationControlsProps) => {
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const holdIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchActiveRef = useRef(false);
+
   const nextFrame = () => {
     onPause();
     onNextFrame();
@@ -48,6 +53,24 @@ export const AnimationControls = ({
     onPause();
     onPreviousFrame();
   };
+
+  const stopNextFrameHold = () => {
+    if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+    if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+    holdTimerRef.current = null;
+    holdIntervalRef.current = null;
+    setTimeout(() => { touchActiveRef.current = false; }, 50);
+  };
+
+  const handleNextFrameTouchStart = () => {
+    touchActiveRef.current = true;
+    nextFrame();
+    holdTimerRef.current = setTimeout(() => {
+      holdIntervalRef.current = setInterval(nextFrame, 100);
+    }, 400);
+  };
+
+  useEffect(() => () => stopNextFrameHold(), []);
 
   return (
     <div className="flex flex-col">
@@ -114,7 +137,14 @@ export const AnimationControls = ({
             <FaPlay />
           </Button>
         )}
-        <Button isIconOnly variant="tertiary" onPress={nextFrame}>
+        <Button
+          isIconOnly
+          variant="tertiary"
+          onPress={() => { if (!touchActiveRef.current) nextFrame(); }}
+          onTouchStart={handleNextFrameTouchStart}
+          onTouchEnd={stopNextFrameHold}
+          onTouchCancel={stopNextFrameHold}
+        >
           <FaForward />
         </Button>
         <Button isIconOnly variant="tertiary" onPress={onGoToLastFrame}>
