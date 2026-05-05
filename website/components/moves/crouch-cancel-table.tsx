@@ -376,6 +376,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                         sortedCharacters={sortedCharacters}
                         floorPercentages={floorPercentages}
                         use999Percent={numericalPercentage}
+                        staleness={staleness}
                       />
                     )}
                     {hitbox.angle == 361 && (
@@ -386,6 +387,7 @@ export function CrouchCancelTable(params: Readonly<CrouchCancelTableParams>) {
                         sortedCharacters={sortedCharacters}
                         floorPercentages={floorPercentages}
                         use999Percent={numericalPercentage}
+                        staleness={staleness}
                       />
                     )}
                   </Tabs.Panel>
