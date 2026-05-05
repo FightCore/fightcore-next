@@ -6,7 +6,16 @@ import NextHead from 'next/head';
 const patchNotes = [
   {
     version: '1.4.0',
-    changes: ['Upgraded from HeroUI V2 to V3', 'Added a new ? to the move overview, showing the animation legend'],
+    changes: [
+      'Upgraded from HeroUI V2 to V3,',
+      'Added a new ? to the move overview, showing the animation legend.',
+      "Fixed Bowser's nair having incorrect frame data.",
+      'Implemented a new animation player with timeline scrubber.',
+      'Redesigned play, previous, and next frame buttons.',
+      'Added credit for the animation',
+      'Overhauled FPS selector',
+      'Overhauled the UI of the general move detail page',
+    ],
   },
   {
     version: '1.3.2',
