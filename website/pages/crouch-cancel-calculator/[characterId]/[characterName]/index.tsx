@@ -248,8 +248,8 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
             </div>
           </FightcoreCard.Header>
           <FightcoreCard.Body>
-            <div className="flex justify-evenly gap-3">
-              <div className="flex-1">
+            <div className="flex justify-around justify-items-center gap-3">
+              <div className="">
                 <div className="">Mode</div>
                 <Tabs
                   aria-label="Calculator mode"
@@ -270,12 +270,12 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
                   </Tabs.ListContainer>
                 </Tabs>
               </div>
-              <div className="flex-1">
+              <div className="">
                 <div className="text-medium text-foreground-500 mb-1">Staleness</div>
                 <StalenessQueue onStalenessChange={setStaleness}></StalenessQueue>
               </div>
 
-              <div className="flex-1">
+              <div className="">
                 <div className="mb-1 text-sm">Ceiling percentages</div>
                 <Checkbox className="dark:text-white" isSelected={floorPercentages} onChange={setFlooringChange}>
                   <Checkbox.Control>
