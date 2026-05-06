@@ -1,3 +1,4 @@
+import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { Character, CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
 import { MoveType } from '@/models/move-type';
@@ -44,17 +45,21 @@ export function CrouchCancelMoveList(data: Readonly<CrouchCancelMoveListParams>)
           .sort(sortMoves);
 
         return (
-          <div key={type.type + '-' + data.staleness}>
-            <h2 className="text-bold text-xl">{type.name}</h2>
-            {CrouchCancelMoveOverviewTable({
-              target: data.target,
-              moves: moves,
-              floorPercentage: data.floorPercentage,
-              knockbackTarget: data.knockbackTarget,
-              character: data.character,
-              staleness: data.staleness,
-            })}
-          </div>
+          <FightcoreCard key={type.type + '-' + data.staleness}>
+            <FightcoreCard.Header>
+              <FightcoreCard.Title>{type.name}</FightcoreCard.Title>
+            </FightcoreCard.Header>
+            <FightcoreCard.Body>
+              {CrouchCancelMoveOverviewTable({
+                target: data.target,
+                moves: moves,
+                floorPercentage: data.floorPercentage,
+                knockbackTarget: data.knockbackTarget,
+                character: data.character,
+                staleness: data.staleness,
+              })}
+            </FightcoreCard.Body>
+          </FightcoreCard>
         );
       })}
     </div>

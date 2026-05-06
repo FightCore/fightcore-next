@@ -23,7 +23,7 @@ function FightcoreCardRoot({ children, className, variant }: Readonly<RootSlotPr
 function Header({ children, className }: Readonly<SlotProps>) {
   return (
     <div className={cn('border-divider flex items-center justify-between border-b px-4 py-3', className)}>
-      <div className="flex flex-col gap-1">{children}</div>
+      <div className="flex w-full flex-col gap-1">{children}</div>
     </div>
   );
 }

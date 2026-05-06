@@ -2,11 +2,12 @@ import { CrouchCancelCalculatorHead } from '@/components/head/crouch-cancel-calc
 import { CrouchCancelMoveList } from '@/components/moves/crouch-cancel/crouch-cancel-move-list';
 import StalenessQueue from '@/components/moves/crouch-cancel/staleness-queue';
 import { PageTitle } from '@/components/page-title';
+import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { characters } from '@/config/framedata/framedata';
 import { LOCAL_STORAGE_PREFERRED_CC_FLOOR } from '@/keys/local-storage-keys';
 import { Character, CharacterBase } from '@/models/character';
 import { Knockback } from '@/types/knockback';
-import { Checkbox, ListBox, ListBoxItem, Radio, RadioGroup, Select } from '@heroui/react';
+import { Checkbox, Description, Label, ListBox, ListBoxItem, Select, Tabs } from '@heroui/react';
 import { promises as fs } from 'fs';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Image from 'next/image';
@@ -160,133 +161,143 @@ export default function CrouchCancelCalculatorCharacterPage({ data }: InferGetSt
     <>
       <CrouchCancelCalculatorHead character={characterData} />
 
-      <div className="pb-2">
+      <div>
         <PageTitle title={`${characterData.name} Crouch Cancel Calculator`} />
       </div>
 
-      <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
-        <div>
-          <label className="mb-1 block text-sm font-medium">Attacker</label>
-          <Select
-            aria-label="Attacker"
-            className="w-full"
-            defaultSelectedKey={characterData.fightCoreId.toString()}
-            onSelectionChange={setSelectedAttacker}
-          >
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {characters.map((character) => (
-                  <ListBoxItem
-                    key={character.fightCoreId.toString()}
-                    id={character.fightCoreId.toString()}
-                    textValue={character.name}
-                    className=""
-                  >
-                    <div className="flex items-center gap-2">
-                      <Image
-                        alt={character.name}
-                        width={20}
-                        height={20}
-                        src={'/newicons/' + character.name + '.webp'}
-                      />
-                      {character.name}
-                    </div>
-                  </ListBoxItem>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">Target</label>
-          <Select
-            aria-label="Target"
-            className="w-full"
-            selectedKey={selectedTarget ? selectedTarget.toString() : ''}
-            onSelectionChange={setSelectedChangeTarget}
-          >
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {characters.map((character) => (
-                  <ListBoxItem
-                    key={character.fightCoreId.toString()}
-                    id={character.fightCoreId.toString()}
-                    textValue={character.name}
-                    className=""
-                  >
-                    <div className="flex items-center gap-2">
-                      <Image
-                        alt={character.name}
-                        width={20}
-                        height={20}
-                        src={'/newicons/' + character.name + '.webp'}
-                      />
-                      {character.name}
-                    </div>
-                  </ListBoxItem>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-7 lg:grid-cols-3">
-        <div>
-          <div className="text-medium mb-1 font-bold">Select calculator mode</div>
-          <RadioGroup
-            value={String(mode)}
-            onChange={setModeChange}
-            aria-label="Calculator mode"
-            orientation="horizontal"
-            className="flex gap-3"
-          >
-            <Radio value="120">
-              <Radio.Control>
-                <Radio.Indicator />
-              </Radio.Control>
-              <Radio.Content>Crouch Cancel</Radio.Content>
-            </Radio>
-            <Radio value="80">
-              <Radio.Control>
-                <Radio.Indicator />
-              </Radio.Control>
-              <Radio.Content>ASDI Down</Radio.Content>
-            </Radio>
-          </RadioGroup>
-        </div>
-        <div>
-          <div className="text-medium text-foreground-500 mb-1">Staleness</div>
-          <StalenessQueue onStalenessChange={setStaleness}></StalenessQueue>
-        </div>
-
-        <div>
-          <div className="text-medium text-foreground-500 mb-1">Ceiling percentages</div>
-          <Checkbox className="dark:text-white" isSelected={floorPercentages} onChange={setFlooringChange}>
-            <Checkbox.Control>
-              <Checkbox.Indicator />
-            </Checkbox.Control>
-            <Checkbox.Content>
-              <div className="text-small">
-                Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it breaks at
-                12%.
+      <div className="py-3">
+        <FightcoreCard>
+          <FightcoreCard.Header className="w-full">
+            <div className="flex w-full justify-between gap-3">
+              <div className="flex-1">
+                <Select
+                  aria-label="Attacker"
+                  className="w-full"
+                  variant="secondary"
+                  defaultSelectedKey={characterData.fightCoreId.toString()}
+                  onSelectionChange={setSelectedAttacker}
+                >
+                  <Label>Attacker</Label>
+                  <Select.Trigger>
+                    <Select.Value />
+                    <Select.Indicator />
+                  </Select.Trigger>
+                  <Select.Popover>
+                    <ListBox>
+                      {characters.map((character) => (
+                        <ListBoxItem
+                          key={character.fightCoreId.toString()}
+                          id={character.fightCoreId.toString()}
+                          textValue={character.name}
+                          className=""
+                        >
+                          <div className="flex items-center gap-2">
+                            <Image
+                              alt={character.name}
+                              width={20}
+                              height={20}
+                              src={'/newicons/' + character.name + '.webp'}
+                            />
+                            {character.name}
+                          </div>
+                        </ListBoxItem>
+                      ))}
+                    </ListBox>
+                  </Select.Popover>
+                </Select>
               </div>
-              <div className="text-small">
-                <em>More information on this coming soon.</em>
-              </div>
-            </Checkbox.Content>
-          </Checkbox>
-        </div>
-      </div>
+              <div className="place-content-center">VS</div>
 
+              <div className="flex-1">
+                <Select
+                  aria-label="Target"
+                  variant="secondary"
+                  className="w-full"
+                  selectedKey={selectedTarget ? selectedTarget.toString() : ''}
+                  onSelectionChange={setSelectedChangeTarget}
+                >
+                  <Label>Target</Label>
+                  <Select.Trigger>
+                    <Select.Value />
+                    <Select.Indicator />
+                  </Select.Trigger>
+                  <Select.Popover>
+                    <ListBox>
+                      {characters.map((character) => (
+                        <ListBoxItem
+                          key={character.fightCoreId.toString()}
+                          id={character.fightCoreId.toString()}
+                          textValue={character.name}
+                          className=""
+                        >
+                          <div className="flex items-center gap-2">
+                            <Image
+                              alt={character.name}
+                              width={20}
+                              height={20}
+                              src={'/newicons/' + character.name + '.webp'}
+                            />
+                            {character.name}
+                          </div>
+                        </ListBoxItem>
+                      ))}
+                    </ListBox>
+                  </Select.Popover>
+                </Select>
+              </div>
+            </div>
+          </FightcoreCard.Header>
+          <FightcoreCard.Body>
+            <div className="flex justify-evenly gap-3">
+              <div className="flex-1">
+                <div className="">Mode</div>
+                <Tabs
+                  aria-label="Calculator mode"
+                  selectedKey={String(mode)}
+                  onSelectionChange={(key) => setModeChange(String(key))}
+                >
+                  <Tabs.ListContainer>
+                    <Tabs.List>
+                      <Tabs.Tab key="120" id="120">
+                        Crouch Cancel
+                        <Tabs.Indicator />
+                      </Tabs.Tab>
+                      <Tabs.Tab key="80" id="80">
+                        ASDI Down
+                        <Tabs.Indicator />
+                      </Tabs.Tab>
+                    </Tabs.List>
+                  </Tabs.ListContainer>
+                </Tabs>
+              </div>
+              <div className="flex-1">
+                <div className="text-medium text-foreground-500 mb-1">Staleness</div>
+                <StalenessQueue onStalenessChange={setStaleness}></StalenessQueue>
+              </div>
+
+              <div className="flex-1">
+                <div className="mb-1 text-sm">Ceiling percentages</div>
+                <Checkbox className="dark:text-white" isSelected={floorPercentages} onChange={setFlooringChange}>
+                  <Checkbox.Control>
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                  <Checkbox.Content>
+                    <Label htmlFor="feature">Floored percentages</Label>
+                    <Description>11.10% will display as 12%</Description>
+                    {/* <div className="text-small">
+                      Melee uses floored percentages for its calculations, if a move breaks at 11.10%, it means it
+                      breaks at 12%.
+                    </div>
+                    <div className="text-small">
+                      <em>More information on this coming soon.</em>
+                    </div> */}
+                  </Checkbox.Content>
+                </Checkbox>
+              </div>
+            </div>
+          </FightcoreCard.Body>
+        </FightcoreCard>
+      </div>
       {target ? (
         CrouchCancelMoveList({
           target: target,
