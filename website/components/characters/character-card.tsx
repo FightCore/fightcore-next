@@ -1,15 +1,16 @@
-import { DataTable } from '@/components/ui/data-table/data-table';
+import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { CharacterBase } from '@/models/character';
-import { Card } from '@heroui/react';
 import Image from 'next/image';
-import NextLink from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 interface CharacterCardInput {
   character: CharacterBase;
 }
 
 export const CharacterCard = (input: CharacterCardInput) => {
+  const router = useRouter();
+  const [hovered, setHovered] = useState(false);
   const character = input.character;
   const classNames = React.useMemo(
     () => ({
@@ -19,53 +20,55 @@ export const CharacterCard = (input: CharacterCardInput) => {
     }),
     [],
   );
+
+  const properties = [
+    { name: 'Weight', value: character.characterStatistics.weight },
+    { name: 'Gravity', value: character.characterStatistics.gravity },
+    { name: 'Walk Speed', value: character.characterStatistics.walkSpeed },
+    { name: 'Run Speed', value: character.characterStatistics.runSpeed },
+    { name: 'Wave Dash Length Rank', value: character.characterStatistics.waveDashLengthRank },
+    { name: 'Initial Dash', value: character.characterStatistics.initialDash },
+    { name: 'Dash frames', value: character.characterStatistics.dashFrames },
+    { name: 'Jump Squat', value: character.characterStatistics.jumpSquat },
+    { name: 'Can Wall Jump', value: character.characterStatistics.canWallJump ? 'Yes' : 'No' },
+  ];
   return (
-    <Card.Root key={character.normalizedName} className="w-full md:max-w-85">
-      <Card.Header className="justify-between">
-        <div className="mt-3 ml-3 flex gap-3">
-          <Image
-            width={40}
-            height={40}
-            alt={character.normalizedName}
-            src={'/newicons/' + character.name + '.webp'}
-            loading={'eager'}
-          />
-          <div className="flex flex-col items-start justify-center gap-1">
-            <h4 className="text-default-600 text-lg leading-none font-bold">{character.name}</h4>
+    <FightcoreCard
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => router.push('/characters/' + character.fightCoreId + '/' + character.normalizedName)}
+      onMouseDown={(e) => {
+        if (e.button === 1) {
+          e.preventDefault();
+          window.open('/characters/' + character.fightCoreId + '/' + character.normalizedName, '_blank');
+        }
+      }}
+      className={'cursor-pointer ' + (hovered ? 'bg-surface-secondary' : '')}
+    >
+      <FightcoreCard.Header>
+        <FightcoreCard.Title>
+          <div className="flex flex-row gap-1">
+            <Image
+              width={20}
+              height={20}
+              alt={character.normalizedName}
+              src={'/newicons/' + character.name + '.webp'}
+              loading={'eager'}
+            />
+            <div>{character.name}</div>
           </div>
-        </div>
-      </Card.Header>
-      <Card.Content className="text-small text-default-400 px-3 py-0">
-        <DataTable
-          data={[
-            { name: 'Weight', value: character.characterStatistics.weight },
-            { name: 'Gravity', value: character.characterStatistics.gravity },
-            { name: 'Walk Speed', value: character.characterStatistics.walkSpeed },
-            { name: 'Run Speed', value: character.characterStatistics.runSpeed },
-            { name: 'Wave Dash Length Rank', value: character.characterStatistics.waveDashLengthRank },
-            { name: 'Initial Dash', value: character.characterStatistics.initialDash },
-            { name: 'Dash frames', value: character.characterStatistics.dashFrames },
-            { name: 'Jump Squat', value: character.characterStatistics.jumpSquat },
-            { name: 'Can Wall Jump', value: character.characterStatistics.canWallJump ? 'Yes' : 'No' },
-          ]}
-          columns={[
-            { key: 'name', title: 'Name' },
-            { key: 'value', title: 'Value', align: 'right', monospace: true },
-          ]}
-          rowKeyField="name"
-          classNames={classNames}
-          ariaLabel="Character statistics"
-          ignoreMobileTable
-        />
-      </Card.Content>
-      <Card.Footer className="gap-3">
-        <NextLink
-          href={'/characters/' + character.fightCoreId + '/' + character.normalizedName}
-          className="text-medium bg-accent text-accent-foreground hover:bg-accent-hover inline-flex w-full items-center justify-center rounded-lg px-4 py-2 font-bold"
-        >
-          View
-        </NextLink>
-      </Card.Footer>
-    </Card.Root>
+        </FightcoreCard.Title>
+      </FightcoreCard.Header>
+      <FightcoreCard.Body>
+        {properties.map((property) => {
+          return (
+            <div key={character.normalizedName + '-' + property.name} className="flex flex-row justify-between">
+              <div className="text-muted text-xs">{property.name}</div>
+              <div className="bg-surface-secondary px-1 font-mono text-sm">{property.value}</div>
+            </div>
+          );
+        })}
+      </FightcoreCard.Body>
+    </FightcoreCard>
   );
 };

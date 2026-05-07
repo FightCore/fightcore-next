@@ -1,7 +1,7 @@
 import { cn, Surface } from '@heroui/react';
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
-interface RootSlotProps {
+interface RootSlotProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   variant?: 'default' | 'secondary' | 'tertiary' | 'transparent';
@@ -12,9 +12,9 @@ interface SlotProps {
   className?: string;
 }
 
-function FightcoreCardRoot({ children, className, variant }: Readonly<RootSlotProps>) {
+function FightcoreCardRoot({ children, className, variant, ...props }: Readonly<RootSlotProps>) {
   return (
-    <Surface variant={variant} className={cn('border-divider overflow-hidden rounded-xl border', className)}>
+    <Surface variant={variant} className={cn('border-divider overflow-hidden rounded-xl border', className)} {...props}>
       {children}
     </Surface>
   );
