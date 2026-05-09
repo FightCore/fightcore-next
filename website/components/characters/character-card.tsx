@@ -1,8 +1,8 @@
 import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { CharacterBase } from '@/models/character';
+import { Button } from '@heroui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
 
 interface CharacterCardInput {
   character: CharacterBase;
@@ -10,16 +10,7 @@ interface CharacterCardInput {
 
 export const CharacterCard = (input: CharacterCardInput) => {
   const router = useRouter();
-  const [hovered, setHovered] = useState(false);
   const character = input.character;
-  const classNames = React.useMemo(
-    () => ({
-      wrapper: ['border-0', 'shadow-none', 'p-0'],
-      th: ['bg-transparent!', 'text-default-500', 'border-b', 'border-divider'],
-      td: ['text-default-600', 'py-1'],
-    }),
-    [],
-  );
 
   const properties = [
     { name: 'Weight', value: character.characterStatistics.weight },
@@ -32,19 +23,9 @@ export const CharacterCard = (input: CharacterCardInput) => {
     { name: 'Jump Squat', value: character.characterStatistics.jumpSquat },
     { name: 'Can Wall Jump', value: character.characterStatistics.canWallJump ? 'Yes' : 'No' },
   ];
+
   return (
-    <FightcoreCard
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onClick={() => router.push('/characters/' + character.fightCoreId + '/' + character.normalizedName)}
-      onMouseDown={(e) => {
-        if (e.button === 1) {
-          e.preventDefault();
-          window.open('/characters/' + character.fightCoreId + '/' + character.normalizedName, '_blank');
-        }
-      }}
-      className={'cursor-pointer ' + (hovered ? 'bg-surface-secondary' : '')}
-    >
+    <FightcoreCard>
       <FightcoreCard.Header>
         <FightcoreCard.Title>
           <div className="flex flex-row gap-1">
@@ -69,6 +50,21 @@ export const CharacterCard = (input: CharacterCardInput) => {
           );
         })}
       </FightcoreCard.Body>
+      <FightcoreCard.Footer>
+        <Button
+          className="w-full"
+          variant="secondary"
+          onClick={() => router.push('/characters/' + character.fightCoreId + '/' + character.normalizedName)}
+          onMouseDown={(e) => {
+            if (e.button === 1) {
+              e.preventDefault();
+              window.open('/characters/' + character.fightCoreId + '/' + character.normalizedName, '_blank');
+            }
+          }}
+        >
+          View moves
+        </Button>
+      </FightcoreCard.Footer>
     </FightcoreCard>
   );
 };
