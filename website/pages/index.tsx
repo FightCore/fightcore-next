@@ -3,7 +3,9 @@ import { Logo } from '@/components/icons';
 import { PreviewVideo } from '@/components/moves/animations/preview-video';
 import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { ShowCaseMoves } from '@/config/showcase-data';
+import { moveRoute } from '@/utilities/routes';
 import { Button, Chip, InputGroup, Kbd } from '@heroui/react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   return (
@@ -16,6 +18,7 @@ export default function Home() {
 
 function HeroSection() {
   const popularMoves = ShowCaseMoves;
+  const router = useRouter();
   return (
     <div>
       <section className="border-divider border-b px-6 py-18">
@@ -94,7 +97,17 @@ function HeroSection() {
                   </div>
                 </FightcoreCard.Body>
                 <FightcoreCard.Footer>
-                  <Button className="w-full" variant="secondary">
+                  <Button
+                    className="w-full"
+                    variant="secondary"
+                    onClick={() => router.push(moveRoute(move.character!, move))}
+                    onMouseDown={(e) => {
+                      if (e.button === 1) {
+                        e.preventDefault();
+                        window.open(moveRoute(move.character!, move), '_blank');
+                      }
+                    }}
+                  >
                     View full data
                   </Button>
                 </FightcoreCard.Footer>
