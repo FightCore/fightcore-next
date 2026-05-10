@@ -21,7 +21,7 @@ function HeroSection() {
       <section className="border-divider border-b px-6 py-18">
         <div className="mx-auto flex max-w-190 flex-col items-center gap-6 text-center">
           <h1 className="text-foreground gap-3 text-5xl leading-none font-bold tracking-tighter">
-            <Logo className="flex-1" height={100} width={500} />
+            <Logo height={100} width={500} />
             <span className="mt-3 block text-3xl">
               The <span className="text-accent">best</span> source of Melee frame data.
             </span>
