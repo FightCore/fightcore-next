@@ -1,6 +1,7 @@
 'use client';
 import { GlobalSearch } from '@/components/global-search/global-search';
 import { useGlobalSearch } from '@/components/global-search/global-search-context';
+import { ThemePicker } from '@/components/theme-picker';
 import { ThemeSwitch } from '@/components/theme-switch';
 import { characters } from '@/config/framedata/framedata';
 import { siteConfig } from '@/config/site';
@@ -26,7 +27,7 @@ import { Logo } from '../components/icons';
 import { Socials } from './socials';
 
 const navLinks = [
-  { href: '/', icon: <FaCircleUser />, label: 'Characters', external: false },
+  { href: '/characters', icon: <FaCircleUser />, label: 'Characters', external: false },
   { href: '/crouch-cancel-calculator', icon: <FaCalculator />, label: 'Crouch Cancel', external: false },
   { href: 'https://bot.fightcore.gg', icon: <FaRobot />, label: 'Discord Bot', external: true },
   { href: 'https://drive.fightcore.gg', icon: <FaGoogleDrive />, label: 'Drive', external: true },
@@ -94,6 +95,7 @@ export const NavBar = () => {
           >
             <FaGithub />
           </a>
+          <ThemePicker />
           <ThemeSwitch />
         </div>
 

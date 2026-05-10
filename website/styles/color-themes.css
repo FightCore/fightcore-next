@@ -1,0 +1,24 @@
+/* Color themes — override --accent (and foreground) per theme.
+ * Applied via the `data-color-theme` attribute on <html>.
+ * Uses `html[...]` to beat single-class selectors (.dark, .light) in cascade order.
+ */
+
+html[data-color-theme='fightcore'] {
+  --accent: oklch(57% 0.21 25);
+  --accent-foreground: oklch(98% 0 0);
+}
+
+html[data-color-theme='ocean'] {
+  --accent: oklch(65% 0.18 185);
+  --accent-foreground: oklch(98% 0 0);
+}
+
+html[data-color-theme='violet'] {
+  --accent: oklch(62% 0.22 290);
+  --accent-foreground: oklch(98% 0 0);
+}
+
+html[data-color-theme='forest'] {
+  --accent: oklch(60% 0.20 145);
+  --accent-foreground: oklch(15% 0.05 145);
+}

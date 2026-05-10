@@ -1,5 +1,6 @@
 @config "../tailwind.config.ts";
 @import '@heroui/styles';
+@import './color-themes.css';
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
