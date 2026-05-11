@@ -80,7 +80,7 @@ function HeroSection() {
                   <FightcoreCard.Title>{move.name}</FightcoreCard.Title>
                 </FightcoreCard.Header>
                 <FightcoreCard.Body>
-                  <PreviewVideo move={move} characterName={move.character!.normalizedName} lazy={false}></PreviewVideo>
+                  <PreviewVideo move={move} character={move.character!} lazy={false}></PreviewVideo>
                   <div className="grap-3 flex flex-row justify-between">
                     <div>
                       <div className="text-muted text-xs">First active</div>

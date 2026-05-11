@@ -58,7 +58,7 @@ export const MoveCard = (params: MoveCardParams) => {
       <Card.Content className="text-small text-default-400 px-3 py-0">
         <div className="flex flex-col gap-2 lg:flex-row">
           <div className="w-72 max-w-full min-w-64 border-zinc-600 lg:border-r">
-            <PreviewVideo move={params.move} characterName={params.character.name} lazy={params.move.type !== 2} />
+            <PreviewVideo move={params.move} character={params.character} lazy={params.move.type !== 2} />
           </div>
           <div className="flex h-full grow flex-col">
             <h4 className="text-default-600 text-lg leading-none font-semibold">{params.move.name}</h4>
