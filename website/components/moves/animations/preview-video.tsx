@@ -123,7 +123,13 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
   return (
     <>
       <div className="relative w-72 max-w-full min-w-64">
-        <div className="group relative cursor-pointer" onClick={() => setIsOpen(true)}>
+        <div
+          className="group relative cursor-pointer"
+          onClick={(event) => {
+            event.stopPropagation();
+            setIsOpen(true);
+          }}
+        >
           {getPlayer()}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
             <div className="rounded-full bg-black/60 p-3 backdrop-blur-sm">
