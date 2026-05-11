@@ -116,7 +116,7 @@ export const NavBar = () => {
           </div>
 
           <NextLink
-            href="/"
+            href="/characters"
             className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             onClick={closeMenu}
           >
