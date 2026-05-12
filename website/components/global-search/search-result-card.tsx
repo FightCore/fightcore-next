@@ -1,5 +1,6 @@
 import { FightcoreCard } from '@/components/ui/fightcore-card';
-import { Button } from '@heroui/react';
+import { Button, Skeleton } from '@heroui/react';
+import { useState } from 'react';
 
 export interface SearchResult {
   id: number;
@@ -33,18 +34,31 @@ interface SearchResultCardProps {
   onNavigate: () => void;
 }
 
+function ImageWithSkeleton({ src, alt }: { src: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div className="relative w-full">
+      {!loaded && <Skeleton animationType="shimmer" className="h-80 w-full" />}
+      <img
+        src={src}
+        alt={alt}
+        className={loaded ? 'w-full' : 'invisible absolute inset-0 h-full w-full'}
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  );
+}
+
 export function SearchResultCard({ result, onNavigate }: SearchResultCardProps) {
   const moveUrl = `/characters/${result.characterId}/${encodeURIComponent(result.normalizedCharacterName)}/moves/${result.moveId}/${encodeURIComponent(result.normalizedMoveName)}/`;
   const stats = generateStats(result);
   return (
-    <FightcoreCard className="flex h-full flex-col">
+    <FightcoreCard className="flex h-full flex-col rounded-none">
       <FightcoreCard.Header>
         <FightcoreCard.Title>{result.move}</FightcoreCard.Title>
       </FightcoreCard.Header>
       <FightcoreCard.Body className="min-h-0 flex-1 overflow-y-auto">
-        <div>
-          {result.image !== null && <img src={result.image} height={200} alt={result.move} className="w-full" />}
-        </div>
+        {result.image !== null && <ImageWithSkeleton src={result.image} alt={result.move} />}
         <div className="flex flex-col">
           {stats.map((stat, index) => {
             return (
@@ -60,66 +74,6 @@ export function SearchResultCard({ result, onNavigate }: SearchResultCardProps) 
         <Button className="w-full">View full data</Button>
       </FightcoreCard.Footer>
     </FightcoreCard>
-    // <Card.Root className="w-full p-2 transition-colors">
-    //   <Card.Content className="p-2">
-    //     <div className="mb-2 flex gap-2">
-    //       <Image alt={result.character} width={40} height={40} src={'/newicons/' + result.character + '.webp'} />
-    //       <div>
-    //         <h4 className="text-default-700 truncate font-semibold">{result.move}</h4>
-    //         <p className="text-default-500 text-sm">{result.character}</p>
-    //       </div>
-    //     </div>
-    //     <div className="flex flex-wrap gap-2">
-    //       <div>
-    //         {result.image !== null && (
-    //           <img src={result.image} height={200} alt={result.move} className="max-h-[200px]" />
-    //         )}
-    //       </div>
-    //       <div className="">
-    //         <div className="min-w-0 flex-1">
-    //           <div className="text-default-500 mt-1 flex flex-col flex-wrap">
-    //             {result.start !== null && (
-    //               <span>
-    //                 <span className="font-semibold">Start:</span> {result.start}
-    //               </span>
-    //             )}
-    //             {result.end !== null && (
-    //               <span>
-    //                 <span className="font-semibold">End:</span> {result.end}
-    //               </span>
-    //             )}
-    //             {result.damage && result.damage?.length > 0 && (
-    //               <span>
-    //                 <span className="font-semibold">Damage:</span> {result.damage.join(' / ')}
-    //               </span>
-    //             )}
-    //             {result.baseKnockback && result.baseKnockback?.length > 0 && (
-    //               <span>
-    //                 <span className="font-semibold">Base knockback:</span> {result.baseKnockback.join(' / ')}
-    //               </span>
-    //             )}
-    //             {result.knockbackGrowth && result.knockbackGrowth?.length > 0 && (
-    //               <span>
-    //                 <span className="font-semibold">Knockback growth:</span> {result.knockbackGrowth.join(' / ')}
-    //               </span>
-    //             )}
-    //             {result.setKnockback && result.setKnockback?.length > 0 && (
-    //               <span>
-    //                 <span className="font-semibold">Set knockback:</span> {result.setKnockback.join(' / ')}
-    //               </span>
-    //             )}
-
-    //             {result.notes !== null && (
-    //               <span>
-    //                 <span className="font-semibold">Notes:</span> {result.notes}
-    //               </span>
-    //             )}
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </Card.Content>
-    // </Card.Root>
   );
 }
 

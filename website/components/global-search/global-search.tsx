@@ -16,7 +16,7 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 100);
   const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
 
   useEffect(() => {
@@ -95,8 +95,8 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
     <Modal.Root isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Modal.Backdrop>
         <Modal.Container scroll="inside">
-          <Modal.Dialog className="h-1/2 max-w-5xl overflow-hidden rounded-xl p-0">
-            <FightcoreCard className="h-full flex flex-col">
+          <Modal.Dialog className="max-w-5xl overflow-hidden rounded-xl p-0 md:h-1/2">
+            <FightcoreCard className="flex h-full flex-col">
               <FightcoreCard.Header>
                 <Input
                   autoFocus
@@ -105,16 +105,14 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
                   onChange={(e) => setQuery(e.target.value)}
                 />
               </FightcoreCard.Header>
-              <FightcoreCard.Body className="flex-1 min-h-0 overflow-y-auto">
-                <div className="flex">
-                  <div className="flex-4">
+              <FightcoreCard.Body className="min-h-0 flex-1 p-0">
+                <div className="flex h-full flex-col md:flex-row">
+                  <div className="p-4 md:flex-4 md:overflow-y-auto">
                     {!isLoading && results.length > 0 && (
-                      <div className="flex flex-col">
-                        <SearchList results={results} onSelectedResult={setSelectedResult}></SearchList>
-                      </div>
+                      <SearchList results={results} onSelectedResult={setSelectedResult} />
                     )}
                   </div>
-                  <div className="flex-3">
+                  <div className="md:h-full md:flex-3">
                     {selectedResult && (
                       <SearchResultCard key={selectedResult.id} result={selectedResult} onNavigate={handleNavigate} />
                     )}

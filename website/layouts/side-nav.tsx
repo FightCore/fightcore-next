@@ -23,7 +23,7 @@ export function SideNav({ isCollapsed }: SideNavProps) {
             <NextLink
               key={character.normalizedName}
               href={route}
-              className={`hover:bg-surface-secondary flex flex-row items-center gap-1.5 rounded-lg p-1 ${isCollapsed ? 'justify-center' : ''} ${isActive ? 'bg-surface-secondary' : ''}`}
+              className={`hover:md:bg-surface-secondary flex flex-row items-center gap-1.5 rounded-lg p-1 ${isCollapsed ? 'justify-center' : ''} ${isActive ? 'md:bg-surface-secondary' : ''}`}
             >
               <Image alt={character.name} width={30} height={30} src={'/newicons/' + character.name + '.webp'} />
               {!isCollapsed && (

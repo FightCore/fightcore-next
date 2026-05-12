@@ -18,11 +18,19 @@ export function SearchList({ results, onSelectedResult }: Readonly<SearchListPro
     }
   }, [selectedIndex]);
 
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [results]);
+
   return (
     <div className="flex flex-col">
       {results.map((result, index) => {
         return (
-          <div key={result.id.toString()} onMouseEnter={() => setSelectedIndex(index)}>
+          <div
+            key={result.id.toString()}
+            onMouseEnter={() => setSelectedIndex(index)}
+            onClick={() => setSelectedIndex(index)}
+          >
             <SearchListItem result={result} hovered={selectedIndex === index}></SearchListItem>
           </div>
         );
