@@ -59,7 +59,9 @@ export const AnimationControls = ({
     if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
     holdTimerRef.current = null;
     holdIntervalRef.current = null;
-    setTimeout(() => { touchActiveRef.current = false; }, 50);
+    setTimeout(() => {
+      touchActiveRef.current = false;
+    }, 50);
   };
 
   const handleNextFrameTouchStart = () => {
@@ -70,18 +72,26 @@ export const AnimationControls = ({
     }, 400);
   };
 
+  const handlePreviousFrameTouchStart = () => {
+    touchActiveRef.current = true;
+    previousFrame();
+    holdTimerRef.current = setTimeout(() => {
+      holdIntervalRef.current = setInterval(previousFrame, 100);
+    }, 400);
+  };
+
   useEffect(() => () => stopNextFrameHold(), []);
 
   return (
     <div className="flex flex-col">
       {/* Frame counter + FPS */}
-      <div className="mb-3 flex items-center justify-between border-b border-border pb-3">
+      <div className="border-border mb-3 flex items-center justify-between border-b pb-3">
         <div className="flex items-baseline gap-1.5">
-          <span className="font-mono text-[30px] font-semibold leading-none text-foreground">{frameCounter}</span>
-          <span className="font-mono text-xs text-muted-foreground">/ {totalFrames > 0 ? totalFrames : '—'}</span>
+          <span className="text-foreground font-mono text-[30px] leading-none font-semibold">{frameCounter}</span>
+          <span className="text-muted-foreground font-mono text-xs">/ {totalFrames > 0 ? totalFrames : '—'}</span>
         </div>
         <div className="flex shrink-0 items-center gap-1">
-          <span className="mr-1.5 text-xs text-muted-foreground">FPS</span>
+          <span className="text-muted-foreground mr-1.5 text-xs">FPS</span>
           <ToggleButtonGroup
             isDetached
             selectionMode="single"
@@ -89,7 +99,13 @@ export const AnimationControls = ({
             selectedKeys={[String(playbackSpeed)]}
             isDisabled={!showPlaybackSpeed}
             onSelectionChange={(key) => {
-              const first = [...key][0];
+              let first = [...key][0];
+
+              // Prevent the user from deselecting the FPS, this would crash the player.
+              if (!first) {
+                first = '0.2';
+              }
+
               const speed = Number(first);
               onPlaybackSpeedChange?.(speed);
               createEvent('change_speed', { speed });
@@ -115,32 +131,33 @@ export const AnimationControls = ({
         <Button isIconOnly variant="tertiary" onPress={onGoToFirstFrame}>
           <FaBackwardStep />
         </Button>
-        <Button isIconOnly variant="tertiary" onPress={previousFrame}>
+        <Button
+          isIconOnly
+          variant="tertiary"
+          onPress={() => {
+            if (!touchActiveRef.current) previousFrame();
+          }}
+          onTouchStart={handlePreviousFrameTouchStart}
+          onTouchEnd={stopNextFrameHold}
+          onTouchCancel={stopNextFrameHold}
+        >
           <FaBackward />
         </Button>
         {isPlaying ? (
-          <Button
-            size="lg"
-            isIconOnly
-            className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]"
-            onPress={onPause}
-          >
+          <Button size="lg" isIconOnly className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPause}>
             <FaPause />
           </Button>
         ) : (
-          <Button
-            size="lg"
-            isIconOnly
-            className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]"
-            onPress={onPlay}
-          >
+          <Button size="lg" isIconOnly className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPlay}>
             <FaPlay />
           </Button>
         )}
         <Button
           isIconOnly
           variant="tertiary"
-          onPress={() => { if (!touchActiveRef.current) nextFrame(); }}
+          onPress={() => {
+            if (!touchActiveRef.current) nextFrame();
+          }}
           onTouchStart={handleNextFrameTouchStart}
           onTouchEnd={stopNextFrameHold}
           onTouchCancel={stopNextFrameHold}
