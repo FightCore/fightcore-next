@@ -3,6 +3,33 @@ import parseAPNG from 'apng-js';
 import Player from 'apng-js/types/library/player';
 import { useEffect, useRef, useState } from 'react';
 
+type ParsedAPNG = Exclude<ReturnType<typeof parseAPNG>, Error>;
+
+// Caches in-flight Promises, not resolved values. Every concurrent caller for the
+// same URL awaits the same single fetch rather than starting a new one.
+const apngFetchCache = new Map<string, Promise<ParsedAPNG | null>>();
+
+function fetchAndParseApng(url: string): Promise<ParsedAPNG | null> {
+  const cached = apngFetchCache.get(url);
+  if (cached) return cached;
+  const promise = fetch(url)
+    .then((r) => r.arrayBuffer())
+    .then((buffer) => {
+      const apng = parseAPNG(buffer);
+      return apng instanceof Error ? null : apng;
+    })
+    .catch(() => {
+      apngFetchCache.delete(url); // Allow retry on network error
+      return null;
+    });
+  apngFetchCache.set(url, promise);
+  return promise;
+}
+
+export function prefetchApng(url: string): void {
+  if (url) fetchAndParseApng(url);
+}
+
 export interface ApngMoveParams {
   url: string;
   showAdditionalControls?: boolean;
@@ -35,13 +62,10 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       setPlayerReady(false);
 
       try {
-        const response = await fetch(params.url);
-        const buffer = await response.arrayBuffer();
+        const apng = await fetchAndParseApng(params.url);
         if (cancelled) return;
-
-        const apng = parseAPNG(buffer);
-        if (apng instanceof Error) {
-          console.error('Error parsing APNG:', apng);
+        if (!apng) {
+          params.onError?.(new Error(`Failed to load APNG: ${params.url}`));
           return;
         }
         if (!canvasDivRef.current) return;
