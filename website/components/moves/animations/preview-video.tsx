@@ -54,7 +54,7 @@ function Lightbox({
   return (
     <Modal.Root isOpen={isOpen} onOpenChange={onClose}>
       <Modal.Backdrop>
-        <Modal.Container size="lg">
+        <Modal.Container size="cover">
           <Modal.Dialog>
             <Modal.Header className="flex flex-row items-start justify-between gap-4">
               <div className="flex flex-col gap-1">
@@ -64,22 +64,22 @@ function Lightbox({
                 <FaXmark size={14} />
               </Button>
             </Modal.Header>
-            <Modal.Body className="gap-4">
-              <div className="overflow-hidden rounded-xl">
+            <Modal.Body className="flex flex-col gap-4">
+              <div className="flex-1 min-h-0 overflow-hidden rounded-xl">
                 {isIOS ? (
                   <MoveGif characterName={character.name} move={move} />
                 ) : (
-                  <ApngMove showAdditionalControls={true} url={move.pngUrl!} />
+                  <ApngMove contain showAdditionalControls={true} url={move.pngUrl!} />
                 )}
               </div>
               {stats.length > 0 && (
-                <div className="justify flex w-full gap-2">
+                <div className="shrink-0 flex w-full gap-2">
                   {stats.map((s) => (
                     <StatChip key={s.label} label={s.label} value={s.value} />
                   ))}
                 </div>
               )}
-              {move.notes && <p className="text-foreground-500 text-sm">{move.notes}</p>}
+              {move.notes && <p className="shrink-0 text-foreground-500 text-sm">{move.notes}</p>}
             </Modal.Body>
             <Modal.Footer>
               <Button className="w-full" onPress={() => router.push(moveRoute(character, move))}>

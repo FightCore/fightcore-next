@@ -34,6 +34,7 @@ export interface ApngMoveParams {
   url: string;
   showAdditionalControls?: boolean;
   onError?: (error: Error) => void;
+  contain?: boolean;
 }
 
 export default function ApngMove(params: Readonly<ApngMoveParams>) {
@@ -76,8 +77,16 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
         const canvas = document.createElement('canvas');
         canvas.width = apng.width;
         canvas.height = apng.height;
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
+        canvas.style.display = 'block';
+        if (params.contain) {
+          canvas.style.width = 'auto';
+          canvas.style.height = 'auto';
+          canvas.style.maxWidth = '100%';
+          canvas.style.maxHeight = '100%';
+        } else {
+          canvas.style.width = '100%';
+          canvas.style.height = 'auto';
+        }
         canvasDivRef.current.appendChild(canvas);
 
         const ctx = canvas.getContext('2d');
@@ -182,7 +191,10 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
           <div className="skeleton h-full w-full rounded-lg opacity-20" style={{ background: '#26263a' }} />
         </div>
       ) : null}
-      <div className="w-full" ref={canvasDivRef} />
+      <div
+        className={params.contain ? 'flex h-full w-full items-center justify-center' : 'w-full'}
+        ref={canvasDivRef}
+      />
     </>
   );
 }
