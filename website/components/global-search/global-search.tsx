@@ -1,5 +1,7 @@
+import { SearchList } from '@/components/global-search/search-list';
+import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { useDebounce } from '@/hooks/use-debounce';
-import { Button, Input, Kbd, Modal, Spinner } from '@heroui/react';
+import { Button, Input, Kbd, Modal } from '@heroui/react';
 import { useCallback, useEffect, useState } from 'react';
 import { SearchIcon } from '../icons';
 import { useGlobalSearch } from './global-search-context';
@@ -15,6 +17,7 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
+  const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
 
   useEffect(() => {
     if (showTrigger) return;
@@ -91,47 +94,47 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
   return (
     <Modal.Root isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Modal.Backdrop>
-        <Modal.Container size="lg" scroll="inside">
-          <Modal.Dialog>
-            <Modal.Header className="flex flex-col gap-1">Search Moves</Modal.Header>
-            <Modal.Body>
-              <div className="p-2">
+        <Modal.Container scroll="inside">
+          <Modal.Dialog className="h-1/2 max-w-5xl overflow-hidden rounded-xl p-0">
+            <FightcoreCard className="h-full flex flex-col">
+              <FightcoreCard.Header>
                 <Input
                   autoFocus
                   placeholder="Search for a move..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
-              </div>
-              {isLoading && (
-                <div className="flex justify-center py-8">
-                  <Spinner size="lg" />
+              </FightcoreCard.Header>
+              <FightcoreCard.Body className="flex-1 min-h-0 overflow-y-auto">
+                <div className="flex">
+                  <div className="flex-4">
+                    {!isLoading && results.length > 0 && (
+                      <div className="flex flex-col">
+                        <SearchList results={results} onSelectedResult={setSelectedResult}></SearchList>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-3">
+                    {selectedResult && (
+                      <SearchResultCard key={selectedResult.id} result={selectedResult} onNavigate={handleNavigate} />
+                    )}
+                  </div>
                 </div>
-              )}
-              {!isLoading && results.length > 0 && (
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                  {results.map((result) => (
-                    <SearchResultCard key={result.id} result={result} onNavigate={handleNavigate} />
-                  ))}
-                </div>
-              )}
-              {!isLoading && query && debouncedQuery && results.length === 0 && (
-                <div className="text-default-500 py-8 text-center">No results found for "{debouncedQuery}"</div>
-              )}
-            </Modal.Body>
-            <Modal.Footer>
-              <span className="text-default-400 text-xs">
-                Powered by{' '}
-                <a
-                  href="https://www.meleesearch.com"
-                  className="text-xs underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  MeleeSearch.com
-                </a>
-              </span>
-            </Modal.Footer>
+              </FightcoreCard.Body>
+              <FightcoreCard.Footer>
+                <span className="text-default-400 text-xs">
+                  Powered by{' '}
+                  <a
+                    href="https://www.meleesearch.com"
+                    className="text-xs underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    MeleeSearch.com
+                  </a>
+                </span>
+              </FightcoreCard.Footer>
+            </FightcoreCard>
           </Modal.Dialog>
         </Modal.Container>
       </Modal.Backdrop>
