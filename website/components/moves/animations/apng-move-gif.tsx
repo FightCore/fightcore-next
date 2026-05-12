@@ -1,7 +1,7 @@
 import eventEmitter from '@/events/event-emitter';
 import parseAPNG from 'apng-js';
 import Player from 'apng-js/types/library/player';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export interface ApngMoveParams {
   url: string;
@@ -11,107 +11,114 @@ export interface ApngMoveParams {
 
 export default function ApngMove(params: Readonly<ApngMoveParams>) {
   const canvasDivRef = useRef<HTMLDivElement>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [player, setPlayer] = useState<Player | null>(null);
-  const [url, setUrl] = useState<string>(params.url);
-  const [totalFrames, setTotalFrames] = useState(0);
+  const playerRef = useRef<Player | null>(null);
+  const totalFramesRef = useRef(0);
+  const [playerReady, setPlayerReady] = useState(false);
 
-  // Handle URL changes and load APNG
+  // Load (or reload) whenever the URL changes
   useEffect(() => {
+    let cancelled = false;
+
+    const cleanup = () => {
+      if (playerRef.current) {
+        playerRef.current.removeAllListeners();
+        playerRef.current.stop();
+        playerRef.current = null;
+      }
+      if (canvasDivRef.current) {
+        canvasDivRef.current.innerHTML = '';
+      }
+    };
+
     const loadAPNG = async () => {
+      cleanup();
+      setPlayerReady(false);
+
       try {
-        if (url && url !== params.url) {
-          player?.play();
-          setUrl(params.url);
-          player?.removeAllListeners();
-          setPlayer(null);
-          canvasDivRef.current?.removeChild(canvasDivRef.current.firstChild as Node);
-          setLoaded(false);
-        } else if (!url) {
-          setUrl(params.url);
-        }
-
-        if (loaded) {
-          return;
-        }
-        setLoaded(true);
-        const response = await fetch(url);
+        const response = await fetch(params.url);
         const buffer = await response.arrayBuffer();
-        const apng = parseAPNG(buffer);
+        if (cancelled) return;
 
+        const apng = parseAPNG(buffer);
         if (apng instanceof Error) {
           console.error('Error parsing APNG:', apng);
           return;
         }
+        if (!canvasDivRef.current) return;
 
-        if (!canvasDivRef || !canvasDivRef.current) {
-          console.error('Canvas not found');
-          return;
-        }
-        if (canvasDivRef.current.children.length > 0) {
-          return;
-        }
-
-        setTotalFrames(apng.frames.length);
+        totalFramesRef.current = apng.frames.length;
         eventEmitter.emit('totalFramesUpdate', apng.frames.length);
+
         const canvas = document.createElement('canvas');
         canvas.width = apng.width;
         canvas.height = apng.height;
         canvas.style.width = '100%';
         canvas.style.height = '100%';
         canvasDivRef.current.appendChild(canvas);
-        const ctx = canvas.getContext('2d');
 
+        const ctx = canvas.getContext('2d');
         const localPlayer = await apng.getPlayer(ctx!);
+        if (cancelled) {
+          localPlayer.stop();
+          return;
+        }
+
         localPlayer.playbackRate = 0.2;
         localPlayer.addListener('frame', (frameNumber: number) => {
           eventEmitter.emit('frameCounterUpdate', frameNumber + 1);
         });
         localPlayer.play();
-        setPlayer(localPlayer);
+        playerRef.current = localPlayer;
+        setPlayerReady(true);
       } catch (error) {
         console.error('Error loading APNG:', error);
-
-        if (player) {
-          player.removeAllListeners();
-          player.stop();
-          setPlayer(null);
-          canvasDivRef.current?.remove();
-        }
-
-        if (params.onError && error instanceof Error) {
+        if (!cancelled && params.onError && error instanceof Error) {
           params.onError(error);
         }
       }
     };
 
     loadAPNG();
-  }, [loaded, url, params.url, player]);
-
-  useEffect(() => {
     return () => {
-      if (player && !player.paused) {
-        player.pause();
-      }
-      if (player) {
-        player.stop();
-      }
+      cancelled = true;
+      cleanup();
     };
-  }, [player]);
+  }, [params.url]);
 
-  // Listen to player control events
+  // Register event listeners once the player is ready
   useEffect(() => {
+    const player = playerRef.current;
     if (!player) return;
 
     const handlePlay = () => {
-      if (player.paused) {
-        player.play();
-      }
+      if (player.paused) player.play();
     };
 
     const handlePause = () => {
-      if (!player.paused) {
-        player.pause();
+      if (!player.paused) player.pause();
+    };
+
+    const handlePlaybackSpeedChange = (speed: number) => {
+      player.playbackRate = speed;
+    };
+
+    // frameNumber is 1-indexed; player.currentFrameNumber is 0-indexed
+    const handleGoToFrame = (frameNumber: number) => {
+      if (!player.paused) player.pause();
+
+      const targetIndex = frameNumber - 1;
+
+      // For backward seeks, stop() resets currentFrameNumber to -1 so we
+      // can render forward from frame 0 instead of wrapping around the end.
+      if (targetIndex <= player.currentFrameNumber) {
+        player.stop();
+      }
+
+      let safety = 0;
+      const limit = totalFramesRef.current + 5;
+      while (player.currentFrameNumber !== targetIndex && safety < limit) {
+        player.renderNextFrame();
+        safety++;
       }
     };
 
@@ -122,33 +129,9 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
 
     const handlePreviousFrame = () => {
       player.pause();
-      let targetFrame = player.currentFrameNumber;
-      if (targetFrame <= 0) {
-        targetFrame = totalFrames;
-      }
+      // currentFrameNumber is 0-indexed; passing it as 1-indexed target moves back one frame
+      const targetFrame = player.currentFrameNumber <= 0 ? totalFramesRef.current : player.currentFrameNumber;
       handleGoToFrame(targetFrame);
-    };
-
-    const handleGoToFrame = (frameNumber: number) => {
-      if (!player) {
-        return;
-      }
-
-      const targetFrame = frameNumber;
-      if (!player.paused) {
-        player.pause();
-      }
-
-      let framesPassed = 0;
-      while (targetFrame - 1 !== player.currentFrameNumber) {
-        player.renderNextFrame();
-        framesPassed++;
-
-        // Safety measure to prevent infinite loops
-        if (framesPassed > 200) {
-          return;
-        }
-      }
     };
 
     eventEmitter.on('play', handlePlay);
@@ -166,20 +149,11 @@ export default function ApngMove(params: Readonly<ApngMoveParams>) {
       eventEmitter.off('seek', handleGoToFrame);
       eventEmitter.off('setPlaybackSpeed', handlePlaybackSpeedChange);
     };
-  }, [player, totalFrames]);
-
-  const handlePlaybackSpeedChange = useCallback(
-    (speed: number) => {
-      if (player) {
-        player.playbackRate = speed;
-      }
-    },
-    [player],
-  );
+  }, [playerReady]);
 
   return (
     <>
-      {!loaded || !player ? (
+      {!playerReady ? (
         <div className="h-64 w-full p-3">
           <div className="skeleton h-full w-full rounded-lg opacity-20" style={{ background: '#26263a' }} />
         </div>
