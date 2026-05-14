@@ -126,14 +126,9 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
                 </div>
               </FightcoreCard.Body>
               <FightcoreCard.Footer>
-                <span className="text-default-400 text-xs">
+                <span className="text-muted text-xs">
                   Powered by{' '}
-                  <a
-                    href="https://www.meleesearch.com"
-                    className="text-xs underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href="https://www.meleesearch.com" className="text-xs underline" target="_blank">
                     MeleeSearch.com
                   </a>
                 </span>
