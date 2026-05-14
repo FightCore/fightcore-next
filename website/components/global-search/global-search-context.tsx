@@ -9,17 +9,31 @@ interface GlobalSearchContextType {
   onOpenChange: (open: boolean) => void;
   registerNavigateCallback: (callback: () => void) => () => void;
   triggerNavigate: () => void;
+  initialQuery: string;
+  openWithQuery: (query: string) => void;
 }
 
 const GlobalSearchContext = createContext<GlobalSearchContextType | null>(null);
 
 export function GlobalSearchProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [initialQuery, setInitialQuery] = useState('');
   const navigateCallbacks = useRef<Set<() => void>>(new Set());
 
   const onOpen = useCallback(() => setIsOpen(true), []);
-  const onClose = useCallback(() => setIsOpen(false), []);
-  const onOpenChange = useCallback((open: boolean) => setIsOpen(open), []);
+  const onClose = useCallback(() => {
+    setIsOpen(false);
+    setInitialQuery('');
+  }, []);
+  const onOpenChange = useCallback((open: boolean) => {
+    setIsOpen(open);
+    if (!open) setInitialQuery('');
+  }, []);
+
+  const openWithQuery = useCallback((query: string) => {
+    setInitialQuery(query);
+    setIsOpen(true);
+  }, []);
 
   const registerNavigateCallback = useCallback((callback: () => void) => {
     navigateCallbacks.current.add(callback);
@@ -34,7 +48,7 @@ export function GlobalSearchProvider({ children }: { children: ReactNode }) {
 
   return (
     <GlobalSearchContext.Provider
-      value={{ isOpen, onOpen, onClose, onOpenChange, registerNavigateCallback, triggerNavigate }}
+      value={{ isOpen, onOpen, onClose, onOpenChange, registerNavigateCallback, triggerNavigate, initialQuery, openWithQuery }}
     >
       {children}
     </GlobalSearchContext.Provider>

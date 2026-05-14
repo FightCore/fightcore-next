@@ -4,8 +4,10 @@ import { PreviewVideo } from '@/components/moves/animations/preview-video';
 import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { ShowCaseMoves } from '@/config/showcase-data';
 import { moveRoute } from '@/utilities/routes';
+import { useGlobalSearch } from '@/components/global-search/global-search-context';
 import { Button, Chip, InputGroup, Kbd } from '@heroui/react';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   return (
@@ -19,6 +21,13 @@ export default function Home() {
 function HeroSection() {
   const popularMoves = ShowCaseMoves;
   const router = useRouter();
+  const { isOpen, onOpen, openWithQuery } = useGlobalSearch();
+  const [heroQuery, setHeroQuery] = useState('');
+
+  useEffect(() => {
+    if (!isOpen) setHeroQuery('');
+  }, [isOpen]);
+
   return (
     <div>
       <section className="border-divider border-b px-6 py-18">
@@ -46,7 +55,16 @@ function HeroSection() {
                   <path d="m21 21-4.35-4.35" />
                 </svg>
               </InputGroup.Prefix>
-              <InputGroup.Input placeholder="Search Fox shine, Marth tipper, Jiggs rest…" />
+              <InputGroup.Input
+                placeholder="Search Fox shine, Marth tipper, Jiggs rest…"
+                value={heroQuery}
+                onClick={() => onOpen()}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setHeroQuery(val);
+                  openWithQuery(val);
+                }}
+              />
               <InputGroup.Suffix>
                 <Kbd>
                   <Kbd.Abbr keyValue="command" />
@@ -58,7 +76,11 @@ function HeroSection() {
             <div className="mt-3 flex flex-wrap justify-center gap-1.5">
               <span className="text-foreground-400 self-center font-mono text-xs">try:</span>
               {['fox upsmash', 'marth tipper', 'peach dsmash', 'rest', 'wavedash distance'].map((tag) => (
-                <Chip className="text-muted" key={tag}>
+                <Chip
+                  className="text-muted cursor-pointer"
+                  key={tag}
+                  onClick={() => openWithQuery(tag)}
+                >
                   {tag}
                 </Chip>
               ))}

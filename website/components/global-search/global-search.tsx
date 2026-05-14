@@ -12,12 +12,18 @@ interface GlobalSearchProps {
 }
 
 export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>) {
-  const { isOpen, onOpen, onClose, onOpenChange, triggerNavigate } = useGlobalSearch();
+  const { isOpen, onOpen, onClose, onOpenChange, triggerNavigate, initialQuery } = useGlobalSearch();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const debouncedQuery = useDebounce(query, 100);
   const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setQuery(initialQuery);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (showTrigger) return;
