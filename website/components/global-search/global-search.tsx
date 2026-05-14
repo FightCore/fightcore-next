@@ -55,7 +55,9 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
         // Ignored on purpose
       }
       try {
-        const response = await fetch(`https://api.meleesearch.com/api/search?q=${encodeURIComponent(debouncedQuery)}`);
+        const response = await fetch(
+          `https://api.meleesearch.com/api/search?q=${encodeURIComponent(debouncedQuery)}&limit=10`,
+        );
         const data = await response.json();
         setResults(data);
       } catch (error) {
@@ -101,15 +103,21 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
     <Modal.Root isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Modal.Backdrop>
         <Modal.Container scroll="inside">
-          <Modal.Dialog className="max-w-5xl overflow-hidden rounded-xl p-0 md:h-1/2">
+          <Modal.Dialog className="h-full overflow-hidden rounded-xl p-0 md:h-1/2 md:max-w-5xl">
             <FightcoreCard className="flex h-full flex-col">
               <FightcoreCard.Header>
-                <Input
-                  autoFocus
-                  placeholder="Search for a move..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
+                <div className="flex flex-row gap-1.5">
+                  <Input
+                    autoFocus
+                    className="grow"
+                    placeholder="Search for a move..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                  <Button slot="close" variant="secondary" className="text-muted text-xs">
+                    X
+                  </Button>
+                </div>
               </FightcoreCard.Header>
               <FightcoreCard.Body className="min-h-0 flex-1 p-0">
                 <div className="flex h-full flex-col md:flex-row">
