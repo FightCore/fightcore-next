@@ -1,7 +1,6 @@
 'use client';
 import { GlobalSearch } from '@/components/global-search/global-search';
 import { useGlobalSearch } from '@/components/global-search/global-search-context';
-import { ThemePicker } from '@/components/theme-picker';
 import { ThemeSwitch } from '@/components/theme-switch';
 import { characters } from '@/config/framedata/framedata';
 import { siteConfig } from '@/config/site';
@@ -74,7 +73,6 @@ export const NavBar = () => {
           )}
         </div>
 
-        {/* Desktop: utilities */}
         <div className="hidden items-center gap-2 md:flex">
           <GlobalSearch />
           <a
@@ -95,7 +93,6 @@ export const NavBar = () => {
           >
             <FaGithub />
           </a>
-          <ThemePicker />
           <ThemeSwitch />
         </div>
 

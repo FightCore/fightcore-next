@@ -103,7 +103,7 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
     <Modal.Root isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Modal.Backdrop>
         <Modal.Container scroll="inside">
-          <Modal.Dialog className="h-full overflow-hidden rounded-xl p-0 md:h-1/2 md:max-w-5xl">
+          <Modal.Dialog className="h-full max-w-5xl overflow-hidden rounded-xl p-0 md:h-1/2">
             <FightcoreCard className="flex h-full flex-col">
               <FightcoreCard.Header>
                 <div className="flex flex-row gap-1.5">
