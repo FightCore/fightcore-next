@@ -1,10 +1,10 @@
 import { CharactersHead } from '@/components/characters/characters-head';
+import { useGlobalSearch } from '@/components/global-search/global-search-context';
 import { Logo } from '@/components/icons';
 import { PreviewVideo } from '@/components/moves/animations/preview-video';
 import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { ShowCaseMoves } from '@/config/showcase-data';
 import { moveRoute } from '@/utilities/routes';
-import { useGlobalSearch } from '@/components/global-search/global-search-context';
 import { Button, Chip, InputGroup, Kbd } from '@heroui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -75,12 +75,8 @@ function HeroSection() {
 
             <div className="mt-3 flex flex-wrap justify-center gap-1.5">
               <span className="text-foreground-400 self-center font-mono text-xs">try:</span>
-              {['fox upsmash', 'marth tipper', 'peach dsmash', 'rest', 'wavedash distance'].map((tag) => (
-                <Chip
-                  className="text-muted cursor-pointer"
-                  key={tag}
-                  onClick={() => openWithQuery(tag)}
-                >
+              {['fox upsmash', 'marth fsmash', 'peach dsmash', 'rest'].map((tag) => (
+                <Chip className="text-muted cursor-pointer" key={tag} onClick={() => openWithQuery(tag)}>
                   {tag}
                 </Chip>
               ))}
