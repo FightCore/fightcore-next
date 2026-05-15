@@ -1,13 +1,6 @@
 @config "../tailwind.config.ts";
 @import '@heroui/styles';
-@import './color-themes.css';
 @custom-variant dark (&:where(.dark, .dark *));
-
-/*
- * HeroUI Pro Theme
- * Add this to your global.css after importing @heroui/styles
- * @see https://heroui.com/docs/react/getting-started/theming
- */
 
 /*
  * Font: DM Sans
