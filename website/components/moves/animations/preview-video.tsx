@@ -8,9 +8,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaCircleQuestion, FaExpand, FaXmark } from 'react-icons/fa6';
 
+import { AnimationDisplay } from './animation-display';
 import { AnimationLegendContent } from './animation-legend';
-import ApngMove from './apng-move-gif';
-import { MoveGif } from './move-gif';
+import { AnimationPlayerProvider } from './animation-player-context';
+import { AnimationPlayerControls } from './animation-player-controls';
+import { AnimationCredit } from './controls/animation-credit';
 
 export interface PreviewVideoParams {
   move: Move;
@@ -18,68 +20,54 @@ export interface PreviewVideoParams {
   lazy: boolean;
 }
 
-function StatChip({ label, value }: { label: string; value: string }) {
-  return (
-    <Surface className="flex-1 rounded-md p-3" variant="secondary">
-      <div className="flex flex-col">
-        <span className="text-muted text-sm">{label}</span>
-        <span>{value}</span>
-      </div>
-    </Surface>
-  );
-}
-
 function Lightbox({
   move,
   character,
-  isIOS,
   isOpen,
   onClose,
 }: {
   move: Move;
   character: CharacterBase;
-  isIOS: boolean;
   isOpen: boolean;
   onClose: () => void;
 }) {
   const router = useRouter();
 
-  const stats: { label: string; value: string }[] = [
-    ...(move.start != null ? [{ label: 'First active', value: `${move.start}` }] : []),
-    ...(move.start != null && move.end != null ? [{ label: 'Last active', value: `${move.end}` }] : []),
-    { label: 'Total', value: `${move.totalFrames} frames` },
-    ...(move.iasa != null ? [{ label: 'IASA', value: `${move.iasa}` }] : []),
-  ];
-
   return (
     <Modal.Root isOpen={isOpen} onOpenChange={onClose}>
       <Modal.Backdrop>
-        <Modal.Container size="cover">
+        <Modal.Container size="lg">
           <Modal.Dialog>
             <Modal.Header className="flex flex-row items-start justify-between gap-4">
-              <div className="flex flex-col gap-1">
-                <span className="text-xl font-bold">{move.name}</span>
-              </div>
+              <span className="text-xl font-bold">{move.name}</span>
               <Button isIconOnly size="sm" variant="outline" onPress={onClose} aria-label="Close">
                 <FaXmark size={14} />
               </Button>
             </Modal.Header>
-            <Modal.Body className="flex flex-col gap-4">
-              <div className="flex-1 min-h-0 overflow-hidden rounded-xl">
-                {isIOS ? (
-                  <MoveGif characterName={character.name} move={move} />
-                ) : (
-                  <ApngMove contain showAdditionalControls={true} url={move.pngUrl!} />
-                )}
-              </div>
-              {stats.length > 0 && (
-                <div className="shrink-0 flex w-full gap-2">
-                  {stats.map((s) => (
-                    <StatChip key={s.label} label={s.label} value={s.value} />
-                  ))}
-                </div>
-              )}
-              {move.notes && <p className="shrink-0 text-foreground-500 text-sm">{move.notes}</p>}
+            <Modal.Body>
+              <AnimationPlayerProvider
+                move={move}
+                characterName={character.name}
+                showAdditionalControls={false}
+                apngUrl={move.pngUrl ?? undefined}
+              >
+                <Surface className="border-border overflow-hidden rounded-xl border" variant="secondary">
+                  <div className="border-border flex items-center border-b px-4 py-3">
+                    <span className="text-muted-foreground font-semibold">Hitbox Viewer</span>
+                  </div>
+                  {move.animationCredit && (
+                    <Surface className="border-border border-b px-4 py-2">
+                      <AnimationCredit credit={move.animationCredit} />
+                    </Surface>
+                  )}
+                  <div className="w-full">
+                    <AnimationDisplay />
+                  </div>
+                  <div className="border-border border-t px-4 pt-3 pb-4">
+                    <AnimationPlayerControls />
+                  </div>
+                </Surface>
+              </AnimationPlayerProvider>
             </Modal.Body>
             <Modal.Footer>
               <Button className="w-full" onPress={() => router.push(moveRoute(character, move))}>
@@ -152,13 +140,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
         </Popover.Root>
       </div>
 
-      <Lightbox
-        move={params.move}
-        character={params.character}
-        isIOS={isIOS}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
+      <Lightbox move={params.move} character={params.character} isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 }

@@ -29,7 +29,7 @@ const SEMANTIC_COLORS = {
 } as const;
 
 export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
-  const processedHits = processDuplicateHitboxes(params.move.hits!);
+  const processedHits = processDuplicateHitboxes(params.move.hits ?? []);
   const data = processDuplicateHits(flattenData(processedHits));
   const hitColors = generateColors(data);
 

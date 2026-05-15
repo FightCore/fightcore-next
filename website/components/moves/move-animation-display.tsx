@@ -5,6 +5,7 @@ import { AnimationPlayerControls } from '@/components/moves/animations/animation
 import { AnimationCredit } from '@/components/moves/animations/controls/animation-credit';
 import { AnimationPicker } from '@/components/moves/animations/controls/animation-picker';
 import { DownloadButtonGroup } from '@/components/moves/download-button-group';
+import { AlternativeAnimation } from '@/models/alternative-animation';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
 import { Button, Modal, Surface } from '@heroui/react';
@@ -72,6 +73,8 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
   const hasMultipleAnimations = params.move.alternativeAnimations && params.move.alternativeAnimations.length > 0;
   const currentAnimation = animationArray[currentPage] ?? params.move;
   const currentUrl = urlArray[currentPage] ?? params.move.pngUrl;
+  const isAltAnimation = (anim: Move | AlternativeAnimation): anim is AlternativeAnimation => 'credit' in anim;
+  const currentCredit = isAltAnimation(currentAnimation) ? currentAnimation.credit : params.move.animationCredit;
 
   return (
     <AnimationPlayerProvider
@@ -98,9 +101,9 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         </div>
 
         {/* Credit */}
-        {params.move.animationCredit && (
+        {currentCredit && (
           <Surface className="border-border border-b px-4 py-2">
-            <AnimationCredit credit={params.move.animationCredit} />
+            <AnimationCredit credit={currentCredit} />
           </Surface>
         )}
 
