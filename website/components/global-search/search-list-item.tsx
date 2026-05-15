@@ -1,5 +1,5 @@
 import { SearchResult } from '@/components/global-search/search-result-card';
-import { Kbd, Separator } from '@heroui/react';
+import { Separator } from '@heroui/react';
 import Image from 'next/image';
 
 interface SearchListItemProps {
@@ -41,15 +41,6 @@ export function SearchListItem({ result, hovered }: Readonly<SearchListItemProps
               </div>
             );
           })}
-          {hovered ? (
-            <div>
-              <Kbd>
-                <Kbd.Abbr keyValue="enter" />
-              </Kbd>
-            </div>
-          ) : (
-            <></>
-          )}
         </div>
       </div>
     </div>
