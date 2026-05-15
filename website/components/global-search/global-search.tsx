@@ -43,6 +43,7 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
 
     if (!debouncedQuery) {
       setResults([]);
+      setSelectedResult(null);
       return;
     }
 
@@ -75,6 +76,7 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
     onClose();
     setQuery('');
     setResults([]);
+    setSelectedResult(null);
     triggerNavigate();
   }, [onClose, triggerNavigate]);
 
@@ -84,6 +86,7 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
       if (!open) {
         setQuery('');
         setResults([]);
+        setSelectedResult(null);
       }
     },
     [onOpenChange],
