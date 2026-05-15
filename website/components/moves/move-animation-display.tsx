@@ -108,15 +108,17 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
         )}
 
         {/* Animation display */}
-        <div className="w-full sm:px-40">
-          <AnimationDisplay />
-          <FullScreenModal
-            isOpen={isOpen}
-            onOpenChange={setIsOpen}
-            move={params.move}
-            characterName={params.characterName}
-            specificUrl={currentUrl}
-          />
+        <div className="flex justify-center">
+          <div className="w-full max-w-sm">
+            <AnimationDisplay />
+            <FullScreenModal
+              isOpen={isOpen}
+              onOpenChange={setIsOpen}
+              move={params.move}
+              characterName={params.characterName}
+              specificUrl={currentUrl}
+            />
+          </div>
         </div>
 
         {/* Controls */}
