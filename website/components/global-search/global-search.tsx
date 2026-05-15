@@ -124,12 +124,12 @@ export function GlobalSearch({ showTrigger = true }: Readonly<GlobalSearchProps>
               </FightcoreCard.Header>
               <FightcoreCard.Body className="min-h-0 flex-1 p-0">
                 <div className="flex h-full flex-col md:flex-row">
-                  <div className="p-4 md:flex-4 md:overflow-y-auto">
+                  <div className="h-1/2 overflow-y-auto p-4 md:h-auto md:flex-4 md:overflow-y-auto">
                     {!isLoading && results.length > 0 && (
                       <SearchList results={results} onSelectedResult={setSelectedResult} />
                     )}
                   </div>
-                  <div className="md:h-full md:flex-3">
+                  <div className="h-1/2 overflow-y-auto md:h-full md:flex-3">
                     {selectedResult && (
                       <SearchResultCard key={selectedResult.id} result={selectedResult} onNavigate={handleNavigate} />
                     )}
