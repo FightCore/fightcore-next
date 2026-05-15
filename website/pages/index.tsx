@@ -89,7 +89,7 @@ function HeroSection() {
           </h1>
 
           <div className="w-full max-w-140">
-            <InputGroup fullWidth>
+            <InputGroup>
               <InputGroup.Prefix>
                 <svg
                   width="18"
@@ -105,7 +105,7 @@ function HeroSection() {
                 </svg>
               </InputGroup.Prefix>
               <InputGroup.Input
-                placeholder="Search Fox shine, Marth tipper, Jiggs rest…"
+                placeholder="Search Fox shine, Marth fsmash, Jiggs rest…"
                 value={heroQuery}
                 onClick={() => onOpen()}
                 onChange={(e) => {
