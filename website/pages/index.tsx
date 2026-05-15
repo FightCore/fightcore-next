@@ -4,15 +4,64 @@ import { Logo } from '@/components/icons';
 import { PreviewVideo } from '@/components/moves/animations/preview-video';
 import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { ShowCaseMoves } from '@/config/showcase-data';
+import { siteConfig } from '@/config/site';
 import { moveRoute } from '@/utilities/routes';
-import { Button, Chip, InputGroup, Kbd } from '@heroui/react';
+import { Alert, Button, Chip, InputGroup, Kbd } from '@heroui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { FaXmark } from 'react-icons/fa6';
+
+const DISMISS_KEY = 'fightcore-v2-banner-dismissed';
 
 export default function Home() {
+  const [showBanner, setShowBanner] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem(DISMISS_KEY)) {
+      setShowBanner(true);
+    }
+  }, []);
+
+  function dismissBanner() {
+    localStorage.setItem(DISMISS_KEY, '1');
+    setShowBanner(false);
+  }
+
   return (
     <>
       <CharactersHead />
+      {showBanner && (
+        <Alert color="primary" className="rounded-none border-x-0 border-t-0">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title className="w-full">
+              <div className="flex w-full justify-between">
+                <span>Welcome to Fightcore 2.0!</span>
+                <Button isIconOnly size="sm" variant="outline" onPress={dismissBanner} aria-label="Close">
+                  <FaXmark size={14} />
+                </Button>
+              </div>
+            </Alert.Title>
+            <Alert.Description>
+              <div>
+                We've reworked nearly the entire website and are working on much more. We'd love to hear your feedback.
+              </div>
+              <span>
+                If you have any thoughts, please{' '}
+                <a
+                  href={siteConfig.links.discord}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium underline"
+                >
+                  let us know on our Discord.
+                </a>{' '}
+                Or reach me directly on Discord at <code>bortthebeaver</code>
+              </span>
+            </Alert.Description>
+          </Alert.Content>
+        </Alert>
+      )}
       <HeroSection />
     </>
   );
