@@ -13,6 +13,7 @@ import { AnimationLegendContent } from './animation-legend';
 import { AnimationPlayerProvider } from './animation-player-context';
 import { AnimationPlayerControls } from './animation-player-controls';
 import { AnimationCredit } from './controls/animation-credit';
+import { createEvent } from '@/utilities/create-event';
 
 export interface PreviewVideoParams {
   move: Move;
@@ -116,6 +117,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
           onClick={(event) => {
             event.stopPropagation();
             setIsOpen(true);
+            createEvent('preview-video-open', { character: params.character.name, move: params.move.name });
           }}
         >
           {getPlayer()}
