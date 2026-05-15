@@ -106,7 +106,7 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
       );
     }
 
-    return <video className="w-full" muted playsInline autoPlay loop src={params.move.webmUrl} />;
+    return <video className="w-full" muted playsInline autoPlay loop src={params.move.webmUrl} suppressHydrationWarning />;
   };
 
   return (

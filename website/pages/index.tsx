@@ -35,12 +35,12 @@ export default function Home() {
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Title className="w-full">
-              <div className="flex w-full justify-between">
+              <span className="flex w-full justify-between">
                 <span>Welcome to Fightcore 2.0!</span>
                 <Button isIconOnly size="sm" variant="outline" onPress={dismissBanner} aria-label="Close">
                   <FaXmark size={14} />
                 </Button>
-              </div>
+              </span>
             </Alert.Title>
             <Alert.Description>
               <div>
