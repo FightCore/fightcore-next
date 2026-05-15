@@ -18,7 +18,7 @@ export interface MoveListData {
 export default function MoveList(data: Readonly<MoveListData>) {
   const [collapsed, setCollapsed] = useState<boolean>(false);
   return (
-    <FightcoreCard>
+    <FightcoreCard id={data.id}>
       <FightcoreCard.Header>
         <FightcoreCard.Title>
           <button
