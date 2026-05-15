@@ -20,7 +20,7 @@ export default function StalenessQueue(data: Readonly<StalenessQueueData>) {
   }
 
   return (
-    <div className="flex gap-1">
+    <div className="flex flex-wrap gap-1">
       <StalenessSelector
         slot="1"
         onValueChange={(isSelected: boolean) => calculateStaleness(isSelected, 0.09)}

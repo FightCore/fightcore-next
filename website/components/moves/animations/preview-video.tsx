@@ -1,17 +1,85 @@
 'use client';
 
+import { CharacterBase } from '@/models/character';
 import { Move } from '@/models/move';
-import { Button, Modal, Popover } from '@heroui/react';
+import { moveRoute } from '@/utilities/routes';
+import { Button, Modal, Popover, Surface } from '@heroui/react';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { FaCircleQuestion } from 'react-icons/fa6';
+import { FaCircleQuestion, FaExpand, FaXmark } from 'react-icons/fa6';
+
+import { AnimationDisplay } from './animation-display';
 import { AnimationLegendContent } from './animation-legend';
-import ApngMove from './apng-move-gif';
-import { MoveGif } from './move-gif';
+import { AnimationPlayerProvider } from './animation-player-context';
+import { AnimationPlayerControls } from './animation-player-controls';
+import { AnimationCredit } from './controls/animation-credit';
+import { createEvent } from '@/utilities/create-event';
 
 export interface PreviewVideoParams {
   move: Move;
-  characterName: string;
+  character: CharacterBase;
   lazy: boolean;
+}
+
+function Lightbox({
+  move,
+  character,
+  isOpen,
+  onClose,
+}: {
+  move: Move;
+  character: CharacterBase;
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  const router = useRouter();
+
+  return (
+    <Modal.Root isOpen={isOpen} onOpenChange={onClose}>
+      <Modal.Backdrop>
+        <Modal.Container size="lg">
+          <Modal.Dialog>
+            <Modal.Header className="flex flex-row items-start justify-between gap-4">
+              <span className="text-xl font-bold">{move.name}</span>
+              <Button isIconOnly size="sm" variant="outline" onPress={onClose} aria-label="Close">
+                <FaXmark size={14} />
+              </Button>
+            </Modal.Header>
+            <Modal.Body>
+              <AnimationPlayerProvider
+                move={move}
+                characterName={character.name}
+                showAdditionalControls={false}
+                apngUrl={move.pngUrl ?? undefined}
+              >
+                <Surface className="border-border overflow-hidden rounded-xl border" variant="secondary">
+                  <div className="border-border flex items-center border-b px-4 py-3">
+                    <span className="text-muted-foreground font-semibold">Hitbox Viewer</span>
+                  </div>
+                  {move.animationCredit && (
+                    <Surface className="border-border border-b px-4 py-2">
+                      <AnimationCredit credit={move.animationCredit} />
+                    </Surface>
+                  )}
+                  <div className="w-full">
+                    <AnimationDisplay />
+                  </div>
+                  <div className="border-border border-t px-4 pt-3 pb-4">
+                    <AnimationPlayerControls />
+                  </div>
+                </Surface>
+              </AnimationPlayerProvider>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button className="w-full" onPress={() => router.push(moveRoute(character, move))}>
+                View full move
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal.Root>
+  );
 }
 
 export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
@@ -30,32 +98,35 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
     if (isIOS && params.move.gifUrl) {
       return (
         <img
-          className="w-full cursor-pointer bg-zinc-300 dark:bg-transparent"
-          onClick={() => setIsOpen(true)}
+          className="w-full"
           src={params.move.gifUrl}
-          alt={params.characterName + ' ' + params.move.name}
+          alt={params.character.name + ' ' + params.move.name}
           loading={params.lazy ? 'lazy' : 'eager'}
         />
       );
     }
 
-    return (
-      <video
-        className="w-full cursor-pointer bg-zinc-300 dark:bg-transparent"
-        onClick={() => setIsOpen(true)}
-        muted
-        playsInline
-        autoPlay
-        loop
-        src={params.move.webmUrl}
-      />
-    );
+    return <video className="w-full" muted playsInline autoPlay loop src={params.move.webmUrl} suppressHydrationWarning />;
   };
 
   return (
     <>
       <div className="relative w-72 max-w-full min-w-64">
-        {getPlayer()}
+        <div
+          className="group relative cursor-pointer"
+          onClick={(event) => {
+            event.stopPropagation();
+            setIsOpen(true);
+            createEvent('preview-video-open', { character: params.character.name, move: params.move.name });
+          }}
+        >
+          {getPlayer()}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+            <div className="rounded-full bg-black/60 p-3 backdrop-blur-sm">
+              <FaExpand size={24} className="text-white" />
+            </div>
+          </div>
+        </div>
         <Popover.Root>
           <Popover.Trigger>
             <button
@@ -70,27 +141,8 @@ export function PreviewVideo(params: Readonly<PreviewVideoParams>) {
           </Popover.Content>
         </Popover.Root>
       </div>
-      <Modal.Root isOpen={isOpen} onOpenChange={setIsOpen}>
-        <Modal.Backdrop>
-          <Modal.Container size="full">
-            <Modal.Dialog>
-              <Modal.Header className="flex flex-col gap-1">{params.move.name}</Modal.Header>
-              <Modal.Body>
-                {isIOS ? (
-                  <MoveGif characterName={params.characterName} move={params.move} />
-                ) : (
-                  <ApngMove showAdditionalControls={true} url={params.move.pngUrl!} />
-                )}
-              </Modal.Body>
-              <Modal.Footer>
-                <Button onPress={() => setIsOpen(false)}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal.Container>
-        </Modal.Backdrop>
-      </Modal.Root>
+
+      <Lightbox move={params.move} character={params.character} isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 }

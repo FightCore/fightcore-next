@@ -19,9 +19,9 @@ export interface CrouchCancelMoveOverviewTableParams {
 
 export function CrouchCancelMoveOverviewTable(params: Readonly<CrouchCancelMoveOverviewTableParams>) {
   const classNames = {
-    wrapper: ['dark:bg-gray-800', 'border-0', 'shadow-none', 'p-0'],
+    wrapper: ['border-0', 'shadow-none', 'p-0'],
     th: ['bg-transparent', 'text-default-500', 'border-b', 'border-divider'],
-    td: ['text-default-600', 'py-1', 'group-data-[odd=true]:before:dark:bg-gray-700'],
+    td: ['text-default-600', 'py-1', 'group-data-[odd=true]:before:dark:bg-surface-3'],
   };
 
   const flattenedHits = params.moves.flatMap((move) => {

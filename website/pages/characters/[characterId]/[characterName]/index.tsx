@@ -223,17 +223,19 @@ export default function CharacterPage({ data }: InferGetStaticPropsType<typeof g
         </div>
       </div>
 
-      {filteredCategories.map((moveType, index) => (
-        <MoveList
-          key={moveType.type}
-          id={`category-${moveType.type}`}
-          character={data.character}
-          moves={movesByCategory.get(moveType.type)!}
-          type={moveType.type}
-          name={moveType.name}
-          lazy={index > 1}
-        ></MoveList>
-      ))}
+      <div className="mt-3 flex flex-col gap-3">
+        {filteredCategories.map((moveType, index) => (
+          <MoveList
+            key={moveType.type}
+            id={`category-${moveType.type}`}
+            character={data.character}
+            moves={movesByCategory.get(moveType.type)!}
+            type={moveType.type}
+            name={moveType.name}
+            lazy={index > 1}
+          ></MoveList>
+        ))}
+      </div>
     </>
   );
 }

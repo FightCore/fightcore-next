@@ -1,3 +1,4 @@
+import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { Hit } from '@/models/hit';
 import HitboxTable from './hitboxes/hitbox-table';
 
@@ -7,9 +8,13 @@ export interface HitboxSectionParams {
 
 export function HitboxSection(params: Readonly<HitboxSectionParams>) {
   return (
-    <div>
-      <h2 className="my-3 text-xl font-bold">Hitboxes</h2>
-      <HitboxTable hits={params.hits}></HitboxTable>
-    </div>
+    <FightcoreCard>
+      <FightcoreCard.Header>
+        <FightcoreCard.Title>Hitboxes</FightcoreCard.Title>
+      </FightcoreCard.Header>
+      <FightcoreCard.Body>
+        <HitboxTable hits={params.hits}></HitboxTable>
+      </FightcoreCard.Body>
+    </FightcoreCard>
   );
 }

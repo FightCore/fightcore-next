@@ -1,10 +1,15 @@
+import { AnimationDisplay } from '@/components/moves/animations/animation-display';
 import { AnimationPlayer } from '@/components/moves/animations/animation-player';
+import { AnimationPlayerProvider } from '@/components/moves/animations/animation-player-context';
+import { AnimationPlayerControls } from '@/components/moves/animations/animation-player-controls';
+import { AnimationCredit } from '@/components/moves/animations/controls/animation-credit';
+import { AnimationPicker } from '@/components/moves/animations/controls/animation-picker';
 import { DownloadButtonGroup } from '@/components/moves/download-button-group';
+import { AlternativeAnimation } from '@/models/alternative-animation';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, ListBox, ListBoxItem, Modal, Select } from '@heroui/react';
+import { Button, Modal, Surface } from '@heroui/react';
 import { useState } from 'react';
-import { FaExpand } from 'react-icons/fa6';
 import { MoveGif } from './animations/move-gif';
 
 export interface MoveAnimationDisplayParams {
@@ -68,68 +73,60 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
   const hasMultipleAnimations = params.move.alternativeAnimations && params.move.alternativeAnimations.length > 0;
   const currentAnimation = animationArray[currentPage] ?? params.move;
   const currentUrl = urlArray[currentPage] ?? params.move.pngUrl;
+  const isAltAnimation = (anim: Move | AlternativeAnimation): anim is AlternativeAnimation => 'credit' in anim;
+  const currentCredit = isAltAnimation(currentAnimation) ? currentAnimation.credit : params.move.animationCredit;
 
   return (
-    <>
-      <div className="flex items-end justify-between gap-2">
-        <Button
-          variant="tertiary"
-          className="hidden md:inline-flex"
-          isIconOnly
-          aria-label="fullscreen"
-          onPress={() => setIsOpen(true)}
-        >
-          <FaExpand />
-        </Button>
-        {hasMultipleAnimations && (
-          <Select
-            selectedKey={currentPage.toString()}
-            onSelectionChange={(key) => {
-              const k = key as string;
-              if (!k) {
-                setCurrentPage(1);
-                return;
-              }
-              setCurrentPage(Number(k));
-            }}
-            aria-label="Animation selection"
-          >
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {descriptionArray.slice(1).map((description, index) => (
-                  <ListBoxItem key={(index + 1).toString()} id={(index + 1).toString()} textValue={description ?? ''}>
-                    {description}
-                  </ListBoxItem>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
+    <AnimationPlayerProvider
+      move={params.move}
+      characterName={params.characterName}
+      showAdditionalControls={false}
+      apngUrl={currentUrl}
+    >
+      <Surface className="border-border overflow-hidden rounded-xl border" variant="secondary">
+        {/* Header */}
+        <div className="border-border flex items-center justify-between border-b px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground font-semibold">Hitbox Viewer</span>
+            {hasMultipleAnimations && (
+              <AnimationPicker descriptions={descriptionArray} onChange={(key: number) => setCurrentPage(key)} />
+            )}
+          </div>
+          <DownloadButtonGroup
+            isDownloading={isDownloading}
+            onDownloadGif={() => handleDownloadClick(currentAnimation.gifUrl!, 'gif')}
+            onDownloadPng={() => handleDownloadClick(currentAnimation.pngUrl!, 'png')}
+            onDownloadWebm={() => handleDownloadClick(currentAnimation.webmUrl!, 'webm')}
+          />
+        </div>
+
+        {/* Credit */}
+        {currentCredit && (
+          <Surface className="border-border border-b px-4 py-2">
+            <AnimationCredit credit={currentCredit} />
+          </Surface>
         )}
-        <DownloadButtonGroup
-          isDownloading={isDownloading}
-          onDownloadGif={() => handleDownloadClick(currentAnimation.gifUrl!, 'gif')}
-          onDownloadPng={() => handleDownloadClick(currentAnimation.pngUrl!, 'png')}
-          onDownloadWebm={() => handleDownloadClick(currentAnimation.webmUrl!, 'webm')}
-        />
-      </div>
-      <AnimationPlayer
-        key={'gif' + currentPage}
-        move={params.move}
-        characterName={params.characterName}
-        apngUrl={currentUrl}
-      />
-      <FullScreenModal
-        isOpen={isOpen}
-        onOpenChange={setIsOpen}
-        move={params.move}
-        characterName={params.characterName}
-        specificUrl={currentUrl}
-      />
-    </>
+
+        {/* Animation display */}
+        <div className="flex justify-center">
+          <div className="w-full max-w-sm">
+            <AnimationDisplay />
+            <FullScreenModal
+              isOpen={isOpen}
+              onOpenChange={setIsOpen}
+              move={params.move}
+              characterName={params.characterName}
+              specificUrl={currentUrl}
+            />
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="border-border border-t px-4 pt-3 pb-4">
+          <AnimationPlayerControls />
+        </div>
+      </Surface>
+    </AnimationPlayerProvider>
   );
 }
 

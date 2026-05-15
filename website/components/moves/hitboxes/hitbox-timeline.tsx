@@ -2,9 +2,7 @@ import emitter from '@/events/event-emitter';
 import { Move } from '@/models/move';
 import { processDuplicateHitboxes, processDuplicateHits } from '@/utilities/hitbox-utils';
 import { getMappedUnique } from '@/utilities/utils';
-import * as d3 from 'd3';
-import { useTheme } from 'next-themes';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { flattenData, FlattenedHitbox } from './hitbox-table-columns';
 
 export interface HitboxTimingParams {
@@ -14,211 +12,256 @@ export interface HitboxTimingParams {
   compact?: boolean;
 }
 
+const COMPACT_LAYOUT = { barHeight: 12, activeBarHeight: 18 } as const;
+const NORMAL_LAYOUT = { barHeight: 22, activeBarHeight: 32 } as const;
+
+// Minimum touch target height per Apple/Material guidelines.
+const MIN_TOUCH_TARGET_PX = 44;
+const MIN_LABEL_GAP_PX = 20;
+
+const SEMANTIC_COLORS = {
+  iasa: '#f97316',
+  autoCancel: '#22c55e',
+  emptyBackground: 'var(--timeline-empty-bg)',
+  labelColor: 'var(--timeline-label-color)',
+  currentBorder: 'var(--timeline-current-border)',
+  currentLabel: 'var(--timeline-current-label)',
+} as const;
+
 export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
-  const processedHits = processDuplicateHitboxes(params.move.hits!);
+  const processedHits = processDuplicateHitboxes(params.move.hits ?? []);
   const data = processDuplicateHits(flattenData(processedHits));
-  const colors = generateColors(data);
+  const hitColors = generateColors(data);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { theme } = useTheme();
+  const [currentFrame, setCurrentFrame] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const dragging = useRef(false);
+  const barsRef = useRef<HTMLDivElement>(null);
 
-  const getColor = (value: number): string => {
-    // Account for counting at 0 instead of 1
-    const color = getHitboxColor(colors, value);
+  const layout = params.compact ? COMPACT_LAYOUT : NORMAL_LAYOUT;
 
-    if (color) {
-      return color;
-    }
+  // Interactive timelines use a taller container so the whole region is a
+  // thumb-friendly touch target. Bars align to the bottom via alignItems: flex-end.
+  const containerHeight = params.interactive
+    ? Math.max(layout.activeBarHeight, MIN_TOUCH_TARGET_PX)
+    : layout.activeBarHeight;
 
-    if (params.move.iasa == value) {
-      return 'orange';
-    }
+  useEffect(() => {
+    if (!params.interactive) return;
+    const handler = (frame: number) => setCurrentFrame(frame);
+    emitter.on('frameCounterUpdate', handler);
+    return () => emitter.off('frameCounterUpdate', handler);
+  }, [params.interactive]);
 
-    if (theme === 'dark') {
-      return '#1f2937';
-    }
-    return '#dddde0';
+  useEffect(() => {
+    const el = barsRef.current;
+    if (!el) return;
+    const obs = new ResizeObserver(([entry]) => setContainerWidth(entry.contentRect.width));
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const getFrameFromX = (clientX: number): number => {
+    if (!barsRef.current) return 1;
+    const rect = barsRef.current.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    return Math.round(ratio * (params.move.totalFrames - 1)) + 1;
   };
 
-  const getBorderColor = (frame: number): string => {
+  const frames = Array.from({ length: params.move.totalFrames }, (_, i) => i + 1);
+
+  const keyFrameNums = [...new Set([1, ...hitColors.flatMap((w) => [w.start, w.end]), params.move.totalFrames])].sort(
+    (a, b) => a - b,
+  );
+
+  const visibleKeyFrames = (() => {
+    if (containerWidth === 0 || params.move.totalFrames <= 1) return keyFrameNums;
+    const pxOf = (f: number) => ((f - 1) / (params.move.totalFrames - 1)) * containerWidth;
+    const result: number[] = [keyFrameNums[0]];
+    let lastPx = pxOf(keyFrameNums[0]);
+    for (let i = 1; i < keyFrameNums.length - 1; i++) {
+      const px = pxOf(keyFrameNums[i]);
+      if (px - lastPx >= MIN_LABEL_GAP_PX) {
+        result.push(keyFrameNums[i]);
+        lastPx = px;
+      }
+    }
+    if (keyFrameNums.length > 1) result.push(keyFrameNums[keyFrameNums.length - 1]);
+    return result;
+  })();
+
+  const getCellBackground = (frame: number, isCurrent: boolean, windows: HitboxColor[]): string => {
+    if (windows.length === 0) {
+      if (params.move.iasa === frame) {
+        return SEMANTIC_COLORS.iasa;
+      }
+
+      return SEMANTIC_COLORS.emptyBackground;
+    }
+    if (windows.length >= 2) {
+      const stops = windows.map((w, i) => {
+        const start = (i / windows.length) * 100;
+        const end = ((i + 1) / windows.length) * 100;
+        const color = isCurrent ? w.color : w.color + 'aa';
+        return `${color} ${start}%, ${color} ${end}%`;
+      });
+      return `linear-gradient(to right, ${stops.join(', ')})`;
+    }
+    return isCurrent ? windows[0].color : windows[0].color + 'aa';
+  };
+
+  const getCellBorderColor = (frame: number, isCurrent: boolean, windows: HitboxColor[]): string => {
     if (
       (params.move.autoCancelBefore && params.move.autoCancelBefore > frame) ||
       (params.move.autoCancelAfter && params.move.autoCancelAfter < frame)
     ) {
-      return 'green';
+      return SEMANTIC_COLORS.autoCancel;
+    }
+    if (windows.length) {
+      return windows[0].color + '55';
     }
 
-    return '';
+    return '#525252';
   };
-  const frames: {
-    value: number;
-    color: string;
-    borderColor: string;
-  }[] = [];
 
-  const rectSize = params.compact ? 20 : 30; // Size of each rectangle (reduced size)
-  const spacing = params.compact ? 2.5 : 5; // Spacing between rectangles
-  const maxColumns = params.compact ? 30 : 20; // Maximum number of columns
+  const getLabelAnchor = (frame: number): 'left' | 'center' | 'right' => {
+    if (frame === 1) return 'left';
+    if (frame === params.move.totalFrames) return 'right';
+    return 'center';
+  };
 
-  for (let frame = 1; frame < params.move.totalFrames + 1; frame++) {
-    frames.push({
-      value: frame,
-      color: getColor(frame),
-      borderColor: getBorderColor(frame),
-    });
+  const getLabelColor = (frame: number): string => {
+    const windows = getWindowsForFrame(hitColors, frame);
+    return windows.length ? windows[0].color + 'cc' : SEMANTIC_COLORS.labelColor;
+  };
+
+  const legendData: { label: string; color: string; borderColor: string }[] = [
+    { label: 'IASA', color: SEMANTIC_COLORS.iasa, borderColor: 'none' },
+    { label: 'Auto Cancelable', color: 'none', borderColor: SEMANTIC_COLORS.autoCancel },
+  ];
+  for (const color of getMappedUnique(hitColors, (c) => c.color)) {
+    const matching = hitColors.filter((c) => c.color === color);
+    if (matching.length) {
+      legendData.push({
+        label: `Hits between frame ${Math.min(...matching.map((h) => h.start))} and ${Math.max(...matching.map((h) => h.end))}`,
+        color,
+        borderColor: 'none',
+      });
+    }
   }
-  const drawTimeline = () => {
-    const timelineContainer = d3.select('#d3-based-hitbox-timeline-' + params.move.id);
-
-    // Clear any existing SVG elements
-    timelineContainer.selectAll('*').remove();
-
-    const node = timelineContainer.node() as Element | null;
-
-    if (node === null) {
-      throw new Error('Node is unexpected null');
-    }
-
-    const containerWidth = node.clientWidth;
-    const columns = Math.min(Math.floor(containerWidth / (rectSize + spacing)), maxColumns);
-    const rows = Math.ceil(frames.length / columns);
-    const svgWidth = columns * (rectSize + spacing);
-    const svgHeight = 10 + rows * (rectSize + spacing);
-
-    const svg = timelineContainer.append('svg').attr('width', svgWidth).attr('height', svgHeight);
-
-    // Legend data
-    if (params.displayLegend) {
-      const legendData = [
-        { label: 'IASA', color: 'orange', borderColor: 'none' },
-        { label: 'Auto Cancelable', color: 'none', borderColor: 'green' },
-      ];
-
-      for (const color of getMappedUnique(colors, (color) => color.color)) {
-        const value = colors.filter((storedColor) => storedColor.color === color);
-        if (value) {
-          legendData.push({
-            label: `Hits between frame ${Math.min(...value.map((hitbox) => hitbox.start))} and ${Math.max(
-              ...value.map((hitbox) => hitbox.end),
-            )}`,
-            color: color,
-            borderColor: 'none',
-          });
-        }
-      }
-
-      const legendContainer = d3.select('#d3-based-legend');
-
-      // Clear any existing SVG elements
-      legendContainer.selectAll('*').remove();
-
-      // Legend SVG
-      const legendSvg = legendContainer
-        .append('svg')
-        .attr('width', 300)
-        .attr('height', 100 + legendData.length * rectSize);
-
-      legendSvg
-        .selectAll('rect')
-        .data(legendData)
-        .enter()
-        .append('rect')
-        .attr('x', 10)
-        .attr('y', (d, i) => 10 + i * 40)
-        .attr('width', rectSize)
-        .attr('height', rectSize)
-        .attr('fill', (d) => d.color)
-        .attr('stroke', (d) => d.borderColor)
-        .attr('stroke-width', 2)
-        .attr('rx', 5) // Rounded corners for a nicer look
-        .attr('ry', 5); // Rounded corners for a nicer look
-
-      legendSvg
-        .selectAll('text')
-        .data(legendData)
-        .enter()
-        .append('text')
-        .text((d) => d.label)
-        .attr('x', 60)
-        .attr('y', (d, i) => 30 + i * 40)
-        .attr('font-family', 'sans-serif')
-        .attr('font-size', '14px')
-        .attr('fill', () => (theme === 'dark' ? 'white' : 'black'))
-        .attr('alignment-baseline', 'middle');
-    }
-
-    svg
-      .selectAll('rect')
-      .data(frames)
-      .enter()
-      .append('rect')
-      .attr('x', (d, i) => (i % columns) * (rectSize + spacing))
-      .attr('y', (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing))
-      .attr('width', rectSize)
-      .attr('height', rectSize)
-      .attr('fill', (d) => d.color)
-      .attr('stroke', (d) => d.borderColor)
-      .attr('stroke-width', 2)
-      .attr('rx', 5)
-      .attr('ry', 5)
-      .attr('cursor', () => (params.interactive ? 'pointer' : ''))
-      .on('click', function () {
-        if (!params.interactive) {
-          return;
-        }
-        const index = d3.select(this).datum() as { value: number };
-        emitter.emit('seek', index.value);
-      });
-
-    svg
-      .selectAll('text')
-      .data(frames)
-      .enter()
-      .append('text')
-      .text((d) => d.value.toString())
-      .attr('x', (d, i) => (i % columns) * (rectSize + spacing) + rectSize / 2)
-      .attr('y', (d, i) => 10 + Math.floor(i / columns) * (rectSize + spacing) + rectSize / 2)
-      .attr('font-family', 'sans-serif')
-      .attr('font-size', '12px') // Adjusted font size
-      .attr('fill', (d) => (d.color === '#ffffff' || theme === 'light' ? 'black' : 'white'))
-      .attr('text-anchor', 'middle')
-      .attr('alignment-baseline', 'middle')
-      .attr('cursor', () => (params.interactive ? 'pointer' : ''))
-      .on('click', function () {
-        if (!params.interactive) {
-          return;
-        }
-        const index = d3.select(this).datum() as { value: number };
-        emitter.emit('seek', index.value);
-      });
-  };
-
-  useEffect(() => {
-    drawTimeline();
-
-    // Add event listener for window resize
-    const handleResize = () => {
-      drawTimeline();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [frames]);
 
   return (
-    <div className="flex flex-wrap">
-      <div className={params.displayLegend ? 'w-screen lg:w-2/3' : 'w-full'}>
-        {params.compact === false && <h2 className="text-bold text-lg">Hitbox timeline</h2>}
-        <div id={'d3-based-hitbox-timeline-' + params.move.id}></div>
+    <div className="w-full">
+      <div
+        ref={barsRef}
+        className="flex gap-px select-none"
+        style={{
+          alignItems: 'flex-end',
+          height: containerHeight,
+          touchAction: params.interactive ? 'none' : 'auto',
+          cursor: params.interactive ? 'pointer' : 'default',
+        }}
+        onMouseDown={() => { dragging.current = true; }}
+        onMouseUp={() => { dragging.current = false; }}
+        onMouseLeave={() => { dragging.current = false; }}
+        onTouchStart={(e) => {
+          if (params.interactive) emitter.emit('seek', getFrameFromX(e.touches[0].clientX));
+        }}
+        onTouchMove={(e) => {
+          if (params.interactive) emitter.emit('seek', getFrameFromX(e.touches[0].clientX));
+        }}
+      >
+        {frames.map((f) => {
+          const isCurrent = f === currentFrame;
+          const windows = getWindowsForFrame(hitColors, f);
+          return (
+            <div
+              key={f}
+              title={`Frame ${f}`}
+              style={{
+                flex: '1 0 0',
+                minWidth: 0,
+                height: isCurrent ? layout.activeBarHeight : layout.barHeight,
+                background: getCellBackground(f, isCurrent, windows),
+                border: `1px solid ${getCellBorderColor(f, isCurrent, windows)}`,
+                borderRadius: 2,
+                transition: 'height 0.07s',
+                cursor: params.interactive ? 'pointer' : 'default',
+                boxShadow: isCurrent && windows.length ? `0 0 8px ${windows[0].color}88` : 'none',
+              }}
+              onClick={() => {
+                if (params.interactive) emitter.emit('seek', f);
+              }}
+              onMouseMove={() => {
+                if (dragging.current && params.interactive) emitter.emit('seek', f);
+              }}
+            />
+          );
+        })}
       </div>
+
+      {!params.compact && (
+        <div className="relative mt-1 h-5 font-mono text-[10px]">
+          {visibleKeyFrames.map((f) => {
+            const pct = ((f - 1) / (params.move.totalFrames - 1)) * 100;
+            const anchor = getLabelAnchor(f);
+            return (
+              <div
+                key={f}
+                style={{
+                  position: 'absolute',
+                  left: `${pct}%`,
+                  top: 0,
+                  whiteSpace: 'nowrap',
+                  color: getLabelColor(f),
+                  transform:
+                    anchor === 'center' ? 'translateX(-50%)' : anchor === 'right' ? 'translateX(-100%)' : 'none',
+                  cursor: params.interactive ? 'pointer' : 'default',
+                }}
+                onClick={() => {
+                  if (params.interactive) emitter.emit('seek', f);
+                }}
+              >
+                {f}
+              </div>
+            );
+          })}
+          {!visibleKeyFrames.includes(currentFrame) && currentFrame > 0 && (
+            <div
+              style={{
+                position: 'absolute',
+                left: `${((currentFrame - 1) / (params.move.totalFrames - 1)) * 100}%`,
+                top: 0,
+                transform: 'translateX(-50%)',
+                color: SEMANTIC_COLORS.currentLabel,
+                fontWeight: 700,
+                whiteSpace: 'nowrap',
+                pointerEvents: 'none',
+              }}
+            >
+              {currentFrame}
+            </div>
+          )}
+        </div>
+      )}
+
       {params.displayLegend && (
-        <div className="w-screen lg:w-1/3">
-          <h2 className="text-bold text-lg">Legend</h2>
-          <div id="d3-based-legend"></div>
+        <div className="mt-3 flex flex-wrap gap-3">
+          {legendData.map((item) => (
+            <div key={item.label} className="flex items-center gap-1.5 text-xs">
+              <span
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 2,
+                  flexShrink: 0,
+                  background: item.color === 'none' ? 'transparent' : item.color,
+                  border: item.borderColor !== 'none' ? `2px solid ${item.borderColor}` : 'none',
+                }}
+              />
+              <span className="text-muted-foreground">{item.label}</span>
+            </div>
+          ))}
         </div>
       )}
     </div>
@@ -231,7 +274,7 @@ interface HitboxColor {
   color: string;
 }
 
-const colors = ['#ef4444', '#3b82f6', '#22c55e', '#a855f7', '#ffffff'];
+const hitboxColorPalette = ['#ef4444', '#3b82f6', '#22c55e', '#a855f7', '#ffffff'];
 
 function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
   const result: HitboxColor[] = [];
@@ -246,25 +289,17 @@ function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
       result.push({
         start: hit.start,
         end: hit.end,
-        color: colors[iterator],
+        color: hitboxColorPalette[iterator],
       });
     }
     iterator++;
   }
-
   return result;
 }
 
-function getHitboxColor(hits: HitboxColor[], frame: number): string | null {
-  if (hits.every((hit) => hit.start === 0 && hit.end === 0)) {
-    return null;
+function getWindowsForFrame(hitColors: HitboxColor[], frame: number): HitboxColor[] {
+  if (hitColors.every((h) => h.start === 0 && h.end === 0)) {
+    return [];
   }
-
-  const index = hits.findIndex((hit) => frame >= hit.start && frame <= hit.end);
-
-  if (index == -1) {
-    return null;
-  }
-
-  return hits[index].color;
+  return hitColors.filter((h) => frame >= h.start && frame <= h.end);
 }

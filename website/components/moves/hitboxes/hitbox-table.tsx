@@ -25,7 +25,7 @@ function getColorForHitbox(name: string): string | null {
   } else if (name.includes('id1')) {
     return 'bg-green-500';
   } else if (name.includes('id2')) {
-    return 'bg-blue-300';
+    return 'bg-blue-500';
   } else if (name.includes('id3')) {
     return 'bg-purple-500';
   }

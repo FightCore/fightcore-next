@@ -1,6 +1,9 @@
+'use client';
 import { GlobalSearch } from '@/components/global-search/global-search';
 import { useGlobalSearch } from '@/components/global-search/global-search-context';
+import { ThemeSwitch } from '@/components/theme-switch';
 import { characters } from '@/config/framedata/framedata';
+import { siteConfig } from '@/config/site';
 import { VERSION_NUMBER } from '@/layouts/version-number';
 import { characterRoute } from '@/utilities/routes';
 import { Tooltip } from '@heroui/react';
@@ -12,6 +15,8 @@ import {
   FaBars,
   FaCalculator,
   FaCircleUser,
+  FaDiscord,
+  FaGithub,
   FaGoogleDrive,
   FaMugHot,
   FaRobot,
@@ -20,42 +25,96 @@ import {
 import { Logo } from '../components/icons';
 import { Socials } from './socials';
 
+const navLinks = [
+  { href: '/characters', icon: <FaCircleUser />, label: 'Characters', external: false },
+  { href: '/crouch-cancel-calculator', icon: <FaCalculator />, label: 'Crouch Cancel', external: false },
+  { href: 'https://bot.fightcore.gg', icon: <FaRobot />, label: 'Discord Bot', external: true },
+  { href: 'https://drive.fightcore.gg', icon: <FaGoogleDrive />, label: 'Drive', external: true },
+  { href: '/credits', icon: <FaAward />, label: 'Credits', external: false },
+  { href: 'https://ko-fi.com/fc_bort', icon: <FaMugHot />, label: 'Ko-fi', external: true },
+];
+
+const linkClass = 'flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-surface-secondary';
+
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { registerNavigateCallback } = useGlobalSearch();
 
   const closeMenu = () => setIsMenuOpen(false);
 
-  // Close the nav menu when a search result is clicked
   useEffect(() => {
     return registerNavigateCallback(closeMenu);
   }, [registerNavigateCallback]);
 
   return (
     <>
-      <nav className="dark:bg-background flex h-16 w-full items-center bg-red-700 px-4">
+      <nav className="flex h-16 w-full items-center justify-between px-4">
+        <div className="flex items-center gap-3">
+          <NextLink href="/" onClick={closeMenu}>
+            <Logo height={50} width={200} />
+          </NextLink>
+          {process.env.IS_BETA ? <p className="text-foreground/60 text-sm">Beta</p> : null}
+        </div>
+
+        {/* Desktop: inline nav links */}
+        <div className="hidden items-center gap-1 md:flex">
+          {navLinks.map((link) =>
+            link.external ? (
+              <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                {link.icon}
+                {link.label}
+              </a>
+            ) : (
+              <NextLink key={link.href} href={link.href} className={linkClass}>
+                {link.icon}
+                {link.label}
+              </NextLink>
+            ),
+          )}
+        </div>
+
+        <div className="hidden items-center gap-2 md:flex">
+          <GlobalSearch />
+          <a
+            className="text-foreground"
+            href={siteConfig.links.discord}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Discord"
+          >
+            <FaDiscord />
+          </a>
+          <a
+            className="text-foreground"
+            href={siteConfig.links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Github"
+          >
+            <FaGithub />
+          </a>
+          <ThemeSwitch />
+        </div>
+
+        {/* Mobile: hamburger */}
         <button
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-          className="mr-3 text-white"
+          className="text-foreground md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <FaXmark size={20} /> : <FaBars size={20} />}
         </button>
-        <NextLink href="/" onClick={closeMenu}>
-          <Logo height={50} width={200} />
-        </NextLink>
-        {process.env.IS_BETA ? <p className="ml-2 text-white">Beta</p> : null}
       </nav>
 
       {isMenuOpen && (
-        <div className="fixed top-16 right-0 left-0 z-50 mt-0 max-h-[calc(100vh-4rem)] space-y-1 overflow-y-auto bg-white px-7 pb-7 shadow-lg dark:bg-gray-900">
+        <div className="bg-surface fixed top-16 right-0 left-0 z-50 mt-0 max-h-[calc(100vh-4rem)] space-y-1 overflow-y-auto px-7 pb-7 shadow-lg md:hidden">
           <div className="pt-3">
             <GlobalSearch />
           </div>
 
           <NextLink
-            href="/"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            href="/characters"
+            className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             onClick={closeMenu}
           >
             <FaCircleUser />
@@ -64,7 +123,7 @@ export const NavBar = () => {
 
           <NextLink
             href="/crouch-cancel-calculator"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             onClick={closeMenu}
           >
             <FaCalculator />
@@ -75,7 +134,7 @@ export const NavBar = () => {
             href="https://bot.fightcore.gg"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             onClick={closeMenu}
           >
             <FaRobot />
@@ -86,7 +145,7 @@ export const NavBar = () => {
             href="https://drive.fightcore.gg"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             onClick={closeMenu}
           >
             <FaGoogleDrive />
@@ -95,7 +154,7 @@ export const NavBar = () => {
 
           <NextLink
             href="/credits"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             onClick={closeMenu}
           >
             <FaAward />
@@ -106,7 +165,7 @@ export const NavBar = () => {
             href="https://ko-fi.com/fc_bort"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="group text-foreground hover:bg-surface-secondary flex items-center rounded-lg p-2"
             onClick={closeMenu}
           >
             <FaMugHot />
@@ -114,7 +173,7 @@ export const NavBar = () => {
           </a>
 
           <div className="py-2">
-            <hr className="border-gray-200 dark:border-gray-700" />
+            <hr className="border-border" />
           </div>
 
           <div className="flex w-full flex-row flex-wrap justify-start gap-5">
@@ -124,7 +183,7 @@ export const NavBar = () => {
                   <Tooltip.Trigger>
                     <NextLink href={characterRoute(character)} onClick={closeMenu}>
                       <Image
-                        className="grow text-white"
+                        className="grow"
                         alt={character.name}
                         width={40}
                         height={40}

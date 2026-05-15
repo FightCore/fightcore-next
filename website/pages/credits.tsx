@@ -13,8 +13,13 @@ export default function Credits() {
             <strong>Bort</strong>, main developer of the website.
           </li>
           <li>
-            <a href="https://bsky.app/profile/hrtfiend.bsky.social" target="_blank" rel="noopener noreferrer" className="underline">
-              Emilia
+            <a
+              href="https://bsky.app/profile/hrtfiend.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              Emi House
             </a>
             , recorder of all the GIFs and maintainer of{' '}
             <a href="https://drive.fightcore.gg" target="_blank" rel="noopener noreferrer" className="underline">
@@ -29,7 +34,12 @@ export default function Credits() {
             , who created frame data software allowing for background-less recording and easy editing.
           </li>
           <li>
-            <a href="https://bsky.app/profile/skullbrossbm.bsky.social" target="_blank" rel="noopener noreferrer" className="underline">
+            <a
+              href="https://bsky.app/profile/skullbrossbm.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
               skullbro
             </a>
             , who provided insights into how to improve the crouch cancel and ASDI Down calculations.
@@ -54,17 +64,32 @@ export default function Credits() {
             </a>
           </li>
           <li>
-            <a href="https://smashboards.com/threads/detailed-throws-techs-and-getups-frame-data.206469/" target="_blank" rel="noopener noreferrer" className="underline">
+            <a
+              href="https://smashboards.com/threads/detailed-throws-techs-and-getups-frame-data.206469/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
               Detailed Throws, Techs and Getup Frame Data by Magus420
             </a>
           </li>
           <li>
-            <a href="https://www.npmjs.com/package/@wizpanda/super-gif" target="_blank" rel="noopener noreferrer" className="underline">
+            <a
+              href="https://www.npmjs.com/package/@wizpanda/super-gif"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
               Wizpanda&apos;s fork of SuperGIF
             </a>
           </li>
           <li>
-            <a href="https://melee-framedata.theshoemaker.de/" target="_blank" rel="noopener noreferrer" className="underline">
+            <a
+              href="https://melee-framedata.theshoemaker.de/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
               The Shoemaker&apos;s Melee Frame Data
             </a>
           </li>

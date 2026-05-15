@@ -132,7 +132,21 @@ const colors = [
   'bg-lime-500',
 ];
 
-export function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
+const hexColors = [
+  '#ef4444',
+  '#3b82f6',
+  '#22c55e',
+  '#a855f7',
+  '#e4e4e7',
+  '#ec4899',
+  '#15803d',
+  '#93c5fd',
+  '#1d4ed8',
+  '#f59e0b',
+  '#84cc16',
+];
+
+function buildColors(palette: string[], data: FlattenedHitbox[]): HitboxColor[] {
   const result: HitboxColor[] = [];
   const uniqueTexts = getMappedUnique(data, (hitbox) => hitbox.hit);
   let iterator = 0;
@@ -145,11 +159,18 @@ export function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
       result.push({
         start: hit.start,
         end: hit.end,
-        color: colors[iterator],
+        color: palette[iterator],
       });
     }
     iterator++;
   }
-
   return result;
+}
+
+export function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
+  return buildColors(colors, data);
+}
+
+export function generateHexColors(data: FlattenedHitbox[]): HitboxColor[] {
+  return buildColors(hexColors, data);
 }

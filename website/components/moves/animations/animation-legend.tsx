@@ -9,22 +9,22 @@ interface LegendEntry {
 }
 
 const hitboxEntries: LegendEntry[] = [
-  { color: '#FF0000', label: 'id0' },
-  { color: '#00FF00', label: 'id1' },
-  { color: '#0000FF', label: 'id2' },
-  { color: '#FF00FF', label: 'id3' },
+  { color: '#ef4444', label: 'id0' },
+  { color: '#22c55e', label: 'id1' },
+  { color: '#3b82f6', label: 'id2' },
+  { color: '#a855f7', label: 'id3' },
 ];
 
 const boneEntries: LegendEntry[] = [
-  { color: '#FFFF00', label: 'Normal', glossaryUrl: undefined },
-  { color: '#DAA520', label: 'Ungrabbable', glossaryUrl: undefined },
-  { color: '#0000C0', label: 'Intangible', glossaryUrl: undefined },
-  { color: '#00FF00', label: 'Invincible', glossaryUrl: undefined },
+  { color: '#facc15', label: 'Normal', glossaryUrl: undefined },
+  { color: '#f59e0b', label: 'Ungrabbable', glossaryUrl: undefined },
+  { color: '#1d4ed8', label: 'Intangible', glossaryUrl: undefined },
+  { color: '#4ade80', label: 'Invincible', glossaryUrl: undefined },
 ];
 
 const characterEntries: LegendEntry[] = [
-  { color: '#FF8000', label: 'Auto Cancel', glossaryUrl: undefined },
-  { color: '#FF00C0', label: 'IASA', glossaryUrl: undefined },
+  { color: '#f97316', label: 'Auto Cancel', glossaryUrl: undefined },
+  { color: '#d946ef', label: 'IASA', glossaryUrl: undefined },
 ];
 
 function LegendItem({ entry }: Readonly<{ entry: LegendEntry }>) {

@@ -5,8 +5,25 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
-    version: '1.4.0',
-    changes: ['Upgraded from HeroUI V2 to V3', 'Added a new ? to the move overview, showing the animation legend'],
+    version: '2.0.0',
+    changes: [
+      'Upgraded from HeroUI V2 to V3,',
+      'Added a new ? to the move overview, showing the animation legend.',
+      "Fixed Bowser's nair having incorrect frame data.",
+      'Implemented a new animation player with timeline scrubber.',
+      'Redesigned play, previous, and next frame buttons.',
+      'Added credit for the animation and alternative animations.',
+      'Overhauled FPS selector.',
+      'Overhauled the UI of the general move detail page.',
+      'Changed the search UI to be more insightful into the moves.',
+      'Changed the entire navigation to be focussed on the characters and collapsable.',
+      'The full-screen preview of moves now include the controls.',
+      'Redesigned the landing page to now show popular moves and the search bar.',
+      'Redesigned the moves list to be more compact and structured',
+      'Redesigned the characters list to be more compact',
+      'Redesigned the crouch cancel page to be more cohesive',
+      'Added the staleness toggler to the move page',
+    ],
   },
   {
     version: '1.3.2',
@@ -298,7 +315,7 @@ export default function PatchNotesPage() {
 
       <div className="space-y-5">
         {patchNotes.map((patchNote) => (
-          <Card.Root key={patchNote.version} className="dark:bg-gray-800">
+          <Card.Root key={patchNote.version}>
             <Card.Header>
               <h2 className="ml-2 text-lg font-bold">Version {patchNote.version}</h2>
             </Card.Header>

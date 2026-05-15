@@ -1,10 +1,16 @@
+import { HitChips } from '@/components/moves/animations/controls/hit-chips';
+import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
+import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, ListBox, ListBoxItem, Select, Tooltip } from '@heroui/react';
+import { Button, ToggleButton, ToggleButtonGroup } from '@heroui/react';
+import { useEffect, useRef } from 'react';
+import { FaBackward, FaBackwardStep, FaForward, FaForwardStep, FaPause, FaPlay } from 'react-icons/fa6';
 
 export interface AnimationControlsProps {
   frameCounter: number;
   totalFrames: number;
   isPlaying: boolean;
+  playbackSpeed?: number;
   onPlay: () => void;
   onPause: () => void;
   onNextFrame: () => void;
@@ -15,12 +21,14 @@ export interface AnimationControlsProps {
   showFirstLastButtons?: boolean;
   onGoToFirstFrame?: () => void;
   onGoToLastFrame?: () => void;
+  move: Move;
 }
 
 export const AnimationControls = ({
   frameCounter,
   totalFrames,
   isPlaying,
+  playbackSpeed = 0.2,
   onPlay,
   onPause,
   onNextFrame,
@@ -30,7 +38,12 @@ export const AnimationControls = ({
   showFirstLastButtons = false,
   onGoToFirstFrame,
   onGoToLastFrame,
+  move,
 }: AnimationControlsProps) => {
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const holdIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchActiveRef = useRef(false);
+
   const nextFrame = () => {
     onPause();
     onNextFrame();
@@ -41,77 +54,120 @@ export const AnimationControls = ({
     onPreviousFrame();
   };
 
+  const stopNextFrameHold = () => {
+    if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+    if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+    holdTimerRef.current = null;
+    holdIntervalRef.current = null;
+    setTimeout(() => {
+      touchActiveRef.current = false;
+    }, 50);
+  };
+
+  const handleNextFrameTouchStart = () => {
+    touchActiveRef.current = true;
+    nextFrame();
+    holdTimerRef.current = setTimeout(() => {
+      holdIntervalRef.current = setInterval(nextFrame, 100);
+    }, 400);
+  };
+
+  const handlePreviousFrameTouchStart = () => {
+    touchActiveRef.current = true;
+    previousFrame();
+    holdTimerRef.current = setTimeout(() => {
+      holdIntervalRef.current = setInterval(previousFrame, 100);
+    }, 400);
+  };
+
+  useEffect(() => () => stopNextFrameHold(), []);
+
   return (
-    <div className="grid grid-cols-2 gap-2">
-      {isPlaying ? (
-        <Button variant="tertiary" className="w-full" onPress={onPause} aria-label="Pause animation">
-          <kbd className="mr-1 text-xs opacity-60">Space</kbd> Pause
+    <div className="flex flex-col">
+      {/* Frame counter + FPS */}
+      <div className="border-border mb-3 flex items-center justify-between border-b pb-3">
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-foreground font-mono text-[30px] leading-none font-semibold">{frameCounter}</span>
+          <span className="text-muted-foreground font-mono text-xs">/ {totalFrames > 0 ? totalFrames : '—'}</span>
+        </div>
+        <div className="flex shrink-0 items-center gap-1">
+          <span className="text-muted-foreground mr-1.5 text-xs">FPS</span>
+          <ToggleButtonGroup
+            isDetached
+            selectionMode="single"
+            size="sm"
+            selectedKeys={[String(playbackSpeed)]}
+            isDisabled={!showPlaybackSpeed}
+            onSelectionChange={(key) => {
+              let first = [...key][0];
+
+              // Prevent the user from deselecting the FPS, this would crash the player.
+              if (!first) {
+                first = '0.2';
+              }
+
+              const speed = Number(first);
+              onPlaybackSpeedChange?.(speed);
+              createEvent('change_speed', { speed });
+            }}
+          >
+            <ToggleButton id="0.2">12</ToggleButton>
+            <ToggleButton id="0.5">30</ToggleButton>
+            <ToggleButton id="1">60</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </div>
+
+      {/* Hit chips legend */}
+      <div className="mb-2">
+        <HitChips move={move} />
+      </div>
+
+      {/* Timeline */}
+      <HitboxTimeline interactive move={move} />
+
+      {/* Transport controls */}
+      <div className="flex w-full items-center justify-center gap-2 pt-3">
+        <Button isIconOnly variant="tertiary" onPress={onGoToFirstFrame}>
+          <FaBackwardStep />
         </Button>
-      ) : (
-        <Button variant="tertiary" className="w-full" onPress={onPlay} aria-label="Play animation">
-          <kbd className="mr-1 text-xs opacity-60">Space</kbd> Play
+        <Button
+          isIconOnly
+          variant="tertiary"
+          onPress={() => {
+            if (!touchActiveRef.current) previousFrame();
+          }}
+          onTouchStart={handlePreviousFrameTouchStart}
+          onTouchEnd={stopNextFrameHold}
+          onTouchCancel={stopNextFrameHold}
+        >
+          <FaBackward />
         </Button>
-      )}
-
-      <Button variant="tertiary" className="w-full" aria-label="Frame counter">
-        Frame: {frameCounter} {totalFrames > 0 && `of ${totalFrames}`}
-      </Button>
-
-      <Button variant="tertiary" className="w-full" onPress={previousFrame} aria-label="Previous frame">
-        <kbd className="mr-1 text-xs opacity-60">←</kbd> Previous Frame
-      </Button>
-
-      <Button variant="tertiary" className="w-full" onPress={nextFrame} aria-label="Next frame">
-        <kbd className="mr-1 text-xs opacity-60">→</kbd> Next Frame
-      </Button>
-
-      <Select
-        className="w-full"
-        defaultSelectedKey="0.2"
-        isDisabled={!showPlaybackSpeed}
-        onSelectionChange={(key) => {
-          const speed = Number(key);
-          onPlaybackSpeedChange?.(speed);
-          createEvent('change_speed', { speed });
-        }}
-        aria-label="Playback speed"
-      >
-        <Select.Trigger>
-          <Select.Value />
-          <Select.Indicator />
-        </Select.Trigger>
-        <Select.Popover>
-          <ListBox>
-            <ListBoxItem id="0.2" textValue="12 FPS (Default)">
-              12 FPS (Default)
-            </ListBoxItem>
-            <ListBoxItem id="1" textValue="60 FPS (In-game speed)">
-              60 FPS (In-game speed)
-            </ListBoxItem>
-          </ListBox>
-        </Select.Popover>
-      </Select>
-
-      <Tooltip>
-        <Tooltip.Trigger>
-          <Button variant="tertiary" className="w-full" isDisabled>
-            Report issue
+        {isPlaying ? (
+          <Button size="lg" isIconOnly className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPause}>
+            <FaPause />
           </Button>
-        </Tooltip.Trigger>
-        <Tooltip.Content>Feature coming soon</Tooltip.Content>
-      </Tooltip>
-
-      {showFirstLastButtons && (
-        <Button variant="tertiary" className="w-full" onPress={onGoToFirstFrame} aria-label="First frame">
-          First Frame
+        ) : (
+          <Button size="lg" isIconOnly className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPlay}>
+            <FaPlay />
+          </Button>
+        )}
+        <Button
+          isIconOnly
+          variant="tertiary"
+          onPress={() => {
+            if (!touchActiveRef.current) nextFrame();
+          }}
+          onTouchStart={handleNextFrameTouchStart}
+          onTouchEnd={stopNextFrameHold}
+          onTouchCancel={stopNextFrameHold}
+        >
+          <FaForward />
         </Button>
-      )}
-
-      {showFirstLastButtons && (
-        <Button variant="tertiary" className="w-full" onPress={onGoToLastFrame} aria-label="Last frame">
-          Last Frame
+        <Button isIconOnly variant="tertiary" onPress={onGoToLastFrame}>
+          <FaForwardStep />
         </Button>
-      )}
+      </div>
     </div>
   );
 };

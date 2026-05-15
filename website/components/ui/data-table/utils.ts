@@ -47,12 +47,12 @@ export function getColumnStyle(column: DataTableColumn): React.CSSProperties {
  * Default class names for table parts
  */
 export const defaultClassNames = {
-  wrapper: 'bg-white dark:bg-gray-800 shadow-none rounded-md p-3',
+  wrapper: 'bg-surface shadow-none rounded-md p-3',
   table: 'w-full',
   th: 'bg-transparent text-default-500 text-xs text-left px-3 py-2',
   td: 'px-3 py-1 text-md',
-  tr: 'data-[odd=true]:bg-gray-100 dark:data-[odd=true]:bg-gray-700',
-  groupRow: 'border border-gray-300 dark:border-gray-700 py-2',
+  tr: 'data-[odd=true]:bg-surface-secondary',
+  groupRow: 'border border-[var(--border)] py-2',
   thead: '',
   tbody: '',
 };

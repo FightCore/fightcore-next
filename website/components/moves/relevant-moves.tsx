@@ -1,3 +1,4 @@
+import { FightcoreCard } from '@/components/ui/fightcore-card';
 import { RelevantMove } from '@/utilities/relevant-moves-creator';
 import { Link } from '@heroui/react';
 
@@ -10,17 +11,21 @@ export function RelevantMoves(params: Readonly<RelevantMovesParams>) {
     return <></>;
   }
   return (
-    <>
-      <h2 className="text-lg font-semibold">Relevant moves</h2>
-      <ul>
-        {params.relevantMoves.map((move) => {
-          return (
-            <li key={move.url}>
-              <Link href={move.url}>{move.displayName}</Link>
-            </li>
-          );
-        })}
-      </ul>
-    </>
+    <FightcoreCard>
+      <FightcoreCard.Header>
+        <FightcoreCard.Title>Relevant moves</FightcoreCard.Title>
+      </FightcoreCard.Header>
+      <FightcoreCard.Body>
+        <ul>
+          {params.relevantMoves.map((move) => {
+            return (
+              <li key={move.url}>
+                <Link href={move.url}>{move.displayName}</Link>
+              </li>
+            );
+          })}
+        </ul>
+      </FightcoreCard.Body>
+    </FightcoreCard>
   );
 }
