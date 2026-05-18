@@ -10,6 +10,7 @@ export interface AnimationControlsProps {
   frameCounter: number;
   totalFrames: number;
   isPlaying: boolean;
+  isLoaded?: boolean;
   playbackSpeed?: number;
   onPlay: () => void;
   onPause: () => void;
@@ -28,6 +29,7 @@ export const AnimationControls = ({
   frameCounter,
   totalFrames,
   isPlaying,
+  isLoaded = true,
   playbackSpeed = 0.2,
   onPlay,
   onPause,
@@ -97,7 +99,7 @@ export const AnimationControls = ({
             selectionMode="single"
             size="sm"
             selectedKeys={[String(playbackSpeed)]}
-            isDisabled={!showPlaybackSpeed}
+            isDisabled={!showPlaybackSpeed || !isLoaded}
             onSelectionChange={(key) => {
               let first = [...key][0];
 
@@ -128,11 +130,12 @@ export const AnimationControls = ({
 
       {/* Transport controls */}
       <div className="flex w-full items-center justify-center gap-2 pt-3">
-        <Button isIconOnly variant="tertiary" onPress={onGoToFirstFrame}>
+        <Button isIconOnly isDisabled={!isLoaded} variant="tertiary" onPress={onGoToFirstFrame}>
           <FaBackwardStep />
         </Button>
         <Button
           isIconOnly
+          isDisabled={!isLoaded}
           variant="tertiary"
           onPress={() => {
             if (!touchActiveRef.current) previousFrame();
@@ -144,16 +147,17 @@ export const AnimationControls = ({
           <FaBackward />
         </Button>
         {isPlaying ? (
-          <Button size="lg" isIconOnly className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPause}>
+          <Button size="lg" isIconOnly isDisabled={!isLoaded} className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPause}>
             <FaPause />
           </Button>
         ) : (
-          <Button size="lg" isIconOnly className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPlay}>
+          <Button size="lg" isIconOnly isDisabled={!isLoaded} className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPlay}>
             <FaPlay />
           </Button>
         )}
         <Button
           isIconOnly
+          isDisabled={!isLoaded}
           variant="tertiary"
           onPress={() => {
             if (!touchActiveRef.current) nextFrame();
@@ -164,7 +168,7 @@ export const AnimationControls = ({
         >
           <FaForward />
         </Button>
-        <Button isIconOnly variant="tertiary" onPress={onGoToLastFrame}>
+        <Button isIconOnly isDisabled={!isLoaded} variant="tertiary" onPress={onGoToLastFrame}>
           <FaForwardStep />
         </Button>
       </div>
