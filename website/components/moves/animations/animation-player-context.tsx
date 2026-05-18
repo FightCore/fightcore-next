@@ -6,6 +6,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 interface AnimationPlayerContextValue {
   frameCounter: number;
   isPlaying: boolean;
+  isLoaded: boolean;
   totalFrames: number;
   playbackSpeed: number;
   useGif: boolean;
@@ -56,6 +57,7 @@ export const AnimationPlayerProvider = ({
   useEffect(() => {
     setIsPlaying(true);
     setFrameCounter(1);
+    setTotalFrames(0);
     setPlaybackSpeed(0.2);
     eventEmitter.emit('play');
   }, [apngUrl]);
@@ -115,6 +117,8 @@ export const AnimationPlayerProvider = ({
         return;
       }
 
+      if (totalFrames === 0) return;
+
       if (event.key === ' ') {
         if (isPlaying) {
           handlePause();
@@ -133,7 +137,7 @@ export const AnimationPlayerProvider = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isPlaying, apngUrl, handlePause, handlePlay, handleNextFrame, handlePreviousFrame]);
+  }, [isPlaying, totalFrames, apngUrl, handlePause, handlePlay, handleNextFrame, handlePreviousFrame]);
 
   useEffect(() => {
     eventEmitter.on('frameCounterUpdate', setFrameCounter);
@@ -153,6 +157,7 @@ export const AnimationPlayerProvider = ({
       value={{
         frameCounter,
         isPlaying,
+        isLoaded: totalFrames > 0,
         totalFrames,
         playbackSpeed,
         useGif,

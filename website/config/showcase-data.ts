@@ -240,9 +240,9 @@ export const ShowCaseMoves: Move[] = [
     hits: [
       {
         id: 3505,
-        start: 0,
-        end: 0,
-        name: 'unknown',
+        start: 9,
+        end: 12,
+        name: '',
         hitboxes: [
           { id: 11671, name: 'id0', damage: 12, angle: 361, knockbackGrowth: 100, setKnockback: 0, baseKnockback: 10, effect: 'Normal', hitlagAttacker: 7, hitlagDefender: 7, hitlagAttackerCrouched: 4, hitlagDefenderCrouched: 4, shieldstun: 7, yoshiArmorBreakPercentage: 0 },
           { id: 11672, name: 'id1', damage: 12, angle: 361, knockbackGrowth: 100, setKnockback: 0, baseKnockback: 10, effect: 'Normal', hitlagAttacker: 7, hitlagDefender: 7, hitlagAttackerCrouched: 4, hitlagDefenderCrouched: 4, shieldstun: 7, yoshiArmorBreakPercentage: 0 },

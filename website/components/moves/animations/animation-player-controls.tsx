@@ -6,6 +6,7 @@ export const AnimationPlayerControls = () => {
     frameCounter,
     totalFrames,
     isPlaying,
+    isLoaded,
     playbackSpeed,
     useGif,
     showAdditionalControls,
@@ -23,6 +24,7 @@ export const AnimationPlayerControls = () => {
       frameCounter={frameCounter}
       totalFrames={totalFrames}
       isPlaying={isPlaying}
+      isLoaded={isLoaded}
       playbackSpeed={playbackSpeed}
       onPlay={onPlay}
       onPause={onPause}
