@@ -79,9 +79,9 @@
   /* Shadows */
   --overlay-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.15) inset;
 }
-/* ── Extra design-system tokens not covered by HeroUI ─────────────────────── */
+
+/* Custom styles */
 @theme {
-  /* Divider — readable alias for HeroUI's --border token */
   --color-divider: var(--border);
 
   /* Secondary palette */
@@ -93,6 +93,13 @@
   --color-hitbox-1: #22c55e;
   --color-hitbox-2: #3b82f6;
   --color-hitbox-3: #a855f7;
+
+  /* Hit IDs */
+  --color-hit-0: #ef4444;
+  --color-hit-1: #3b82f6;
+  --color-hit-2: #22c55e;
+  --color-hit-3: #a855f7;
+  --color-hit-4: #ffffff;
 
   /* Animation frame states */
   --color-state-startup: oklch(78% 0.16 80);

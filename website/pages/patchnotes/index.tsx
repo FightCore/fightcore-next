@@ -5,6 +5,10 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '2.0.2',
+    changes: ["Fixed Sheiks's grab being noted as frame 6-7 instead of 7-8."],
+  },
+  {
     version: '2.0.1',
     changes: [
       'Fixed an issue where the player controls were available before they were ready.',
