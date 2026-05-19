@@ -5,6 +5,16 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '2.0.2',
+    changes: [
+      "Fixed Sheiks's grab being noted as frame 6-7 instead of 7-8.",
+      'Optimized the timeline code, making it more accessible and user friendly.',
+      'Fixed an issue where the GIF player was still using the outdated format.',
+      'Added the hitbox help popup to the viewer',
+      'Fixed an issue where you could not switch between moves using GIFs and PNGs',
+    ],
+  },
+  {
     version: '2.0.1',
     changes: [
       'Fixed an issue where the player controls were available before they were ready.',

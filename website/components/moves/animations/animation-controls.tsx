@@ -1,10 +1,19 @@
+import { AnimationLegendContent } from '@/components/moves/animations/animation-legend';
 import { HitChips } from '@/components/moves/animations/controls/hit-chips';
 import HitboxTimeline from '@/components/moves/hitboxes/hitbox-timeline';
 import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
-import { Button, ToggleButton, ToggleButtonGroup } from '@heroui/react';
+import { Button, Popover, ToggleButton, ToggleButtonGroup } from '@heroui/react';
 import { useEffect, useRef } from 'react';
-import { FaBackward, FaBackwardStep, FaForward, FaForwardStep, FaPause, FaPlay } from 'react-icons/fa6';
+import {
+  FaBackward,
+  FaBackwardStep,
+  FaCircleQuestion,
+  FaForward,
+  FaForwardStep,
+  FaPause,
+  FaPlay,
+} from 'react-icons/fa6';
 
 export interface AnimationControlsProps {
   frameCounter: number;
@@ -121,8 +130,21 @@ export const AnimationControls = ({
       </div>
 
       {/* Hit chips legend */}
-      <div className="mb-2">
+      <div className="mb-2 flex justify-between">
         <HitChips move={move} />
+        <Popover.Root>
+          <Popover.Trigger>
+            <button
+              aria-label="Hitbox legend"
+              className="cursor-pointer rounded-full bg-transparent p-1 text-white/80 transition-colors hover:text-white"
+            >
+              <FaCircleQuestion size={16} />
+            </button>
+          </Popover.Trigger>
+          <Popover.Content className="max-w-md p-4" placement="right">
+            <AnimationLegendContent />
+          </Popover.Content>
+        </Popover.Root>
       </div>
 
       {/* Timeline */}
@@ -147,11 +169,23 @@ export const AnimationControls = ({
           <FaBackward />
         </Button>
         {isPlaying ? (
-          <Button size="lg" isIconOnly isDisabled={!isLoaded} className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPause}>
+          <Button
+            size="lg"
+            isIconOnly
+            isDisabled={!isLoaded}
+            className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]"
+            onPress={onPause}
+          >
             <FaPause />
           </Button>
         ) : (
-          <Button size="lg" isIconOnly isDisabled={!isLoaded} className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]" onPress={onPlay}>
+          <Button
+            size="lg"
+            isIconOnly
+            isDisabled={!isLoaded}
+            className="shadow-[0_4px_16px_rgba(185,28,28,0.35)]"
+            onPress={onPlay}
+          >
             <FaPlay />
           </Button>
         )}

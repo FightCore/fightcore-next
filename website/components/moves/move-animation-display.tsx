@@ -10,7 +10,6 @@ import { Move } from '@/models/move';
 import { createEvent } from '@/utilities/create-event';
 import { Button, Modal, Surface } from '@heroui/react';
 import { useState } from 'react';
-import { MoveGif } from './animations/move-gif';
 
 export interface MoveAnimationDisplayParams {
   move: Move;
@@ -22,10 +21,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
   const [isDownloading, setIsDownloading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  if (!params.move.pngUrl && (!params.move.alternativeAnimations || params.move.alternativeAnimations.length === 0)) {
-    if (params.move.gifUrl) {
-      return <MoveGif move={params.move} characterName={params.characterName} />;
-    }
+  if (!params.move.pngUrl && !params.move.gifUrl && (!params.move.alternativeAnimations || params.move.alternativeAnimations.length === 0)) {
     return <em>There is no GIF available</em>;
   }
 
@@ -82,6 +78,7 @@ export default function MoveAnimationDisplay(params: Readonly<MoveAnimationDispl
       characterName={params.characterName}
       showAdditionalControls={false}
       apngUrl={currentUrl}
+      preferGif={!params.move.pngUrl && !!params.move.gifUrl}
     >
       <Surface className="border-border overflow-hidden rounded-xl border" variant="secondary">
         {/* Header */}
