@@ -1,7 +1,6 @@
 import eventEmitter from '@/events/event-emitter';
 import { Move } from '@/models/move';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import AnimationLegend from './animation-legend';
 
 interface MoveGifParams {
   move: Move;
@@ -135,7 +134,6 @@ export const MoveGif = (params: MoveGifParams) => {
           alt={params.move.name + ' - ' + params.move.character?.name}
         />
       </div>
-      <AnimationLegend />
     </>
   );
 };
