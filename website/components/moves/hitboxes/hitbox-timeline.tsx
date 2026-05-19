@@ -12,18 +12,17 @@ export interface HitboxTimingParams {
   interactive?: boolean;
 }
 
-const NORMAL_LAYOUT = { barHeight: 22, activeBarHeight: 32 } as const;
-
 // Minimum touch target height per Apple/Material guidelines.
 const MIN_TOUCH_TARGET_PX = 44;
 const MIN_LABEL_GAP_PX = 20;
+const barHeight = 22;
+const activeBarHeight = 32;
 
 const SEMANTIC_COLORS = {
   iasa: '#f97316',
   autoCancel: '#22c55e',
   emptyBackground: 'var(--timeline-empty-bg)',
   labelColor: 'var(--timeline-label-color)',
-  currentBorder: 'var(--timeline-current-border)',
   currentLabel: 'var(--timeline-current-label)',
 } as const;
 
@@ -36,16 +35,12 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
   const [containerWidth, setContainerWidth] = useState(0);
   const barsRef = useRef<HTMLDivElement>(null);
 
-  const layout = NORMAL_LAYOUT;
-
-  // Interactive timelines use a taller container so the whole region is a
-  // thumb-friendly touch target. Bars align to the bottom via alignItems: flex-end.
-  const containerHeight = params.interactive
-    ? Math.max(layout.activeBarHeight, MIN_TOUCH_TARGET_PX)
-    : layout.activeBarHeight;
+  const containerHeight = params.interactive ? Math.max(activeBarHeight, MIN_TOUCH_TARGET_PX) : activeBarHeight;
 
   useEffect(() => {
-    if (!params.interactive) return;
+    if (!params.interactive) {
+      return;
+    }
     const handler = (frame: number) => setCurrentFrame(frame);
     emitter.on('frameCounterUpdate', handler);
     return () => emitter.off('frameCounterUpdate', handler);
@@ -53,7 +48,9 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
 
   useEffect(() => {
     const el = barsRef.current;
-    if (!el) return;
+    if (!el) {
+      return;
+    }
     const obs = new ResizeObserver(([entry]) => setContainerWidth(entry.contentRect.width));
     obs.observe(el);
     return () => obs.disconnect();
@@ -80,61 +77,11 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
         lastPx = px;
       }
     }
-    if (keyFrameNums.length > 1) result.push(keyFrameNums[keyFrameNums.length - 1]);
+    if (keyFrameNums.length > 1) {
+      result.push(keyFrameNums[keyFrameNums.length - 1]);
+    }
     return result;
   })();
-
-  const getCellBackground = (frame: number, isCurrent: boolean, windows: HitboxColor[]): string => {
-    if (windows.length === 0) {
-      if (params.move.iasa === frame) {
-        return SEMANTIC_COLORS.iasa;
-      }
-
-      return SEMANTIC_COLORS.emptyBackground;
-    }
-    if (windows.length >= 2) {
-      const stops = windows.map((w, i) => {
-        const start = (i / windows.length) * 100;
-        const end = ((i + 1) / windows.length) * 100;
-        const color = isCurrent ? w.color : `color-mix(in srgb, ${w.color} 67%, transparent)`;
-
-        return `${color} ${start}%, ${color} ${end}%`;
-      });
-
-      return `linear-gradient(to top, ${stops.join(', ')})`;
-    }
-    return isCurrent ? windows[0].color : `color-mix(in srgb, ${windows[0].color} 67%, transparent)`;
-  };
-
-  const getCellBorderColor = (frame: number, windows: HitboxColor[]): string => {
-    // Auto cancel has priority over anything.
-    if (
-      (params.move.autoCancelBefore && params.move.autoCancelBefore > frame) ||
-      (params.move.autoCancelAfter && params.move.autoCancelAfter < frame)
-    ) {
-      return SEMANTIC_COLORS.autoCancel;
-    }
-    if (windows.length) {
-      return `color-mix(in srgb, ${windows[0].color} 33%, transparent)`;
-    }
-
-    return '#525252';
-  };
-
-  const getLabelAnchor = (frame: number): 'left' | 'center' | 'right' => {
-    if (frame === 1) {
-      return 'left';
-    }
-    if (frame === params.move.totalFrames) {
-      return 'right';
-    }
-    return 'center';
-  };
-
-  const getLabelColor = (frame: number): string => {
-    const windows = getWindowsForFrame(hitColors, frame);
-    return windows.length ? `color-mix(in srgb, ${windows[0].color} 80%, transparent)` : SEMANTIC_COLORS.labelColor;
-  };
 
   const legendData: { label: string; color: string; borderColor: string }[] = [
     { label: 'IASA', color: SEMANTIC_COLORS.iasa, borderColor: 'none' },
@@ -142,13 +89,11 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
   ];
   for (const color of getMappedUnique(hitColors, (c) => c.color)) {
     const matching = hitColors.filter((c) => c.color === color);
-    if (matching.length) {
-      legendData.push({
-        label: `Hits between frame ${Math.min(...matching.map((h) => h.start))} and ${Math.max(...matching.map((h) => h.end))}`,
-        color,
-        borderColor: 'none',
-      });
-    }
+    legendData.push({
+      label: `Hits between frame ${Math.min(...matching.map((h) => h.start))} and ${Math.max(...matching.map((h) => h.end))}`,
+      color,
+      borderColor: 'none',
+    });
   }
 
   return (
@@ -164,9 +109,9 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
                 aria-hidden="true"
                 className="min-w-0 flex-1 rounded-sm transition-[height] duration-70"
                 style={{
-                  height: isCurrent ? layout.activeBarHeight : layout.barHeight,
-                  background: getCellBackground(frame, isCurrent, windows),
-                  border: `1px solid ${getCellBorderColor(frame, windows)}`,
+                  height: isCurrent ? activeBarHeight : barHeight,
+                  background: getCellBackground(frame, isCurrent, windows, params.move.iasa),
+                  border: `1px solid ${getCellBorderColor(frame, windows, params.move.autoCancelBefore, params.move.autoCancelAfter)}`,
                 }}
               />
             );
@@ -193,7 +138,7 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
       <div className="relative mt-1 h-5 font-mono text-[10px]">
         {visibleKeyFrames.map((frame) => {
           const leftPercentage = ((frame - 1) / (params.move.totalFrames - 1)) * 100;
-          const anchor = getLabelAnchor(frame);
+          const anchor = getLabelAnchor(frame, params.move.totalFrames);
           return (
             <button
               key={frame}
@@ -208,10 +153,12 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
               )}
               style={{
                 left: `${leftPercentage}%`,
-                color: getLabelColor(frame),
+                color: getLabelColor(frame, hitColors),
               }}
               onClick={() => {
-                if (params.interactive) emitter.emit('seek', frame);
+                if (params.interactive) {
+                  emitter.emit('seek', frame);
+                }
               }}
             >
               {frame}
@@ -284,6 +231,58 @@ function generateColors(data: FlattenedHitbox[]): HitboxColor[] {
     iterator++;
   }
   return result;
+}
+
+function getCellBackground(
+  frame: number,
+  isCurrent: boolean,
+  windows: HitboxColor[],
+  iasa: number | undefined,
+): string {
+  if (windows.length === 0) {
+    return iasa === frame ? SEMANTIC_COLORS.iasa : SEMANTIC_COLORS.emptyBackground;
+  }
+  if (windows.length >= 2) {
+    const stops = windows.map((w, i) => {
+      const start = (i / windows.length) * 100;
+      const end = ((i + 1) / windows.length) * 100;
+      const color = isCurrent ? w.color : `color-mix(in srgb, ${w.color} 67%, transparent)`;
+      return `${color} ${start}%, ${color} ${end}%`;
+    });
+    return `linear-gradient(to top, ${stops.join(', ')})`;
+  }
+  return isCurrent ? windows[0].color : `color-mix(in srgb, ${windows[0].color} 67%, transparent)`;
+}
+
+function getCellBorderColor(
+  frame: number,
+  windows: HitboxColor[],
+  autoCancelBefore: number | undefined,
+  autoCancelAfter: number | undefined,
+): string {
+  // Auto cancel has priority over anything.
+  if ((autoCancelBefore && autoCancelBefore > frame) || (autoCancelAfter && autoCancelAfter < frame)) {
+    return SEMANTIC_COLORS.autoCancel;
+  }
+  if (windows.length) {
+    return `color-mix(in srgb, ${windows[0].color} 33%, transparent)`;
+  }
+  return '#525252';
+}
+
+function getLabelAnchor(frame: number, totalFrames: number): 'left' | 'center' | 'right' {
+  if (frame === 1) {
+    return 'left';
+  }
+  if (frame === totalFrames) {
+    return 'right';
+  }
+  return 'center';
+}
+
+function getLabelColor(frame: number, hitColors: HitboxColor[]): string {
+  const windows = getWindowsForFrame(hitColors, frame);
+  return windows.length ? `color-mix(in srgb, ${windows[0].color} 80%, transparent)` : SEMANTIC_COLORS.labelColor;
 }
 
 function getWindowsForFrame(hitColors: HitboxColor[], frame: number): HitboxColor[] {
