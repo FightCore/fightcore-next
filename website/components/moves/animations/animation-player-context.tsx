@@ -52,22 +52,22 @@ export const AnimationPlayerProvider = ({
   const [isPlaying, setIsPlaying] = useState(true);
   const [totalFrames, setTotalFrames] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(0.2);
-  const [useGif, setUseGif] = useState(preferGif);
+  const [isIOS, setIsIOS] = useState(false);
+  const [gifFallback, setGifFallback] = useState(false);
+  const useGif = isIOS || preferGif || gifFallback;
+
+  useEffect(() => {
+    setIsIOS(/iPad|iPhone|iPod/.test(navigator.userAgent));
+  }, []);
 
   useEffect(() => {
     setIsPlaying(true);
     setFrameCounter(1);
     setTotalFrames(0);
     setPlaybackSpeed(0.2);
+    setGifFallback(false);
     eventEmitter.emit('play');
   }, [apngUrl]);
-
-  useEffect(() => {
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (isIOS || preferGif) {
-      setUseGif(true);
-    }
-  }, [preferGif]);
 
   const handlePlay = useCallback(() => {
     eventEmitter.emit('play');
@@ -103,7 +103,7 @@ export const AnimationPlayerProvider = ({
 
   const handleApngError = useCallback(() => {
     createEvent('failover-gif', { apngUrl });
-    setUseGif(true);
+    setGifFallback(true);
   }, [apngUrl]);
 
   const handleSeek = useCallback(() => {
