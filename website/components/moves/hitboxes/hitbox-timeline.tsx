@@ -34,7 +34,6 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
 
   const [currentFrame, setCurrentFrame] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
-  const dragging = useRef(false);
   const barsRef = useRef<HTMLDivElement>(null);
 
   const layout = NORMAL_LAYOUT;
@@ -59,13 +58,6 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-
-  const getFrameFromX = (clientX: number): number => {
-    if (!barsRef.current) return 1;
-    const rect = barsRef.current.getBoundingClientRect();
-    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    return Math.round(ratio * (params.move.totalFrames - 1)) + 1;
-  };
 
   const frames = Array.from({ length: params.move.totalFrames }, (_, i) => i + 1);
 
@@ -161,57 +153,41 @@ export default function HitboxTimeline(params: Readonly<HitboxTimingParams>) {
 
   return (
     <div className="w-full">
-      <div
-        ref={barsRef}
-        className={clsx(
-          'flex items-end gap-px select-none',
-          params.interactive ? 'cursor-pointer touch-none' : 'cursor-default touch-auto',
+      <div className="relative" style={{ height: containerHeight }}>
+        <div ref={barsRef} className="pointer-events-none flex h-full items-end gap-px select-none">
+          {frames.map((frame) => {
+            const isCurrent = frame === currentFrame;
+            const windows = getWindowsForFrame(hitColors, frame);
+            return (
+              <div
+                key={frame}
+                aria-hidden="true"
+                className="min-w-0 flex-1 rounded-sm transition-[height] duration-70"
+                style={{
+                  height: isCurrent ? layout.activeBarHeight : layout.barHeight,
+                  background: getCellBackground(frame, isCurrent, windows),
+                  border: `1px solid ${getCellBorderColor(frame, windows)}`,
+                }}
+              />
+            );
+          })}
+        </div>
+        {params.interactive && (
+          <input
+            type="range"
+            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+            min={1}
+            max={params.move.totalFrames}
+            value={Math.max(1, currentFrame)}
+            aria-label="Frame scrubber"
+            onChange={(e) => emitter.emit('seek', Number(e.target.value))}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                e.stopPropagation();
+              }
+            }}
+          />
         )}
-        style={{ height: containerHeight }}
-        onMouseDown={() => {
-          dragging.current = true;
-        }}
-        onMouseUp={() => {
-          dragging.current = false;
-        }}
-        onMouseLeave={() => {
-          dragging.current = false;
-        }}
-        onClick={(e) => {
-          if (params.interactive) emitter.emit('seek', getFrameFromX(e.clientX));
-        }}
-        onMouseMove={(e) => {
-          if (dragging.current && params.interactive) emitter.emit('seek', getFrameFromX(e.clientX));
-        }}
-        onTouchStart={(e) => {
-          if (params.interactive) {
-            emitter.emit('seek', getFrameFromX(e.touches[0].clientX));
-            e.preventDefault();
-          }
-        }}
-        onTouchMove={(e) => {
-          if (params.interactive) {
-            emitter.emit('seek', getFrameFromX(e.touches[0].clientX));
-            e.preventDefault();
-          }
-        }}
-      >
-        {frames.map((frame) => {
-          const isCurrent = frame === currentFrame;
-          const windows = getWindowsForFrame(hitColors, frame);
-          return (
-            <div
-              key={frame}
-              aria-hidden="true"
-              className="min-w-0 flex-1 rounded-sm transition-[height] duration-70"
-              style={{
-                height: isCurrent ? layout.activeBarHeight : layout.barHeight,
-                background: getCellBackground(frame, isCurrent, windows),
-                border: `1px solid ${getCellBorderColor(frame, windows)}`,
-              }}
-            />
-          );
-        })}
       </div>
 
       <div className="relative mt-1 h-5 font-mono text-[10px]">
