@@ -10,13 +10,12 @@ export interface CharacterHeadParams {
 }
 
 export const CharacterHead = (params: CharacterHeadParams) => {
-  const title = `${params.character.name} - ${siteConfig.name}`;
+  const title = `${params.character.name} - ${siteConfig.shortName}`;
   const description = characterMetaDescription(params.character);
 
   const baseTags = cloneObject(metaConfig.tags);
 
   baseTags.push(params.character.name);
-  baseTags.push(params.character.normalizedName);
 
   const tags = baseTags.join(',');
 

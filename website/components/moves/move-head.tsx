@@ -12,15 +12,13 @@ export interface MoveHeadParams {
 }
 
 export const MoveHead = (params: MoveHeadParams) => {
-  const title = `${params.character.name} ${params.move.name} - ${siteConfig.name}`;
+  const title = `${params.character.name} ${params.move.name} - ${siteConfig.shortName}`;
   const description = moveMetaDescription(params.character, params.move);
   const socialDescription = moveSocialDescription(params.character, params.move);
   const baseTags = cloneObject(metaConfig.tags);
 
   baseTags.push(params.character.name);
-  baseTags.push(params.character.normalizedName);
   baseTags.push(params.move.name);
-  baseTags.push(params.move.normalizedName);
 
   const tags = baseTags.join(',');
 
@@ -53,7 +51,7 @@ export const MoveHead = (params: MoveHeadParams) => {
       {params.move.gifUrl ? (
         <meta name="twitter:image" content={params.move.gifUrl} />
       ) : (
-        <meta name="og:image" content="https://i.fightcore.gg/Wordmark.png" />
+        <meta name="twitter:image" content="https://i.fightcore.gg/Wordmark.png" />
       )}
       {params.move.gifUrl ? <meta name="twitter:image:alt" content={imageAlt} /> : <></>}
     </NextHead>

@@ -10,6 +10,7 @@ export const Head = () => {
           content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=1"
           name="viewport"
         />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@Fightcoregg" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="FightCore" />

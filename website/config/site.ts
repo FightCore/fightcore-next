@@ -1,7 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: 'FightCore | Super Smash Bros. Melee Frame Data resource',
+  name: 'FightCore | Super Smash Bros. Melee Frame Data',
+  shortName: 'FightCore',
   description: '',
   links: {
     github: 'https://github.com/fightcore',

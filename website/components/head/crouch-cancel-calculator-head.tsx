@@ -10,7 +10,7 @@ export interface CrouchCancelCalculatorHeadParams {
 }
 
 export function CrouchCancelCalculatorHead(params: Readonly<CrouchCancelCalculatorHeadParams>) {
-  const title = `${params.character.name} Crouch Cancel Calculator - ${siteConfig.name}`;
+  const title = `${params.character.name} Crouch Cancel Calculator - ${siteConfig.shortName}`;
   const description = crouchCancelMetaDescription(params.character);
   const baseTags = cloneObject(metaConfig.tags);
 
