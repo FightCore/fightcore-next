@@ -5,6 +5,13 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '2.0.3',
+    changes: [
+      'Optimize and fix some meta data to improve SEO and social media cards',
+      "Fixed Bowser's nair having incorrect frame data. (Thank you Visser III and Solobattle)",
+    ],
+  },
+  {
     version: '2.0.2',
     changes: [
       "Fixed Sheiks's grab being noted as frame 6-7 instead of 7-8.",
@@ -83,7 +90,6 @@ const patchNotes = [
     changes: [
       'Upgraded from HeroUI V2 to V3,',
       'Added a new ? to the move overview, showing the animation legend.',
-      "Fixed Bowser's nair having incorrect frame data.",
       'Implemented a new animation player with timeline scrubber.',
       'Redesigned play, previous, and next frame buttons.',
       'Added credit for the animation and alternative animations.',
@@ -376,14 +382,16 @@ export default function PatchNotesPage() {
   return (
     <>
       <NextHead>
-        <title>Patch notes - FightCore</title>
-        <meta name="description" content="Shows off the patch notes for the FightCore website" />
+        <title>Patch Notes - FightCore</title>
+        <meta name="description" content="Full version history and changelog for the FightCore website." />
         <link rel="canonical" href="https://www.fightcore.gg/patchnotes" />
-        <meta property="og:title" content="Patch notes - FightCore" />
-        <meta property="og:description" content="Shows off the patch notes for the FightCore website" />
+        <meta property="og:title" content="Patch Notes - FightCore" />
+        <meta property="og:description" content="Full version history and changelog for the FightCore website." />
         <meta property="og:url" content="https://www.fightcore.gg/patchnotes" />
-        <meta name="twitter:title" content="Patch notes - FightCore" />
-        <meta name="twitter:description" content="Shows off the patch notes for the FightCore website" />
+        <meta property="og:image" content="https://i.fightcore.gg/Wordmark.png" />
+        <meta name="twitter:title" content="Patch Notes - FightCore" />
+        <meta name="twitter:description" content="Full version history and changelog for the FightCore website." />
+        <meta name="twitter:image" content="https://i.fightcore.gg/Wordmark.png" />
       </NextHead>
       <PageTitle title="Patch notes" />
 

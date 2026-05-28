@@ -1,4 +1,4 @@
-import { CharactersHead } from '@/components/characters/characters-head';
+import { IndexHead } from '@/components/characters/characters-head';
 import { useGlobalSearch } from '@/components/global-search/global-search-context';
 import { Logo } from '@/components/icons';
 import { PreviewVideo } from '@/components/moves/animations/preview-video';
@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <>
-      <CharactersHead />
+      <IndexHead />
       {showBanner && (
         <Alert color="primary" className="rounded-none border-x-0 border-t-0">
           <Alert.Indicator />

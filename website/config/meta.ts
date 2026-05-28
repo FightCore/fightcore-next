@@ -14,8 +14,6 @@ export const metaConfig = {
     'crouch cancel percentages',
     'asdi down percentages',
     'hitboxes',
-    'damage',
-    'visualizations',
     'hitlag',
     'hitstun',
     'shieldstun',
@@ -27,22 +25,22 @@ export function indexMetaDescription(): string {
 }
 
 export function characterMetaDescription(character: CharacterBase): string {
-  return `Complete ${character.name} frame data for Super Smash Bros. Melee. View hitboxes, knockback, move stats, and crouch cancel percentages with interactive visualizations.`;
+  return `Complete ${character.name} frame data for Super Smash Bros. Melee: hitboxes, knockback values, startup frames, and crouch cancel percentages for every move.`;
 }
 
 export function moveMetaDescription(character: CharacterBase, move: Move): string {
-  return `${character.name} ${move.name} frame data for Melee: startup frames, hitboxes, knockback values, and interactive animations. Master every detail of this move.`;
+  return `${character.name} ${move.name} frame data for Super Smash Bros. Melee: hitboxes, knockback, startup and active frames with frame-by-frame animations.`;
 }
 
 export function crouchCancelMetaDescription(character: CharacterBase): string {
-  return `${character.name} Crouch Cancel Calculator for Melee. Calculate knockdown percentages, ASDI Down thresholds, and optimize your defensive game with precise data.`;
+  return `${character.name} Crouch Cancel Calculator for Melee. Find exact knockdown and ASDI Down percentages for every move in the game.`;
 }
 
 export function moveSocialDescription(character: CharacterBase, move: Move): string {
   const moveSummary = createMoveSummary(move);
   const siteDescription =
     `${character.name}'s ${move.name} frame data in Super Smash Bros. Melee. ` +
-    'Analyze startup, active, and end frames, plus hitbox placement with interactive visualizations.';
+    'View hitboxes, knockback values, and frame-by-frame animations on FightCore.';
 
   return moveSummary ? `${moveSummary} | ${siteDescription}` : siteDescription;
 }
