@@ -47,7 +47,7 @@ export function getColumnStyle(column: DataTableColumn): React.CSSProperties {
  * Default class names for table parts
  */
 export const defaultClassNames = {
-  wrapper: 'bg-surface shadow-none rounded-md p-3',
+  wrapper: 'bg-surface shadow-none rounded-md p-3 overflow-x-auto',
   table: 'w-full',
   th: 'bg-transparent text-default-500 text-xs text-left px-3 py-2',
   td: 'px-3 py-1 text-md',

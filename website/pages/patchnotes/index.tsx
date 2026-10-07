@@ -5,6 +5,13 @@ import NextHead from 'next/head';
 
 const patchNotes = [
   {
+    version: '2.0.6',
+    changes: [
+      "Fixed Sheik's grab being frame 7-8 instead of 6-7 (thank you Aitch for the report)",
+      'Fixed an issue where the hitbox tables is not scrollable (thank you jpep for the report)',
+    ],
+  },
+  {
     version: '2.0.5',
     changes: [
       'Fixed the hitlag for some moves being off by 1 frame due to rounding (Thank you to tekken7fanboy, keaton and Renzo for the report)',
