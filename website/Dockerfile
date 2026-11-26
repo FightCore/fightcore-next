@@ -25,7 +25,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the static content with Nginx
-FROM nginx:alpine
+FROM nginx:1.30-alpine
 
 # Copy the built files from the build stage
 COPY --from=builder /app/out /usr/share/nginx/html
